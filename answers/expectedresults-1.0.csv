@@ -1,0 +1,3 @@
+id,label,plane,tier,language,framework,primary_cwe,acceptable_cwes,owasp_2021,severity,file,start_line,end_line,alt_locations,flow,sanitizer,obfuscation,build_required
+c-4b19d7a2,vulnerable,vuln,1,java,,CWE-89,CWE-89;CWE-943;CWE-564,A03,high,tier1/java/4b19d7a2/src/main/java/app/OrderRepository.java,16,19,tier1/java/4b19d7a2/src/main/java/app/Cli.java:10:10,inter-file,none,aliasing,true
+c-8e2fc051,safe,vuln,1,java,,CWE-89,CWE-89;CWE-943;CWE-564,A03,high,tier1/java/8e2fc051/src/main/java/billing/InvoiceRepository.java,17,22,tier1/java/8e2fc051/src/main/java/billing/Entry.java:10:10,inter-file,framework-implicit,none,true

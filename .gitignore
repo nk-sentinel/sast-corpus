@@ -1,0 +1,26 @@
+# scan outputs and scorecards are run artifacts, never committed
+results/
+runs/
+scorecards/
+*.sarif
+*.fpr
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# build artifacts from hermetic corpus builds
+target/
+build-out/
+node_modules/
+*.class
+*.jar
+!build/**/*.jar
+
+# editor / os
+.DS_Store
+*.swp
+.idea/
+.vscode/
