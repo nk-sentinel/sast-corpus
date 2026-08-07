@@ -1,0 +1,51 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  spine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install authoring dependencies
+        # score.py deliberately has none; the compiler and validator are
+        # authoring-side tools and may.
+        run: pip install --quiet pyyaml jsonschema
+
+      - name: Unit tests
+        run: python3 -m unittest discover -s spine/tests -t . -v
+
+      - name: Anti-leakage lint
+        # Fixtures that give away their own answer make every comparison
+        # meaningless. Vendored tiers are reported, not failed.
+        run: python3 spine/lint/antileak.py
+
+      - name: Answer key is current
+        # A stale answer key scores tools against ground truth nobody reviewed.
+        run: |
+          python3 spine/schema/compile_answers.py
+          git diff --exit-code answers/ \
+            || { echo "answers/ is stale — run compile_answers.py and commit the result"; exit 1; }
+
+  build-gate:
+    # Fortify, Coverity and Veracode analyse compiled artifacts. A fixture that
+    # stops compiling makes them score zero, which reads as poor detection.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Compile every buildable Java fixture
+        run: ./build/java/javac-offline.sh

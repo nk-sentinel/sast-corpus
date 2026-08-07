@@ -25,6 +25,14 @@ reporting style, not detection.
 densely labelled. `perf/` holds large real repositories and is never accuracy-scored.
 Timing a few thousand lines of fixtures tells you nothing about a 200k-LOC repository.
 
+## Is the scorer trustworthy?
+
+It is checked differentially against a second implementation of the OWASP
+Benchmark rule, over 2740 published cases. Both produce the same confusion
+matrix, and an empty ruleset scores 0 TP / 0 FP with every case still accounted
+for. See [docs/VALIDATION.md](docs/VALIDATION.md) — including what that does
+*not* establish.
+
 ## Layout
 
 ```
