@@ -1,0 +1,30 @@
+id: c-a6ae02f4
+label: vulnerable
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/a6ae02f4/runner.cpp
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/cpp/a6ae02f4/main.cpp
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    std::system passes the assembled string to a shell, so a semicolon in the argument starts a second command
+  cve: null
+build:
+  required: false
+  recipe: null

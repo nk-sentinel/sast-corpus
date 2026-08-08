@@ -52,5 +52,11 @@ jobs:
           distribution: temurin
           java-version: "21"
 
-      - name: Compile every buildable Java fixture
-        run: ./build/java/javac.sh
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Run every build and syntax recipe
+        # Build-required engines see nothing in a fixture that will not compile,
+        # and a fixture that will not parse scores as a miss for every tool.
+        run: ./build/verify.sh

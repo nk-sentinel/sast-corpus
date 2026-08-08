@@ -1,0 +1,30 @@
+id: c-b97304b5
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/b97304b5/view.py
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/python/b97304b5/view.py
+    start_line: 9
+    end_line: 9
+difficulty:
+  flow: inter-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the assembled text crosses a function boundary inside one file before reaching the sink
+  cve: null
+build:
+  required: false
+  recipe: null

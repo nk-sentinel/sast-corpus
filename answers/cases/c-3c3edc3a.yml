@@ -1,0 +1,30 @@
+id: c-3c3edc3a
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-502
+acceptable_cwes: [CWE-502]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/java/3c3edc3a/Runner.java
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/java/3c3edc3a/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    readObject reconstructs whatever classes the stream names and runs their readObject hooks while doing it
+  cve: null
+build:
+  required: true
+  recipe: build/java/javac.sh

@@ -1,0 +1,30 @@
+id: c-472ab654
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-502
+acceptable_cwes: [CWE-502]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/java/472ab654/Runner.java
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/java/472ab654/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the bytes are treated as text and no object graph is reconstructed at all
+  cve: null
+build:
+  required: true
+  recipe: build/java/javac.sh

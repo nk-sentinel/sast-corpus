@@ -1,0 +1,30 @@
+id: c-b4db1912
+label: vulnerable
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/rust/b4db1912/runner.rs
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/rust/b4db1912/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the formatted string is handed to a shell, so a semicolon in the argument starts a second command
+  cve: null
+build:
+  required: false
+  recipe: null

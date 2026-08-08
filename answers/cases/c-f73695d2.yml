@@ -1,0 +1,30 @@
+id: c-f73695d2
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/f73695d2/Runner.java
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/java/f73695d2/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    Path.of keeps .. segments and returns the argument outright when it is absolute, so the read leaves the base
+  cve: null
+build:
+  required: true
+  recipe: build/java/javac.sh

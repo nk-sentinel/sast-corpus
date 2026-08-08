@@ -1,0 +1,30 @@
+id: c-3bbbebd9
+label: vulnerable
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/kotlin/3bbbebd9/Store.kt
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/kotlin/3bbbebd9/Cli.kt
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the argument is concatenated into the statement text, which the driver then parses as code
+  cve: null
+build:
+  required: false
+  recipe: null

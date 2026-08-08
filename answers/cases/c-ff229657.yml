@@ -1,0 +1,30 @@
+id: c-ff229657
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/c/ff229657/reader.c
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/c/ff229657/main.c
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the argument is pasted after the base directory, so .. segments walk out of it
+  cve: null
+build:
+  required: false
+  recipe: null

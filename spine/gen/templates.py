@@ -27,8 +27,28 @@ XSS = ("CWE-79", ["CWE-79", "CWE-80"], "A03")
 def template(slug, language, extension, weakness, framework, flow,
              vuln_files, vuln_sink_file, vuln_sink, vuln_rationale,
              safe_files, safe_sink_file, safe_sink, safe_sanitizer, safe_rationale,
-             entry_file, entry_match, obfuscation="none", severity="high"):
+             entry_file, entry_match, obfuscation="none", severity="high",
+             extra=None):
+    """Build the standard vulnerable/safe pair, plus any extra variants.
+
+    `extra` is a dict of variant name to Variant. Variant names feed the case
+    id, so adding one never disturbs the ids already in the answer key.
+    """
     primary, acceptable, owasp = weakness
+    variants = {
+        "vulnerable": Variant(
+            files=vuln_files, sink_file=vuln_sink_file, sink_match=vuln_sink,
+            source_file=entry_file, source_match=entry_match,
+            sanitizer="none", rationale=vuln_rationale, label="vulnerable",
+        ),
+        "safe": Variant(
+            files=safe_files, sink_file=safe_sink_file, sink_match=safe_sink,
+            source_file=entry_file, source_match=entry_match,
+            sanitizer=safe_sanitizer, rationale=safe_rationale, label="safe",
+        ),
+    }
+    variants.update(extra or {})
+
     return Template(
         slug=slug,
         language=language,
@@ -40,16 +60,16 @@ def template(slug, language, extension, weakness, framework, flow,
         severity=severity,
         flow=flow,
         obfuscation=obfuscation,
-        vulnerable=Variant(
-            files=vuln_files, sink_file=vuln_sink_file, sink_match=vuln_sink,
-            source_file=entry_file, source_match=entry_match,
-            sanitizer="none", rationale=vuln_rationale,
-        ),
-        safe=Variant(
-            files=safe_files, sink_file=safe_sink_file, sink_match=safe_sink,
-            source_file=entry_file, source_match=entry_match,
-            sanitizer=safe_sanitizer, rationale=safe_rationale,
-        ),
+        variants=variants,
+    )
+
+
+def local(files, sink_file, sink_match, sanitizer, rationale, label="vulnerable", flow=None):
+    """A variant with no separate entry point — source and sink in one function."""
+    return Variant(
+        files=files, sink_file=sink_file, sink_match=sink_match,
+        sanitizer=sanitizer, rationale=rationale, label=label,
+        flow=flow or "intra-procedural",
     )
 
 
@@ -576,3 +596,8 @@ RUBY = [
 ]
 
 ALL = ALL + GO + CSHARP + PHP + RUBY
+
+from gen.templates_depth import DEPTH_ALL  # noqa: E402
+from gen.templates_more import MORE_ALL  # noqa: E402
+
+ALL = ALL + DEPTH_ALL + MORE_ALL

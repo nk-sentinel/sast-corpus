@@ -1,0 +1,30 @@
+id: c-c5b807c4
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/c5b807c4/Runner.java
+  start_line: 15
+  end_line: 15
+alt_locations:
+  - file: tier1/java/c5b807c4/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    only the final name component is kept and the normalised result is checked to remain under the base
+  cve: null
+build:
+  required: true
+  recipe: build/java/javac.sh

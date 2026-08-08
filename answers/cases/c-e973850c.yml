@@ -1,0 +1,30 @@
+id: c-e973850c
+label: safe
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/rust/e973850c/reader.rs
+  start_line: 12
+  end_line: 12
+alt_locations:
+  - file: tier1/rust/e973850c/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    file_name discards every directory component, so nothing but a leaf name reaches the join
+  cve: null
+build:
+  required: false
+  recipe: null

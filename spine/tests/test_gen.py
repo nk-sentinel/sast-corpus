@@ -2,6 +2,7 @@ import shutil
 import sys
 import tempfile
 import unittest
+from dataclasses import replace
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -19,7 +20,7 @@ TEMPLATE = Template(
     severity="high",
     flow="inter-file",
     obfuscation="none",
-    vulnerable=Variant(
+    variants={"vulnerable": Variant(
         files={
             "handler.py": "from store import lookup\n\n\ndef show(code):\n    return lookup(code)\n",
             "store.py": 'import sqlite3\n\n\ndef lookup(code):\n    cur = sqlite3.connect("d").cursor()\n    return cur.execute("SELECT a FROM t WHERE c = \'" + code + "\'").fetchone()\n',
@@ -30,8 +31,7 @@ TEMPLATE = Template(
         source_match="def show",
         sanitizer="none",
         rationale="the request value is concatenated into the statement text with no binding at all",
-    ),
-    safe=Variant(
+    ), "safe": Variant(
         files={
             "handler.py": "from store import lookup\n\n\ndef show(code):\n    return lookup(code)\n",
             "store.py": 'import sqlite3\n\n\ndef lookup(code):\n    cur = sqlite3.connect("d").cursor()\n    return cur.execute("SELECT a FROM t WHERE c = ?", (code,)).fetchone()\n',
@@ -42,8 +42,71 @@ TEMPLATE = Template(
         source_match="def show",
         sanitizer="framework-implicit",
         rationale="the value travels as a bound parameter, so the statement text never contains it",
-    ),
+        label="safe",
+    )},
 )
+
+
+class MultipleVariants(unittest.TestCase):
+    """A template must be able to emit more than a pair. The most realistic
+    false-positive source in real code is a sanitizer that looks effective and
+    is not, and that case is vulnerable — so it cannot be the 'safe' slot."""
+
+    def setUp(self):
+        self.root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.root)
+
+        weak = Variant(
+            files=TEMPLATE.variants["vulnerable"].files,
+            sink_file="store.py",
+            sink_match="cur.execute",
+            source_file="handler.py",
+            source_match="def show",
+            sanitizer="ineffective",
+            label="vulnerable",
+            rationale="the filter strips one quote form and the other still terminates the literal",
+        )
+        self.template = replace(
+            TEMPLATE,
+            variants=dict(TEMPLATE.variants, **{"vulnerable-weak-filter": weak}),
+        )
+        self.cases = emit(self.template, self.root)
+
+    def test_emits_one_case_per_variant(self):
+        self.assertEqual(len(self.cases), 3)
+
+    def test_a_third_variant_gets_its_own_directory(self):
+        directories = {Path(c["location"]["file"]).parts[2] for c in self.cases}
+
+        self.assertEqual(len(directories), 3)
+
+    def test_an_ineffective_sanitizer_case_is_still_labelled_vulnerable(self):
+        case = next(c for c in self.cases if c["difficulty"]["sanitizer"] == "ineffective")
+
+        self.assertEqual(case["label"], "vulnerable")
+
+    def test_adding_a_variant_does_not_change_the_ids_of_the_existing_ones(self):
+        """Otherwise every extension rewrites the whole answer key and buries
+        the real change."""
+        before = emit(TEMPLATE, self.root)
+
+        for case in before:
+            self.assertIn(case["id"], {c["id"] for c in self.cases})
+
+    def test_a_variant_may_override_the_template_flow(self):
+        single = replace(
+            TEMPLATE,
+            variants={"vulnerable": replace(TEMPLATE.variants["vulnerable"], flow="intra-procedural")},
+        )
+
+        case = emit(single, self.root)[0]
+
+        self.assertEqual(case["difficulty"]["flow"], "intra-procedural")
+
+    def test_a_variant_without_an_override_inherits_the_template_flow(self):
+        case = next(c for c in self.cases if c["label"] == "safe")
+
+        self.assertEqual(case["difficulty"]["flow"], TEMPLATE.flow)
 
 
 class CaseId(unittest.TestCase):

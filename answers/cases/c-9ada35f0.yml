@@ -1,0 +1,30 @@
+id: c-9ada35f0
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/python/9ada35f0/reader.py
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/python/9ada35f0/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the filter runs once, so ....// collapses to ../ after the replacement and the read still escapes the base
+  cve: null
+build:
+  required: false
+  recipe: null

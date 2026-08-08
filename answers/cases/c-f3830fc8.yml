@@ -1,0 +1,30 @@
+id: c-f3830fc8
+label: safe
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/swift/f3830fc8/Runner.swift
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/swift/f3830fc8/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the binary is named directly and the value is one separate argument, with no shell involved
+  cve: null
+build:
+  required: false
+  recipe: null

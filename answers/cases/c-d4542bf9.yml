@@ -1,0 +1,27 @@
+id: c-d4542bf9
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/d4542bf9/view.py
+  start_line: 7
+  end_line: 7
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is bound rather than concatenated, in the same single function
+  cve: null
+build:
+  required: false
+  recipe: null

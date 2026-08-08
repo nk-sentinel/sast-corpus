@@ -1,0 +1,27 @@
+id: c-355e5956
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/355e5956/view.py
+  start_line: 7
+  end_line: 7
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    source and sink sit in one function, so no dataflow analysis beyond the statement is needed
+  cve: null
+build:
+  required: false
+  recipe: null

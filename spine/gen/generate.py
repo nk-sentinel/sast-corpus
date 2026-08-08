@@ -29,13 +29,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 @dataclass
 class Variant:
+    """One emitted case.
+
+    `label` is what the answer key records, and it is not implied by the variant
+    name. A sanitizer that looks effective and is not produces a case that is
+    still `vulnerable`, and that case is the most realistic false-positive
+    source there is — so it cannot live in the 'safe' slot.
+    """
+
     files: dict
     sink_file: str
     sink_match: str
     sanitizer: str
     rationale: str
+    label: str = "vulnerable"
     source_file: str = None
     source_match: str = None
+    flow: str = None
+    obfuscation: str = None
 
 
 @dataclass
@@ -49,8 +60,7 @@ class Template:
     severity: str
     flow: str
     obfuscation: str
-    vulnerable: Variant
-    safe: Variant
+    variants: dict
     framework: str = None
     build_required: bool = False
     build_recipe: str = None
@@ -82,21 +92,21 @@ def locate(text, marker):
 
 
 def emit(template, root):
-    """Write both variants and return their ground-truth cases."""
-    cases = []
-    for label, variant in (("vulnerable", template.vulnerable), ("safe", template.safe)):
-        cases.append(_emit_variant(template, label, variant, Path(root)))
-    return cases
+    """Write every variant and return their ground-truth cases."""
+    return [
+        _emit_variant(template, name, variant, Path(root))
+        for name, variant in template.variants.items()
+    ]
 
 
-def _emit_variant(template, label, variant, root):
-    identifier = case_id(template.slug, label)
+def _emit_variant(template, name, variant, root):
+    identifier = case_id(template.slug, name)
     directory = "tier1/{}/{}".format(template.language, identifier[2:])
     target = root / directory
     target.mkdir(parents=True, exist_ok=True)
 
-    for name, content in variant.files.items():
-        path = target / name
+    for filename, content in variant.files.items():
+        path = target / filename
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content)
 
@@ -114,7 +124,7 @@ def _emit_variant(template, label, variant, root):
 
     return {
         "id": identifier,
-        "label": label,
+        "label": variant.label,
         "plane": "vuln",
         "tier": 1,
         "language": template.language,
@@ -130,9 +140,9 @@ def _emit_variant(template, label, variant, root):
         },
         "alt_locations": alt_locations,
         "difficulty": {
-            "flow": template.flow,
+            "flow": variant.flow or template.flow,
             "sanitizer": variant.sanitizer,
-            "obfuscation": template.obfuscation,
+            "obfuscation": variant.obfuscation or template.obfuscation,
         },
         "evidence": {
             "source": "generated",

@@ -1,0 +1,30 @@
+id: c-89532d79
+label: safe
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/kotlin/89532d79/Runner.kt
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/kotlin/89532d79/Cli.kt
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    an argument list goes straight to the binary with no shell able to reinterpret it
+  cve: null
+build:
+  required: false
+  recipe: null

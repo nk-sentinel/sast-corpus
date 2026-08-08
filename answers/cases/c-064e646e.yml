@@ -1,0 +1,30 @@
+id: c-064e646e
+label: vulnerable
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/rust/064e646e/reader.rs
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/rust/064e646e/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    join keeps .. segments and replaces the base outright when the argument is absolute
+  cve: null
+build:
+  required: false
+  recipe: null

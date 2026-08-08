@@ -1,0 +1,30 @@
+id: c-11ee4cb2
+label: safe
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/c/11ee4cb2/reader.c
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/c/11ee4cb2/main.c
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    everything up to the last separator is dropped and a remaining dot-dot is rejected outright
+  cve: null
+build:
+  required: false
+  recipe: null

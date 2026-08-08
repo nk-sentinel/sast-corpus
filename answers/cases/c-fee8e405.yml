@@ -1,0 +1,30 @@
+id: c-fee8e405
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: express
+primary_cwe: CWE-79
+acceptable_cwes: [CWE-79, CWE-80]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/fee8e405/page.js
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/javascript/fee8e405/route.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    every character that could open a tag or close the attribute is encoded before insertion
+  cve: null
+build:
+  required: false
+  recipe: null
