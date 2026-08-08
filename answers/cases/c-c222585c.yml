@@ -1,0 +1,27 @@
+id: c-c222585c
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/apache__camel_CVE-2018-8041_2.20.3/components/camel-mail/src/main/java/org/apache/camel/component/mail/MailBinding.java
+  start_line: 305
+  end_line: 347
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-8041 in apache/camel, at the buggy commit 32bfda73ddd1ea8576bcb53dac496af9e0825f1a. The dataset records the fix as touching MailBinding.extractAttachmentsFromMultipart; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2018-8041
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

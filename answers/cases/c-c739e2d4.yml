@@ -1,0 +1,33 @@
+id: c-c739e2d4
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/apache__camel_CVE-2019-0194_2.21.4/camel-core/src/main/java/org/apache/camel/component/file/GenericFileEndpoint.java
+  start_line: 1198
+  end_line: 1221
+alt_locations:
+  - file: tier3/project-sources/apache__camel_CVE-2019-0194_2.21.4/camel-core/src/main/java/org/apache/camel/component/file/GenericFileProducer.java
+    start_line: 389
+    end_line: 424
+  - file: tier3/project-sources/apache__camel_CVE-2019-0194_2.21.4/camel-core/src/main/java/org/apache/camel/component/file/GenericFileProducer.java
+    start_line: 312
+    end_line: 387
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2019-0194 in apache/camel, at the buggy commit 757bc836d1d9ed11d11de73c5dc72fc53617d6a0. The dataset records the fix as touching GenericFileEndpoint.configureMessage; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 3 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2019-0194
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

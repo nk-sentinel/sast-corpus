@@ -236,3 +236,48 @@ class DuplicateIdErrors(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ExternalTierFilesMayBeAbsent(unittest.TestCase):
+    """Tier 2 and tier 3 point into checkouts that are fetched on demand and
+    never committed. Their absence means "not fetched", not "the answer key is
+    broken" — but a tier-1 fixture is committed, so its absence really is."""
+
+    def setUp(self):
+        self.root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.root)
+
+    def test_a_missing_tier1_fixture_is_still_an_error(self):
+        case = a_case(tier=1, location={"file": "tier1/java/x/Gone.java",
+                                        "start_line": 1, "end_line": 2},
+                      alt_locations=[])
+
+        self.assertEqual(len(file_errors(case, self.root)), 1)
+
+    def test_a_missing_tier3_checkout_is_not_an_error(self):
+        case = a_case(tier=3, location={"file": "tier3/project-sources/p/A.java",
+                                        "start_line": 1, "end_line": 2},
+                      alt_locations=[])
+
+        self.assertEqual(file_errors(case, self.root), [])
+
+    def test_a_missing_tier2_checkout_is_not_an_error(self):
+        case = a_case(tier=2, location={"file": "tier2/webgoat/A.java",
+                                        "start_line": 1, "end_line": 2},
+                      alt_locations=[])
+
+        self.assertEqual(file_errors(case, self.root), [])
+
+    def test_a_fetched_tier3_file_is_still_range_checked(self):
+        """Absence is excused; being wrong is not."""
+        path = self.root / "tier3" / "project-sources" / "p"
+        path.mkdir(parents=True)
+        (path / "A.java").write_text("one\ntwo\n")
+        case = a_case(tier=3, location={"file": "tier3/project-sources/p/A.java",
+                                        "start_line": 1, "end_line": 900},
+                      alt_locations=[])
+
+        errors = file_errors(case, self.root)
+
+        self.assertEqual(len(errors), 1)
+        self.assertIn("900", errors[0])

@@ -232,6 +232,25 @@ def _read_text(path):
         return None
 
 
+def summarise_warnings(warnings):
+    """Reduce disclosed leaks to the statistic a scorecard needs.
+
+    Vendored tiers hold whole real repositories, so listing every leaking line
+    runs to five figures and buries the errors that matter. What a reader needs
+    is the size of the effect, not its transcript.
+    """
+    by_kind, by_tier, files = {}, {}, set()
+
+    for leak in warnings:
+        by_kind[leak.kind] = by_kind.get(leak.kind, 0) + 1
+        tier = leak.path.split("/", 1)[0]
+        by_tier[tier] = by_tier.get(tier, 0) + 1
+        files.add(leak.path)
+
+    return {"total": len(warnings), "files": len(files),
+            "by_kind": by_kind, "by_tier": by_tier}
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--root", default=Path(__file__).resolve().parents[2], type=Path)
@@ -239,14 +258,20 @@ def main(argv=None):
 
     errors, warnings = scan_tree(args.root)
 
-    for warning in warnings:
-        print("warning: {}".format(warning))
+    summary = summarise_warnings(warnings)
     for error in errors:
         print("error:   {}".format(error), file=sys.stderr)
 
-    if warnings:
-        print("\n{} disclosed leak(s) in vendored tiers — these belong in the "
-              "scorecard's threats-to-validity section.".format(len(warnings)))
+    if summary["total"]:
+        print("disclosed leakage in vendored tiers: {} occurrence(s) across {} file(s)".format(
+            summary["total"], summary["files"]))
+        for tier, count in sorted(summary["by_tier"].items()):
+            print("  {:<8} {}".format(tier, count))
+        for kind, count in sorted(summary["by_kind"].items(), key=lambda kv: -kv[1]):
+            print("  {:<18} {}".format(kind, count))
+        print("  These are real applications naming their own weaknesses; they cannot be")
+        print("  edited away. The figure belongs in a scorecard's threats-to-validity")
+        print("  section, because an LLM-based scanner can read them instead of the code.")
     if errors:
         print("\n{} leak(s) in authored fixtures; the corpus is not sound until "
               "they are fixed.".format(len(errors)), file=sys.stderr)

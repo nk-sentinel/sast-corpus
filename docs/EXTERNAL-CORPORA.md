@@ -23,13 +23,65 @@ abbreviated SHA.
 |---|---|---|---|
 | `perf` | 4 Java repos, 10k → 500k+ LOC | working | **not needed** — never accuracy-scored |
 | `tier2` | 5 applications, 4 languages | working | **not authored** |
-| `tier3` | 2 CVE datasets, Java | working | **not authored** |
+| `tier3` | 2 CVE datasets, Java | working | **derived, see below** |
 
-This is the honest state. The fetch mechanism, the pinning discipline and the
-licence records are done. The labelling is not, and until it is, **every accuracy
-number this corpus produces comes from tier-1 synthetic fixtures** — which
-[THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md) records as the most favourable
-and least representative measurement available.
+## Tier 3 is derived, not hand-transcribed
+
+`spine/corpora/tier3.py` turns `cwe-bench-java` into ground truth. That dataset
+gives 120 manually vetted CVEs in real Java projects, all of which build, with
+the fixing file, class and method recorded per CVE — far more than any other
+source hands you, and the reason tier 3 was reachable at all.
+
+**The recorded line numbers cannot be used directly.** They are anchored to the
+*fixed* commit, while the commit that must be scanned is the *buggy* one. The
+two differ, sometimes enormously: in `alibaba/one-java-agent` the fixed
+`IOUtils.java` is 106 lines and the buggy one is 162, and the fix deleted the
+vulnerable `unzip` method outright — which is why several rows carry no method
+range at all. Deriving from those numbers would have produced ground truth
+spanning lines 24–106 of the buggy file, ending exactly where the vulnerable
+method begins.
+
+So the method is located **by name in the buggy checkout**, and every case
+records the granularity that search achieved.
+
+Three rules the derivation enforces, each of which would otherwise corrupt the
+ground truth:
+
+- **One case per CVE, not one per touched method.** A fix commit routinely edits
+  more than the flaw; one CVE here spans seventeen methods. Every touched method
+  becomes an accepted location and a hit at any counts, so no tool is charged
+  fifteen false negatives for declining to flag refactored helpers.
+- **Test code is never ground truth.** Fixes update the tests that prove them.
+  Tools skip test directories by default, so an entry pointing at one charges
+  every tool a false negative for behaving correctly. 25 such rows were dropped.
+- **The primary location prefers precision.** A located method beats a
+  whole-class span; a narrow method beats a sprawling one. Everything else
+  survives as an alternative.
+
+### What is derived so far
+
+14 CVEs, all resolving to method granularity, each spot-checked by reading the
+code at the derived span.
+
+**They are all CWE-22.** Path traversal is 55 of the dataset's 120 entries and
+the first projects fetched happened to be all of that class, so tier 3 currently
+tests one weakness. Fetching across the other three — XSS, code injection and
+command injection — is the immediate next step, and until it is done a tier-3
+number says something about path traversal and nothing else.
+
+### Tier 3 measures recall only
+
+There are no safe siblings. The dataset records where each CVE was fixed and
+says nothing about which nearby code is correctly defended, so this tier cannot
+contribute to a false-positive rate. That is a property of the tier, not an
+oversight.
+
+## Tier 2 is still unlabelled
+
+The fetch mechanism, pinning discipline and licence records are done. The
+labelling is not, and **every tier-2 accuracy number is therefore absent rather
+than optimistic** — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md) records
+what a synthetic-heavy result does and does not support.
 
 `perf` is complete, because scan time needs no ground truth. `commons-cli` is
 fetched and measured at 15,716 code lines by codeprint at its pinned revision.

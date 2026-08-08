@@ -1,0 +1,39 @@
+id: c-ffd3725f
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/x-stream__xstream_CVE-2021-21345_1.4.15/xstream/src/java/com/thoughtworks/xstream/XStream.java
+  start_line: 1376
+  end_line: 1378
+alt_locations:
+  - file: tier3/project-sources/x-stream__xstream_CVE-2021-21345_1.4.15/xstream/src/java/com/thoughtworks/xstream/XStream.java
+    start_line: 640
+    end_line: 654
+  - file: tier3/project-sources/x-stream__xstream_CVE-2021-21345_1.4.15/xstream/src/java/com/thoughtworks/xstream/XStream.java
+    start_line: 183
+    end_line: 198
+  - file: tier3/project-sources/x-stream__xstream_CVE-2021-21345_1.4.15/xstream/src/java/com/thoughtworks/xstream/XStream.java
+    start_line: 619
+    end_line: 638
+  - file: tier3/project-sources/x-stream__xstream_CVE-2021-21345_1.4.15/xstream/src/java/com/thoughtworks/xstream/XStream.java
+    start_line: 667
+    end_line: 752
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-21345 in x-stream/xstream, at the buggy commit f04bbec461f2c2a6f1e2cf41770f42c64aae24a4. The dataset records the fix as touching XStream.unmarshal; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 5 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2021-21345
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

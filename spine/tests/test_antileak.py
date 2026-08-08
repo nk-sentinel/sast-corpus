@@ -328,3 +328,41 @@ class CorpusMetadataIsNotFixtureCode(LintCase):
         _errors, warnings = self.scan()
 
         self.assertTrue(warnings)
+
+
+class DisclosedLeaksAreSummarised(unittest.TestCase):
+    """Vendored tiers hold whole real repositories. Printing every leaking line
+    buries the errors that matter under thousands of lines nobody reads, and the
+    disclosure a scorecard needs is a count, not a listing."""
+
+    def test_summary_counts_by_kind(self):
+        from lint.antileak import summarise_warnings
+        from lint.antileak import Leak
+        warnings = [Leak("tier2/a/A.java", 1, "cwe-in-content", "x"),
+                    Leak("tier2/a/B.java", 2, "cwe-in-content", "y"),
+                    Leak("tier2/a/C.java", 0, "hint-in-path", "z")]
+
+        summary = summarise_warnings(warnings)
+
+        self.assertEqual(summary["by_kind"]["cwe-in-content"], 2)
+        self.assertEqual(summary["total"], 3)
+
+    def test_summary_counts_affected_files_not_just_lines(self):
+        from lint.antileak import summarise_warnings, Leak
+        warnings = [Leak("tier2/a/A.java", 1, "cwe-in-content", "x"),
+                    Leak("tier2/a/A.java", 9, "cwe-in-content", "y")]
+
+        self.assertEqual(summarise_warnings(warnings)["files"], 1)
+
+    def test_summary_groups_by_tier(self):
+        from lint.antileak import summarise_warnings, Leak
+        warnings = [Leak("tier2/a/A.java", 1, "cwe-in-content", "x"),
+                    Leak("tier3/b/B.java", 1, "cwe-in-content", "y")]
+
+        summary = summarise_warnings(warnings)
+
+        self.assertEqual(summary["by_tier"], {"tier2": 1, "tier3": 1})
+
+    def test_an_empty_warning_set_summarises_cleanly(self):
+        from lint.antileak import summarise_warnings
+        self.assertEqual(summarise_warnings([])["total"], 0)

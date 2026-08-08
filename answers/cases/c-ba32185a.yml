@@ -1,0 +1,30 @@
+id: c-ba32185a
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-79
+acceptable_cwes: [CWE-79, CWE-80, CWE-83, CWE-116]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/apache__jspwiki_CVE-2019-10078_2.11.0.M3/jspwiki-main/src/main/java/org/apache/wiki/plugin/ReferredPagesPlugin.java
+  start_line: 194
+  end_line: 254
+alt_locations:
+  - file: tier3/project-sources/apache__jspwiki_CVE-2019-10078_2.11.0.M3/jspwiki-main/src/main/java/org/apache/wiki/plugin/ReferredPagesPlugin.java
+    start_line: 97
+    end_line: 176
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2019-10078 in apache/jspwiki, at the buggy commit 2ea7973c1c7fdf2771a9743dbc8ecb27c9bb162d. The dataset records the fix as touching ReferredPagesPlugin.handleLinks; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 2 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2019-10078
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

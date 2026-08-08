@@ -1,0 +1,48 @@
+id: c-0f0f9efb
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/apache__tika_CVE-2018-11762_1.18/tika-app/src/main/java/org/apache/tika/cli/TikaCLI.java
+  start_line: 301
+  end_line: 304
+alt_locations:
+  - file: tier3/project-sources/apache__tika_CVE-2018-11762_1.18/tika-app/src/main/java/org/apache/tika/cli/TikaCLI.java
+    start_line: 1224
+    end_line: 1227
+  - file: tier3/project-sources/apache__tika_CVE-2018-11762_1.18/tika-app/src/main/java/org/apache/tika/cli/TikaCLI.java
+    start_line: 196
+    end_line: 215
+  - file: tier3/project-sources/apache__tika_CVE-2018-11762_1.18/tika-app/src/main/java/org/apache/tika/cli/TikaCLI.java
+    start_line: 1149
+    end_line: 1174
+  - file: tier3/project-sources/apache__tika_CVE-2018-11762_1.18/tika-example/src/main/java/org/apache/tika/example/ExtractEmbeddedFiles.java
+    start_line: 73
+    end_line: 104
+  - file: tier3/project-sources/apache__tika_CVE-2018-11762_1.18/tika-app/src/main/java/org/apache/tika/cli/TikaCLI.java
+    start_line: 1038
+    end_line: 1098
+  - file: tier3/project-sources/apache__tika_CVE-2018-11762_1.18/tika-server/src/main/java/org/apache/tika/server/resource/UnpackerResource.java
+    start_line: 173
+    end_line: 244
+  - file: tier3/project-sources/apache__tika_CVE-2018-11762_1.18/tika-app/src/main/java/org/apache/tika/cli/TikaCLI.java
+    start_line: 1028
+    end_line: 1116
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-11762 in apache/tika, at the buggy commit 38ff2a986af24ee255f1f91d654ea402f4016696. The dataset records the fix as touching NoDocumentXMPMetaHandler.endDocument; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 8 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2018-11762
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

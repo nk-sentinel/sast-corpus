@@ -1,0 +1,30 @@
+id: c-1ef620b9
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-79
+acceptable_cwes: [CWE-79, CWE-80, CWE-83, CWE-116]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/xuxueli__xxl-job_CVE-2020-29204_2.2.0/xxl-job-admin/src/main/java/com/xxl/job/admin/controller/UserController.java
+  start_line: 51
+  end_line: 65
+alt_locations:
+  - file: tier3/project-sources/xuxueli__xxl-job_CVE-2020-29204_2.2.0/xxl-job-admin/src/main/java/com/xxl/job/admin/controller/JobGroupController.java
+    start_line: 62
+    end_line: 88
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-29204 in xuxueli/xxl-job, at the buggy commit 1874c4854f81d6af4a9471d3fe111cdbf713f336. The dataset records the fix as touching UserController.pageList; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 2 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2020-29204
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

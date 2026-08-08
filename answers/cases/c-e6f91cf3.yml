@@ -1,0 +1,30 @@
+id: c-e6f91cf3
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-94
+acceptable_cwes: [CWE-94, CWE-95, CWE-96, CWE-78, CWE-470]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/spring-projects__spring-framework_CVE-2022-22965_5.2.19.RELEASE/spring-beans/src/main/java/org/springframework/beans/CachedIntrospectionResults.java
+  start_line: 314
+  end_line: 330
+alt_locations:
+  - file: tier3/project-sources/spring-projects__spring-framework_CVE-2022-22965_5.2.19.RELEASE/spring-beans/src/main/java/org/springframework/beans/CachedIntrospectionResults.java
+    start_line: 269
+    end_line: 312
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-22965 in spring-projects/spring-framework, at the buggy commit 925b07826067d57a8a057837a1b5973cb6fad186. The dataset records the fix as touching CachedIntrospectionResults.introspectInterfaces; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 2 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2022-22965
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

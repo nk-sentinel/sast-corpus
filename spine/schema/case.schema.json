@@ -6,38 +6,73 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "id", "label", "plane", "tier", "language",
-    "primary_cwe", "acceptable_cwes", "severity", "location",
-    "difficulty", "evidence", "build"
+    "id",
+    "label",
+    "plane",
+    "tier",
+    "language",
+    "primary_cwe",
+    "acceptable_cwes",
+    "severity",
+    "location",
+    "difficulty",
+    "evidence",
+    "build"
   ],
   "properties": {
     "id": {
       "type": "string",
       "pattern": "^c-[0-9a-f]{8}$",
-      "description": "Opaque identifier. Deliberately carries no semantic content — an id that hints at the category defeats the corpus."
+      "description": "Opaque identifier. Deliberately carries no semantic content \u2014 an id that hints at the category defeats the corpus."
     },
     "label": {
-      "enum": ["vulnerable", "safe"],
+      "enum": [
+        "vulnerable",
+        "safe"
+      ],
       "description": "'safe' marks a false-positive trap: plausible-looking code that is genuinely not a vulnerability. A finding here is an FP."
     },
     "plane": {
-      "enum": ["vuln", "secret", "sca", "crypto"],
+      "enum": [
+        "vuln",
+        "secret",
+        "sca",
+        "crypto"
+      ],
       "description": "Which detection plane this case exercises. Planes are scored independently."
     },
     "tier": {
       "type": "integer",
-      "enum": [1, 2, 3],
+      "enum": [
+        1,
+        2,
+        3
+      ],
       "description": "1 = synthetic micro-fixture, 2 = real open-source application, 3 = real CVE reproduction. Always reported separately: tier-1-only numbers overstate every tool."
     },
     "language": {
       "type": "string",
       "enum": [
-        "java", "kotlin", "python", "javascript", "typescript", "go",
-        "csharp", "c", "cpp", "swift", "php", "ruby", "rust"
+        "java",
+        "kotlin",
+        "python",
+        "javascript",
+        "typescript",
+        "go",
+        "csharp",
+        "c",
+        "cpp",
+        "swift",
+        "php",
+        "ruby",
+        "rust"
       ]
     },
     "framework": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "e.g. spring-mvc, django, express, nestjs, laravel, rails, gin. Null for plain-language cases.",
       "default": null
     },
@@ -50,24 +85,37 @@
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "items": { "type": "string", "pattern": "^CWE-[0-9]+$" },
+      "items": {
+        "type": "string",
+        "pattern": "^CWE-[0-9]+$"
+      },
       "description": "Every CWE a scanner could reasonably report for this flaw. Must include primary_cwe. Scoring a tool down for choosing a defensible sibling CWE measures taxonomy preference, not detection."
     },
     "owasp_2021": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "pattern": "^A[0-1][0-9]$",
       "default": null
     },
     "severity": {
-      "enum": ["critical", "high", "medium", "low"]
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
     },
     "location": {
       "$ref": "#/$defs/location",
-      "description": "Primary expected report location — normally the sink."
+      "description": "Primary expected report location \u2014 normally the sink."
     },
     "alt_locations": {
       "type": "array",
-      "items": { "$ref": "#/$defs/location" },
+      "items": {
+        "$ref": "#/$defs/location"
+      },
       "default": [],
       "description": "Other defensible report locations, normally the source. A hit at any one of these counts as a match, so tools that report at the head of a taint chain are not penalised.",
       "uniqueItems": true
@@ -75,46 +123,92 @@
     "difficulty": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["flow", "sanitizer", "obfuscation"],
+      "required": [
+        "flow",
+        "sanitizer",
+        "obfuscation"
+      ],
       "description": "What makes this case hard. Enables 'tool X handles intra-procedural flow but collapses on inter-file' instead of a single opaque percentage.",
       "properties": {
         "flow": {
-          "enum": ["intra-procedural", "inter-procedural", "inter-file", "framework-mediated"]
+          "enum": [
+            "intra-procedural",
+            "inter-procedural",
+            "inter-file",
+            "framework-mediated",
+            "unknown"
+          ],
+          "description": "`unknown` is honest for a derived tier-3 case: the taint path is not known until someone reads the code, and a guess would be indistinguishable from a finding in the difficulty breakdown."
         },
         "sanitizer": {
-          "enum": ["none", "ineffective", "custom-effective", "framework-implicit"],
+          "enum": [
+            "none",
+            "ineffective",
+            "custom-effective",
+            "framework-implicit",
+            "unknown"
+          ],
           "description": "custom-effective and framework-implicit are the usual causes of false positives; 'ineffective' is a sanitizer that looks right but is not."
         },
         "obfuscation": {
-          "enum": ["none", "aliasing", "collection", "reflection", "callback"]
+          "enum": [
+            "none",
+            "aliasing",
+            "collection",
+            "reflection",
+            "callback",
+            "unknown"
+          ]
         }
       }
     },
     "evidence": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["source", "rationale"],
+      "required": [
+        "source",
+        "rationale"
+      ],
       "properties": {
-        "source": { "enum": ["hand-authored", "generated", "cve", "walkthrough"] },
+        "source": {
+          "enum": [
+            "hand-authored",
+            "generated",
+            "cve",
+            "walkthrough"
+          ]
+        },
         "rationale": {
           "type": "string",
           "minLength": 20,
           "description": "Why this label is correct. A reviewer must be able to check the call without re-deriving the analysis."
         },
-        "cve": { "type": ["string", "null"], "pattern": "^CVE-[0-9]{4}-[0-9]+$", "default": null }
+        "cve": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^CVE-[0-9]{4}-[0-9]+$",
+          "default": null
+        }
       }
     },
     "build": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["required"],
+      "required": [
+        "required"
+      ],
       "properties": {
         "required": {
           "type": "boolean",
           "description": "True if this case must compile for build-required engines (Fortify, Coverity, Veracode) to see it at all."
         },
         "recipe": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "default": null,
           "description": "Path to the hermetic build script, relative to repo root."
         }
@@ -124,24 +218,64 @@
       "type": "object",
       "additionalProperties": false,
       "description": "Extra ground truth for plane: secret.",
-      "required": ["kind"],
+      "required": [
+        "kind"
+      ],
       "properties": {
-        "kind": { "type": "string", "description": "e.g. aws-access-key, private-key, jwt, generic-high-entropy" },
-        "live_validatable": { "type": "boolean", "default": false },
-        "in_git_history_only": { "type": "boolean", "default": false }
+        "kind": {
+          "type": "string",
+          "description": "e.g. aws-access-key, private-key, jwt, generic-high-entropy"
+        },
+        "live_validatable": {
+          "type": "boolean",
+          "default": false
+        },
+        "in_git_history_only": {
+          "type": "boolean",
+          "default": false
+        }
       }
     },
     "sca": {
       "type": "object",
       "additionalProperties": false,
       "description": "Extra ground truth for plane: sca.",
-      "required": ["purl"],
+      "required": [
+        "purl"
+      ],
       "properties": {
-        "purl": { "type": "string", "description": "Package URL, e.g. pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1" },
-        "cve": { "type": ["string", "null"], "pattern": "^CVE-[0-9]{4}-[0-9]+$", "default": null },
-        "transitive": { "type": "boolean", "default": false },
-        "reachable": { "type": ["boolean", "null"], "default": null },
-        "scope": { "enum": ["runtime", "test", "dev", "provided"], "default": "runtime" }
+        "purl": {
+          "type": "string",
+          "description": "Package URL, e.g. pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1"
+        },
+        "cve": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^CVE-[0-9]{4}-[0-9]+$",
+          "default": null
+        },
+        "transitive": {
+          "type": "boolean",
+          "default": false
+        },
+        "reachable": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "scope": {
+          "enum": [
+            "runtime",
+            "test",
+            "dev",
+            "provided"
+          ],
+          "default": "runtime"
+        }
       }
     }
   },
@@ -149,15 +283,25 @@
     "location": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["file", "start_line", "end_line"],
+      "required": [
+        "file",
+        "start_line",
+        "end_line"
+      ],
       "properties": {
         "file": {
           "type": "string",
           "pattern": "^(tier[123]|perf)/",
           "description": "Repo-relative path, forward slashes. Must live under a corpus tier."
         },
-        "start_line": { "type": "integer", "minimum": 1 },
-        "end_line": { "type": "integer", "minimum": 1 }
+        "start_line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end_line": {
+          "type": "integer",
+          "minimum": 1
+        }
       }
     }
   }

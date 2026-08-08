@@ -1,0 +1,27 @@
+id: c-7f3eece7
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/apache__activemq_CVE-2014-3576_5.10.1/activemq-broker/src/main/java/org/apache/activemq/broker/TransportConnection.java
+  start_line: 1536
+  end_line: 1542
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2014-3576 in apache/activemq, at the buggy commit 8938d14d434447193b02ba635606aa0fb7a80353. The dataset records the fix as touching TransportConnection.processControlCommand; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2014-3576
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

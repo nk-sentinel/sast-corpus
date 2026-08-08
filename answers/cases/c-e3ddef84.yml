@@ -1,0 +1,27 @@
+id: c-e3ddef84
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/DSpace__DSpace_CVE-2016-10726_4.4/dspace-xmlui/src/main/java/org/dspace/app/xmlui/cocoon/SafeResourceReader.java
+  start_line: 34
+  end_line: 66
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2016-10726 in DSpace/DSpace, at the buggy commit ca4c86b1baa4e0b07975b1da86a34a6e7170b3b7. The dataset records the fix as touching SafeResourceReader.setup; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2016-10726
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

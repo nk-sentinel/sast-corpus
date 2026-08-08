@@ -1,0 +1,30 @@
+id: c-58dc2139
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-94
+acceptable_cwes: [CWE-94, CWE-95, CWE-96, CWE-78, CWE-470]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/apache__struts_CVE-2020-17530_2.5.25/core/src/main/java/org/apache/struts2/dispatcher/HttpParameters.java
+  start_line: 187
+  end_line: 199
+alt_locations:
+  - file: tier3/project-sources/apache__struts_CVE-2020-17530_2.5.25/core/src/main/java/com/opensymphony/xwork2/interceptor/StaticParametersInterceptor.java
+    start_line: 227
+    end_line: 247
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-17530 in apache/struts, at the buggy commit b3a9d82d5830ef9cd7811cfa3f86a373ae52fada. The dataset records the fix as touching Builder.build; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 2 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2020-17530
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

@@ -1,0 +1,33 @@
+id: c-5e33dbc3
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/square__retrofit_CVE-2018-1000850_2.4.0/retrofit/src/main/java/retrofit2/RequestBuilder.java
+  start_line: 89
+  end_line: 95
+alt_locations:
+  - file: tier3/project-sources/square__retrofit_CVE-2018-1000850_2.4.0/retrofit/src/main/java/retrofit2/RequestBuilder.java
+    start_line: 97
+    end_line: 114
+  - file: tier3/project-sources/square__retrofit_CVE-2018-1000850_2.4.0/retrofit/src/main/java/retrofit2/RequestBuilder.java
+    start_line: 30
+    end_line: 253
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-1000850 in square/retrofit, at the buggy commit 7158698314daa138e993fac6a590ed19d78a8599. The dataset records the fix as touching RequestBuilder.addPathParam; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 3 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2018-1000850
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

@@ -1,0 +1,27 @@
+id: c-a70e5210
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/asf__tapestry-5_CVE-2019-0207_5.4.4/tapestry-ioc/src/main/java/org/apache/tapestry5/ioc/internal/util/AbstractResource.java
+  start_line: 93
+  end_line: 143
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2019-0207 in apache/tapestry-5, at the buggy commit d29cc6778eb0c75e45139274005bba1c4f58907f. The dataset records the fix as touching AbstractResource.forFile; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2019-0207
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

@@ -1,0 +1,27 @@
+id: c-f4190598
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/jenkinsci__docker-commons-plugin_CVE-2022-20617_1.17/src/main/java/org/jenkinsci/plugins/docker/commons/credentials/DockerRegistryEndpoint.java
+  start_line: 311
+  end_line: 328
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-20617 in jenkinsci/docker-commons-plugin, at the buggy commit 2f0fda49452a7653c33de24220c908786f1aa405. The dataset records the fix as touching DockerRegistryEndpoint.imageName; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2022-20617
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

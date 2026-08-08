@@ -8,29 +8,29 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 104 |
-| False-positive traps | 51 (49%) |
+| Cases | 126 |
+| False-positive traps | 48 (38%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
-| Visible to build-required engines | 12 |
+| Visible to build-required engines | 34 |
 
 ## Language × weakness
 
-| language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-1395 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| java | 3/3 | 1/1 | · | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 |
-| kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
-| python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 3/3 | 1/1 | · | · |
-| javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | 1/1 |
-| typescript | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
-| go | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · |
-| csharp | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
-| c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · |
-| cpp | · | 1/1 | · | · | · | · | · | · | · | · | · |
-| swift | · | 1/1 | · | · | · | · | · | · | · | · | · |
-| php | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
-| ruby | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
-| rust | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · |
+| language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-94 | CWE-1395 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| java | · | 6/1 | 5/0 | 15/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | 1/1 | 4/0 | 1/1 |
+| kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
+| python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 3/3 | 1/1 | · | · | · |
+| javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | 1/1 |
+| typescript | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
+| go | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · |
+| csharp | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
+| c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · |
+| cpp | · | 1/1 | · | · | · | · | · | · | · | · | · | · |
+| swift | · | 1/1 | · | · | · | · | · | · | · | · | · | · |
+| php | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
+| ruby | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
+| rust | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · |
 
 Weakness codes:
 
@@ -44,6 +44,7 @@ Weakness codes:
 - `CWE-798` — hard-coded credentials
 - `CWE-327` — broken crypto
 - `CWE-352` — cross-site request forgery
+- `CWE-94` — code injection
 - `CWE-1395` — dependency on a vulnerable component
 
 ## Gaps
@@ -63,8 +64,12 @@ Weaknesses covered per language, thinnest first:
 - `rust` — 2
 - `go` — 3
 - `javascript` — 6
-- `java` — 9
 - `python` — 9
+- `java` — 10
+
+**Covered but with no safe sibling** — a false-positive rate cannot be measured for these:
+
+- java / `CWE-79`
 
 ## OWASP Top 10 (2021)
 
@@ -72,7 +77,7 @@ Weaknesses covered per language, thinnest first:
 |---|---|
 | A01 Broken Access Control | 17 |
 | A02 Cryptographic Failures | 4 |
-| A03 Injection | 59 |
+| A03 Injection | 53 |
 | A04 Insecure Design | · |
 | A05 Security Misconfiguration | 4 |
 | A06 Vulnerable Components | 4 |
@@ -85,7 +90,7 @@ Weaknesses covered per language, thinnest first:
 
 | plane | cases |
 |---|---|
-| vuln | 96 |
+| vuln | 118 |
 | secret | 4 |
 | sca | 4 |
 | crypto | · |
@@ -96,9 +101,9 @@ Weaknesses covered per language, thinnest first:
 
 | tier | cases |
 |---|---|
-| 1 — synthetic fixtures | 104 |
+| 1 — synthetic fixtures | 98 |
 | 2 — real applications | · |
-| 3 — CVE reproductions | · |
+| 3 — CVE reproductions | 28 |
 
 ## Difficulty
 
@@ -106,12 +111,12 @@ Weaknesses covered per language, thinnest first:
 |---|---|
 | intra-procedural | 24 |
 | inter-procedural | 2 |
-| inter-file | 76 |
-| framework-mediated | 2 |
+| inter-file | 72 |
+| framework-mediated | · |
 
 | sanitizer | cases |
 |---|---|
-| none | 51 |
+| none | 48 |
 | ineffective | 2 |
 | custom-effective | 24 |
-| framework-implicit | 27 |
+| framework-implicit | 24 |

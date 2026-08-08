@@ -1,0 +1,27 @@
+id: c-feb38ef5
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/alibaba__one-java-agent_CVE-2022-25842_0.0.1/one-java-agent-plugin/src/main/java/com/alibaba/oneagent/utils/IOUtils.java
+  start_line: 106
+  end_line: 161
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-25842 in alibaba/one-java-agent, at the buggy commit b911af2bb779917c84a016350700745dc31c642a. The dataset records the fix as touching IOUtils.unzip; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2022-25842
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

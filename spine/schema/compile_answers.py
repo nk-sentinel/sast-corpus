@@ -164,10 +164,19 @@ def file_errors(case, repo_root):
     errors = []
     repo_root = Path(repo_root)
 
+    # Tier 1 is committed, so a missing file really is a broken answer key.
+    # Tiers 2 and 3 point into checkouts fetched on demand and never committed;
+    # their absence means "not fetched", and failing on it would make the answer
+    # key uncompilable on any machine that had not cloned several gigabytes of
+    # other people's repositories. A fetched file is still range-checked, so
+    # absence is excused but being wrong is not.
+    external = case["tier"] in (2, 3)
+
     for label, loc in _labelled_locations(case):
         path = repo_root / loc["file"]
         if not path.is_file():
-            errors.append("{} references missing file {}".format(label, loc["file"]))
+            if not external:
+                errors.append("{} references missing file {}".format(label, loc["file"]))
             continue
 
         line_count = _count_lines(path)

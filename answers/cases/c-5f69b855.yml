@@ -1,0 +1,27 @@
+id: c-5f69b855
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-79
+acceptable_cwes: [CWE-79, CWE-80, CWE-83, CWE-116]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/apache__jspwiki_CVE-2019-10089_2.11.0.M4/jspwiki-main/src/main/java/org/apache/wiki/render/WysiwygEditingRenderer.java
+  start_line: 159
+  end_line: 179
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2019-10089 in apache/jspwiki, at the buggy commit 6e1dc66adf3faa22e7f1f60189611a3d8ddb0726. The dataset records the fix as touching WysiwygEditingRenderer.getString; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2019-10089
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

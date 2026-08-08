@@ -1,0 +1,27 @@
+id: c-cff4aee4
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5410_2.1.8.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/GenericResourceRepository.java
+  start_line: 53
+  end_line: 83
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-5410 in spring-cloud/spring-cloud-config, at the buggy commit 91843a9ddc7489275b679568bfce1e4c37af71e1. The dataset records the fix as touching GenericResourceRepository.findOne; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2020-5410
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

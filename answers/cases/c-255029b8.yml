@@ -1,0 +1,27 @@
+id: c-255029b8
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-94
+acceptable_cwes: [CWE-94, CWE-95, CWE-96, CWE-78, CWE-470]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/SpringSource__spring-security-oauth_CVE-2018-1260_2.3.2.RELEASE/spring-security-oauth2/src/main/java/org/springframework/security/oauth2/client/DefaultOAuth2RequestAuthenticator.java
+  start_line: 29
+  end_line: 40
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-1260 in spring-attic/spring-security-oauth, at the buggy commit 97e39dde7e88aae802be98de084a382886ca4255. The dataset records the fix as touching DefaultOAuth2RequestAuthenticator.authenticate; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2018-1260
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

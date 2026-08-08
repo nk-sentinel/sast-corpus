@@ -1,0 +1,27 @@
+id: c-501108c4
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/jenkinsci__script-security-plugin_CVE-2023-24422_1228.vd93135a_2fb_25/src/main/java/org/jenkinsci/plugins/scriptsecurity/sandbox/groovy/SandboxInterceptor.java
+  start_line: 170
+  end_line: 181
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-24422 in jenkinsci/script-security-plugin, at the buggy commit d93135a2fb250c04cc361b0bb1efd809bc63ad08. The dataset records the fix as touching SandboxInterceptor.onNewInstance; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 1 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2023-24422
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py

@@ -1,0 +1,42 @@
+id: c-2860b33f
+label: vulnerable
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/project-sources/perwendel__spark_CVE-2018-9159_2.7.1/src/main/java/spark/resource/ClassPathResource.java
+  start_line: 61
+  end_line: 63
+alt_locations:
+  - file: tier3/project-sources/perwendel__spark_CVE-2018-9159_2.7.1/src/main/java/spark/resource/ClassPathResource.java
+    start_line: 104
+    end_line: 106
+  - file: tier3/project-sources/perwendel__spark_CVE-2018-9159_2.7.1/src/main/java/spark/resource/ClassPathResource.java
+    start_line: 117
+    end_line: 125
+  - file: tier3/project-sources/perwendel__spark_CVE-2018-9159_2.7.1/src/main/java/spark/resource/ClassPathResource.java
+    start_line: 136
+    end_line: 147
+  - file: tier3/project-sources/perwendel__spark_CVE-2018-9159_2.7.1/src/main/java/spark/resource/ClassPathResource.java
+    start_line: 158
+    end_line: 169
+  - file: tier3/project-sources/perwendel__spark_CVE-2018-9159_2.7.1/src/main/java/spark/resource/ClassPathResource.java
+    start_line: 225
+    end_line: 240
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-9159 in perwendel/spark, at the buggy commit 5316c0d0f057daaf556c3907c20df975f7bf8a8a. The dataset records the fix as touching ClassPathResource.ClassPathResource; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 6 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+  cve: CVE-2018-9159
+build:
+  required: true
+  recipe: tier3/cwe-bench-java/scripts/build_one.py
