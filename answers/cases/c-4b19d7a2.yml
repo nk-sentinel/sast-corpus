@@ -30,4 +30,4 @@ evidence:
   cve: null
 build:
   required: true
-  recipe: build/java/javac-offline.sh
+  recipe: build/java/javac.sh

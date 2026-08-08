@@ -1,0 +1,36 @@
+id: c-2d7be6f0
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: spring-mvc
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/2d7be6f0/src/main/java/depot/ParcelService.java
+  start_line: 18
+  end_line: 19
+alt_locations:
+  - file: tier1/java/2d7be6f0/src/main/java/depot/ParcelController.java
+    start_line: 17
+    end_line: 18
+difficulty:
+  flow: framework-mediated
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    Deliberate trap, and a close mirror of c-9c3ade14. A @PathVariable crosses
+    into a @Service and the SQL string is still built by concatenation, so the
+    surface pattern a matcher keys on is present. But the only concatenated
+    value is a private static constant, and the user-controlled `code` is passed
+    as a bound parameter in the varargs argument to queryForObject. A tool that
+    flags string-built SQL without checking what was concatenated reports this,
+    and that is a false positive.
+  cve: null
+build:
+  required: true
+  recipe: build/java/maven.sh

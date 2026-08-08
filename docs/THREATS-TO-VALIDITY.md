@@ -55,6 +55,11 @@ reads identically to poor detection.
 them, and a scorecard for a build-required tool must state the build succeeded.
 This is why the check is load-bearing rather than hygiene.
 
+A related trap: dependencies are pinned to exact versions, so what a fixture
+compiles to does not drift. If a recipe is ever changed to resolve a range, two
+scorecards taken at different times stop being comparable — and nothing in the
+output would reveal it.
+
 ## Generated cases share a shape
 
 Template-generated fixtures are combinatorially balanced but stylistically

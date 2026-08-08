@@ -1,0 +1,38 @@
+id: c-6f1c02b8
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: spring-mvc
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/6f1c02b8/src/main/java/app/RouteRunner.java
+  start_line: 15
+  end_line: 16
+alt_locations:
+  - file: tier1/java/6f1c02b8/src/main/java/app/RouteQueries.java
+    start_line: 8
+    end_line: 9
+  - file: tier1/java/6f1c02b8/src/main/java/app/RouteController.java
+    start_line: 17
+    end_line: 18
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    Built specifically so that no single file contains both untrusted input and
+    the execution of concatenated SQL. RouteQueries does string work with no SQL
+    API in sight; RouteRunner executes a string it receives as a parameter and
+    never concatenates anything; RouteController holds the @PathVariable but
+    touches no query. Detecting this requires following the value across all
+    three, so a single-file pattern matcher cannot score it by shape alone.
+  cve: null
+build:
+  required: true
+  recipe: build/java/maven.sh

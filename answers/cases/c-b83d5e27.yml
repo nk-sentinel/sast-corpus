@@ -1,0 +1,38 @@
+id: c-b83d5e27
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: spring-mvc
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/b83d5e27/src/main/java/transit/LegRunner.java
+  start_line: 15
+  end_line: 16
+alt_locations:
+  - file: tier1/java/b83d5e27/src/main/java/transit/LegQueries.java
+    start_line: 10
+    end_line: 11
+  - file: tier1/java/b83d5e27/src/main/java/transit/LegController.java
+    start_line: 17
+    end_line: 18
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    The structural mirror of c-6f1c02b8, split across the same three roles, but
+    the query string is assembled entirely from constants and the user-controlled
+    code travels separately as a bound parameter. A tool that concludes "a
+    concatenated string reaches queryForObject somewhere in this package" without
+    checking which value was concatenated reports this, and that is a false
+    positive.
+  cve: null
+build:
+  required: true
+  recipe: build/java/maven.sh

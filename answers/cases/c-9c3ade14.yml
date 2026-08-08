@@ -1,0 +1,36 @@
+id: c-9c3ade14
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: spring-mvc
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/9c3ade14/src/main/java/app/ShipmentService.java
+  start_line: 16
+  end_line: 17
+alt_locations:
+  - file: tier1/java/9c3ade14/src/main/java/app/ShipmentController.java
+    start_line: 17
+    end_line: 18
+difficulty:
+  flow: framework-mediated
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    The taint source is a Spring MVC binding, not a call: `code` is populated by
+    the framework from the URL path via @PathVariable, so a tool has to model
+    Spring's request binding to see any input at all. It then crosses into a
+    separate @Service class and is concatenated into the SQL string passed to
+    JdbcTemplate.queryForObject. Nothing escapes or binds it. Tools that only
+    recognise explicit source calls such as request.getParameter miss this
+    entirely, which is precisely what the case is here to measure.
+  cve: null
+build:
+  required: true
+  recipe: build/java/maven.sh

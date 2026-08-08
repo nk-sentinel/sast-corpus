@@ -48,4 +48,4 @@ jobs:
           java-version: "21"
 
       - name: Compile every buildable Java fixture
-        run: ./build/java/javac-offline.sh
+        run: ./build/java/javac.sh

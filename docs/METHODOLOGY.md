@@ -48,6 +48,32 @@ measure a false-positive rate at all, and the false-positive rate is the number
 that decides whether developers trust the tool. Aim for roughly 15% of cases
 being traps, which is where published real-world benchmarks sit.
 
+**A long taint path is not the same as a hard case.** `flow` describes how far
+the value travels. It does *not* say whether detection requires following it,
+and the two come apart constantly.
+
+The first inter-file cases written here put the concatenation and the sink in
+the same method — the value had crossed two files to get there, but a single-file
+pattern matcher flagged the sink on shape alone and scored full marks. The label
+claimed a difficulty the fixture did not have.
+
+A case only discriminates when **no single file contains both the untrusted
+input and the suspicious sink pattern**. Split the roles:
+
+| File | Holds | Looks like |
+|---|---|---|
+| controller | the framework binding | no query code at all |
+| query builder | the concatenation | ordinary string work, no SQL API |
+| runner | the sink | executes a string parameter, concatenates nothing |
+
+Then write the safe sibling with the *same three roles* and the same sink
+expression, differing only in provenance. A tool that cannot tell them apart
+will either miss both or report both — and either way the corpus has learned
+something a single case could not tell it.
+
+When authoring, check the claim: run a single-file matcher and confirm it does
+not score the case for free.
+
 **Difficulty is labelled.** Every case records `flow`, `sanitizer` and
 `obfuscation`. Existing suites omit this, which makes it impossible to tell
 whether a tool handles easy cases or hard ones. With it, the output becomes
@@ -66,15 +92,25 @@ engine's own repository, never here. They are answer keys written into the code.
 Tiers 2 and 3 are vendored unchanged and cannot meet this bar; their leaks are
 reported as warnings and disclosed in the results.
 
-## Hermetic build
+## Reproducible build
 
 Build-required engines (Fortify, Coverity, Veracode) analyse compiled artifacts
 and see nothing in a fixture that does not compile — scoring zero in a way that
-is indistinguishable from poor detection.
+is indistinguishable from poor detection. So the build gate is load-bearing, not
+hygiene.
 
 - Toolchain containers pinned **by digest**, one per language
-- Dependencies resolved from the local Artifactory mirror, never the internet
+- **Every dependency pinned to an exact version.** Not for connectivity — this
+  environment has internet and resolves from Maven Central, npm and PyPI
+  directly. Pinning is about time: a corpus that resolves a range would quietly
+  change what it is testing between runs, and two scorecards taken a month apart
+  would not be comparable. Ranges and `latest` are forbidden; lockfiles are
+  committed.
 - `build/verify.sh` compiles every buildable tier in CI on each pull request
+
+Because versions are pinned rather than resolved, running this corpus inside an
+air-gapped network later is a matter of pointing the toolchains at a mirror. No
+fixture or recipe changes.
 
 ## Conducting a run
 
