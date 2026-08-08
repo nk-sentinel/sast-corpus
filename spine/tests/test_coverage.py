@@ -142,5 +142,36 @@ class Render(unittest.TestCase):
         self.assertNotIn("store.py", self.text)
 
 
+class GapsAreActuallyRendered(unittest.TestCase):
+    """The gap list is the reason the document exists. Computing it and then
+    not printing it is worse than not computing it: the report says 'None' while
+    most of the grid is empty."""
+
+    def setUp(self):
+        self.rows = [a_row(language="python", primary_cwe="CWE-89", label="vulnerable"),
+                     a_row(language="python", primary_cwe="CWE-89", label="safe")]
+        self.text = render(self.rows, languages=["python", "go"], cwes=["CWE-89", "CWE-79"])
+
+    def test_does_not_claim_full_coverage_when_cells_are_empty(self):
+        self.assertNotIn("None. Every target", self.text)
+
+    def test_reports_how_many_cells_are_uncovered(self):
+        # python/CWE-79, go/CWE-89, go/CWE-79 = 3 of 4 cells empty
+        self.assertIn("3 of 4", self.text)
+
+    def test_a_fully_covered_grid_does_say_so(self):
+        rows = [a_row(language="python", primary_cwe="CWE-89", label=l) for l in ("vulnerable", "safe")]
+
+        text = render(rows, languages=["python"], cwes=["CWE-89"])
+
+        self.assertIn("None.", text)
+
+    def test_every_named_weakness_has_a_description(self):
+        from report.coverage import CWE_NAMES, TARGET_CWES
+
+        for cwe in TARGET_CWES + ["CWE-1395"]:
+            self.assertTrue(CWE_NAMES.get(cwe), "{} has no name".format(cwe))
+
+
 if __name__ == "__main__":
     unittest.main()

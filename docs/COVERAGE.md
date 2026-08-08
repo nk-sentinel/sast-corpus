@@ -44,11 +44,27 @@ Weakness codes:
 - `CWE-798` — hard-coded credentials
 - `CWE-327` — broken crypto
 - `CWE-352` — cross-site request forgery
-- `CWE-1395` — 
+- `CWE-1395` — dependency on a vulnerable component
 
 ## Gaps
 
-None. Every target language and weakness has a vulnerable case and a safe sibling.
+**89 of 130 language-by-weakness cells are empty.** Full coverage of the grid is not the goal — CSRF has no meaning in a C program, and SQL injection none in a shell script — but an empty cell still means a tool is never tested on that combination, so it cannot pass or fail it. The languages carrying only one or two weaknesses are the ones where a result rests on the least evidence.
+
+Weaknesses covered per language, thinnest first:
+
+- `cpp` — 1
+- `swift` — 1
+- `kotlin` — 2
+- `typescript` — 2
+- `csharp` — 2
+- `c` — 2
+- `php` — 2
+- `ruby` — 2
+- `rust` — 2
+- `go` — 3
+- `javascript` — 6
+- `java` — 9
+- `python` — 9
 
 ## OWASP Top 10 (2021)
 

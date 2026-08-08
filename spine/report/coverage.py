@@ -57,6 +57,7 @@ CWE_NAMES = {
     "CWE-798": "hard-coded credentials",
     "CWE-918": "server-side request forgery",
     "CWE-94": "code injection",
+    "CWE-1395": "dependency on a vulnerable component",
 }
 
 OWASP_NAMES = {
@@ -198,6 +199,27 @@ def render(rows, languages=None, cwes=None):
             "",
         ]
 
+    total_cells = len(languages) * len(cwes)
+    if hole["missing"]:
+        out += [
+            "**{} of {} language-by-weakness cells are empty.** Full coverage of "
+            "the grid is not the goal — CSRF has no meaning in a C program, and "
+            "SQL injection none in a shell script — but an empty cell still means "
+            "a tool is never tested on that combination, so it cannot pass or "
+            "fail it. The languages carrying only one or two weaknesses are the "
+            "ones where a result rests on the least evidence.".format(
+                len(hole["missing"]), total_cells),
+            "",
+        ]
+        thin = sorted(
+            ((lang, len({c for l, c in grid if l == lang})) for lang in languages
+             if summary["by_language"].get(lang)),
+            key=lambda pair: pair[1],
+        )
+        out += ["Weaknesses covered per language, thinnest first:", ""]
+        out += ["- `{}` — {}".format(lang, count) for lang, count in thin]
+        out.append("")
+
     uncovered = [c for c in cwes if not any((lang, c) in grid for lang in languages)]
     if uncovered:
         out += [
@@ -220,7 +242,7 @@ def render(rows, languages=None, cwes=None):
         out += ["- {} / `{}`".format(lang, cwe) for lang, cwe in hole["no_positive"]]
         out.append("")
 
-    if not (absent_languages or uncovered or hole["untrapped"] or hole["no_positive"]):
+    if not (absent_languages or uncovered or hole["missing"] or hole["untrapped"] or hole["no_positive"]):
         out += ["None. Every target language and weakness has a vulnerable case "
                 "and a safe sibling.", ""]
 
