@@ -1,0 +1,27 @@
+id: c-919c959f
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-611
+acceptable_cwes: [CWE-611, CWE-827, CWE-776]
+owasp_2021: A05
+severity: high
+location:
+  file: tier1/python/919c959f/parser.py
+  start_line: 6
+  end_line: 6
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    entity resolution, DTD loading and network access are all disabled before parsing
+  cve: null
+build:
+  required: false
+  recipe: null

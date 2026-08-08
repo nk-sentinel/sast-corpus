@@ -299,3 +299,32 @@ class LeakDetail(LintCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CorpusMetadataIsNotFixtureCode(LintCase):
+    """A tier's own manifest describes what is in it, so it names weaknesses by
+    design. Reporting it as a leak buries the real disclosed leaks from vendored
+    code underneath noise on every run."""
+
+    def test_a_tier_manifest_is_not_scanned(self):
+        self.write("tier2/sources.json",
+                   '{"description": "vulnerable applications", "sources": []}')
+
+        errors, warnings = self.scan()
+
+        self.assertEqual(errors, [])
+        self.assertEqual(warnings, [])
+
+    def test_a_readme_at_the_tier_root_is_not_scanned(self):
+        self.write("tier3/README.md", "These reproduce real injection CVEs.\n")
+
+        errors, warnings = self.scan()
+
+        self.assertEqual(warnings, [])
+
+    def test_vendored_code_below_a_tier_is_still_scanned(self):
+        self.write("tier2/webgoat/SqlInjectionLesson5.java", "// CWE-89\nclass X {}\n")
+
+        _errors, warnings = self.scan()
+
+        self.assertTrue(warnings)

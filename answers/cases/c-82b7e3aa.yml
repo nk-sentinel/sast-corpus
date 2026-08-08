@@ -1,0 +1,27 @@
+id: c-82b7e3aa
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-327
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/java/82b7e3aa/Sealer.java
+  start_line: 8
+  end_line: 8
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a 56-bit key is brute-forceable and ECB leaks plaintext structure by encrypting equal blocks identically
+  cve: null
+build:
+  required: false
+  recipe: null

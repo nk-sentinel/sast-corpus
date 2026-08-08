@@ -1,0 +1,33 @@
+id: c-34e2571f
+label: vulnerable
+plane: sca
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-1395
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: high
+location:
+  file: tier1/javascript/34e2571f/package.json
+  start_line: 5
+  end_line: 5
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    lodash 4.17.15 is affected by CVE-2020-8203 prototype pollution and is a runtime dependency
+  cve: null
+sca:
+  purl: pkg:npm/lodash@4.17.15
+  cve: CVE-2020-8203
+  transitive: false
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

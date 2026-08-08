@@ -47,6 +47,9 @@ class Variant:
     source_match: str = None
     flow: str = None
     obfuscation: str = None
+    # Plane-specific ground truth: the `secret` or `sca` block for this case.
+    # The vuln plane needs none, and emitting an empty one would fail the schema.
+    extra_ground_truth: dict = None
 
 
 @dataclass
@@ -61,6 +64,7 @@ class Template:
     flow: str
     obfuscation: str
     variants: dict
+    plane: str = "vuln"
     framework: str = None
     build_required: bool = False
     build_recipe: str = None
@@ -122,10 +126,10 @@ def _emit_variant(template, name, variant, root):
             "end_line": source_end,
         })
 
-    return {
+    case = {
         "id": identifier,
         "label": variant.label,
-        "plane": "vuln",
+        "plane": template.plane,
         "tier": 1,
         "language": template.language,
         "framework": template.framework,
@@ -154,6 +158,11 @@ def _emit_variant(template, name, variant, root):
             "recipe": template.build_recipe,
         },
     }
+
+    if variant.extra_ground_truth and template.plane in ("secret", "sca"):
+        case[template.plane] = dict(variant.extra_ground_truth)
+
+    return case
 
 
 def write_case_files(cases, root):
@@ -212,6 +221,23 @@ def _render_yaml(case):
         "  rationale: >-",
         "    {}".format(case["evidence"]["rationale"]),
         "  cve: null",
+    ]
+
+    for plane in ("secret", "sca"):
+        block = case.get(plane)
+        if not block:
+            continue
+        lines.append("{}:".format(plane))
+        for key, value in block.items():
+            if value is None:
+                rendered = "null"
+            elif isinstance(value, bool):
+                rendered = "true" if value else "false"
+            else:
+                rendered = str(value)
+            lines.append("  {}: {}".format(key, rendered))
+
+    lines += [
         "build:",
         "  required: {}".format("true" if case["build"]["required"] else "false"),
         "  recipe: {}".format(case["build"]["recipe"] or "null"),

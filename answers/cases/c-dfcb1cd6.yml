@@ -1,0 +1,27 @@
+id: c-dfcb1cd6
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-327
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/java/dfcb1cd6/Sealer.java
+  start_line: 12
+  end_line: 12
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    AES-GCM with a fresh random nonce gives both confidentiality and integrity
+  cve: null
+build:
+  required: false
+  recipe: null

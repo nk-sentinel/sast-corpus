@@ -24,3 +24,9 @@ node_modules/
 *.swp
 .idea/
 .vscode/
+
+# External corpora are fetched at pinned revisions, never vendored.
+# spine/corpora/fetch.py <corpus> clones them.
+/tier2/*/
+/tier3/*/
+/perf/*/

@@ -8,29 +8,29 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 82 |
-| False-positive traps | 40 (49%) |
+| Cases | 104 |
+| False-positive traps | 51 (49%) |
 | Languages covered | 13 of 13 |
-| Target weaknesses covered | 6 of 10 |
+| Target weaknesses covered | 10 of 10 |
 | Visible to build-required engines | 12 |
 
 ## Language × weakness
 
-| language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 |
-|---|---|---|---|---|---|---|
-| java | 3/3 | 1/1 | · | 1/1 | 1/1 | · |
-| kotlin | 1/1 | 1/1 | · | · | · | · |
-| python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 |
-| javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 |
-| typescript | 1/1 | 1/1 | · | · | · | · |
-| go | 1/1 | 1/1 | · | 1/1 | · | · |
-| csharp | 1/1 | 1/1 | · | · | · | · |
-| c | · | 1/1 | · | 1/1 | · | · |
-| cpp | · | 1/1 | · | · | · | · |
-| swift | · | 1/1 | · | · | · | · |
-| php | 1/1 | 1/1 | · | · | · | · |
-| ruby | 1/1 | 1/1 | · | · | · | · |
-| rust | · | 1/1 | · | 1/1 | · | · |
+| language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-1395 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| java | 3/3 | 1/1 | · | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 |
+| kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
+| python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 3/3 | 1/1 | · | · |
+| javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | 1/1 |
+| typescript | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
+| go | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · |
+| csharp | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
+| c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · |
+| cpp | · | 1/1 | · | · | · | · | · | · | · | · | · |
+| swift | · | 1/1 | · | · | · | · | · | · | · | · | · |
+| php | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
+| ruby | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · |
+| rust | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · |
 
 Weakness codes:
 
@@ -40,22 +40,27 @@ Weakness codes:
 - `CWE-22` — path traversal
 - `CWE-502` — unsafe deserialisation
 - `CWE-918` — server-side request forgery
+- `CWE-611` — XML external entity
+- `CWE-798` — hard-coded credentials
+- `CWE-327` — broken crypto
+- `CWE-352` — cross-site request forgery
+- `CWE-1395` — 
 
 ## Gaps
 
-**No cases in any language:** `CWE-611` (XML external entity), `CWE-798` (hard-coded credentials), `CWE-327` (broken crypto), `CWE-352` (cross-site request forgery)
+None. Every target language and weakness has a vulnerable case and a safe sibling.
 
 ## OWASP Top 10 (2021)
 
 | category | cases |
 |---|---|
-| A01 Broken Access Control | 15 |
-| A02 Cryptographic Failures | · |
+| A01 Broken Access Control | 17 |
+| A02 Cryptographic Failures | 4 |
 | A03 Injection | 59 |
 | A04 Insecure Design | · |
-| A05 Security Misconfiguration | · |
-| A06 Vulnerable Components | · |
-| A07 Identification and Authentication Failures | · |
+| A05 Security Misconfiguration | 4 |
+| A06 Vulnerable Components | 4 |
+| A07 Identification and Authentication Failures | 8 |
 | A08 Software and Data Integrity Failures | 4 |
 | A09 Logging and Monitoring Failures | · |
 | A10 Server-Side Request Forgery | 4 |
@@ -64,9 +69,9 @@ Weakness codes:
 
 | plane | cases |
 |---|---|
-| vuln | 82 |
-| secret | · |
-| sca | · |
+| vuln | 96 |
+| secret | 4 |
+| sca | 4 |
 | crypto | · |
 
 `crypto` is delegated to the `CipherRadarTestProj` submodule and is not counted here.
@@ -75,7 +80,7 @@ Weakness codes:
 
 | tier | cases |
 |---|---|
-| 1 — synthetic fixtures | 82 |
+| 1 — synthetic fixtures | 104 |
 | 2 — real applications | · |
 | 3 — CVE reproductions | · |
 
@@ -83,14 +88,14 @@ Weakness codes:
 
 | taint path | cases |
 |---|---|
-| intra-procedural | 2 |
+| intra-procedural | 24 |
 | inter-procedural | 2 |
 | inter-file | 76 |
 | framework-mediated | 2 |
 
 | sanitizer | cases |
 |---|---|
-| none | 40 |
+| none | 51 |
 | ineffective | 2 |
-| custom-effective | 14 |
-| framework-implicit | 26 |
+| custom-effective | 24 |
+| framework-implicit | 27 |

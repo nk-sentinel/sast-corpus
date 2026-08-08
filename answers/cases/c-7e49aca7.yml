@@ -1,0 +1,27 @@
+id: c-7e49aca7
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-611
+acceptable_cwes: [CWE-611, CWE-827, CWE-776]
+owasp_2021: A05
+severity: high
+location:
+  file: tier1/java/7e49aca7/Parser.java
+  start_line: 15
+  end_line: 15
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the DOCTYPE declaration is refused outright and external DTD access is blanked
+  cve: null
+build:
+  required: false
+  recipe: null

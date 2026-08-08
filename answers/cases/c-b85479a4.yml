@@ -1,0 +1,33 @@
+id: c-b85479a4
+label: safe
+plane: sca
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-1395
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: high
+location:
+  file: tier1/javascript/b85479a4/package.json
+  start_line: 5
+  end_line: 5
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the runtime dependency is patched; the one advisory left applies to a devDependency that never ships, which a tool reporting every advisory regardless of scope will flag anyway
+  cve: null
+sca:
+  purl: pkg:npm/lodash@4.17.21
+  cve: null
+  transitive: false
+  reachable: true
+  scope: dev
+build:
+  required: false
+  recipe: null

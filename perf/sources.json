@@ -1,0 +1,56 @@
+{
+  "corpus": "perf",
+  "description": "Real repositories used only for scan-time measurement. Never accuracy-scored: they carry no ground truth, and timing the accuracy fixtures would measure a few thousand lines and say nothing about a production repository.",
+  "buckets": "Chosen to straddle the thresholds the service levels care about: under 3 minutes at 50-200k LOC, under 10 minutes past 500k.",
+  "sources": [
+    {
+      "name": "commons-cli",
+      "repo": "https://github.com/apache/commons-cli.git",
+      "sha": "f8f1a28bc190388fbc1a22ac8a84e04c7b91a737",
+      "license": "Apache-2.0",
+      "languages": [
+        "java"
+      ],
+      "bucket": "10k",
+      "approx_loc": 15716,
+      "notes": "Smallest bucket: establishes fixed overhead \u2014 process start, rule compilation \u2014 that a large-repo number hides.",
+      "loc_measured_by": "codeprint totals.code at the pinned revision"
+    },
+    {
+      "name": "commons-lang",
+      "repo": "https://github.com/apache/commons-lang.git",
+      "sha": "9d1f110190081801754a8a0b447693ad2407a502",
+      "license": "Apache-2.0",
+      "languages": [
+        "java"
+      ],
+      "bucket": "50k",
+      "approx_loc": null,
+      "notes": "Lower edge of the pull-request gate service level."
+    },
+    {
+      "name": "spring-boot",
+      "repo": "https://github.com/spring-projects/spring-boot.git",
+      "sha": "12cb2e8a3ecf33ca9729d86830af8125731c59a2",
+      "license": "Apache-2.0",
+      "languages": [
+        "java"
+      ],
+      "bucket": "200k",
+      "approx_loc": null,
+      "notes": "Upper edge of the pull-request gate, and a realistic Spring dependency graph."
+    },
+    {
+      "name": "hadoop",
+      "repo": "https://github.com/apache/hadoop.git",
+      "sha": "dccedc252716e9d4b046e79cae7b5187104c25ac",
+      "license": "Apache-2.0",
+      "languages": [
+        "java"
+      ],
+      "bucket": "500k+",
+      "approx_loc": null,
+      "notes": "Past the large-repository threshold; the case where chunked or parallel scanning has to earn its place."
+    }
+  ]
+}

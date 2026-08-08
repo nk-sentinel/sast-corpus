@@ -1,0 +1,27 @@
+id: c-a2538165
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-327
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/python/a2538165/tokens.py
+  start_line: 5
+  end_line: 5
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    SHA-256 has no known collision attack and is the appropriate replacement here
+  cve: null
+build:
+  required: false
+  recipe: null

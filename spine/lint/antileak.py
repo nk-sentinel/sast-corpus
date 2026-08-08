@@ -121,6 +121,14 @@ def _scan_tier(root, tier, strict):
     for path in sorted(tier_root.rglob("*")):
         if not path.is_file():
             continue
+
+        # A tier's own metadata — its source manifest, its README — describes
+        # what the tier contains and so names weaknesses by design. Reporting it
+        # would bury the genuine disclosed leaks from vendored code under noise
+        # on every single run.
+        if path.parent == tier_root:
+            continue
+
         relative = path.relative_to(root).as_posix()
 
         leaks.extend(_scan_path(relative, path.name))

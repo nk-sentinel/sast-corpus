@@ -1,0 +1,23 @@
+{
+  "corpus": "tier3",
+  "description": "Real CVEs in real projects, with the fix commit known. The hardest and most representative tier: these are flaws that shipped and were exploited, not flaws written to be found.",
+  "ground_truth_status": "not yet authored — see docs/EXTERNAL-CORPORA.md",
+  "sources": [
+    {
+      "name": "vul4j",
+      "repo": "https://github.com/tuhh-softsec/vul4j.git",
+      "sha": "376411da11fa705019f731404de1d0679fe73537",
+      "license": "GPL-3.0",
+      "languages": ["java"],
+      "notes": "79 reproducible Java CVEs across 51 projects and 25 CWEs, each with a proof-of-vulnerability test. The PoV is what makes the label checkable rather than asserted."
+    },
+    {
+      "name": "cwe-bench-java",
+      "repo": "https://github.com/iris-sast/cwe-bench-java.git",
+      "sha": "afe0ebd0adc237abb46255f9cd479b1d71819136",
+      "license": "MIT",
+      "languages": ["java"],
+      "notes": "120 manually vetted CVEs over path traversal, command injection, XSS and code injection. Ships machine-readable metadata, so ground truth can be derived rather than hand-transcribed."
+    }
+  ]
+}

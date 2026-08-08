@@ -48,15 +48,25 @@ scorecard, which looks exactly like a tool having nothing to find.
 spine/           language-agnostic machinery — schema, scorer, adapters, lint, timing, generator
 answers/         ground truth: cases/*.yml (authoring) → expectedresults-<version>.csv (scoring)
 tier1/           synthetic micro-fixtures, generated + hand-authored
-tier2/           real open-source vulnerable applications (pinned submodules)
-tier3/           real CVE reproductions
-perf/            large real repositories, LOC-bucketed, for scan-time measurement only
+tier2/           real vulnerable applications — pinned manifest, fetched on demand
+tier3/           real CVE reproductions — pinned manifest, fetched on demand
+perf/            LOC-bucketed repositories for scan-time measurement only
 build/           hermetic build recipes + pinned toolchains
-docs/            COVERAGE · MATCH-POLICY · METHODOLOGY · THREATS-TO-VALIDITY · VALIDATION
+docs/            COVERAGE · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
 ```
 
 Directory and file names under `tier*/` carry no semantic content. Navigate via
 `answers/`, not the tree.
+
+## Fetching the external corpora
+
+```bash
+python3 spine/corpora/fetch.py tier2   # also: tier3, perf
+```
+
+Pinned to full commit SHAs rather than vendored. Tier 2 and tier 3 ground
+truth is **not yet authored** — every accuracy number today comes from tier-1
+synthetic fixtures. See [docs/EXTERNAL-CORPORA.md](docs/EXTERNAL-CORPORA.md).
 
 ## Scoring a tool
 

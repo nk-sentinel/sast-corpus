@@ -192,3 +192,53 @@ class Emit(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Planes(unittest.TestCase):
+    """The secret and SCA planes carry ground truth the vuln plane has no field
+    for. A generator that can only emit `plane: vuln` cannot express them."""
+
+    def setUp(self):
+        self.root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.root)
+
+    def emit_one(self, **template_kwargs):
+        base = replace(TEMPLATE, **template_kwargs)
+        return emit(base, self.root)[0]
+
+    def test_a_template_declares_its_plane(self):
+        case = self.emit_one(plane="secret")
+
+        self.assertEqual(case["plane"], "secret")
+
+    def test_the_plane_defaults_to_vuln(self):
+        self.assertEqual(emit(TEMPLATE, self.root)[0]["plane"], "vuln")
+
+    def test_a_secret_case_carries_its_secret_block(self):
+        case = self.emit_one(
+            plane="secret",
+            variants={"vulnerable": replace(
+                TEMPLATE.variants["vulnerable"],
+                extra_ground_truth={"kind": "aws-access-key", "live_validatable": False},
+            )},
+        )
+
+        self.assertEqual(case["secret"]["kind"], "aws-access-key")
+
+    def test_an_sca_case_carries_its_purl(self):
+        case = self.emit_one(
+            plane="sca",
+            variants={"vulnerable": replace(
+                TEMPLATE.variants["vulnerable"],
+                extra_ground_truth={"purl": "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1",
+                                    "cve": "CVE-2021-44228", "scope": "runtime"},
+            )},
+        )
+
+        self.assertEqual(case["sca"]["cve"], "CVE-2021-44228")
+
+    def test_a_vuln_case_carries_no_plane_specific_block(self):
+        case = emit(TEMPLATE, self.root)[0]
+
+        self.assertNotIn("secret", case)
+        self.assertNotIn("sca", case)

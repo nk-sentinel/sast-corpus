@@ -1,0 +1,33 @@
+id: c-29b14927
+label: vulnerable
+plane: sca
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-1395
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: critical
+location:
+  file: tier1/java/29b14927/pom.xml
+  start_line: 10
+  end_line: 10
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    log4j-core 2.14.1 is affected by CVE-2021-44228 and reachable at runtime scope
+  cve: null
+sca:
+  purl: pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1
+  cve: CVE-2021-44228
+  transitive: false
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

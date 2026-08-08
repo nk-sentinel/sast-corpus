@@ -1,0 +1,33 @@
+id: c-59c92a04
+label: safe
+plane: sca
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-1395
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: critical
+location:
+  file: tier1/java/59c92a04/pom.xml
+  start_line: 10
+  end_line: 10
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the same component pinned to a release long past every advisory affecting it
+  cve: null
+sca:
+  purl: pkg:maven/org.apache.logging.log4j/log4j-core@2.24.3
+  cve: null
+  transitive: false
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

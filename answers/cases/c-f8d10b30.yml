@@ -1,0 +1,27 @@
+id: c-f8d10b30
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: spring-security
+primary_cwe: CWE-352
+acceptable_cwes: [CWE-352]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/f8d10b30/WebConfig.java
+  start_line: 13
+  end_line: 13
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the token repository is configured rather than disabled, so state-changing requests must carry a token
+  cve: null
+build:
+  required: false
+  recipe: null

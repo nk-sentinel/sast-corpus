@@ -29,6 +29,13 @@ while IFS= read -r pom; do
     fixture="$(dirname "${pom}")"
     rel="${fixture#"${ROOT}/"}"
 
+    # An SCA fixture is a manifest, not a project: it declares dependencies so a
+    # composition scanner has something to read, and has no sources to compile.
+    if [ -z "$(find "${fixture}" -name '*.java' -type f -print -quit)" ]; then
+        echo "skip  ${rel} (dependency manifest, no sources to compile)"
+        continue
+    fi
+
     if ! check_pinned "${pom}"; then
         FAILURES=$((FAILURES + 1))
         continue

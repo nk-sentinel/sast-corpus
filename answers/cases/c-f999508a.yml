@@ -1,0 +1,27 @@
+id: c-f999508a
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: spring-security
+primary_cwe: CWE-352
+acceptable_cwes: [CWE-352]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/f999508a/WebConfig.java
+  start_line: 12
+  end_line: 12
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    turning the filter off lets any origin submit an authenticated state-changing request on a user's behalf
+  cve: null
+build:
+  required: false
+  recipe: null

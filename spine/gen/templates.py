@@ -599,5 +599,6 @@ ALL = ALL + GO + CSHARP + PHP + RUBY
 
 from gen.templates_depth import DEPTH_ALL  # noqa: E402
 from gen.templates_more import MORE_ALL  # noqa: E402
+from gen.templates_planes import PLANES_ALL  # noqa: E402
 
-ALL = ALL + DEPTH_ALL + MORE_ALL
+ALL = ALL + DEPTH_ALL + MORE_ALL + PLANES_ALL

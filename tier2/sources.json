@@ -1,0 +1,48 @@
+{
+  "corpus": "tier2",
+  "description": "Real open-source applications with genuine, exploitable weaknesses. Fetched at a pinned revision rather than vendored: these trees are collectively larger than the whole of this repository, and they are code we did not write and must not edit.",
+  "ground_truth_status": "not yet authored — see docs/EXTERNAL-CORPORA.md",
+  "sources": [
+    {
+      "name": "webgoat",
+      "repo": "https://github.com/WebGoat/WebGoat.git",
+      "sha": "4027fe23e8af93aa0fec751ba57c5e2ebb8258d0",
+      "license": "VERIFY-BEFORE-USE",
+      "license_note": "GitHub reports NOASSERTION; read LICENSE.txt in the checkout and record the result here before any use that redistributes or publishes from it",
+      "languages": ["java"],
+      "notes": "Spring MVC, JDBC and JPA idioms. The reason to include it: Spring data binding and ORM-level injection are where Java tools separate."
+    },
+    {
+      "name": "dvja",
+      "repo": "https://github.com/appsecco/dvja.git",
+      "sha": "597ece1ab79ffffea7289d49b0c443bb2ebcbd16",
+      "license": "MIT",
+      "languages": ["java"],
+      "notes": "Smaller Java target than WebGoat; useful as a second Java opinion."
+    },
+    {
+      "name": "nodegoat",
+      "repo": "https://github.com/OWASP/NodeGoat.git",
+      "sha": "c5cb68a7084e4ae7dcc60e6a98768720a81841e8",
+      "license": "Apache-2.0",
+      "languages": ["javascript"],
+      "notes": "Express and Mongo idioms."
+    },
+    {
+      "name": "pygoat",
+      "repo": "https://github.com/adeyosemanputra/pygoat.git",
+      "sha": "19d17cc8874861142b330636d068bbde54e86b85",
+      "license": "MIT",
+      "languages": ["python"],
+      "notes": "Django. Cross-checkable against the published RealVuln labelling, which covers PyGoat."
+    },
+    {
+      "name": "juice-shop",
+      "repo": "https://github.com/juice-shop/juice-shop.git",
+      "sha": "a520e158cb65c43d24e2c55d84f09b05a2511a03",
+      "license": "MIT",
+      "languages": ["typescript", "javascript"],
+      "notes": "TypeScript and Angular; the only realistic TypeScript target in this set."
+    }
+  ]
+}

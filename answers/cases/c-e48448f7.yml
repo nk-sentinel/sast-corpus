@@ -1,0 +1,27 @@
+id: c-e48448f7
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-798
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/java/e48448f7/Settings.java
+  start_line: 5
+  end_line: 5
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the password is a compiled-in constant, so it is recoverable from the artifact as well as the repository
+  cve: null
+build:
+  required: false
+  recipe: null

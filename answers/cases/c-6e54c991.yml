@@ -1,0 +1,27 @@
+id: c-6e54c991
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-327
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/python/6e54c991/tokens.py
+  start_line: 5
+  end_line: 5
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    MD5 has practical collision attacks, so a fingerprint built on it no longer distinguishes two inputs
+  cve: null
+build:
+  required: false
+  recipe: null
