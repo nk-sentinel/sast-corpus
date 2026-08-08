@@ -33,6 +33,15 @@ matrix, and an empty ruleset scores 0 TP / 0 FP with every case still accounted
 for. See [docs/VALIDATION.md](docs/VALIDATION.md) — including what that does
 *not* establish.
 
+## What does it cover?
+
+[docs/COVERAGE.md](docs/COVERAGE.md) — the language x weakness matrix, OWASP
+and CWE rollups, and an explicit list of what is **not** covered. Generated
+from the answer key and checked in CI, so it cannot drift.
+
+Read the gaps first. A language with no cases contributes nothing to a
+scorecard, which looks exactly like a tool having nothing to find.
+
 ## Layout
 
 ```
@@ -43,7 +52,7 @@ tier2/           real open-source vulnerable applications (pinned submodules)
 tier3/           real CVE reproductions
 perf/            large real repositories, LOC-bucketed, for scan-time measurement only
 build/           hermetic build recipes + pinned toolchains
-docs/            MATCH-POLICY · METHODOLOGY · THREATS-TO-VALIDITY
+docs/            COVERAGE · MATCH-POLICY · METHODOLOGY · THREATS-TO-VALIDITY · VALIDATION
 ```
 
 Directory and file names under `tier*/` carry no semantic content. Navigate via

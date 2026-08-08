@@ -28,6 +28,11 @@ jobs:
         # meaningless. Vendored tiers are reported, not failed.
         run: python3 spine/lint/antileak.py
 
+      - name: Coverage doc is current
+        # A stale coverage table claims a language is covered when nothing tests
+        # it, so a tool with no support for it sails through.
+        run: python3 spine/report/coverage.py --check
+
       - name: Answer key is current
         # A stale answer key scores tools against ground truth nobody reviewed.
         run: |

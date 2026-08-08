@@ -138,6 +138,29 @@ thresholds the NFRs care about.
 - A host whose repeated runs vary by more than 10% relative standard deviation is
   too noisy to publish from
 
+## The reference scanner is an instrument, not a subject
+
+A scanner is run against this corpus during development for one reason: to test
+the corpus. Its scores are instrument readings. They are not an evaluation of
+that tool and must never be quoted as one — one community ruleset on tier-1
+synthetic fixtures is the most favourable and least representative measurement
+available.
+
+Running one is not optional, though. Without it there is no way to know whether
+a fixture is detectable at all, whether the answer key's line numbers point at
+the right place, or whether a trap is a fair trap rather than an impossible one.
+Two real defects were found exactly this way:
+
+- A stock ruleset scored 1.000 recall and 1.000 precision on fixtures labelled
+  `inter-file` and `framework-mediated`, which proved the labels were wrong: the
+  concatenation and the sink shared a method, so a single-file matcher scored
+  them for free.
+- The same ruleset's findings landed in `unmatched` on three languages because
+  its CWE tagging was outside the `acceptable_cwes` those cases declared. The
+  scorecard read as missing tool coverage; it was a defect in the ground truth.
+
+Neither is visible from reading the fixtures.
+
 ## Controls
 
 Two checks prove the harness is measuring rather than fabricating:
