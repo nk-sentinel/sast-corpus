@@ -1,0 +1,30 @@
+id: c-42daa598
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: express
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/42daa598/runner.js
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/javascript/42daa598/route.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    exec hands the assembled string to a shell, so a semicolon in the route parameter starts a second command
+  cve: null
+build:
+  required: false
+  recipe: null

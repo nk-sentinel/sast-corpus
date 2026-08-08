@@ -1,0 +1,30 @@
+id: c-662bf3c7
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-918
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/python/662bf3c7/fetcher.py
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/python/662bf3c7/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the request value becomes the whole URL, so the server can be aimed at internal addresses
+  cve: null
+build:
+  required: false
+  recipe: null

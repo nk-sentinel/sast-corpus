@@ -22,36 +22,52 @@ DISCLOSED_TIERS = ("tier2", "tier3")
 
 CWE_PATTERN = re.compile(r"\bcwe[-_ ]?\d+\b", re.IGNORECASE)
 
-# Words that name the answer. Deliberately excludes 'source', 'sink' and 'taint'
-# in content: as identifiers they appear constantly in innocent code
-# (DataSource, EventSink), and flagging them would train people to ignore this
-# lint. They remain forbidden in paths, where they are always deliberate.
-CONTENT_HINTS = (
+# Matched anywhere, even inside a longer word: no innocent identifier contains
+# these.
+UNAMBIGUOUS_HINTS = (
     "vuln", "vulnerable", "insecure", "unsafe", "exploit", "malicious",
-    "sqli", "xss", "injection", "traversal", "benign", "goodcode", "badcode",
+    "xss", "traversal", "benign", "goodcode", "badcode",
     "badsink", "goodsink", "badsource", "goodsource",
 )
 
-# Matched anywhere, even inside a longer word: no innocent identifier contains
-# these. `SqliDemoRunner` is caught by `sqli`.
-UNAMBIGUOUS_HINTS = CONTENT_HINTS
+# Matched only as whole tokens, in content and in paths alike. `sqli` is a real
+# giveaway but it is also a substring of `sqlite` and `mysqli`, and patching
+# library names one at a time is whack-a-mole. Tokenising handles all of them at
+# once: `mysqli_query` yields the token `mysqli`, while `runSqliCheck` yields
+# `sqli`.
+CONTENT_TOKEN_HINTS = frozenset({"sqli", "injection"})
 
-# Matched only as whole tokens. `source` inside `resources` is Maven's standard
-# layout, and build-required engines cannot scan a fixture that will not compile;
-# a lint that rejects src/main/resources/ is a lint people turn off.
-AMBIGUOUS_HINTS = frozenset({"safe", "attack", "source", "sink", "taint", "payload"})
+# Additionally forbidden in paths. As identifiers these appear constantly in
+# innocent code — DataSource, EventSink, sourceFile — so flagging them in
+# content would train people to ignore the lint. In a filename they are always
+# deliberate. `source` inside `resources` is Maven's standard layout, and a lint
+# that rejects src/main/resources/ is a lint people turn off.
+PATH_TOKEN_HINTS = CONTENT_TOKEN_HINTS | {
+    "safe", "attack", "source", "sink", "taint", "payload",
+}
 
-HINT_IN_CONTENT = re.compile(r"\b\w*(?:{})\w*\b".format("|".join(CONTENT_HINTS)), re.IGNORECASE)
 UNAMBIGUOUS_PATTERN = re.compile("|".join(UNAMBIGUOUS_HINTS), re.IGNORECASE)
 TOKEN_SPLIT = re.compile(r"[^A-Za-z0-9]+|(?<=[a-z0-9])(?=[A-Z])")
+
+
+def _tokens(text):
+    return {token.lower() for token in TOKEN_SPLIT.split(text) if token}
 
 
 def path_hints(text):
     """Giveaway words in a path fragment, tokenising camelCase and separators."""
     if UNAMBIGUOUS_PATTERN.search(text):
         return True
-    tokens = {token.lower() for token in TOKEN_SPLIT.split(text) if token}
-    return bool(tokens & AMBIGUOUS_HINTS)
+    return bool(_tokens(text) & PATH_TOKEN_HINTS)
+
+
+def content_hints(line):
+    """Giveaway words in a line of source."""
+    if UNAMBIGUOUS_PATTERN.search(line):
+        return True
+    return bool(_tokens(line) & CONTENT_TOKEN_HINTS)
+
+
 RULE_ANNOTATION = re.compile(r"\b(?:todoruleid|todook|ruleid|ok)\s*:", re.IGNORECASE)
 ANSWER_KEY_NAME = re.compile(r"expectedresults.*\.csv$|^c-[0-9a-f]{8}\.ya?ml$", re.IGNORECASE)
 
@@ -147,7 +163,7 @@ def _scan_content(relative, suffix, text, strict):
             leaks.append(Leak(relative, number, "rule-annotation",
                               "rule unit-test annotations belong in the engine's own tests"))
 
-        if HINT_IN_CONTENT.search(line):
+        if content_hints(line):
             leaks.append(Leak(relative, number, "hint-in-content", line.strip()[:90]))
 
         if strict and _comment_start(line, suffix) is not None:

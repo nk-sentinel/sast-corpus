@@ -1,0 +1,30 @@
+id: c-e40f0272
+label: safe
+plane: vuln
+tier: 1
+language: ruby
+framework: rails
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/ruby/e40f0272/store.rb
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/ruby/e40f0272/handler.rb
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is passed as a bound parameter, so the statement text never contains it
+  cve: null
+build:
+  required: false
+  recipe: null

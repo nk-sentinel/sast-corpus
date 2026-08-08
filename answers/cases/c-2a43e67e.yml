@@ -1,0 +1,30 @@
+id: c-2a43e67e
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: express
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/javascript/2a43e67e/reader.js
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/javascript/2a43e67e/route.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    path.join resolves .. segments in the route parameter, so the read escapes the base directory
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,30 @@
+id: c-90408c37
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: express
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/javascript/90408c37/reader.js
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/javascript/90408c37/route.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    basename removes any directory part and the resolved path is confirmed to stay under the base
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -191,6 +191,45 @@ class AmbiguousWordsMatchWholeTokensOnly(LintCase):
 
         self.assertIn("hint-in-path", self.kinds(errors))
 
+    def test_the_sqlite_library_is_not_mistaken_for_a_giveaway(self):
+        """`sqlite3` contains `sqli`. Flagging it would make every fixture that
+        uses the stdlib database module unusable."""
+        self.write("tier1/python/a7f3e91b/store.py", "import sqlite3\n\nx = sqlite3.connect('a.db')\n")
+
+        errors, _ = self.scan()
+
+        self.assertEqual(errors, [])
+
+    def test_a_sqlite_filename_is_not_a_giveaway_either(self):
+        self.write("tier1/python/a7f3e91b/sqlite_store.py", "x = 1\n")
+
+        errors, _ = self.scan()
+
+        self.assertEqual(errors, [])
+
+    def test_the_mysqli_extension_is_not_mistaken_for_a_giveaway(self):
+        """`mysqli` contains `sqli` too. Patching one library name at a time is
+        whack-a-mole; the word has to be matched as a token."""
+        self.write("tier1/php/a7f3e91b/store.php", "<?php\n\n$r = mysqli_query($link, $statement);\n")
+
+        errors, _ = self.scan()
+
+        self.assertEqual(errors, [])
+
+    def test_a_giveaway_token_inside_an_identifier_is_still_caught(self):
+        self.write("tier1/python/a7f3e91b/store.py", "def sqli_demo():\n    pass\n")
+
+        errors, _ = self.scan()
+
+        self.assertIn("hint-in-content", self.kinds(errors))
+
+    def test_a_camel_case_giveaway_token_is_still_caught(self):
+        self.write("tier1/java/a7f3e91b/A.java", "class A { void runSqliCheck() {} }\n")
+
+        errors, _ = self.scan()
+
+        self.assertIn("hint-in-content", self.kinds(errors))
+
 
 class Tier2And3AreDisclosedNotFailed(LintCase):
     """Real applications cannot be edited to remove their own hints. WebGoat

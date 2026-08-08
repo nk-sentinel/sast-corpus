@@ -95,6 +95,25 @@ corpus as an FP would swamp the signal the traps exist to measure, and would
 punish a tool for having broader coverage than this corpus scores. Both totals
 are reported, and a large `unmatched` count is itself worth investigating.
 
+### `unmatched` is a ground-truth smoke alarm
+
+Treat a finding that landed inside a scored fixture but matched nothing as a
+defect in the answer key until proven otherwise.
+
+A real instance: command-injection cases were authored with
+`acceptable_cwes: [CWE-78, CWE-77, CWE-88]`. Semgrep tags several of its
+command-execution rules **CWE-94**, so its PHP, Ruby and Go findings landed in
+`unmatched` and those languages scored 0.000, 0.333 and 0.000 recall. The
+scorecard said the tool had no PHP or Ruby coverage. It had loaded 156 rules for
+them and found the flaws.
+
+Adding CWE-94 to the class moved overall recall from 0.478 to 0.609 and Youden's
+J from 0.391 to 0.478. Nothing but the `unmatched` count would have revealed it:
+every other number looked entirely plausible.
+
+So when a tool scores unexpectedly badly on a language, read the unmatched
+findings before believing the result.
+
 ## 8. Missing runs
 
 `--strict` treats an absent results file as zero findings, so every vulnerable

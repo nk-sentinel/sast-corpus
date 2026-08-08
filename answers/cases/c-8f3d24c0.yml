@@ -1,0 +1,30 @@
+id: c-8f3d24c0
+label: vulnerable
+plane: vuln
+tier: 1
+language: go
+framework: net/http
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/go/8f3d24c0/store.go
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/go/8f3d24c0/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the request value is formatted into the statement text, which the driver then parses as code
+  cve: null
+build:
+  required: false
+  recipe: null

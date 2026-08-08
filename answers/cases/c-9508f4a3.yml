@@ -1,0 +1,30 @@
+id: c-9508f4a3
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: aspnet
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/csharp/9508f4a3/Store.cs
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/csharp/9508f4a3/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the request value is concatenated into the command text, which the server then parses as code
+  cve: null
+build:
+  required: false
+  recipe: null

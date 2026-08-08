@@ -1,0 +1,30 @@
+id: c-1d298514
+label: safe
+plane: vuln
+tier: 1
+language: csharp
+framework: aspnet
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/csharp/1d298514/Store.cs
+  start_line: 12
+  end_line: 12
+alt_locations:
+  - file: tier1/csharp/1d298514/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is added as a command parameter, so the command text never contains it
+  cve: null
+build:
+  required: false
+  recipe: null

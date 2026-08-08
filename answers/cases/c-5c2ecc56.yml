@@ -1,0 +1,30 @@
+id: c-5c2ecc56
+label: safe
+plane: vuln
+tier: 1
+language: php
+framework: laravel
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/php/5c2ecc56/store.php
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/php/5c2ecc56/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is bound to a prepared statement, so the statement text never contains it
+  cve: null
+build:
+  required: false
+  recipe: null

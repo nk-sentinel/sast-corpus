@@ -1,0 +1,30 @@
+id: c-afc09b06
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-502
+acceptable_cwes: [CWE-502]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/python/afc09b06/loader.py
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/python/afc09b06/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    json decodes to plain data only and has no mechanism for invoking code during parsing
+  cve: null
+build:
+  required: false
+  recipe: null

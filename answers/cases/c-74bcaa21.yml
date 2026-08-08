@@ -1,0 +1,30 @@
+id: c-74bcaa21
+label: safe
+plane: vuln
+tier: 1
+language: ruby
+framework: rails
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/ruby/74bcaa21/runner.rb
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/ruby/74bcaa21/handler.rb
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the multi-argument form invokes the binary directly and never involves a shell
+  cve: null
+build:
+  required: false
+  recipe: null

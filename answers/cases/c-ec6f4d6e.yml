@@ -1,0 +1,30 @@
+id: c-ec6f4d6e
+label: safe
+plane: vuln
+tier: 1
+language: go
+framework: net/http
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/go/ec6f4d6e/reader.go
+  start_line: 17
+  end_line: 17
+alt_locations:
+  - file: tier1/go/ec6f4d6e/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    filepath.Base strips any directory part and the joined path is checked to remain under the base
+  cve: null
+build:
+  required: false
+  recipe: null

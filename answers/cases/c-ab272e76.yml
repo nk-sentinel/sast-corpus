@@ -1,0 +1,30 @@
+id: c-ab272e76
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: aspnet
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/csharp/ab272e76/Runner.cs
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/csharp/ab272e76/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the assembled argument string is handed to a shell, so a semicolon in the request value starts a second command
+  cve: null
+build:
+  required: false
+  recipe: null

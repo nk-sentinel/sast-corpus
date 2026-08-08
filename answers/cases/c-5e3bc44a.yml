@@ -1,0 +1,30 @@
+id: c-5e3bc44a
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: express
+primary_cwe: CWE-918
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/javascript/5e3bc44a/fetcher.js
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/javascript/5e3bc44a/route.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the query parameter becomes the whole URL, so the server can be aimed at internal addresses
+  cve: null
+build:
+  required: false
+  recipe: null

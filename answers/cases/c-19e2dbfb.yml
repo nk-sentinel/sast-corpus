@@ -1,0 +1,30 @@
+id: c-19e2dbfb
+label: safe
+plane: vuln
+tier: 1
+language: typescript
+framework: nestjs
+primary_cwe: CWE-89
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/typescript/19e2dbfb/store.ts
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/typescript/19e2dbfb/route.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is passed in the parameter array, so the statement text never contains it
+  cve: null
+build:
+  required: false
+  recipe: null

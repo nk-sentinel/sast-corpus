@@ -1,0 +1,30 @@
+id: c-40ea4ff9
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: express
+primary_cwe: CWE-918
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/javascript/40ea4ff9/fetcher.js
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/javascript/40ea4ff9/route.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the parsed scheme and host are checked against a fixed allowlist before the request is issued
+  cve: null
+build:
+  required: false
+  recipe: null

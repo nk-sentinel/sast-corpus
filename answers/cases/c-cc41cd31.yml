@@ -1,0 +1,30 @@
+id: c-cc41cd31
+label: safe
+plane: vuln
+tier: 1
+language: php
+framework: laravel
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/php/cc41cd31/runner.php
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/php/cc41cd31/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    escapeshellarg quotes the value so the shell treats it as a single literal argument
+  cve: null
+build:
+  required: false
+  recipe: null

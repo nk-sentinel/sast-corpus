@@ -1,0 +1,30 @@
+id: c-f4675f20
+label: safe
+plane: vuln
+tier: 1
+language: go
+framework: net/http
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/go/f4675f20/runner.go
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/go/f4675f20/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the binary is invoked directly with an argument vector, so no shell can reinterpret the value
+  cve: null
+build:
+  required: false
+  recipe: null

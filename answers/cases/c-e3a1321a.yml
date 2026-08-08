@@ -1,0 +1,30 @@
+id: c-e3a1321a
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/python/e3a1321a/reader.py
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/python/e3a1321a/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    os.path.join discards the base whenever the request value is absolute, and honours .. segments otherwise
+  cve: null
+build:
+  required: false
+  recipe: null
