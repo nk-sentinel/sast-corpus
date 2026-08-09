@@ -87,6 +87,14 @@ def slugs_with_cases(answer_key):
 
 
 def build(slug, dataset_root, timeout):
+    # build_one.py writes its result into build-info/ without creating it, so a
+    # missing directory makes every project fail *after it has already compiled*
+    # — the build works and only the bookkeeping crashes. Recorded naively that
+    # is a build failure, which would have silently shrunk the corpus that
+    # build-required engines can see, for a reason that has nothing to do with
+    # the code being built.
+    (Path(dataset_root) / "build-info").mkdir(parents=True, exist_ok=True)
+
     completed = subprocess.run(
         [sys.executable, "scripts/build_one.py", slug],
         cwd=str(dataset_root), stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
@@ -116,7 +124,7 @@ def main(argv=None):
     wanted = None if args.all else slugs_with_cases(args.answer_key)
     slugs = buildable_slugs(args.sources, wanted)
 
-    print("building {} project(s)".format(len(slugs)))
+    print("building {} project(s)".format(len(slugs)), flush=True)
     results = {}
 
     for slug in slugs:
@@ -125,11 +133,11 @@ def main(argv=None):
         except subprocess.TimeoutExpired:
             status, output = "timeout", ""
         results[slug] = status
-        print("  {:<4} {}".format(status[:4], slug[:66]))
+        print("  {:<4} {}".format(status[:4], slug[:66]), flush=True)
         if status != "success" and output:
             tail = [line for line in output.splitlines() if line.strip()][-2:]
             for line in tail:
-                print("       {}".format(line[:100]))
+                print("       {}".format(line[:100]), flush=True)
 
     summary = summarise_builds(results)
     record_results(results, args.out)
