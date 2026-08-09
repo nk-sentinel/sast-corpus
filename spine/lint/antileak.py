@@ -84,6 +84,17 @@ BLOCK_COMMENT_MARKERS = {
 }
 
 
+# Directories that appear under a tier but are not corpus content: toolchains we
+# provisioned, build output, dependency caches, git internals. Fetching tier 3
+# drops entire JDK and Maven distributions under it — 327,000 files, 544 MB —
+# and walking them turned this gate from a second into minutes. CI runs it on
+# every push, and a slow gate is one people route around.
+NOT_CORPUS_CONTENT = frozenset({
+    ".git", "java-env", "build-info", "target", "build", "out",
+    "node_modules", ".gradle", ".m2", "__pycache__", ".venv", "venv",
+})
+
+
 @dataclass(frozen=True)
 class Leak:
     path: str
@@ -95,19 +106,30 @@ class Leak:
         return "{}:{}: {}: {}".format(self.path, self.line, self.kind, self.detail)
 
 
-def scan_tree(root):
+def scan_tree(root, disclose=False):
     """Returns (errors, warnings).
 
-    Errors are leaks in tiers we author. Warnings are leaks inherent to vendored
-    third-party code, which the methodology discloses rather than pretends away.
+    Errors are leaks in tiers we author, and they are what the gate enforces.
+    Warnings are leaks inherent to vendored third-party code, which the
+    methodology discloses rather than pretends away.
+
+    The two are separate jobs. Enforcement runs on every push and must be fast.
+    Disclosure walks whole vendored repositories — 28 real Java projects here —
+    and is only needed when producing a scorecard, so it is opt-in. Charging
+    every push a minute for a report nobody is reading at that moment is how a
+    gate ends up switched off.
+
+    The error result is identical either way; only the warnings differ.
     """
     root = Path(root)
     errors, warnings = [], []
 
     for tier in STRICT_TIERS:
         errors.extend(_scan_tier(root, tier, strict=True))
-    for tier in DISCLOSED_TIERS:
-        warnings.extend(_scan_tier(root, tier, strict=False))
+
+    if disclose:
+        for tier in DISCLOSED_TIERS:
+            warnings.extend(_scan_tier(root, tier, strict=False))
 
     return errors, warnings
 
@@ -118,9 +140,7 @@ def _scan_tier(root, tier, strict):
     if not tier_root.is_dir():
         return leaks
 
-    for path in sorted(tier_root.rglob("*")):
-        if not path.is_file():
-            continue
+    for path in _corpus_files(tier_root):
 
         # A tier's own metadata — its source manifest, its README — describes
         # what the tier contains and so names weaknesses by design. Reporting it
@@ -139,6 +159,20 @@ def _scan_tier(root, tier, strict):
         leaks.extend(_scan_content(relative, path.suffix.lower(), text, strict))
 
     return leaks
+
+
+def _corpus_files(tier_root):
+    """Walk a tier, pruning provisioned directories rather than filtering after.
+
+    Pruning matters: rglob would still descend into a JDK to discard each file
+    individually, which is the cost being avoided.
+    """
+    import os
+
+    for directory, subdirectories, filenames in os.walk(tier_root):
+        subdirectories[:] = sorted(d for d in subdirectories if d not in NOT_CORPUS_CONTENT)
+        for filename in sorted(filenames):
+            yield Path(directory) / filename
 
 
 def _scan_path(relative, name):
@@ -254,9 +288,12 @@ def summarise_warnings(warnings):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--root", default=Path(__file__).resolve().parents[2], type=Path)
+    parser.add_argument("--disclose", action="store_true",
+                        help="also walk the vendored tiers and report their inherent "
+                             "leakage — slow, and only needed when producing a scorecard")
     args = parser.parse_args(argv)
 
-    errors, warnings = scan_tree(args.root)
+    errors, warnings = scan_tree(args.root, disclose=args.disclose)
 
     summary = summarise_warnings(warnings)
     for error in errors:
@@ -278,6 +315,9 @@ def main(argv=None):
         return 1
 
     print("no leaks in authored fixtures")
+    if not args.disclose:
+        print("(vendored tiers not walked; run with --disclose for the "
+              "scorecard's leakage figure)")
     return 0
 
 

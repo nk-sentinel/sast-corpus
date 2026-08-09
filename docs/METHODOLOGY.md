@@ -92,6 +92,13 @@ engine's own repository, never here. They are answer keys written into the code.
 Tiers 2 and 3 are vendored unchanged and cannot meet this bar; their leaks are
 reported as warnings and disclosed in the results.
 
+Enforcement and disclosure are separate runs. The gate covers authored fixtures
+and takes well under a second, so it can run on every push. Walking the vendored
+tiers means reading whole real repositories and takes over a minute, so it is
+opt-in behind `--disclose` and belongs with scorecard production. Charging every
+push for a report nobody is reading at that moment is how a gate ends up
+switched off. The error result is identical either way.
+
 ## Reproducible build
 
 Build-required engines (Fortify, Coverity, Veracode) analyse compiled artifacts

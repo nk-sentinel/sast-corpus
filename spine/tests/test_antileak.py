@@ -20,8 +20,8 @@ class LintCase(unittest.TestCase):
         path.write_text(content)
         return path
 
-    def scan(self):
-        return scan_tree(self.root)
+    def scan(self, disclose=False):
+        return scan_tree(self.root, disclose=disclose)
 
     def kinds(self, leaks):
         return sorted({leak.kind for leak in leaks})
@@ -240,7 +240,7 @@ class Tier2And3AreDisclosedNotFailed(LintCase):
     def test_a_leak_in_tier2_is_a_warning_not_an_error(self):
         self.write("tier2/webgoat/SqlInjectionLesson5.java", "// CWE-89\nclass X {}\n")
 
-        errors, warnings = self.scan()
+        errors, warnings = self.scan(disclose=True)
 
         self.assertEqual(errors, [])
         self.assertTrue(warnings)
@@ -248,7 +248,7 @@ class Tier2And3AreDisclosedNotFailed(LintCase):
     def test_a_leak_in_tier3_is_a_warning_not_an_error(self):
         self.write("tier3/cve-2021-44228/Vulnerable.java", "// unsafe lookup\nclass X {}\n")
 
-        errors, warnings = self.scan()
+        errors, warnings = self.scan(disclose=True)
 
         self.assertEqual(errors, [])
         self.assertTrue(warnings)
@@ -325,7 +325,7 @@ class CorpusMetadataIsNotFixtureCode(LintCase):
     def test_vendored_code_below_a_tier_is_still_scanned(self):
         self.write("tier2/webgoat/SqlInjectionLesson5.java", "// CWE-89\nclass X {}\n")
 
-        _errors, warnings = self.scan()
+        _errors, warnings = self.scan(disclose=True)
 
         self.assertTrue(warnings)
 
@@ -366,3 +366,80 @@ class DisclosedLeaksAreSummarised(unittest.TestCase):
     def test_an_empty_warning_set_summarises_cleanly(self):
         from lint.antileak import summarise_warnings
         self.assertEqual(summarise_warnings([])["total"], 0)
+
+
+class ProvisionedToolchainsAreNotCorpusContent(LintCase):
+    """Fetching tier 3 puts whole JDK and Maven distributions under it. Walking
+    those made the lint take minutes instead of a second, and CI runs this gate
+    on every push — a slow gate is a gate people route around."""
+
+    def test_a_downloaded_jdk_is_not_scanned(self):
+        self.write("tier3/cwe-bench-java/java-env/jdk-17/lib/src.zip.txt", "unsafe\n")
+
+        _errors, warnings = self.scan(disclose=True)
+
+        self.assertEqual(warnings, [])
+
+    def test_a_maven_distribution_is_not_scanned(self):
+        self.write("tier3/cwe-bench-java/java-env/apache-maven-3.9.8/README.txt", "vulnerable\n")
+
+        _errors, warnings = self.scan(disclose=True)
+
+        self.assertEqual(warnings, [])
+
+    def test_build_output_is_not_scanned(self):
+        self.write("tier3/project-sources/p/target/classes/X.class.txt", "unsafe\n")
+        self.write("tier1/java/aaaa/target/classes/Y.txt", "unsafe\n")
+
+        errors, warnings = self.scan(disclose=True)
+
+        self.assertEqual(errors, [])
+        self.assertEqual(warnings, [])
+
+    def test_git_internals_are_not_scanned(self):
+        self.write("tier3/project-sources/p/.git/COMMIT_EDITMSG", "fix the vulnerable parser\n")
+
+        _errors, warnings = self.scan(disclose=True)
+
+        self.assertEqual(warnings, [])
+
+    def test_actual_project_source_is_still_scanned(self):
+        self.write("tier3/project-sources/p/src/main/java/A.java", "// CWE-89\nclass A {}\n")
+
+        _errors, warnings = self.scan(disclose=True)
+
+        self.assertTrue(warnings)
+
+
+class TheGateAndTheDisclosureAreDifferentJobs(LintCase):
+    """Enforcement is about fixtures we authored and must run on every push.
+    The disclosure statistic covers whole vendored repositories, costs a minute,
+    and is only needed when producing a scorecard. Charging every push for the
+    report is how a gate ends up disabled."""
+
+    def test_by_default_only_authored_tiers_are_walked(self):
+        self.write("tier1/java/aaaa/A.java", "// CWE-89\nclass A {}\n")
+        self.write("tier2/webgoat/B.java", "// CWE-89\nclass B {}\n")
+
+        errors, warnings = self.scan()
+
+        self.assertTrue(errors)
+        self.assertEqual(warnings, [])
+
+    def test_the_disclosure_pass_covers_vendored_tiers_when_asked(self):
+        from lint.antileak import scan_tree
+        self.write("tier2/webgoat/B.java", "// CWE-89\nclass B {}\n")
+
+        _errors, warnings = scan_tree(self.root, disclose=True)
+
+        self.assertTrue(warnings)
+
+    def test_the_gate_result_is_identical_either_way(self):
+        from lint.antileak import scan_tree
+        self.write("tier1/java/aaaa/A.java", "// CWE-89\nclass A {}\n")
+        self.write("tier2/webgoat/B.java", "// CWE-89\nclass B {}\n")
+
+        fast, _ = scan_tree(self.root)
+        full, _ = scan_tree(self.root, disclose=True)
+
+        self.assertEqual(fast, full)
