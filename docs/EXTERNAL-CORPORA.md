@@ -69,6 +69,24 @@ tests one weakness. Fetching across the other three — XSS, code injection and
 command injection — is the immediate next step, and until it is done a tier-3
 number says something about path traversal and nothing else.
 
+### The tier-3 zero is not a measurement artifact
+
+A score of zero invites the obvious suspicion that the ground truth points at
+the wrong lines. It was checked rather than assumed.
+
+Of 300 findings the reference scanner produced across the tier-3 checkouts,
+exactly **one** lands in a file that carries ground truth — and it reports
+CWE-319, cleartext transmission, at line 1124, against a CWE-22 span at 301–304.
+An unrelated weakness in a large file, not a near-miss.
+
+Had the derived spans been too tight, or anchored to the wrong lines, near-misses
+in the right files would be the signature. There are none. The scanner is not
+finding these CVEs, and its findings are somewhere else entirely.
+
+This check is worth repeating whenever a tool scores unexpectedly low. It
+distinguishes "the tool missed it" from "our ground truth is wrong", and those
+two demand opposite responses.
+
 ### Tier 3 has traps, taken from the fix commits
 
 An earlier version of this document claimed tier 3 could only measure recall.
