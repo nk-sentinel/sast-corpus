@@ -58,6 +58,39 @@ ground truth:
   whole-class span; a narrow method beats a sprawling one. Everything else
   survives as an alternative.
 
+### The tier-3 projects build
+
+All 28 compile on this host: 28 succeeded, 0 failed. Recorded in
+`tier3/build-status.json` alongside the toolchain that produced the result,
+because a build result is only reproducible if the toolchain behind it is known.
+
+```bash
+python3 spine/corpora/tier3_build.py            # only projects the answer key references
+python3 spine/corpora/tier3_build.py --all      # every fetched checkout
+```
+
+Two things made this harder than "run the dataset's script".
+
+**The dataset's JDK setup cannot work unattended.** `setup_jdk.py` looks for
+Oracle tarballs that must be downloaded by hand behind a licence click. Finding
+none it skips silently, and every subsequent build dies with `should not
+happen!` from a branch assuming a `gradlew` that is not there. Eclipse Temurin is
+the same OpenJDK without the click, unpacked under the directory names the
+scripts expect. The substitution is recorded in the output.
+
+**A missing directory looked exactly like a build failure.** `build_one.py`
+writes its result into `build-info/` without creating it, so projects compiled
+successfully and then crashed on the bookkeeping write. Recorded naively that is
+a build failure, and it would have shrunk the corpus visible to build-required
+engines for a reason having nothing to do with the code.
+
+A first pass with a 600-second cap left three large Apache multi-module projects
+unfinished. That is a limit of the harness, not a defect in those projects, so
+`timeout` is recorded as its own status rather than folded into `failed` — at
+2400 seconds all three complete. Anything that genuinely does not build must be
+excluded from a build-required engine's scorecard rather than counted as a miss,
+since a missing artifact is not a missed detection.
+
 ### What is derived so far
 
 14 CVEs, all resolving to method granularity, each spot-checked by reading the

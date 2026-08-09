@@ -1,0 +1,42 @@
+{
+  "results": {
+    "DSpace__DSpace_CVE-2016-10726_4.4": "success",
+    "SpringSource__spring-security-oauth_CVE-2018-1260_2.3.2.RELEASE": "success",
+    "alibaba__one-java-agent_CVE-2022-25842_0.0.1": "success",
+    "apache__activemq_CVE-2014-3576_5.10.1": "success",
+    "apache__camel_CVE-2018-8041_2.20.3": "success",
+    "apache__camel_CVE-2019-0194_2.21.4": "success",
+    "apache__jspwiki_CVE-2019-10077_2.11.0.M3": "success",
+    "apache__jspwiki_CVE-2019-10078_2.11.0.M3": "success",
+    "apache__jspwiki_CVE-2019-10089_2.11.0.M4": "success",
+    "apache__struts_CVE-2020-17530_2.5.25": "success",
+    "apache__tika_CVE-2018-11762_1.18": "success",
+    "asf__nifi_CVE-2023-36542_1.22.0": "success",
+    "asf__tapestry-5_CVE-2019-0207_5.4.4": "success",
+    "dromara__hutool_CVE-2018-17297_4.1.11": "success",
+    "jenkinsci__docker-commons-plugin_CVE-2022-20617_1.17": "success",
+    "jenkinsci__script-security-plugin_CVE-2023-24422_1228.vd93135a_2fb_25": "success",
+    "jenkinsci__workflow-multibranch-plugin_CVE-2022-25175_706.vd43c65dec013": "success",
+    "nahsra__antisamy_CVE-2022-28367_1.6.5": "success",
+    "perwendel__spark_CVE-2016-9177_2.5.1": "success",
+    "perwendel__spark_CVE-2018-9159_2.7.1": "success",
+    "spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE": "success",
+    "spring-cloud__spring-cloud-config_CVE-2020-5410_2.1.8.RELEASE": "success",
+    "spring-projects__spring-framework_CVE-2022-22965_5.2.19.RELEASE": "success",
+    "square__retrofit_CVE-2018-1000850_2.4.0": "success",
+    "vert-x3__vertx-web_CVE-2018-12542_3.5.3.CR1": "success",
+    "wildfly__wildfly_CVE-2018-1047_11.0.0.Final": "success",
+    "x-stream__xstream_CVE-2021-21345_1.4.15": "success",
+    "xuxueli__xxl-job_CVE-2020-29204_2.2.0": "success"
+  },
+  "summary": {
+    "success": 28,
+    "rate": 1.0,
+    "failed": 0
+  },
+  "host": {
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "jdk_source": "eclipse-temurin (substituted for the Oracle tarballs the dataset expects)"
+}
