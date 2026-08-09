@@ -34,3 +34,8 @@ node_modules/
 # Fixed-commit trap sources are upstream code, derived on demand; committing
 # them would redistribute other projects licences along with ours.
 /tier3/fixed-sources/
+
+# tier-3 build toolchains and outputs, provisioned on demand
+/tier3/cwe-bench-java/java-env/
+/tier3/cwe-bench-java/build-info/
+/tier3/cwe-bench-java/project-sources
