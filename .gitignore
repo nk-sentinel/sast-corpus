@@ -5,6 +5,12 @@ scorecards/
 *.sarif
 *.fpr
 
+# ...except the captured real-tool output the adapter tests are built from.
+# Those are fixtures, not artifacts: without them the adapter is back to being
+# validated only against payloads we invented, and the tests silently cannot run
+# anywhere but the machine that captured them.
+!spine/tests/data/*.sarif
+
 # python
 __pycache__/
 *.py[cod]

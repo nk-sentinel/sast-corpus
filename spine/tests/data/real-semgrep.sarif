@@ -1,0 +1,336 @@
+{
+ "version": "2.1.0",
+ "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/schemas/sarif-schema-2.1.0.json",
+ "runs": [
+  {
+   "tool": {
+    "driver": {
+     "name": "Semgrep OSS",
+     "semanticVersion": "1.163.0",
+     "rules": [
+      {
+       "defaultConfiguration": {
+        "level": "error"
+       },
+       "fullDescription": {
+        "text": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements instead. You can obtain a PreparedStatement using 'SqlCommand' and 'SqlParameter'."
+       },
+       "help": {
+        "markdown": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements instead. You can obtain a PreparedStatement using 'SqlCommand' and 'SqlParameter'.\n\n#### \ud83d\udc8e Enable cross-file analysis and Pro rules for free at <a href='https://sg.run/pro'>sg.run/pro</a>\n\n<b>References:</b>\n - [Semgrep Rule](https://semgrep.dev/r/csharp.lang.security.sqli.csharp-sqli.csharp-sqli)\n - [https://owasp.org/Top10/A03_2021-Injection](https://owasp.org/Top10/A03_2021-Injection)\n",
+        "text": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements instead. You can obtain a PreparedStatement using 'SqlCommand' and 'SqlParameter'.\n\ud83d\udc8e Enable cross-file analysis and Pro rules for free at sg.run/pro"
+       },
+       "helpUri": "https://semgrep.dev/r/csharp.lang.security.sqli.csharp-sqli.csharp-sqli",
+       "id": "csharp.lang.security.sqli.csharp-sqli.csharp-sqli",
+       "name": "csharp.lang.security.sqli.csharp-sqli.csharp-sqli",
+       "properties": {
+        "precision": "very-high",
+        "tags": [
+         "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+         "MEDIUM CONFIDENCE",
+         "OWASP-A01:2017 - Injection",
+         "OWASP-A03:2021 - Injection",
+         "OWASP-A05:2025 - Injection",
+         "security"
+        ]
+       },
+       "shortDescription": {
+        "text": "Semgrep Finding: csharp.lang.security.sqli.csharp-sqli.csharp-sqli"
+       }
+      },
+      {
+       "defaultConfiguration": {
+        "level": "error"
+       },
+       "fullDescription": {
+        "text": "Detected non-static command inside Command. Audit the input to 'exec.Command'. If unverified user data can reach this call site, this is a code injection vulnerability. A malicious actor can inject a malicious script to execute arbitrary code."
+       },
+       "help": {
+        "markdown": "Detected non-static command inside Command. Audit the input to 'exec.Command'. If unverified user data can reach this call site, this is a code injection vulnerability. A malicious actor can inject a malicious script to execute arbitrary code.\n\n#### \ud83d\udc8e Enable cross-file analysis and Pro rules for free at <a href='https://sg.run/pro'>sg.run/pro</a>\n\n<b>References:</b>\n - [Semgrep Rule](https://semgrep.dev/r/go.lang.security.audit.dangerous-exec-command.dangerous-exec-command)\n - [https://owasp.org/Top10/A03_2021-Injection](https://owasp.org/Top10/A03_2021-Injection)\n",
+        "text": "Detected non-static command inside Command. Audit the input to 'exec.Command'. If unverified user data can reach this call site, this is a code injection vulnerability. A malicious actor can inject a malicious script to execute arbitrary code.\n\ud83d\udc8e Enable cross-file analysis and Pro rules for free at sg.run/pro"
+       },
+       "helpUri": "https://semgrep.dev/r/go.lang.security.audit.dangerous-exec-command.dangerous-exec-command",
+       "id": "go.lang.security.audit.dangerous-exec-command.dangerous-exec-command",
+       "name": "go.lang.security.audit.dangerous-exec-command.dangerous-exec-command",
+       "properties": {
+        "precision": "very-high",
+        "tags": [
+         "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+         "LOW CONFIDENCE",
+         "OWASP-A03:2021 - Injection",
+         "OWASP-A05:2025 - Injection",
+         "security"
+        ]
+       },
+       "shortDescription": {
+        "text": "Semgrep Finding: go.lang.security.audit.dangerous-exec-command.dangerous-exec-command"
+       }
+      },
+      {
+       "defaultConfiguration": {
+        "level": "warning"
+       },
+       "fullDescription": {
+        "text": "String-formatted SQL query detected. This could lead to SQL injection if the string is not sanitized properly. Audit this call to ensure the SQL is not manipulable by external data."
+       },
+       "help": {
+        "markdown": "String-formatted SQL query detected. This could lead to SQL injection if the string is not sanitized properly. Audit this call to ensure the SQL is not manipulable by external data.\n\n#### \ud83d\udc8e Enable cross-file analysis and Pro rules for free at <a href='https://sg.run/pro'>sg.run/pro</a>\n\n<b>References:</b>\n - [Semgrep Rule](https://semgrep.dev/r/go.lang.security.audit.database.string-formatted-query.string-formatted-query)\n - [https://owasp.org/Top10/A03_2021-Injection](https://owasp.org/Top10/A03_2021-Injection)\n",
+        "text": "String-formatted SQL query detected. This could lead to SQL injection if the string is not sanitized properly. Audit this call to ensure the SQL is not manipulable by external data.\n\ud83d\udc8e Enable cross-file analysis and Pro rules for free at sg.run/pro"
+       },
+       "helpUri": "https://semgrep.dev/r/go.lang.security.audit.database.string-formatted-query.string-formatted-query",
+       "id": "go.lang.security.audit.database.string-formatted-query.string-formatted-query",
+       "name": "go.lang.security.audit.database.string-formatted-query.string-formatted-query",
+       "properties": {
+        "precision": "very-high",
+        "tags": [
+         "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+         "LOW CONFIDENCE",
+         "OWASP-A01:2017 - Injection",
+         "OWASP-A03:2021 - Injection",
+         "OWASP-A05:2025 - Injection",
+         "security"
+        ]
+       },
+       "shortDescription": {
+        "text": "Semgrep Finding: go.lang.security.audit.database.string-formatted-query.string-formatted-query"
+       }
+      },
+      {
+       "defaultConfiguration": {
+        "level": "error"
+       },
+       "fullDescription": {
+        "text": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'."
+       },
+       "help": {
+        "markdown": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'.\n\n#### \ud83d\udc8e Enable cross-file analysis and Pro rules for free at <a href='https://sg.run/pro'>sg.run/pro</a>\n\n<b>References:</b>\n - [Semgrep Rule](https://semgrep.dev/r/java.lang.security.audit.formatted-sql-string.formatted-sql-string)\n - [https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)\n - [https://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html#create_ps](https://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html#create_ps)\n - [https://software-security.sans.org/developer-how-to/fix-sql-injection-in-java-using-prepared-callable-statement](https://software-security.sans.org/developer-how-to/fix-sql-injection-in-java-using-prepared-callable-statement)\n",
+        "text": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'.\n\ud83d\udc8e Enable cross-file analysis and Pro rules for free at sg.run/pro"
+       },
+       "helpUri": "https://semgrep.dev/r/java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+       "id": "java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+       "name": "java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+       "properties": {
+        "precision": "very-high",
+        "tags": [
+         "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+         "MEDIUM CONFIDENCE",
+         "OWASP-A01:2017 - Injection",
+         "OWASP-A03:2021 - Injection",
+         "OWASP-A05:2025 - Injection",
+         "security"
+        ]
+       },
+       "shortDescription": {
+        "text": "Semgrep Finding: java.lang.security.audit.formatted-sql-string.formatted-sql-string"
+       }
+      },
+      {
+       "defaultConfiguration": {
+        "level": "warning"
+       },
+       "fullDescription": {
+        "text": "Detected a string argument from a public method contract in a raw SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'."
+       },
+       "help": {
+        "markdown": "Detected a string argument from a public method contract in a raw SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'.\n\n#### \ud83d\udc8e Enable cross-file analysis and Pro rules for free at <a href='https://sg.run/pro'>sg.run/pro</a>\n\n<b>References:</b>\n - [Semgrep Rule](https://semgrep.dev/r/java.spring.security.audit.spring-sqli.spring-sqli)\n - [https://owasp.org/Top10/A03_2021-Injection](https://owasp.org/Top10/A03_2021-Injection)\n",
+        "text": "Detected a string argument from a public method contract in a raw SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'.\n\ud83d\udc8e Enable cross-file analysis and Pro rules for free at sg.run/pro"
+       },
+       "helpUri": "https://semgrep.dev/r/java.spring.security.audit.spring-sqli.spring-sqli",
+       "id": "java.spring.security.audit.spring-sqli.spring-sqli",
+       "name": "java.spring.security.audit.spring-sqli.spring-sqli",
+       "properties": {
+        "precision": "very-high",
+        "tags": [
+         "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+         "MEDIUM CONFIDENCE",
+         "OWASP-A01:2017 - Injection",
+         "OWASP-A03:2021 - Injection",
+         "OWASP-A05:2025 - Injection",
+         "security"
+        ]
+       },
+       "shortDescription": {
+        "text": "Semgrep Finding: java.spring.security.audit.spring-sqli.spring-sqli"
+       }
+      }
+     ]
+    }
+   },
+   "results": [
+    {
+     "fingerprints": {
+      "matchBasedId/v1": "requires login"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "tier1/csharp/9508f4a3/Store.cs",
+         "uriBaseId": "%SRCROOT%"
+        },
+        "region": {
+         "endColumn": 53,
+         "endLine": 10,
+         "snippet": {
+          "text": "        using var command = new SqlCommand(statement);"
+         },
+         "startColumn": 44,
+         "startLine": 10
+        }
+       }
+      }
+     ],
+     "message": {
+      "text": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements instead. You can obtain a PreparedStatement using 'SqlCommand' and 'SqlParameter'."
+     },
+     "properties": {},
+     "ruleId": "csharp.lang.security.sqli.csharp-sqli.csharp-sqli"
+    },
+    {
+     "fingerprints": {
+      "matchBasedId/v1": "requires login"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "tier1/go/4c2633d6/runner.go",
+         "uriBaseId": "%SRCROOT%"
+        },
+        "region": {
+         "endColumn": 39,
+         "endLine": 9,
+         "snippet": {
+          "text": "\treturn exec.Command(\"sh\", \"-c\", line).Output()"
+         },
+         "startColumn": 9,
+         "startLine": 9
+        }
+       }
+      }
+     ],
+     "message": {
+      "text": "Detected non-static command inside Command. Audit the input to 'exec.Command'. If unverified user data can reach this call site, this is a code injection vulnerability. A malicious actor can inject a malicious script to execute arbitrary code."
+     },
+     "properties": {},
+     "ruleId": "go.lang.security.audit.dangerous-exec-command.dangerous-exec-command"
+    },
+    {
+     "fingerprints": {
+      "matchBasedId/v1": "requires login"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "tier1/go/8f3d24c0/store.go",
+         "uriBaseId": "%SRCROOT%"
+        },
+        "region": {
+         "endColumn": 79,
+         "endLine": 11,
+         "snippet": {
+          "text": "\tstatement := fmt.Sprintf(\"SELECT status FROM orders WHERE code = '%s'\", code)"
+         },
+         "startColumn": 2,
+         "startLine": 11
+        }
+       }
+      }
+     ],
+     "message": {
+      "text": "String-formatted SQL query detected. This could lead to SQL injection if the string is not sanitized properly. Audit this call to ensure the SQL is not manipulable by external data."
+     },
+     "properties": {},
+     "ruleId": "go.lang.security.audit.database.string-formatted-query.string-formatted-query"
+    },
+    {
+     "fingerprints": {
+      "matchBasedId/v1": "requires login"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "tier1/java/4b19d7a2/src/main/java/app/OrderRepository.java",
+         "uriBaseId": "%SRCROOT%"
+        },
+        "region": {
+         "endColumn": 71,
+         "endLine": 19,
+         "snippet": {
+          "text": "        ResultSet results = statement.executeQuery(builder.toString());"
+         },
+         "startColumn": 29,
+         "startLine": 19
+        }
+       }
+      }
+     ],
+     "message": {
+      "text": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'."
+     },
+     "properties": {},
+     "ruleId": "java.lang.security.audit.formatted-sql-string.formatted-sql-string"
+    },
+    {
+     "fingerprints": {
+      "matchBasedId/v1": "requires login"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "tier1/java/6f1c02b8/src/main/java/app/RouteRunner.java",
+         "uriBaseId": "%SRCROOT%"
+        },
+        "region": {
+         "endColumn": 47,
+         "endLine": 16,
+         "snippet": {
+          "text": "        return jdbcTemplate.queryForObject(sql, String.class);"
+         },
+         "startColumn": 44,
+         "startLine": 16
+        }
+       }
+      }
+     ],
+     "message": {
+      "text": "Detected a string argument from a public method contract in a raw SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'."
+     },
+     "properties": {},
+     "ruleId": "java.spring.security.audit.spring-sqli.spring-sqli"
+    },
+    {
+     "fingerprints": {
+      "matchBasedId/v1": "requires login"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "tier1/java/9c3ade14/src/main/java/app/ShipmentService.java",
+         "uriBaseId": "%SRCROOT%"
+        },
+        "region": {
+         "endColumn": 47,
+         "endLine": 17,
+         "snippet": {
+          "text": "        return jdbcTemplate.queryForObject(sql, String.class);"
+         },
+         "startColumn": 44,
+         "startLine": 17
+        }
+       }
+      }
+     ],
+     "message": {
+      "text": "Detected a string argument from a public method contract in a raw SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'."
+     },
+     "properties": {},
+     "ruleId": "java.spring.security.audit.spring-sqli.spring-sqli"
+    }
+   ]
+  }
+ ]
+}
