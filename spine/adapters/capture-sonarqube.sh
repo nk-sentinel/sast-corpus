@@ -49,28 +49,60 @@ for _ in $(seq 1 60); do
     sleep 5
 done
 
-echo "== 3/4 exporting issues"
-# additionalFields=rules is not optional. SonarQube records the CWE on the rule
-# as securityStandards and never on the issue, so an export without it yields
-# findings that carry no CWE at all and every one falls back to the
-# location-only match rule.
+echo "== 3/4 exporting issues, then enriching the rules with their CWEs"
+# additionalFields=rules is necessary but NOT sufficient. It returns rules
+# carrying only key, name, lang, status and langName — no CWE anywhere. On 25.1
+# Community `securityStandards` does not exist at all; the API rejects it as an
+# unknown value for `f`. The CWE is recoverable only from each rule's own
+# description, so every rule is fetched individually and merged back in.
+#
+# Skip this and every finding arrives with no CWE, falls back to the
+# location-only match rule, and SonarQube looks like it does not tag weaknesses.
 curl -sS -u "${SONAR_TOKEN}:" \
     "${SONAR_URL}/api/issues/search?componentKeys=${PROJECT_KEY}&ps=500&additionalFields=rules" \
     -o "${OUT}"
 
-python3 - "${OUT}" <<'PY'
-import json, sys
+SONAR_URL="${SONAR_URL}" SONAR_TOKEN="${SONAR_TOKEN}" python3 - "${OUT}" <<'ENRICH'
+import base64, json, os, sys, urllib.request
+
+path = sys.argv[1]
+url, token = os.environ["SONAR_URL"], os.environ["SONAR_TOKEN"]
+auth = base64.b64encode("{}:".format(token).encode()).decode()
+export = json.load(open(path))
+
+for rule in export.get("rules", []):
+    request = urllib.request.Request(
+        "{}/api/rules/show?key={}".format(url, rule["key"]),
+        headers={"Authorization": "Basic {}".format(auth)})
+    try:
+        detail = json.load(urllib.request.urlopen(request))["rule"]
+    except Exception as error:
+        print("   could not fetch {}: {}".format(rule["key"], error), file=sys.stderr)
+        continue
+    rule["descriptionSections"] = detail.get("descriptionSections", [])
+
+json.dump(export, open(path, "w"), indent=1)
+print("   enriched {} rule(s) with their descriptions".format(len(export.get("rules", []))))
+ENRICH
+
+ROOT="${ROOT}" python3 - "${OUT}" <<'CHECK'
+import json, os, sys
+sys.path.insert(0, os.path.join(os.environ["ROOT"], "spine"))
+from adapters.sonarqube import cwes_for_rule
+
 data = json.load(open(sys.argv[1]))
-issues = data.get("issues", [])
-rules = data.get("rules", [])
-with_cwe = [r for r in rules if any(str(s).startswith("cwe:")
-                                    for s in (r.get("securityStandards") or []))]
-print("   issues {}   rules {}   rules carrying a CWE {}".format(
+issues, rules = data.get("issues", []), data.get("rules", [])
+with_cwe = [r for r in rules if cwes_for_rule(r)]
+print("   issues {}   rules {}   rules resolving to a CWE {}".format(
     len(issues), len(rules), len(with_cwe)))
+
 if not rules:
-    print("   WARNING: no rules block — re-export with additionalFields=rules,")
-    print("   or every finding will arrive without a CWE.", file=sys.stderr)
-PY
+    print("   WARNING: no rules block — re-export with additionalFields=rules.", file=sys.stderr)
+elif not with_cwe:
+    print("   WARNING: no rule resolved to a CWE. Every finding will fall back to", file=sys.stderr)
+    print("   the location-only match rule, which reads as the tool not tagging", file=sys.stderr)
+    print("   weaknesses when the real cause is an incomplete export.", file=sys.stderr)
+CHECK
 
 echo "== 4/4 converting and scoring"
 python3 "${ROOT}/spine/adapters/sonarqube.py" "${OUT}" \

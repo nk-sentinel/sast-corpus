@@ -60,3 +60,45 @@ class RealToolOutputSurvivesTheCsvAdapter(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+REAL_SONARQUBE = Path(__file__).parent / "data" / "real-sonarqube.json"
+
+
+class RealSonarQubeExport(unittest.TestCase):
+    """Captured from a live SonarQube 25.1 Community scan of tier1. Written
+    only after running it for real, because the adapter's original premise —
+    that the CWE lives on the rule's securityStandards — turned out to be false
+    for this version, and no fixture I invented would ever have said so."""
+
+    def setUp(self):
+        from adapters.sonarqube import convert
+        self.export = json.loads(REAL_SONARQUBE.read_text())
+        self.findings = parse_sarif(convert(self.export, tool_version="25.1.0.102122"))
+
+    def test_the_export_is_genuine(self):
+        self.assertTrue(self.export["issues"])
+        self.assertTrue(any(i.get("component", "").startswith("sast-corpus-tier1:")
+                            for i in self.export["issues"]))
+
+    def test_no_rule_carries_security_standards_on_this_version(self):
+        """The premise the adapter was originally built on. Recorded so a
+        regression toward it fails loudly."""
+        self.assertFalse(any(r.get("securityStandards") for r in self.export["rules"]))
+
+    def test_cwes_are_still_recovered_despite_that(self):
+        with_cwe = [f for f in self.findings if f.cwes]
+
+        self.assertTrue(with_cwe, "no finding carried a CWE — the enrichment step is broken")
+
+    def test_a_known_rule_resolves_to_its_known_cwe(self):
+        from adapters.sonarqube import cwes_for_rule
+        rule = next(r for r in self.export["rules"] if r["key"] == "java:S5542")
+
+        self.assertEqual(cwes_for_rule(rule), ["CWE-327"])
+
+    def test_project_key_is_stripped_from_every_path(self):
+        self.assertFalse(any(":" in f.file for f in self.findings))
+
+    def test_no_finding_lands_on_line_zero(self):
+        self.assertTrue(all(f.start_line >= 1 for f in self.findings))

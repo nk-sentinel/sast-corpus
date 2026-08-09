@@ -136,5 +136,65 @@ class SonarQubeAdapter(unittest.TestCase):
         self.assertTrue(parse_sarif(doc))
 
 
+REAL_SHAPED_RULE = {
+    "key": "java:S5542",
+    "name": "Encryption algorithms should be used with secure mode and padding scheme",
+    "lang": "java",
+    "descriptionSections": [
+        {"key": "root_cause", "content": "<p>Encryption operates ...</p>"},
+        {"key": "resources", "content":
+            "<h3>Standards</h3><ul>"
+            "<li>OWASP - <a href='...'>Top 10 2021 Category A2</a></li>"
+            "<li>CWE - <a href='https://cwe.mitre.org/data/definitions/327'>"
+            "CWE-327 - Use of a Broken or Risky Cryptographic Algorithm</a></li>"
+            "</ul>"},
+    ],
+}
+
+
+class SonarQubeCweExtraction(unittest.TestCase):
+    """SonarQube 25.1 Community has no `securityStandards` field at all — the
+    API rejects it as an unknown value for `f`. The CWE is only recoverable from
+    the rule's description text. An adapter built on securityStandards silently
+    produces findings with no CWE, every one of which falls back to the
+    location-only rule, and the tool looks like it does not tag CWEs."""
+
+    def test_reads_the_cwe_from_a_rule_description(self):
+        from adapters.sonarqube import cwes_for_rule
+
+        self.assertEqual(cwes_for_rule(REAL_SHAPED_RULE), ["CWE-327"])
+
+    def test_still_reads_security_standards_when_a_version_supplies_them(self):
+        from adapters.sonarqube import cwes_for_rule
+        rule = {"key": "java:S3649", "securityStandards": ["cwe:89", "owaspTop10:a3"]}
+
+        self.assertEqual(cwes_for_rule(rule), ["CWE-89"])
+
+    def test_prefers_security_standards_over_description_scraping(self):
+        from adapters.sonarqube import cwes_for_rule
+        rule = dict(REAL_SHAPED_RULE, securityStandards=["cwe:999"])
+
+        self.assertEqual(cwes_for_rule(rule), ["CWE-999"])
+
+    def test_collects_several_cwes_from_one_description(self):
+        from adapters.sonarqube import cwes_for_rule
+        rule = {"key": "java:S2755", "descriptionSections": [
+            {"key": "resources", "content": "CWE-611 - XXE ... CWE-827 - Improper Control"}]}
+
+        self.assertEqual(cwes_for_rule(rule), ["CWE-611", "CWE-827"])
+
+    def test_a_rule_with_no_cwe_anywhere_yields_none(self):
+        from adapters.sonarqube import cwes_for_rule
+
+        self.assertEqual(cwes_for_rule({"key": "java:S1234", "name": "Tidy up"}), [])
+
+    def test_does_not_mistake_a_cwe_looking_number_in_prose(self):
+        from adapters.sonarqube import cwes_for_rule
+        rule = {"key": "x", "descriptionSections": [
+            {"key": "root_cause", "content": "Introduced in version 327 of the spec."}]}
+
+        self.assertEqual(cwes_for_rule(rule), [])
+
+
 if __name__ == "__main__":
     unittest.main()

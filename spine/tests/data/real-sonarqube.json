@@ -1,0 +1,3584 @@
+{
+ "total": 73,
+ "p": 1,
+ "ps": 500,
+ "paging": {
+  "pageIndex": 1,
+  "pageSize": 500,
+  "total": 73
+ },
+ "effortTotal": 543,
+ "issues": [
+  {
+   "key": "3a25e593-0d0c-4dcd-8e47-d7879f8c4a1f",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/0e818cc9/Settings.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Settings.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/0e818cc9\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "a47663aa-c21e-4b5f-b438-82d7d5f0fe5c",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/3c3edc3a/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Cli.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/3c3edc3a\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "8c966ba8-4738-4523-aede-ff08567deb01",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/3c3edc3a/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "3dec855a32b8f0fac32065f7f903c36c",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 13,
+    "endOffset": 16
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "924f6e7d-857f-4bb4-8f27-d88de15a5a4c",
+   "rule": "java:S106",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/3c3edc3a/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 5,
+   "hash": "be8c4b962a9221feec4541576c5504b4",
+   "textRange": {
+    "startLine": 5,
+    "endLine": 5,
+    "startOffset": 8,
+    "endOffset": 18
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace this use of System.out by a logger.",
+   "effort": "10min",
+   "debt": "10min",
+   "author": "",
+   "tags": [
+    "bad-practice",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "d28e9bb9-585e-4d48-8416-5473998b77b6",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/3c3edc3a/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Runner.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/3c3edc3a\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "aa73d109-6551-484e-953a-d1c50413c532",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/3c3edc3a/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 7,
+   "hash": "193301b6db35bdef7cbbc3c53c589d63",
+   "textRange": {
+    "startLine": 7,
+    "endLine": 7,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "3e5d5b11-98dc-4dd8-b66d-e1c56e5d2f18",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/3c3edc3a/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 9,
+   "hash": "0859db4f09536a5c61eb7ff5f2067da0",
+   "textRange": {
+    "startLine": 9,
+    "endLine": 9,
+    "startOffset": 19,
+    "endOffset": 53
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "23b81b54-0a1d-4ee8-b300-abb98b201684",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/3c3edc3a/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 10,
+   "hash": "5aa465d8d133c7b691d03e2dc2741c93",
+   "textRange": {
+    "startLine": 10,
+    "endLine": 10,
+    "startOffset": 33,
+    "endOffset": 87
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "af2ca9df-c53e-436f-91aa-ed67ee522b1d",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/472ab654/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Cli.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/472ab654\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "0232a3ca-b3b1-419e-bb22-93d4fe12ce1c",
+   "rule": "java:S106",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/472ab654/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 5,
+   "hash": "be8c4b962a9221feec4541576c5504b4",
+   "textRange": {
+    "startLine": 5,
+    "endLine": 5,
+    "startOffset": 8,
+    "endOffset": 18
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace this use of System.out by a logger.",
+   "effort": "10min",
+   "debt": "10min",
+   "author": "",
+   "tags": [
+    "bad-practice",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "100dc0be-da34-4abe-8689-87eb859a0065",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/472ab654/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Runner.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/472ab654\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "1ce490d3-5973-468c-92c6-06040a4144ae",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/472ab654/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 5,
+   "hash": "193301b6db35bdef7cbbc3c53c589d63",
+   "textRange": {
+    "startLine": 5,
+    "endLine": 5,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "e8714b1d-3841-4a22-b5c5-598e58612d14",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/472ab654/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 7,
+   "hash": "0859db4f09536a5c61eb7ff5f2067da0",
+   "textRange": {
+    "startLine": 7,
+    "endLine": 7,
+    "startOffset": 19,
+    "endOffset": 53
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "b7caa28b-1249-4308-8948-89e9926f9695",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/48fcb735/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Cli.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/48fcb735\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "5d546802-8813-4cc8-a517-c2daccdb0a12",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/48fcb735/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "3dec855a32b8f0fac32065f7f903c36c",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 13,
+    "endOffset": 16
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "e83c0b06-9086-419c-97a3-5f7a4dd8a193",
+   "rule": "java:S106",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/48fcb735/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 5,
+   "hash": "be8c4b962a9221feec4541576c5504b4",
+   "textRange": {
+    "startLine": 5,
+    "endLine": 5,
+    "startOffset": 8,
+    "endOffset": 18
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace this use of System.out by a logger.",
+   "effort": "10min",
+   "debt": "10min",
+   "author": "",
+   "tags": [
+    "bad-practice",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "420c8fae-4516-4124-a2ee-9cbdac8dd711",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/48fcb735/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Runner.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/48fcb735\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "0ce2dddd-315d-4885-9a21-afaa8a243ee5",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/48fcb735/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 6,
+   "hash": "193301b6db35bdef7cbbc3c53c589d63",
+   "textRange": {
+    "startLine": 6,
+    "endLine": 6,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "78efc740-f3f3-486b-ad19-4831a8778c24",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/48fcb735/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 8,
+   "hash": "2faa65c7bac59781255e6c7bd538b670",
+   "textRange": {
+    "startLine": 8,
+    "endLine": 8,
+    "startOffset": 31,
+    "endOffset": 94
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "d17e4a51-1636-4806-b7c5-28e4299dcebf",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/48fcb735/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 9,
+   "hash": "e7ae351c53cbc00e1a118ce5c483c877",
+   "textRange": {
+    "startLine": 9,
+    "endLine": 9,
+    "startOffset": 24,
+    "endOffset": 41
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "731ca495-f06f-4d4d-8087-c7cea53f08fa",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/48fcb735/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 10,
+   "hash": "7a266c44b06be966353c2e6a7a11758f",
+   "textRange": {
+    "startLine": 10,
+    "endLine": 10,
+    "startOffset": 27,
+    "endOffset": 53
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "ebc75749-1909-4349-bff6-830daf5d1848",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/4b19d7a2/src/main/java/app/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 6,
+   "hash": "3dec855a32b8f0fac32065f7f903c36c",
+   "textRange": {
+    "startLine": 6,
+    "endLine": 6,
+    "startOffset": 13,
+    "endOffset": 16
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "ec1cc84d-5296-4628-9707-49eb59b3931c",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/4b19d7a2/src/main/java/app/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 8,
+   "hash": "187ca15f94a562b470229295539b3615",
+   "textRange": {
+    "startLine": 8,
+    "endLine": 8,
+    "startOffset": 30,
+    "endOffset": 68
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "4a3719da-35f6-4aa5-8022-87a85d7c60b9",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/4b19d7a2/src/main/java/app/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 9,
+   "hash": "a06e54707e7c1f25c879e29eb8e08a80",
+   "textRange": {
+    "startLine": 9,
+    "endLine": 9,
+    "startOffset": 35,
+    "endOffset": 68
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "c0528c62-e8a8-41ee-8aeb-54649946327d",
+   "rule": "java:S106",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/4b19d7a2/src/main/java/app/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 10,
+   "hash": "ab8d05696f6d9974eb5cf8858eb526ea",
+   "textRange": {
+    "startLine": 10,
+    "endLine": 10,
+    "startOffset": 8,
+    "endOffset": 18
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace this use of System.out by a logger.",
+   "effort": "10min",
+   "debt": "10min",
+   "author": "",
+   "tags": [
+    "bad-practice",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "5caa1308-cb2c-4db1-acd2-af35b2eeade1",
+   "rule": "java:S112",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/4b19d7a2/src/main/java/app/OrderRepository.java",
+   "project": "sast-corpus-tier1",
+   "line": 14,
+   "hash": "b72b17c8b6020ec3e599349aeecff891",
+   "textRange": {
+    "startLine": 14,
+    "endLine": 14,
+    "startOffset": 59,
+    "endOffset": 68
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Define and throw a dedicated exception instead of using a generic one.",
+   "effort": "20min",
+   "debt": "20min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "error-handling",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "COMPLETE",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "a79fdf6f-53ad-40bd-80e0-56dd685ad2fe",
+   "rule": "java:S2095",
+   "severity": "BLOCKER",
+   "component": "sast-corpus-tier1:tier1/java/4b19d7a2/src/main/java/app/OrderRepository.java",
+   "project": "sast-corpus-tier1",
+   "line": 18,
+   "hash": "603877b5b048d26c115200c44a6416f2",
+   "textRange": {
+    "startLine": 18,
+    "endLine": 18,
+    "startOffset": 30,
+    "endOffset": 58
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Use try-with-resources or close this \"Statement\" in a \"finally\" clause.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "symbolic-execution",
+    "leak",
+    "denial-of-service",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "BUG",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "COMPLETE",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "RELIABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "1a2f9b2a-f96d-4b34-a0f1-4f128a50eef4",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/72baa1a6/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Cli.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/72baa1a6\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "ad47af49-10eb-41bb-b560-2252eb948f07",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/72baa1a6/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "3dec855a32b8f0fac32065f7f903c36c",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 13,
+    "endOffset": 16
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "e62581d3-a415-4105-91d8-be8a95ec3396",
+   "rule": "java:S106",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/72baa1a6/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 5,
+   "hash": "be8c4b962a9221feec4541576c5504b4",
+   "textRange": {
+    "startLine": 5,
+    "endLine": 5,
+    "startOffset": 8,
+    "endOffset": 18
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace this use of System.out by a logger.",
+   "effort": "10min",
+   "debt": "10min",
+   "author": "",
+   "tags": [
+    "bad-practice",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "4c94ac2d-1f5a-4895-8c70-fcd7001260c1",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/72baa1a6/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Runner.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/72baa1a6\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "4c2c85ee-b084-4470-b0e5-40d071bd54d8",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/72baa1a6/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 5,
+   "hash": "193301b6db35bdef7cbbc3c53c589d63",
+   "textRange": {
+    "startLine": 5,
+    "endLine": 5,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "8cdff50c-344a-48f8-a244-057e58ac413c",
+   "rule": "java:S112",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/72baa1a6/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 6,
+   "hash": "df1b4ac51c5d5861cea7d8c6b9a82729",
+   "textRange": {
+    "startLine": 6,
+    "endLine": 6,
+    "startOffset": 45,
+    "endOffset": 54
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Define and throw a dedicated exception instead of using a generic one.",
+   "effort": "20min",
+   "debt": "20min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "error-handling",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "COMPLETE",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "95502b86-1664-4af9-9a4e-ab9df17f0a9c",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/7e49aca7/Parser.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Parser.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/7e49aca7\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "1e39dafa-137a-492f-9fd5-4f24a6cf21a0",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/7e49aca7/Parser.java",
+   "project": "sast-corpus-tier1",
+   "line": 8,
+   "hash": "7f8d3768f1a6685f7a99465b33ed2d49",
+   "textRange": {
+    "startLine": 8,
+    "endLine": 8,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "37a20ca6-ac44-416b-b1bf-2876b88fc935",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/7e49aca7/Parser.java",
+   "project": "sast-corpus-tier1",
+   "line": 10,
+   "hash": "99bbfb0477a1ada89d75b4ee0b6ae5db",
+   "textRange": {
+    "startLine": 10,
+    "endLine": 10,
+    "startOffset": 39,
+    "endOffset": 77
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "bb60546c-f0d0-4cbb-aff0-edeb7770dc5e",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/82b7e3aa/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Sealer.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/82b7e3aa\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "273e9548-1922-4cac-9418-40eda904a7f0",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/82b7e3aa/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 6,
+   "hash": "d754aff53b537a4530801b5079d15acc",
+   "textRange": {
+    "startLine": 6,
+    "endLine": 6,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "b3b54b99-16b1-429e-9a53-8bd86c399589",
+   "rule": "java:S112",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/82b7e3aa/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 7,
+   "hash": "0281156618865c5ea70bb74b5ce7d9d8",
+   "textRange": {
+    "startLine": 7,
+    "endLine": 7,
+    "startOffset": 56,
+    "endOffset": 65
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Define and throw a dedicated exception instead of using a generic one.",
+   "effort": "20min",
+   "debt": "20min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "error-handling",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "COMPLETE",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "0aea89ac-6bdb-4ccb-b639-452240b0fee7",
+   "rule": "java:S5542",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/82b7e3aa/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 8,
+   "hash": "942d69c98d01cb07d81de10766b69e3c",
+   "textRange": {
+    "startLine": 8,
+    "endLine": 8,
+    "startOffset": 43,
+    "endOffset": 65
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Use a secure cipher mode.",
+   "effort": "20min",
+   "debt": "20min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "privacy"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "VULNERABILITY",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "TRUSTWORTHY",
+   "cleanCodeAttributeCategory": "RESPONSIBLE",
+   "impacts": [
+    {
+     "softwareQuality": "SECURITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "7ddb96ce-391c-47de-a1a9-997147eed034",
+   "rule": "java:S5547",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/82b7e3aa/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 8,
+   "hash": "942d69c98d01cb07d81de10766b69e3c",
+   "textRange": {
+    "startLine": 8,
+    "endLine": 8,
+    "startOffset": 43,
+    "endOffset": 65
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Use a strong cipher algorithm.",
+   "effort": "15min",
+   "debt": "15min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "privacy"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "VULNERABILITY",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "TRUSTWORTHY",
+   "cleanCodeAttributeCategory": "RESPONSIBLE",
+   "impacts": [
+    {
+     "softwareQuality": "SECURITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "142b5584-7872-4f81-9fb5-d0ea53a2e469",
+   "rule": "java:S106",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/8e2fc051/src/main/java/billing/Entry.java",
+   "project": "sast-corpus-tier1",
+   "line": 10,
+   "hash": "ab8d05696f6d9974eb5cf8858eb526ea",
+   "textRange": {
+    "startLine": 10,
+    "endLine": 10,
+    "startOffset": 8,
+    "endOffset": 18
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace this use of System.out by a logger.",
+   "effort": "10min",
+   "debt": "10min",
+   "author": "",
+   "tags": [
+    "bad-practice",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "2674b48d-4175-4a3f-bd56-42137d25e8c8",
+   "rule": "java:S112",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/8e2fc051/src/main/java/billing/InvoiceRepository.java",
+   "project": "sast-corpus-tier1",
+   "line": 16,
+   "hash": "b72b17c8b6020ec3e599349aeecff891",
+   "textRange": {
+    "startLine": 16,
+    "endLine": 16,
+    "startOffset": 59,
+    "endOffset": 68
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Define and throw a dedicated exception instead of using a generic one.",
+   "effort": "20min",
+   "debt": "20min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "error-handling",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "COMPLETE",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "a9af6fd3-2fbc-48b8-8a52-53cc41dcaee6",
+   "rule": "java:S2095",
+   "severity": "BLOCKER",
+   "component": "sast-corpus-tier1:tier1/java/8e2fc051/src/main/java/billing/InvoiceRepository.java",
+   "project": "sast-corpus-tier1",
+   "line": 20,
+   "hash": "f3630bd76c68b1e3bdf287a74c1183fd",
+   "textRange": {
+    "startLine": 20,
+    "endLine": 20,
+    "startOffset": 38,
+    "endOffset": 85
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Use try-with-resources or close this \"PreparedStatement\" in a \"finally\" clause.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "symbolic-execution",
+    "leak",
+    "denial-of-service",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "BUG",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "COMPLETE",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "RELIABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "50efa83c-4995-475f-89f4-05fb2f6c111f",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/8f58f9a1/Parser.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Parser.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/8f58f9a1\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "fc5fb177-f04e-4046-a382-01067386c884",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/8f58f9a1/Parser.java",
+   "project": "sast-corpus-tier1",
+   "line": 7,
+   "hash": "7f8d3768f1a6685f7a99465b33ed2d49",
+   "textRange": {
+    "startLine": 7,
+    "endLine": 7,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "3072cc97-b162-4e5c-8146-96554afb139c",
+   "rule": "java:S112",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/8f58f9a1/Parser.java",
+   "project": "sast-corpus-tier1",
+   "line": 8,
+   "hash": "c50b298969e5d8ce5bdae964c1cf2bc7",
+   "textRange": {
+    "startLine": 8,
+    "endLine": 8,
+    "startOffset": 50,
+    "endOffset": 59
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Define and throw a dedicated exception instead of using a generic one.",
+   "effort": "20min",
+   "debt": "20min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "error-handling",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "COMPLETE",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "b40287a0-5961-4cd1-8ace-8086eef7bc51",
+   "rule": "java:S2755",
+   "severity": "BLOCKER",
+   "component": "sast-corpus-tier1:tier1/java/8f58f9a1/Parser.java",
+   "project": "sast-corpus-tier1",
+   "line": 9,
+   "hash": "99bbfb0477a1ada89d75b4ee0b6ae5db",
+   "textRange": {
+    "startLine": 9,
+    "endLine": 9,
+    "startOffset": 64,
+    "endOffset": 75
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Disable access to external entities in XML parsing.",
+   "effort": "15min",
+   "debt": "15min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "symbolic-execution"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "VULNERABILITY",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "COMPLETE",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "SECURITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "90210717-3c05-4c5d-9677-e6ef8e89ed58",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/c5b807c4/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Cli.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/c5b807c4\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "b5b914d5-fd58-4241-adf5-0076968f0980",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/c5b807c4/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "3dec855a32b8f0fac32065f7f903c36c",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 13,
+    "endOffset": 16
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "0ad540d3-acd0-45da-8506-fb2951011cbe",
+   "rule": "java:S106",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/c5b807c4/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 5,
+   "hash": "be8c4b962a9221feec4541576c5504b4",
+   "textRange": {
+    "startLine": 5,
+    "endLine": 5,
+    "startOffset": 8,
+    "endOffset": 18
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace this use of System.out by a logger.",
+   "effort": "10min",
+   "debt": "10min",
+   "author": "",
+   "tags": [
+    "bad-practice",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "a1d0dc15-94d0-4994-a804-1692a885258a",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/c5b807c4/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Runner.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/c5b807c4\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "58e51bde-2920-41f4-add6-98aa40dec989",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/c5b807c4/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 7,
+   "hash": "193301b6db35bdef7cbbc3c53c589d63",
+   "textRange": {
+    "startLine": 7,
+    "endLine": 7,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "9a136bad-16b6-424a-961c-e01351c2bf27",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/c5b807c4/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 11,
+   "hash": "6a13a778a042b0e6a57e4c2dd0efb727",
+   "textRange": {
+    "startLine": 11,
+    "endLine": 11,
+    "startOffset": 20,
+    "endOffset": 77
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "347c1bfe-4e96-4da2-808a-5c8b74b9259f",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/dfcb1cd6/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Sealer.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/dfcb1cd6\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "bcc7cbf5-2fa5-417e-93a6-17f861758b92",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/dfcb1cd6/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 8,
+   "hash": "d754aff53b537a4530801b5079d15acc",
+   "textRange": {
+    "startLine": 8,
+    "endLine": 8,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "cb2ea2f0-a535-4614-9fc7-1af6b2307456",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/dfcb1cd6/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 10,
+   "hash": "b5de2dbafaafb78463d99125e7634113",
+   "textRange": {
+    "startLine": 10,
+    "endLine": 10,
+    "startOffset": 21,
+    "endOffset": 35
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "5e9e44e2-738e-467a-b6fa-918dfac1b7d5",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/dfcb1cd6/Sealer.java",
+   "project": "sast-corpus-tier1",
+   "line": 12,
+   "hash": "9ddae13e09b267344c86b6a5b1116375",
+   "textRange": {
+    "startLine": 12,
+    "endLine": 12,
+    "startOffset": 22,
+    "endOffset": 63
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "1b0ccf31-fad7-4844-b813-3ea310622762",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/e48448f7/Settings.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Settings.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/e48448f7\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "4e19e15f-7a6d-4981-8346-0afd7c826010",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/f73695d2/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Cli.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/f73695d2\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "372cf385-ecc5-46d8-9b24-69c3507f6c76",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/f73695d2/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "3dec855a32b8f0fac32065f7f903c36c",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 13,
+    "endOffset": 16
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "c4b5b228-a72e-44d5-8417-767c036ab020",
+   "rule": "java:S106",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/f73695d2/Cli.java",
+   "project": "sast-corpus-tier1",
+   "line": 5,
+   "hash": "be8c4b962a9221feec4541576c5504b4",
+   "textRange": {
+    "startLine": 5,
+    "endLine": 5,
+    "startOffset": 8,
+    "endOffset": 18
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace this use of System.out by a logger.",
+   "effort": "10min",
+   "debt": "10min",
+   "author": "",
+   "tags": [
+    "bad-practice",
+    "cert"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "713289d3-cc7f-41eb-8da0-9b02d6b2d7e2",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/f73695d2/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"Runner.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/f73695d2\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "8a8e17c1-cacd-4af9-9267-3ccd48710a8e",
+   "rule": "java:S1118",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/f73695d2/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 6,
+   "hash": "193301b6db35bdef7cbbc3c53c589d63",
+   "textRange": {
+    "startLine": 6,
+    "endLine": 6,
+    "startOffset": 13,
+    "endOffset": 19
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add a private constructor to hide the implicit public one.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "design"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CLEAR",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "c874a993-989d-435a-9f6f-18a5b3ab8826",
+   "rule": "java:S1854",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/java/f73695d2/Runner.java",
+   "project": "sast-corpus-tier1",
+   "line": 10,
+   "hash": "dfb12a550fd06afb0c26499a745da0fa",
+   "textRange": {
+    "startLine": 10,
+    "endLine": 10,
+    "startOffset": 20,
+    "endOffset": 41
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Remove this useless assignment to local variable \"!unknown!\".",
+   "effort": "1min",
+   "debt": "1min",
+   "author": "",
+   "tags": [
+    "cwe",
+    "cert",
+    "unused"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "LOGICAL",
+   "cleanCodeAttributeCategory": "INTENTIONAL",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "8b2f4ac1-151b-4eb4-b755-fac95ead8526",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/f8d10b30/WebConfig.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"WebConfig.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/f8d10b30\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "e90226a8-59a0-4db0-a490-5192caa0b8d8",
+   "rule": "java:S1598",
+   "severity": "CRITICAL",
+   "component": "sast-corpus-tier1:tier1/java/f999508a/WebConfig.java",
+   "project": "sast-corpus-tier1",
+   "line": 1,
+   "hash": "2a259d818a7d67964de91d604a4b05af",
+   "textRange": {
+    "startLine": 1,
+    "endLine": 1,
+    "startOffset": 8,
+    "endOffset": 11
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "This file \"WebConfig.java\" should be located in \"app\" directory, not in \"/usr/src/tier1/java/f999508a\".",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [
+    "pitfall"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "CONVENTIONAL",
+   "cleanCodeAttributeCategory": "CONSISTENT",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "5000d7a6-0d78-423e-b189-283620049bda",
+   "rule": "php:S4833",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/php/5c2ecc56/handler.php",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "cfc01bf534f061c7b9467fb7beb8cfea",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 0,
+    "endOffset": 12
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace \"require_once\" with namespace import mechanism through the \"use\" keyword.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "187aa7a5-d95f-48fd-826c-8adbaf530495",
+   "rule": "php:S2115",
+   "severity": "BLOCKER",
+   "component": "sast-corpus-tier1:tier1/php/5c2ecc56/store.php",
+   "project": "sast-corpus-tier1",
+   "line": 4,
+   "hash": "08ee80ef3dd535d49803bfa22deb48ce",
+   "textRange": {
+    "startLine": 4,
+    "endLine": 4,
+    "startOffset": 47,
+    "endOffset": 49
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add password protection to this database.",
+   "effort": "45min",
+   "debt": "45min",
+   "author": "",
+   "tags": [
+    "cwe"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "VULNERABILITY",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "TRUSTWORTHY",
+   "cleanCodeAttributeCategory": "RESPONSIBLE",
+   "impacts": [
+    {
+     "softwareQuality": "SECURITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "caa2bb25-4965-41d3-a635-dbd48495c7a1",
+   "rule": "php:S4833",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/php/cc41cd31/handler.php",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "d51e502980ef797b577acc5836a1016b",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 0,
+    "endOffset": 12
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace \"require_once\" with namespace import mechanism through the \"use\" keyword.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "a193b1dd-5c1f-477d-a797-98217153034f",
+   "rule": "php:S4833",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/php/d4bc096b/handler.php",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "d51e502980ef797b577acc5836a1016b",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 0,
+    "endOffset": 12
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace \"require_once\" with namespace import mechanism through the \"use\" keyword.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "cfa58bde-c957-431d-b1ca-9e210548c424",
+   "rule": "php:S4833",
+   "severity": "MAJOR",
+   "component": "sast-corpus-tier1:tier1/php/f40fcd27/handler.php",
+   "project": "sast-corpus-tier1",
+   "line": 3,
+   "hash": "cfc01bf534f061c7b9467fb7beb8cfea",
+   "textRange": {
+    "startLine": 3,
+    "endLine": 3,
+    "startOffset": 0,
+    "endOffset": 12
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Replace \"require_once\" with namespace import mechanism through the \"use\" keyword.",
+   "effort": "5min",
+   "debt": "5min",
+   "author": "",
+   "tags": [],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "CODE_SMELL",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "MODULAR",
+   "cleanCodeAttributeCategory": "ADAPTABLE",
+   "impacts": [
+    {
+     "softwareQuality": "MAINTAINABILITY",
+     "severity": "MEDIUM"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  },
+  {
+   "key": "402fb1e5-1ea3-4087-a039-aecec2b9bf71",
+   "rule": "php:S2115",
+   "severity": "BLOCKER",
+   "component": "sast-corpus-tier1:tier1/php/f40fcd27/store.php",
+   "project": "sast-corpus-tier1",
+   "line": 4,
+   "hash": "08ee80ef3dd535d49803bfa22deb48ce",
+   "textRange": {
+    "startLine": 4,
+    "endLine": 4,
+    "startOffset": 47,
+    "endOffset": 49
+   },
+   "flows": [],
+   "status": "OPEN",
+   "message": "Add password protection to this database.",
+   "effort": "45min",
+   "debt": "45min",
+   "author": "",
+   "tags": [
+    "cwe"
+   ],
+   "creationDate": "2026-08-09T08:23:35+0000",
+   "updateDate": "2026-08-09T08:23:35+0000",
+   "type": "VULNERABILITY",
+   "scope": "MAIN",
+   "quickFixAvailable": false,
+   "messageFormattings": [],
+   "codeVariants": [],
+   "cleanCodeAttribute": "TRUSTWORTHY",
+   "cleanCodeAttributeCategory": "RESPONSIBLE",
+   "impacts": [
+    {
+     "softwareQuality": "SECURITY",
+     "severity": "HIGH"
+    }
+   ],
+   "issueStatus": "OPEN",
+   "prioritizedRule": false
+  }
+ ],
+ "components": [
+  {
+   "key": "sast-corpus-tier1:tier1/java/3c3edc3a/Cli.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Cli.java",
+   "longName": "tier1/java/3c3edc3a/Cli.java",
+   "path": "tier1/java/3c3edc3a/Cli.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/php/f40fcd27/store.php",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "store.php",
+   "longName": "tier1/php/f40fcd27/store.php",
+   "path": "tier1/php/f40fcd27/store.php"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/82b7e3aa/Sealer.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Sealer.java",
+   "longName": "tier1/java/82b7e3aa/Sealer.java",
+   "path": "tier1/java/82b7e3aa/Sealer.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/php/d4bc096b/handler.php",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "handler.php",
+   "longName": "tier1/php/d4bc096b/handler.php",
+   "path": "tier1/php/d4bc096b/handler.php"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/php/cc41cd31/handler.php",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "handler.php",
+   "longName": "tier1/php/cc41cd31/handler.php",
+   "path": "tier1/php/cc41cd31/handler.php"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/f73695d2/Cli.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Cli.java",
+   "longName": "tier1/java/f73695d2/Cli.java",
+   "path": "tier1/java/f73695d2/Cli.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/8e2fc051/src/main/java/billing/Entry.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Entry.java",
+   "longName": "tier1/java/8e2fc051/src/main/java/billing/Entry.java",
+   "path": "tier1/java/8e2fc051/src/main/java/billing/Entry.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/f73695d2/Runner.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Runner.java",
+   "longName": "tier1/java/f73695d2/Runner.java",
+   "path": "tier1/java/f73695d2/Runner.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/7e49aca7/Parser.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Parser.java",
+   "longName": "tier1/java/7e49aca7/Parser.java",
+   "path": "tier1/java/7e49aca7/Parser.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/e48448f7/Settings.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Settings.java",
+   "longName": "tier1/java/e48448f7/Settings.java",
+   "path": "tier1/java/e48448f7/Settings.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/f8d10b30/WebConfig.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "WebConfig.java",
+   "longName": "tier1/java/f8d10b30/WebConfig.java",
+   "path": "tier1/java/f8d10b30/WebConfig.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/472ab654/Cli.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Cli.java",
+   "longName": "tier1/java/472ab654/Cli.java",
+   "path": "tier1/java/472ab654/Cli.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/php/f40fcd27/handler.php",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "handler.php",
+   "longName": "tier1/php/f40fcd27/handler.php",
+   "path": "tier1/php/f40fcd27/handler.php"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/48fcb735/Cli.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Cli.java",
+   "longName": "tier1/java/48fcb735/Cli.java",
+   "path": "tier1/java/48fcb735/Cli.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/8e2fc051/src/main/java/billing/InvoiceRepository.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "InvoiceRepository.java",
+   "longName": "tier1/java/8e2fc051/src/main/java/billing/InvoiceRepository.java",
+   "path": "tier1/java/8e2fc051/src/main/java/billing/InvoiceRepository.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/f999508a/WebConfig.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "WebConfig.java",
+   "longName": "tier1/java/f999508a/WebConfig.java",
+   "path": "tier1/java/f999508a/WebConfig.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/3c3edc3a/Runner.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Runner.java",
+   "longName": "tier1/java/3c3edc3a/Runner.java",
+   "path": "tier1/java/3c3edc3a/Runner.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/72baa1a6/Cli.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Cli.java",
+   "longName": "tier1/java/72baa1a6/Cli.java",
+   "path": "tier1/java/72baa1a6/Cli.java"
+  },
+  {
+   "key": "sast-corpus-tier1",
+   "enabled": true,
+   "qualifier": "TRK",
+   "name": "sast-corpus-tier1",
+   "longName": "sast-corpus-tier1"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/72baa1a6/Runner.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Runner.java",
+   "longName": "tier1/java/72baa1a6/Runner.java",
+   "path": "tier1/java/72baa1a6/Runner.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/472ab654/Runner.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Runner.java",
+   "longName": "tier1/java/472ab654/Runner.java",
+   "path": "tier1/java/472ab654/Runner.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/4b19d7a2/src/main/java/app/Cli.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Cli.java",
+   "longName": "tier1/java/4b19d7a2/src/main/java/app/Cli.java",
+   "path": "tier1/java/4b19d7a2/src/main/java/app/Cli.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/0e818cc9/Settings.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Settings.java",
+   "longName": "tier1/java/0e818cc9/Settings.java",
+   "path": "tier1/java/0e818cc9/Settings.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/php/5c2ecc56/handler.php",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "handler.php",
+   "longName": "tier1/php/5c2ecc56/handler.php",
+   "path": "tier1/php/5c2ecc56/handler.php"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/8f58f9a1/Parser.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Parser.java",
+   "longName": "tier1/java/8f58f9a1/Parser.java",
+   "path": "tier1/java/8f58f9a1/Parser.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/4b19d7a2/src/main/java/app/OrderRepository.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "OrderRepository.java",
+   "longName": "tier1/java/4b19d7a2/src/main/java/app/OrderRepository.java",
+   "path": "tier1/java/4b19d7a2/src/main/java/app/OrderRepository.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/php/5c2ecc56/store.php",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "store.php",
+   "longName": "tier1/php/5c2ecc56/store.php",
+   "path": "tier1/php/5c2ecc56/store.php"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/c5b807c4/Cli.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Cli.java",
+   "longName": "tier1/java/c5b807c4/Cli.java",
+   "path": "tier1/java/c5b807c4/Cli.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/48fcb735/Runner.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Runner.java",
+   "longName": "tier1/java/48fcb735/Runner.java",
+   "path": "tier1/java/48fcb735/Runner.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/dfcb1cd6/Sealer.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Sealer.java",
+   "longName": "tier1/java/dfcb1cd6/Sealer.java",
+   "path": "tier1/java/dfcb1cd6/Sealer.java"
+  },
+  {
+   "key": "sast-corpus-tier1:tier1/java/c5b807c4/Runner.java",
+   "enabled": true,
+   "qualifier": "FIL",
+   "name": "Runner.java",
+   "longName": "tier1/java/c5b807c4/Runner.java",
+   "path": "tier1/java/c5b807c4/Runner.java"
+  }
+ ],
+ "rules": [
+  {
+   "key": "php:S2115",
+   "name": "A secure password should be used when connecting to a database",
+   "lang": "php",
+   "status": "READY",
+   "langName": "PHP",
+   "descriptionSections": [
+    {
+     "key": "resources",
+     "content": "<h3>Standards</h3>\n<ul>\n  <li> OWASP - <a href=\"https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/\">Top 10 2021 Category A7 - Identification and\n  Authentication Failures</a> </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication\">Top 10 2017 Category A2 - Broken Authentication</a>\n  </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure\">Top 10 2017 Category A3 - Sensitive Data\n  Exposure</a> </li>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/521\">CWE-521 - Weak Password Requirements</a> </li>\n</ul>"
+    },
+    {
+     "key": "introduction",
+     "content": "<p>When accessing a database, an empty password should be avoided as it introduces a weakness.</p>"
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>The following code uses an empty password to connect to a MySQL database.</p>\n<p>The vulnerability can be fixed by using a strong password retrieved from an environment variable <code>MYSQL_SECURE_PASSWORD</code>. This\nenvironment variable is set during deployment. It should be strong and different for each database.</p>\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"401\" data-diff-type=\"noncompliant\">\n$conn = new mysqli($servername, $username, \"\"); // Noncompliant\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"401\" data-diff-type=\"compliant\">\n$password = getenv('MYSQL_SECURE_PASSWORD');\n$conn = new mysqli($servername, $username, $password);\n</pre>\n<h3>Pitfalls</h3>\n<h4>Hard-coded passwords</h4>\n<p>It could be tempting to replace the empty password with a hard-coded one. Hard-coding passwords in the code can pose significant security risks.\nHere are a few reasons why it is not recommended:</p>\n<ol>\n  <li> Security Vulnerability: Hard-coded passwords can be easily discovered by anyone who has access to the code, such as other developers or\n  attackers. This can lead to unauthorized access to the database and potential data breaches. </li>\n  <li> Lack of Flexibility: Hard-coded passwords make it difficult to change the password without modifying the code. If the password needs to be\n  updated, it would require recompiling and redeploying the code, which can be time-consuming and error-prone. </li>\n  <li> Version Control Issues: Storing passwords in code can lead to version control issues. If the code is shared or stored in a version control\n  system, the password will be visible to anyone with access to the repository, which is a security risk. </li>\n</ol>\n<p>To mitigate these risks, it is recommended to use secure methods for storing and retrieving passwords, such as using environment variables,\nconfiguration files, or secure key management systems. These methods allow for better security, flexibility, and separation of sensitive information\nfrom the codebase.</p>",
+     "context": {
+      "displayName": "Core PHP",
+      "key": "core_php"
+     }
+    },
+    {
+     "key": "root_cause",
+     "content": "<p>When a database does not require a password for authentication, it allows anyone to access and manipulate the data stored within it. Exploiting\nthis vulnerability typically involves identifying the target database and establishing a connection to it without the need for any authentication\ncredentials.</p>\n<h3>What is the potential impact?</h3>\n<p>Once connected, an attacker can perform various malicious actions, such as viewing, modifying, or deleting sensitive information, potentially\nleading to data breaches or unauthorized access to critical systems. It is crucial to address this vulnerability promptly to ensure the security and\nintegrity of the database and the data it contains.</p>\n<h4>Unauthorized Access to Sensitive Data</h4>\n<p>When a database lacks a password for authentication, it opens the door for unauthorized individuals to gain access to sensitive data. This can\ninclude personally identifiable information (PII), financial records, intellectual property, or any other confidential information stored in the\ndatabase. Without proper access controls in place, malicious actors can exploit this vulnerability to retrieve sensitive data, potentially leading to\nidentity theft, financial loss, or reputational damage.</p>\n<h4>Compromise of System Integrity</h4>\n<p>Without a password requirement, unauthorized individuals can gain unrestricted access to a database, potentially compromising the integrity of the\nentire system. Attackers can inject malicious code, alter configurations, or manipulate data within the database, leading to system malfunctions,\nunauthorized system access, or even complete system compromise. This can disrupt business operations, cause financial losses, and expose the\norganization to further security risks.</p>\n<h4>Unwanted Modifications or Deletions</h4>\n<p>The absence of a password for database access allows anyone to make modifications or deletions to the data stored within it. This poses a\nsignificant risk, as unauthorized changes can lead to data corruption, loss of critical information, or the introduction of malicious content. For\nexample, an attacker could modify financial records, tamper with customer orders, or delete important files, causing severe disruptions to business\nprocesses and potentially leading to financial and legal consequences.</p>\n<p>Overall, the lack of a password configured to access a database poses a serious security risk, enabling unauthorized access, data breaches, system\ncompromise, and unwanted modifications or deletions. It is essential to address this vulnerability promptly to safeguard sensitive data, maintain\nsystem integrity, and protect the organization from potential harm.</p>"
+    }
+   ]
+  },
+  {
+   "key": "java:S1118",
+   "name": "Utility classes should not have public constructors",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "how_to_fix",
+     "content": "<p>To prevent the class from being instantiated, you should define a non-public constructor. This will prevent the compiler from implicitly generating\na public parameterless constructor.</p>\n\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\nclass StringUtils { // Noncompliant\n\n  public static String concatenate(String s1, String s2) {\n    return s1 + s2;\n  }\n\n}\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\nclass StringUtils { // Compliant\n\n  private StringUtils() {\n    throw new IllegalStateException(\"Utility class\");\n  }\n\n  public static String concatenate(String s1, String s2) {\n    return s1 + s2;\n  }\n\n}\n</pre>"
+    },
+    {
+     "key": "root_cause",
+     "content": "<p>Whenever there are portions of code that are duplicated and do not depend on the state of their container class, they can be centralized inside a\n\"utility class\". A utility class is a class that only has static members, hence it should not be instantiated.</p>\n<h3>Exceptions</h3>\n<p>When a class contains <code>public static void main(String[] args)</code> method it is not considered as a utility class and will be ignored by\nthis rule.</p>"
+    }
+   ]
+  },
+  {
+   "key": "java:S2095",
+   "name": "Resources should be closed",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "root_cause",
+     "content": "<p>Connections, streams, files, and other classes that implement the <code>Closeable</code> interface or its super-interface,\n<code>AutoCloseable</code>, needs to be closed after use. Further, that <code>close</code> call must be made in a <code>finally</code> block otherwise\nan exception could keep the call from being made. Preferably, when class implements <code>AutoCloseable</code>, resource should be created using\n\"try-with-resources\" pattern and will be closed automatically.</p>\n<p>Failure to properly close resources will result in a resource leak which could bring first the application and then perhaps the box the application\nis on to their knees.</p>\n<h3>Noncompliant code example</h3>\n<pre>\nprivate void readTheFile() throws IOException {\n  Path path = Paths.get(this.fileName);\n  BufferedReader reader = Files.newBufferedReader(path, this.charset);\n  // ...\n  reader.close();  // Noncompliant\n  // ...\n  Files.lines(\"input.txt\").forEach(System.out::println); // Noncompliant: The stream needs to be closed\n}\n\nprivate void doSomething() {\n  OutputStream stream = null;\n  try {\n    for (String property : propertyList) {\n      stream = new FileOutputStream(\"myfile.txt\");  // Noncompliant\n      // ...\n    }\n  } catch (Exception e) {\n    // ...\n  } finally {\n    stream.close();  // Multiple streams were opened. Only the last is closed.\n  }\n}\n</pre>\n<h3>Compliant solution</h3>\n<pre>\nprivate void readTheFile(String fileName) throws IOException {\n    Path path = Paths.get(fileName);\n    try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {\n      reader.readLine();\n      // ...\n    }\n    // ..\n    try (Stream&lt;String&gt; input = Files.lines(\"input.txt\"))  {\n      input.forEach(System.out::println);\n    }\n}\n\nprivate void doSomething() {\n  OutputStream stream = null;\n  try {\n    stream = new FileOutputStream(\"myfile.txt\");\n    for (String property : propertyList) {\n      // ...\n    }\n  } catch (Exception e) {\n    // ...\n  } finally {\n    stream.close();\n  }\n}\n</pre>\n<h3>Exceptions</h3>\n<p>Instances of the following classes are ignored by this rule because <code>close</code> has no effect:</p>\n<ul>\n  <li> <code>java.io.ByteArrayOutputStream</code> </li>\n  <li> <code>java.io.ByteArrayInputStream</code> </li>\n  <li> <code>java.io.CharArrayReader</code> </li>\n  <li> <code>java.io.CharArrayWriter</code> </li>\n  <li> <code>java.io.StringReader</code> </li>\n  <li> <code>java.io.StringWriter</code> </li>\n</ul>\n<p>Java 7 introduced the try-with-resources statement, which implicitly closes <code>Closeables</code>. All resources opened in a try-with-resources\nstatement are ignored by this rule.</p>\n<pre>\ntry (BufferedReader br = new BufferedReader(new FileReader(fileName))) {\n  //...\n}\ncatch ( ... ) {\n  //...\n}\n</pre>"
+    },
+    {
+     "key": "resources",
+     "content": "<ul>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/459\">CWE-459 - Incomplete Cleanup</a> </li>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/772\">CWE-772 - Missing Release of Resource after Effective Lifetime</a> </li>\n  <li> <a href=\"https://wiki.sei.cmu.edu/confluence/x/vjdGBQ\">CERT, FIO04-J.</a> - Release resources when they are no longer needed </li>\n  <li> <a href=\"https://wiki.sei.cmu.edu/confluence/x/QtUxBQ\">CERT, FIO42-C.</a> - Close files when they are no longer needed </li>\n  <li> <a href=\"https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html\">Try With Resources</a> </li>\n</ul>"
+    }
+   ]
+  },
+  {
+   "key": "java:S2755",
+   "name": "XML parsers should not be vulnerable to XXE attacks",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "root_cause",
+     "content": "<p>External Entity Processing allows for XML parsing with the involvement of external entities. However, when this functionality is enabled without\nproper precautions, it can lead to a vulnerability known as XML External Entity (XXE) attack.</p>\n<h3>What is the potential impact?</h3>\n<h4>Exposing sensitive data</h4>\n<p>One significant danger of XXE vulnerabilities is the potential for sensitive data exposure. By crafting malicious XML payloads, attackers can\nreference external entities that contain sensitive information, such as system files, database credentials, or configuration files. When these\nentities are processed during XML parsing, the attacker can extract the contents and gain unauthorized access to sensitive data. This poses a severe\nthreat to the confidentiality of critical information.</p>\n<h4>Exhausting system resources</h4>\n<p>Another consequence of XXE vulnerabilities is the potential for denial-of-service attacks. By exploiting the ability to include external entities,\nattackers can construct XML payloads that cause resource exhaustion. This can overwhelm the system\u2019s memory, CPU, or other critical resources, leading\nto system unresponsiveness or crashes. A successful DoS attack can disrupt the availability of services and negatively impact the user experience.</p>\n<h4>Forging requests</h4>\n<p>XXE vulnerabilities can also enable Server-Side Request Forgery (SSRF) attacks. By leveraging the ability to include external entities, an attacker\ncan make the vulnerable application send arbitrary requests to other internal or external systems. This can result in unintended actions, such as\nretrieving data from internal resources, scanning internal networks, or attacking other systems. SSRF attacks can lead to severe consequences,\nincluding unauthorized data access, system compromise, or even further exploitation within the network infrastructure.</p>"
+    },
+    {
+     "key": "introduction",
+     "content": "<p>This vulnerability allows the usage of external entities in XML.</p>"
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>The following code contains examples of XML parsers that have external entity processing enabled. As a result, the parsers are vulnerable to XXE\nattacks if an attacker can control the XML file that is processed.</p>\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\nimport javax.xml.XMLConstants;\nimport javax.xml.parsers.DocumentBuilderFactory;\n\npublic void decode() {\n    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); // Noncompliant\n}\n</pre>\n<pre data-diff-id=\"2\" data-diff-type=\"noncompliant\">\nimport javax.xml.stream.XMLInputFactory;\n\npublic void decode() {\n    XMLInputFactory factory = XMLInputFactory.newInstance(); // Noncompliant\n}\n</pre>\n<h4>Compliant solution</h4>\n<p>For <code>DocumentBuilderFactory</code>, <code>SAXParserFactory</code>, <code>TransformerFactory</code>, and <code>SchemaFactory</code> set\n<code>XMLConstants.FEATURE_SECURE_PROCESSING</code> to <code>true</code>.</p>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\nimport javax.xml.XMLConstants;\nimport javax.xml.parsers.DocumentBuilderFactory;\n\npublic void decode() {\n    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();\n    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);\n}\n</pre>\n<p>For <code>XMLInputFactory</code> set <code>SUPPORT_DTD</code> to <code>false</code>.</p>\n<pre data-diff-id=\"2\" data-diff-type=\"compliant\">\nimport javax.xml.stream.XMLInputFactory;\n\npublic void decode() {\n    XMLInputFactory factory = XMLInputFactory.newInstance();\n    factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);\n}\n</pre>\n<p>Other combinations of settings are secure, but in general, it is recommendable to use the approaches shown here, as they are the most clear.</p>\n<h3>How does this work?</h3>\n<h4>Disable external entities</h4>\n<p>The most effective approach to prevent XXE vulnerabilities is to disable external entity processing entirely, unless it is explicitly required for\nspecific use cases. By default, XML parsers should be configured to reject the processing of external entities. This can be achieved by setting the\nappropriate properties or options in your XML parser library or framework.</p>\n<p>If external entity processing is necessary for certain scenarios, adopt a whitelisting approach to restrict the entities that can be resolved\nduring XML parsing. Create a list of trusted external entities and disallow all others. This approach ensures that only known and safe entities are\nprocessed.<br> You should rely on features provided by your XML parser to restrict the external entities.</p>\n<h3>Going the extra mile</h3>\n<h4>Disable entity expansion</h4>\n<p>Specifically for <code>DocumentBuilderFactory</code>, it is possible to disable the entity expansion. Note, however, that this does not prevent the\nretrieval of external entities.</p>\n<pre>\nfactory.setExpandEntityReferences(false);\n</pre>",
+     "context": {
+      "displayName": "Java SE",
+      "key": "java_se"
+     }
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>The following code contains examples of XML parsers that have external entity processing enabled. As a result, the parsers are vulnerable to XXE\nattacks if an attacker can control the XML file that is processed.</p>\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"11\" data-diff-type=\"noncompliant\">\nimport org.jdom2.input.SAXBuilder;\n\npublic void decode() {\n    SAXBuilder builder = new SAXBuilder(); // Noncompliant\n}\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"11\" data-diff-type=\"compliant\">\nimport org.jdom2.input.SAXBuilder;\n\npublic void decode() {\n    SAXBuilder builder = new SAXBuilder();\n    builder.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, \"\");\n}\n</pre>\n<h3>How does this work?</h3>\n<h4>Disable external entities</h4>\n<p>The most effective approach to prevent XXE vulnerabilities is to disable external entity processing entirely, unless it is explicitly required for\nspecific use cases. By default, XML parsers should be configured to reject the processing of external entities. This can be achieved by setting the\nappropriate properties or options in your XML parser library or framework.</p>\n<p>If external entity processing is necessary for certain scenarios, adopt a whitelisting approach to restrict the entities that can be resolved\nduring XML parsing. Create a list of trusted external entities and disallow all others. This approach ensures that only known and safe entities are\nprocessed.<br> You should rely on features provided by your XML parser to restrict the external entities.</p>",
+     "context": {
+      "displayName": "Jdom2",
+      "key": "jdom2"
+     }
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>The following code contains examples of XML parsers that have external entity processing enabled. As a result, the parsers are vulnerable to XXE\nattacks if an attacker can control the XML file that is processed.</p>\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"21\" data-diff-type=\"noncompliant\">\nimport org.dom4j.io.SAXReader;\n\npublic void decode() {\n    SAXReader xmlReader = new SAXReader(); // Noncompliant\n}\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"21\" data-diff-type=\"compliant\">\nimport org.dom4j.io.SAXReader;\n\npublic void decode() {\n    SAXReader xmlReader = new SAXReader();\n    xmlReader.setFeature(\"http://apache.org/xml/features/disallow-doctype-decl\", true);\n}\n</pre>\n<h3>How does this work?</h3>\n<h4>Disable external entities</h4>\n<p>The most effective approach to prevent XXE vulnerabilities is to disable external entity processing entirely, unless it is explicitly required for\nspecific use cases. By default, XML parsers should be configured to reject the processing of external entities. This can be achieved by setting the\nappropriate properties or options in your XML parser library or framework.</p>\n<p>If external entity processing is necessary for certain scenarios, adopt a whitelisting approach to restrict the entities that can be resolved\nduring XML parsing. Create a list of trusted external entities and disallow all others. This approach ensures that only known and safe entities are\nprocessed.<br> You should rely on features provided by your XML parser to restrict the external entities.</p>",
+     "context": {
+      "displayName": "Dom4j",
+      "key": "dom4j"
+     }
+    },
+    {
+     "key": "resources",
+     "content": "<h3>Standards</h3>\n<ul>\n  <li> OWASP - <a href=\"https://owasp.org/Top10/A05_2021-Security_Misconfiguration/\">Top 10 2021 Category A5 - Security Misconfiguration</a> </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE)\">Top 10 2017 Category A4 - XML External\n  Entities (XXE)</a> </li>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/611\">CWE-611 - Information Exposure Through XML External Entity Reference</a> </li>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/827\">CWE-827 - Improper Control of Document Type Definition</a> </li>\n  <li> STIG Viewer - <a href=\"https://stigviewer.com/stig/application_security_and_development/2023-06-08/finding/V-222608\">Application Security and\n  Development: V-222608</a> - The application must not be vulnerable to XML-oriented attacks. </li>\n</ul>"
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>The following code contains examples of XML parsers that have external entity processing enabled. As a result, the parsers are vulnerable to XXE\nattacks if an attacker can control the XML file that is processed.</p>\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"31\" data-diff-type=\"noncompliant\">\nimport org.xml.sax.XMLReader;\nimport org.xml.sax.helpers.XMLReaderFactory;\n\npublic void decode() {\n    XMLReader reader = XMLReaderFactory.createXMLReader(); // Noncompliant\n}\n</pre>\n<h4>Compliant solution</h4>\n<p>Set <code>disallow-doctype-decl</code> to <code>true</code>.</p>\n<pre data-diff-id=\"31\" data-diff-type=\"compliant\">\nimport org.xml.sax.XMLReader;\nimport org.xml.sax.helpers.XMLReaderFactory;\n\npublic void decode() {\n    XMLReader reader = XMLReaderFactory.createXMLReader();\n    reader.setFeature(\"http://apache.org/xml/features/disallow-doctype-decl\", true);\n}\n</pre>\n<h3>How does this work?</h3>\n<h4>Disable external entities</h4>\n<p>The most effective approach to prevent XXE vulnerabilities is to disable external entity processing entirely, unless it is explicitly required for\nspecific use cases. By default, XML parsers should be configured to reject the processing of external entities. This can be achieved by setting the\nappropriate properties or options in your XML parser library or framework.</p>\n<p>If external entity processing is necessary for certain scenarios, adopt a whitelisting approach to restrict the entities that can be resolved\nduring XML parsing. Create a list of trusted external entities and disallow all others. This approach ensures that only known and safe entities are\nprocessed.<br> You should rely on features provided by your XML parser to restrict the external entities.</p>",
+     "context": {
+      "displayName": "SAX",
+      "key": "sax"
+     }
+    }
+   ]
+  },
+  {
+   "key": "java:S106",
+   "name": "Standard outputs should not be used directly to log anything",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "root_cause",
+     "content": "<p>In software development, logs serve as a record of events within an application, providing crucial insights for debugging. When logging, it is\nessential to ensure that the logs are:</p>\n<ul>\n  <li> easily accessible </li>\n  <li> uniformly formatted for readability </li>\n  <li> properly recorded </li>\n  <li> securely logged when dealing with sensitive data </li>\n</ul>\n<p>Those requirements are not met if a program directly writes to the standard outputs (e.g., System.out, System.err). That is why defining and using\na dedicated logger is highly recommended.</p>\n\n<p>The following noncompliant code:</p>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\nclass MyClass {\n  public void doSomething() {\n    System.out.println(\"My Message\");  // Noncompliant, output directly to System.out without a logger\n  }\n}\n</pre>\n<p>Could be replaced by:</p>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\nimport java.util.logging.Logger;\n\nclass MyClass {\n\n  Logger logger = Logger.getLogger(getClass().getName());\n\n  public void doSomething() {\n    // ...\n    logger.info(\"My Message\");  // Compliant, output via logger\n    // ...\n  }\n}\n</pre>"
+    },
+    {
+     "key": "resources",
+     "content": "<h3>Documentation</h3>\n<ul>\n  <li> <a href=\"https://docs.oracle.com/javase/7/docs/api/java/util/logging/Logger.html\">Java SE 7 API Specification: java.util.logging.Logger</a>\n  </li>\n  <li> OWASP - <a href=\"https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/\">Top 10 2021 Category A9 - Security Logging and\n  Monitoring Failures</a> </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure\">Top 10 2017 Category A3 - Sensitive Data\n  Exposure</a> </li>\n  <li> <a href=\"https://wiki.sei.cmu.edu/confluence/x/nzdGBQ\">CERT, ERR02-J.</a> - Prevent exceptions while logging data </li>\n</ul>"
+    }
+   ]
+  },
+  {
+   "key": "java:S1598",
+   "name": "Package declaration should match source file directory",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "how_to_fix",
+     "content": "<p>Either move the source file so that the relative file path within the source directory matches the package name, or change the package name so that\nit matches the relative file path.</p>\n\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\n// file: src/main/foo/Fubar.java\npackage com.foo.bar;\n\nclass Fubar {\n}\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\n// file: src/main/com/foo/bar/Fubar.java\npackage com.foo.bar;\n\nclass Fubar {\n}\n</pre>\n<pre>\n// file: src/main/foo/Fubar.java\npackage foo;\n\nclass Fubar {\n}\n</pre>"
+    },
+    {
+     "key": "root_cause",
+     "content": "<p>The purpose of Java packages is to give structure to your project. A structure helps to mentally break down a project into smaller parts,\nsimplifying readers' understanding of how components are connected and how they interact.</p>\n<p>By convention, the source files' directory structure should replicate the project\u2019s package structure. This is for the following reasons:</p>\n<ol>\n  <li> The mapping between the package name and the location of the source file of a class is straightforward. That is, the path to the source file is\n  easier to find for a given fully qualified class name. </li>\n  <li> If two different structures are applied to the same project - one to the packages but another to the source file directories - this confuses\n  developers while not providing any benefit. </li>\n  <li> The directory structure of the class files generated by the compiler will match the package structure, no matter the source file\u2019s directory.\n  It would not make sense to have one directory structure for the generated class files but a different one for the associated source files. </li>\n</ol>\n<p>Similarly, a source directory should not have the character <code>.</code> in its name, as this would make it impossible to match the directory to\nthe package structure.</p>"
+    },
+    {
+     "key": "resources",
+     "content": "<h3>Articles &amp; blog posts</h3>\n<ul>\n  <li> <a href=\"https://www.baeldung.com/java-declared-expected-package-error\">Baeldung - Fixing the \"Declared package does not match the expected\n  package\" Error</a> </li>\n  <li> <a href=\"https://www.baeldung.com/java-file-vs-file-path-separator\">Stackoverflow - Why do java source files require package declarations?</a>\n  </li>\n  <li> <a\n  href=\"https://www.tutorialspoint.com/what-are-the-best-practices-to-keep-in-mind-while-using-packages-in-java#:~:text=Naming%20conventions%20and%20best%20practices%20for%20packages\">tutorialspoint - What are the best practices to keep in mind while using packages in Java?</a> </li>\n</ul>"
+    }
+   ]
+  },
+  {
+   "key": "java:S112",
+   "name": "Generic exceptions should never be thrown",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "introduction",
+     "content": "<p>This rule raises an issue when a generic exception (such as <code>Error</code>, <code>RuntimeException</code>, <code>Throwable</code>, or\n<code>Exception</code>) is thrown.</p>"
+    },
+    {
+     "key": "root_cause",
+     "content": "<p>Throwing generic exceptions such as <code>Error</code>, <code>RuntimeException</code>, <code>Throwable</code>, and <code>Exception</code> will have\na negative impact on any code trying to catch these exceptions.</p>\n<p>From a consumer perspective, it is generally a best practice to only catch exceptions you intend to handle. Other exceptions should ideally be let\nto propagate up the stack trace so that they can be dealt with appropriately. When a generic exception is thrown, it forces consumers to catch\nexceptions they do not intend to handle, which they then have to re-throw.</p>\n<p>Besides, when working with a generic type of exception, the only way to distinguish between multiple exceptions is to check their message, which is\nerror-prone and difficult to maintain. Legitimate exceptions may be unintentionally silenced and errors may be hidden.</p>\n<p>For instance, when a <code>Throwable</code> is caught and not re-thrown, it may mask errors such as <code>OutOfMemoryError</code> and prevent the\nprogram from terminating gracefully.</p>\n<p>When throwing an exception, it is therefore recommended to throw the most specific exception possible so that it can be handled intentionally by\nconsumers.</p>\n<h3>Exceptions</h3>\n<p>Generic exceptions in the signatures of overriding methods are ignored, because an overriding method has to follow the signature of the throw\ndeclaration in the superclass. The issue will be raised on superclass declaration of the method (or won\u2019t be raised at all if superclass is not part\nof the analysis).</p>\n<pre>\n@Override\npublic void myMethod() throws Exception {...}\n</pre>\n<p>Generic exceptions are also ignored in the signatures of methods that make calls to methods that throw generic exceptions.</p>\n<pre>\npublic void myOtherMethod() throws Exception {\n  doTheThing();  // this method throws Exception\n}\n</pre>"
+    },
+    {
+     "key": "resources",
+     "content": "<h3>Standards</h3>\n<ul>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/397\">CWE-397 Declaration of Throws for Generic Exception</a> </li>\n  <li> CERT - <a href=\"https://wiki.sei.cmu.edu/confluence/x/_DdGBQ\">ERR07-J. Do not throw RuntimeException, Exception, or Throwable</a> </li>\n</ul>\n<h3>Related rules</h3>\n<ul>\n  <li> <a href='/coding_rules#rule_key=java%3AS1181'>S1181</a> - Generic exceptions should not be caught </li>\n</ul>"
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>To fix this issue, make sure to throw specific exceptions that are relevant to the context in which they arise. It is recommended to either:</p>\n<ul>\n  <li> Raise a specific exception from the Java standard library when one matches. For example an <code>IllegalArgumentException</code> should be\n  thrown when a method receives an invalid argument. </li>\n  <li> Create a custom exception class deriving from <code>Exception</code> or one of its subclasses. </li>\n</ul>\n\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\nvoid checkValue(int value) throws Throwable { // Noncompliant: signature is too broad\n    if (value == 42) {\n        throw new RuntimeException(\"Value is 42\"); // Noncompliant: This will be difficult for consumers to handle\n    }\n}\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\nvoid checkValue(int value) {\n    if (value == 42) {\n        throw new IllegalArgumentException(\"Value is 42\"); // Compliant\n    }\n}\n</pre>"
+    }
+   ]
+  },
+  {
+   "key": "java:S5542",
+   "name": "Encryption algorithms should be used with secure mode and padding scheme",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "root_cause",
+     "content": "<p>Encryption algorithms are essential for protecting sensitive information and ensuring secure communications in a variety of domains. They are used\nfor several important reasons:</p>\n<ul>\n  <li> Confidentiality, privacy, and intellectual property protection </li>\n  <li> Security during transmission or on storage devices </li>\n  <li> Data integrity, general trust, and authentication </li>\n</ul>\n<p>When selecting encryption algorithms, tools, or combinations, you should also consider two things:</p>\n<ol>\n  <li> No encryption is unbreakable. </li>\n  <li> The strength of an encryption algorithm is usually measured by the effort required to crack it within a reasonable time frame. </li>\n</ol>\n<p>For these reasons, as soon as cryptography is included in a project, it is important to choose encryption algorithms that are considered strong and\nsecure by the cryptography community.</p>\n<p>For AES, the weakest mode is ECB (Electronic Codebook). Repeated blocks of data are encrypted to the same value, making them easy to identify and\nreducing the difficulty of recovering the original cleartext.</p>\n<p>Unauthenticated modes such as CBC (Cipher Block Chaining) may be used but are prone to attacks that manipulate the ciphertext. They must be used\nwith caution.</p>\n<p>For RSA, the weakest algorithms are either using it without padding or using the PKCS1v1.5 padding scheme.</p>\n<h3>What is the potential impact?</h3>\n<p>The cleartext of an encrypted message might be recoverable. Additionally, it might be possible to modify the cleartext of an encrypted message.</p>\n<p>Below are some real-world scenarios that illustrate possible impacts of an attacker exploiting the vulnerability.</p>\n<h4>Theft of sensitive data</h4>\n<p>The encrypted message might contain data that is considered sensitive and should not be known to third parties.</p>\n<p>By using a weak algorithm the likelihood that an attacker might be able to recover the cleartext drastically increases.</p>\n<h4>Additional attack surface</h4>\n<p>By modifying the cleartext of the encrypted message it might be possible for an attacker to trigger other vulnerabilities in the code. Encrypted\nvalues are often considered trusted, since under normal circumstances it would not be possible for a third party to modify them.</p>"
+    },
+    {
+     "key": "introduction",
+     "content": "<p>This vulnerability exposes encrypted data to a number of attacks whose goal is to recover the plaintext.</p>"
+    },
+    {
+     "key": "resources",
+     "content": "<h3>Articles &amp; blog posts</h3>\n<ul>\n  <li> <a href=\"https://learn.microsoft.com/en-us/dotnet/standard/security/vulnerabilities-cbc-mode\">Microsoft, Timing vulnerabilities with CBC-mode\n  symmetric decryption using padding</a> </li>\n  <li> <a href=\"https://en.wikipedia.org/wiki/Padding_oracle_attack\">Wikipedia, Padding Oracle Attack</a> </li>\n  <li> <a href=\"https://en.wikipedia.org/wiki/Chosen-ciphertext_attack\">Wikipedia, Chosen-Ciphertext Attack</a> </li>\n  <li> <a href=\"https://en.wikipedia.org/wiki/Chosen-plaintext_attack\">Wikipedia, Chosen-Plaintext Attack</a> </li>\n  <li> <a href=\"https://en.wikipedia.org/wiki/Semantic_security\">Wikipedia, Semantically Secure Cryptosystems</a> </li>\n  <li> <a href=\"https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding\">Wikipedia, OAEP</a> </li>\n  <li> <a href=\"https://en.wikipedia.org/wiki/Galois/Counter_Mode\">Wikipedia, Galois/Counter Mode</a> </li>\n</ul>\n<h3>Standards</h3>\n<ul>\n  <li> OWASP - <a href=\"https://owasp.org/Top10/A02_2021-Cryptographic_Failures/\">Top 10 2021 Category A2 - Cryptographic Failures</a> </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure\">Top 10 2017 Category A3 - Sensitive Data\n  Exposure</a> </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration\">Top 10 2017 Category A6 - Security\n  Misconfiguration</a> </li>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/327\">CWE-327 - Use of a Broken or Risky Cryptographic Algorithm</a> </li>\n  <li> OWASP - <a href=\"https://mas.owasp.org/checklists/MASVS-CRYPTO/\">Mobile AppSec Verification Standard - Cryptography Requirements</a> </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-mobile-top-10/2016-risks/m5-insufficient-cryptography\">Mobile Top 10 2016 Category M5 -\n  Insufficient Cryptography</a> </li>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/327\">CWE-327 - Use of a Broken or Risky Cryptographic Algorithm</a> </li>\n  <li> <a href=\"https://wiki.sei.cmu.edu/confluence/x/hDdGBQ\">CERT, MSC61-J.</a> - Do not use insecure or weak cryptographic algorithms </li>\n</ul>"
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<h4>Noncompliant code example</h4>\n<p>Example with a symmetric cipher, AES:</p>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\nimport javax.crypto.Cipher;\nimport java.security.NoSuchAlgorithmException;\nimport javax.crypto.NoSuchPaddingException;\n\npublic static void main(String[] args) {\n    try {\n        Cipher.getInstance(\"AES/CBC/PKCS5Padding\"); // Noncompliant\n    } catch(NoSuchAlgorithmException|NoSuchPaddingException e) {\n        // ...\n    }\n}\n</pre>\n<p>Example with an asymmetric cipher, RSA:</p>\n<pre data-diff-id=\"2\" data-diff-type=\"noncompliant\">\nimport javax.crypto.Cipher;\nimport java.security.NoSuchAlgorithmException;\nimport javax.crypto.NoSuchPaddingException;\n\npublic static void main(String[] args) {\n    try {\n        Cipher.getInstance(\"RSA/None/NoPadding\"); // Noncompliant\n    } catch(NoSuchAlgorithmException|NoSuchPaddingException e) {\n        // ...\n    }\n}\n</pre>\n<h4>Compliant solution</h4>\n<p>For the AES symmetric cipher, use the GCM mode:</p>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\nimport javax.crypto.Cipher;\nimport java.security.NoSuchAlgorithmException;\nimport javax.crypto.NoSuchPaddingException;\n\npublic static void main(String[] args) {\n    try {\n        Cipher.getInstance(\"AES/GCM/NoPadding\");\n    } catch(NoSuchAlgorithmException|NoSuchPaddingException e) {\n        // ...\n    }\n}\n</pre>\n<p>For the RSA asymmetric cipher, use the Optimal Asymmetric Encryption Padding (OAEP):</p>\n<pre data-diff-id=\"2\" data-diff-type=\"compliant\">\nimport javax.crypto.Cipher;\nimport java.security.NoSuchAlgorithmException;\nimport javax.crypto.NoSuchPaddingException;\n\npublic static void main(String[] args) {\n    try {\n        Cipher.getInstance(\"RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING\");\n    } catch(NoSuchAlgorithmException|NoSuchPaddingException e) {\n        // ...\n    }\n}\n</pre>\n<h3>How does this work?</h3>\n<p>As a rule of thumb, use the cryptographic algorithms and mechanisms that are considered strong by the cryptographic community.</p>\n<p>Appropriate choices are currently the following.</p>\n<h4>For AES: use authenticated encryption modes</h4>\n<p>The best-known authenticated encryption mode for AES is Galois/Counter mode (GCM).</p>\n<p>GCM mode combines encryption with authentication and integrity checks using a cryptographic hash function and provides both confidentiality and\nauthenticity of data.</p>\n<p>Other similar modes are:</p>\n<ul>\n  <li> CCM: <code>Counter with CBC-MAC</code> </li>\n  <li> CWC: <code>Cipher Block Chaining with Message Authentication Code</code> </li>\n  <li> EAX: <code>Encrypt-and-Authenticate</code> </li>\n  <li> IAPM: <code>Integer Authenticated Parallelizable Mode</code> </li>\n  <li> OCB: <code>Offset Codebook Mode</code> </li>\n</ul>\n<p>It is also possible to use AES-CBC with HMAC for integrity checks. However, it is considered more straightforward to use AES-GCM directly\ninstead.</p>\n<h4>For RSA: use the OAEP scheme</h4>\n<p>The Optimal Asymmetric Encryption Padding scheme (OAEP) adds randomness and a secure hash function that strengthens the regular inner workings of\nRSA.</p>",
+     "context": {
+      "displayName": "Java Cryptography Extension",
+      "key": "java_cryptography_extension"
+     }
+    }
+   ]
+  },
+  {
+   "key": "php:S4833",
+   "name": "Use of namespaces should be preferred to \"include\" or \"require\" functions",
+   "lang": "php",
+   "status": "READY",
+   "langName": "PHP",
+   "descriptionSections": [
+    {
+     "key": "root_cause",
+     "content": "<p>Namespaces should be preferred over the <code>include</code> or <code>require</code> functions in PHP because they provide a cleaner and more\norganized approach for managing code dependencies. Namespaces allow you to logically group related classes, functions, and constants, preventing\nnaming conflicts and improving code readability. They also promote code reusability by enabling modularization and encapsulation. On the other hand,\nusing <code>include</code> or <code>require</code> functions directly can lead to a cluttered global namespace and make it harder to track and manage\ndependencies, especially in larger projects.</p>\n<h3>Exceptions</h3>\n<p>This rule doesn\u2019t raise issues on <code>autoload.php</code> files. This file is typically generated by Composer that provides an autoloading\nmechanism for classes and functions. Composer is a dependency management tool for PHP that simplifies the process of integrating external libraries\nand packages into your project.</p>"
+    },
+    {
+     "key": "resources",
+     "content": "<h3>Documentation</h3>\n<ul>\n  <li> <a href=\"https://www.php-fig.org/psr/psr-4/\">PSR-4: Autoloader</a> </li>\n  <li> <a href=\"https://getcomposer.org/doc/00-intro.md\">Composer - PHP Dependency Management</a> </li>\n</ul>"
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>It is recommended to use the PSR-4 autoloading standard and to use Composer to manage the loading of classes and functions.</p>\n\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\nrequire_once './shop/modules/vegetable/src/entity/Tomato.php';\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\nuse Shop\\Vegetable\\Tomato\n</pre>\n<h3>How does this work?</h3>\n<p>To import classes and functions with namespaces using Composer in PHP you have to ensure that the project is set up to use Composer and have a\nvalid composer.json file in the root directory. Make sure the namespace corresponds to the directory structure of your classes.</p>"
+    }
+   ]
+  },
+  {
+   "key": "java:S1854",
+   "name": "Unused assignments should be removed",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "root_cause",
+     "content": "<p>Dead stores refer to assignments made to local variables that are subsequently never used or immediately overwritten. Such assignments are\nunnecessary and don\u2019t contribute to the functionality or clarity of the code. They may even negatively impact performance. Removing them enhances code\ncleanliness and readability. Even if the unnecessary operations do not do any harm in terms of the program\u2019s correctness, they are - at best - a waste\nof computing resources.</p>\n<h3>Exceptions</h3>\n<p>This rule ignores initializations to <code>-1</code>, <code>0</code>, <code>1</code>, <code>null</code>, <code>true</code>, <code>false</code> and\n<code>\"\"</code>.</p>"
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>Remove the unnecesarry assignment, then test the code to make sure that the right-hand side of a given assignment had no side effects (e.g. a\nmethod that writes certain data to a file and returns the number of written bytes).</p>\n\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\nint foo(int y) {\n  int x = 100; // Noncompliant: dead store\n  x = 150;     // Noncompliant: dead store\n  x = 200;\n  return x + y;\n}\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\nint foo(int y) {\n  int x = 200; // Compliant: no unnecessary assignment\n  return x + y;\n}\n</pre>"
+    },
+    {
+     "key": "resources",
+     "content": "<h3>Standards</h3>\n<ul>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/563\">CWE-563 - Assignment to Variable without Use ('Unused Variable')</a> </li>\n</ul>\n<h3>Related rules</h3>\n<ul>\n  <li> <a href='/coding_rules#rule_key=java%3AS2583'>S2583</a> - Conditionally executed code should be reachable </li>\n  <li> <a href='/coding_rules#rule_key=java%3AS2589'>S2589</a> - Boolean expressions should not be gratuitous </li>\n  <li> <a href='/coding_rules#rule_key=java%3AS3516'>S3516</a> - Methods returns should not be invariant </li>\n  <li> <a href='/coding_rules#rule_key=java%3AS3626'>S3626</a> - Jump statements should not be redundant </li>\n</ul>"
+    }
+   ]
+  },
+  {
+   "key": "java:S5547",
+   "name": "Cipher algorithms should be robust",
+   "lang": "java",
+   "status": "READY",
+   "langName": "Java",
+   "descriptionSections": [
+    {
+     "key": "root_cause",
+     "content": "<p>Encryption algorithms are essential for protecting sensitive information and ensuring secure communication in various domains. They are used for\nseveral important reasons:</p>\n<ul>\n  <li> Confidentiality, privacy, and intellectual property protection </li>\n  <li> Security during transmission or on storage devices </li>\n  <li> Data integrity, general trust, and authentication </li>\n</ul>\n<p>When selecting encryption algorithms, tools, or combinations, you should also consider two things:</p>\n<ol>\n  <li> No encryption is unbreakable. </li>\n  <li> The strength of an encryption algorithm is usually measured by the effort required to crack it within a reasonable time frame. </li>\n</ol>\n<p>For these reasons, as soon as cryptography is included in a project, it is important to choose encryption algorithms that are considered strong and\nsecure by the cryptography community.</p>\n<h3>What is the potential impact?</h3>\n<p>The cleartext of an encrypted message might be recoverable. Additionally, it might be possible to modify the cleartext of an encrypted message.</p>\n<p>Below are some real-world scenarios that illustrate some impacts of an attacker exploiting the vulnerability.</p>\n<h4>Theft of sensitive data</h4>\n<p>The encrypted message might contain data that is considered sensitive and should not be known to third parties.</p>\n<p>By using a weak algorithm the likelihood that an attacker might be able to recover the cleartext drastically increases.</p>\n<h4>Additional attack surface</h4>\n<p>By modifying the cleartext of the encrypted message it might be possible for an attacker to trigger other vulnerabilities in the code. Encrypted\nvalues are often considered trusted, since under normal circumstances it would not be possible for a third party to modify them.</p>"
+    },
+    {
+     "key": "how_to_fix",
+     "content": "<p>The following code contains examples of algorithms that are not considered highly resistant to cryptanalysis and thus should be avoided.</p>\n<h4>Noncompliant code example</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"noncompliant\">\nimport javax.crypto.Cipher;\nimport java.security.NoSuchAlgorithmException;\nimport javax.crypto.NoSuchPaddingException;\n\npublic static void main(String[] args) {\n    try {\n        Cipher des = Cipher.getInstance(\"DES\"); // Noncompliant\n    } catch(NoSuchAlgorithmException|NoSuchPaddingException e) {\n        // ...\n    }\n}\n</pre>\n<h4>Compliant solution</h4>\n<pre data-diff-id=\"1\" data-diff-type=\"compliant\">\nimport javax.crypto.Cipher;\nimport java.security.NoSuchAlgorithmException;\nimport javax.crypto.NoSuchPaddingException;\n\npublic static void main(String[] args) {\n    try {\n        Cipher aes = Cipher.getInstance(\"AES/GCM/NoPadding\");\n    } catch(NoSuchAlgorithmException|NoSuchPaddingException e) {\n        // ...\n    }\n}\n</pre>\n<h3>How does this work?</h3>\n<h4>Use a secure algorithm</h4>\n<p>It is highly recommended to use an algorithm that is currently considered secure by the cryptographic community. A common choice for such an\nalgorithm is the Advanced Encryption Standard (AES).</p>\n<p>For block ciphers, it is not recommended to use algorithms with a block size that is smaller than 128 bits.</p>",
+     "context": {
+      "displayName": "Java Cryptography Extension",
+      "key": "java_cryptography_extension"
+     }
+    },
+    {
+     "key": "introduction",
+     "content": "<p>This vulnerability makes it possible that the cleartext of the encrypted message might be recoverable without prior knowledge of the key.</p>"
+    },
+    {
+     "key": "resources",
+     "content": "<h3>Standards</h3>\n<ul>\n  <li> OWASP - <a href=\"https://owasp.org/Top10/A02_2021-Cryptographic_Failures/\">Top 10 2021 Category A2 - Cryptographic Failures</a> </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure\">Top 10 2017 Category A3 - Sensitive Data\n  Exposure</a> </li>\n  <li> OWASP - <a href=\"https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration\">Top 10 2017 Category A6 - Security\n  Misconfiguration</a> </li>\n  <li> CWE - <a href=\"https://cwe.mitre.org/data/definitions/327\">CWE-327 - Use of a Broken or Risky Cryptographic Algorithm</a> </li>\n  <li> STIG Viewer - <a href=\"https://stigviewer.com/stig/application_security_and_development/2023-06-08/finding/V-222396\">Application Security and\n  Development: V-222396</a> - The application must implement DoD-approved encryption to protect the confidentiality of remote access sessions. </li>\n</ul>"
+    }
+   ]
+  }
+ ],
+ "facets": []
+}
