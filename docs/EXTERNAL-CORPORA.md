@@ -170,7 +170,7 @@ publishes from it.
 | `commons-cli` | 15,716 | 1.07 s | 0.068 |
 | `commons-lang` | 129,508 | 2.08 s | 0.016 |
 | `spring-boot` | 642,008 | 5.49 s | 0.009 |
-| `hadoop` | 4,655,050 | not yet timed | — |
+| `hadoop` | 4,655,050 | 27.28 s | 0.006 |
 
 **Bucket names were estimates and every one of them was wrong.** `commons-lang`
 was guessed at 50k and measures 130k; `spring-boot` was guessed at 200k and
@@ -180,6 +180,15 @@ Against the service levels that matter — under three minutes at 50–200k LOC,
 under ten minutes past 500k — `commons-lang` sits inside the pull-request band
 and `spring-boot` past the large-repository threshold, so the two thresholds are
 covered. `hadoop` is an extreme rather than a representative case.
+
+**Throughput is not a constant, and a single figure quoted from one repository
+will be wrong for any other size.** Seconds per 1k LOC improves elevenfold across
+this range — 0.068 at 15k, 0.006 at 4.6M — because fixed overhead (process
+start, rule compilation, plugin loading) dominates a small repository entirely
+and disappears into the noise on a large one. That is precisely why the smallest
+bucket is here: a per-1k-LOC number derived only from large repositories would
+badly understate the cost of scanning a small service, which is what most
+pull-request gates actually scan.
 
 **These timings do not answer the question they look like they answer.** Semgrep
 is source-only and never compiles. A build-required engine must build
