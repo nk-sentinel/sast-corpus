@@ -1,0 +1,27 @@
+id: c-41216cfc
+label: safe
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-79
+acceptable_cwes: [CWE-79, CWE-80, CWE-83, CWE-116]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/fixed-sources/xuxueli__xxl-job_CVE-2020-29204_2.2.0/xxl-job-admin/src/main/java/com/xxl/job/admin/controller/JobGroupController.java
+  start_line: 62
+  end_line: 101
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: custom-effective
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    The patched form of save, taken from the commit that fixed CVE-2020-29204 in xxl-job. This is the defence upstream actually shipped against a real published attack, not a plausible-looking sample written to look safe, which makes it the strongest trap material in this corpus. The method is confirmed to differ from the buggy version by more than whitespace, so it is genuinely the fix and not an untouched copy. A tool reporting CWE-79 here is matching on shape rather than reasoning about dataflow.
+  cve: null
+build:
+  required: false
+  recipe: null

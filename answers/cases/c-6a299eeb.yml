@@ -1,0 +1,27 @@
+id: c-6a299eeb
+label: safe
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/fixed-sources/asf__tapestry-5_CVE-2019-0207_5.4.4/tapestry-ioc/src/main/java/org/apache/tapestry5/ioc/internal/util/AbstractResource.java
+  start_line: 93
+  end_line: 146
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: custom-effective
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    The patched form of forFile, taken from the commit that fixed CVE-2019-0207 in tapestry-5. This is the defence upstream actually shipped against a real published attack, not a plausible-looking sample written to look safe, which makes it the strongest trap material in this corpus. The method is confirmed to differ from the buggy version by more than whitespace, so it is genuinely the fix and not an untouched copy. A tool reporting CWE-22 here is matching on shape rather than reasoning about dataflow.
+  cve: null
+build:
+  required: false
+  recipe: null

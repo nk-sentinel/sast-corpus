@@ -1,0 +1,27 @@
+id: c-5893bc8f
+label: safe
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-79
+acceptable_cwes: [CWE-79, CWE-80, CWE-83, CWE-116]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/fixed-sources/apache__jspwiki_CVE-2019-10077_2.11.0.M3/jspwiki-main/src/main/java/org/apache/wiki/parser/JSPWikiMarkupParser.java
+  start_line: 1189
+  end_line: 1400
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: custom-effective
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    The patched form of handleHyperlinks, taken from the commit that fixed CVE-2019-10077 in jspwiki. This is the defence upstream actually shipped against a real published attack, not a plausible-looking sample written to look safe, which makes it the strongest trap material in this corpus. The method is confirmed to differ from the buggy version by more than whitespace, so it is genuinely the fix and not an untouched copy. A tool reporting CWE-79 here is matching on shape rather than reasoning about dataflow.
+  cve: null
+build:
+  required: false
+  recipe: null

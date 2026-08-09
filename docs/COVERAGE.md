@@ -8,8 +8,8 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 126 |
-| False-positive traps | 48 (38%) |
+| Cases | 147 |
+| False-positive traps | 69 (47%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
 | Visible to build-required engines | 34 |
@@ -18,7 +18,7 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-94 | CWE-1395 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| java | · | 6/1 | 5/0 | 15/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | 1/1 | 4/0 | 1/1 |
+| java | · | 6/5 | 5/4 | 15/11 | 1/1 | · | 1/1 | 1/1 | 1/1 | 1/1 | 4/3 | 1/1 |
 | kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
 | python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 3/3 | 1/1 | · | · | · |
 | javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | 1/1 |
@@ -67,10 +67,6 @@ Weaknesses covered per language, thinnest first:
 - `python` — 9
 - `java` — 10
 
-**Covered but with no safe sibling** — a false-positive rate cannot be measured for these:
-
-- java / `CWE-79`
-
 ## OWASP Top 10 (2021)
 
 | category | cases |
@@ -90,7 +86,7 @@ Weaknesses covered per language, thinnest first:
 
 | plane | cases |
 |---|---|
-| vuln | 118 |
+| vuln | 139 |
 | secret | 4 |
 | sca | 4 |
 | crypto | · |
@@ -103,7 +99,7 @@ Weaknesses covered per language, thinnest first:
 |---|---|
 | 1 — synthetic fixtures | 98 |
 | 2 — real applications | · |
-| 3 — CVE reproductions | 28 |
+| 3 — CVE reproductions | 49 |
 
 ## Difficulty
 
@@ -118,5 +114,5 @@ Weaknesses covered per language, thinnest first:
 |---|---|
 | none | 48 |
 | ineffective | 2 |
-| custom-effective | 24 |
+| custom-effective | 45 |
 | framework-implicit | 24 |

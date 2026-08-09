@@ -290,5 +290,73 @@ class PrimaryLocationPrefersPrecision(unittest.TestCase):
         self.assertEqual(group_by_cve([self._row()])[0]["granularity"], "class")
 
 
+BUGGY = """public class IOUtils {
+    public static void unzip(String zip, String out) throws IOException {
+        File dest = new File(out, entry.getName());
+        write(dest);
+    }
+}
+"""
+
+FIXED = """public class IOUtils {
+    public static void unzip(String zip, String out) throws IOException {
+        File dest = new File(out, entry.getName());
+        if (!dest.getCanonicalPath().startsWith(new File(out).getCanonicalPath())) {
+            throw new IOException("bad entry");
+        }
+        write(dest);
+    }
+}
+"""
+
+
+class TrapsFromTheFixedCommit(unittest.TestCase):
+    """The fixed version of a vulnerable method is real-world, structurally
+    identical, correctly defended code — a better trap than anything we could
+    hand-author, because upstream wrote it under real constraints against a real
+    attack. A tool that still flags it is reporting on shape, not on dataflow."""
+
+    def test_a_changed_method_yields_a_trap(self):
+        from corpora.tier3 import derive_trap
+        trap = derive_trap(BUGGY, FIXED, "IOUtils", "unzip")
+
+        self.assertIsNotNone(trap)
+        self.assertEqual(trap["label"], "safe")
+
+    def test_the_trap_spans_the_fixed_method(self):
+        from corpora.tier3 import derive_trap
+        trap = derive_trap(BUGGY, FIXED, "IOUtils", "unzip")
+
+        body = "\n".join(FIXED.splitlines()[trap["start_line"] - 1:trap["end_line"]])
+        self.assertIn("getCanonicalPath", body)
+
+    def test_a_method_the_fix_deleted_yields_no_trap(self):
+        """alibaba/one-java-agent removed the vulnerable method outright.
+        Inventing a safe sibling there would be a fabricated trap."""
+        from corpora.tier3 import derive_trap
+        deleted = "public class IOUtils {\n    static void other() {}\n}\n"
+
+        self.assertIsNone(derive_trap(BUGGY, deleted, "IOUtils", "unzip"))
+
+    def test_an_unchanged_method_yields_no_trap(self):
+        """If the fix did not touch this method, the fixed copy is the same
+        vulnerable code. Labelling it safe would invert the ground truth."""
+        from corpora.tier3 import derive_trap
+
+        self.assertIsNone(derive_trap(BUGGY, BUGGY, "IOUtils", "unzip"))
+
+    def test_whitespace_only_differences_do_not_count_as_a_fix(self):
+        from corpora.tier3 import derive_trap
+        reindented = BUGGY.replace("        ", "            ")
+
+        self.assertIsNone(derive_trap(BUGGY, reindented, "IOUtils", "unzip"))
+
+    def test_the_trap_records_that_it_came_from_the_fix(self):
+        from corpora.tier3 import derive_trap
+        trap = derive_trap(BUGGY, FIXED, "IOUtils", "unzip")
+
+        self.assertEqual(trap["sanitizer"], "custom-effective")
+
+
 if __name__ == "__main__":
     unittest.main()

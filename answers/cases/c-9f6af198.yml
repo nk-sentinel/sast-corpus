@@ -1,0 +1,27 @@
+id: c-9f6af198
+label: safe
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-22
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/fixed-sources/wildfly__wildfly_CVE-2018-1047_11.0.0.Final/undertow/src/main/java/org/wildfly/extension/undertow/deployment/ServletResourceManager.java
+  start_line: 73
+  end_line: 107
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: custom-effective
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    The patched form of getResource, taken from the commit that fixed CVE-2018-1047 in wildfly. This is the defence upstream actually shipped against a real published attack, not a plausible-looking sample written to look safe, which makes it the strongest trap material in this corpus. The method is confirmed to differ from the buggy version by more than whitespace, so it is genuinely the fix and not an untouched copy. A tool reporting CWE-22 here is matching on shape rather than reasoning about dataflow.
+  cve: null
+build:
+  required: false
+  recipe: null

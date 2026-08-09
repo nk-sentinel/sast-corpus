@@ -69,12 +69,33 @@ tests one weakness. Fetching across the other three — XSS, code injection and
 command injection — is the immediate next step, and until it is done a tier-3
 number says something about path traversal and nothing else.
 
-### Tier 3 measures recall only
+### Tier 3 has traps, taken from the fix commits
 
-There are no safe siblings. The dataset records where each CVE was fixed and
-says nothing about which nearby code is correctly defended, so this tier cannot
-contribute to a false-positive rate. That is a property of the tier, not an
-oversight.
+An earlier version of this document claimed tier 3 could only measure recall.
+That was wrong. `project_info.csv` records the fix commit beside the buggy one,
+and **the patched form of a vulnerable method is real-world, structurally
+identical, correctly defended code** — better trap material than anything
+hand-authored, because upstream wrote it under real constraints against a real
+published attack. A tool that still reports there is matching on shape.
+
+21 traps are derived this way. Three guards decide when not to emit one, and
+each fired on real data:
+
+- **The fix deleted the method.** `alibaba/one-java-agent` removed `unzip`
+  outright; there is no safe sibling and inventing one would be fabrication.
+  1 case.
+- **The fix did not touch the method.** Then the "fixed" copy is still the
+  vulnerable code, and labelling it safe would invert the ground truth and
+  charge a correct finding as a false positive. 5 cases — the most dangerous
+  category, and invisible without the check.
+- **The fix commit or file could not be fetched.** 1 case.
+
+Traps are compared ignoring whitespace, so a reindentation is never mistaken
+for a fix.
+
+They are marked `build.required: false`: a single patched file has no
+surrounding project, so it is scannable by source-only tools and invisible to
+build-required ones.
 
 ## Tier 2 is still unlabelled
 
@@ -144,12 +165,27 @@ publishes from it.
 
 ## Perf sources
 
-| Source | Bucket | Measured code lines |
-|---|---|---|
-| `commons-cli` | 10k | 15,716 |
-| `commons-lang` | 50k | not yet fetched |
-| `spring-boot` | 200k | not yet fetched |
-| `hadoop` | 500k+ | not yet fetched |
+| Source | Measured code lines | p50 scan (semgrep `p/java`) | s / 1k LOC |
+|---|---|---|---|
+| `commons-cli` | 15,716 | 1.07 s | 0.068 |
+| `commons-lang` | 129,508 | 2.08 s | 0.016 |
+| `spring-boot` | 642,008 | 5.49 s | 0.009 |
+| `hadoop` | 4,655,050 | not yet timed | — |
+
+**Bucket names were estimates and every one of them was wrong.** `commons-lang`
+was guessed at 50k and measures 130k; `spring-boot` was guessed at 200k and
+measures 642k. The labels now carry the measurement.
+
+Against the service levels that matter — under three minutes at 50–200k LOC,
+under ten minutes past 500k — `commons-lang` sits inside the pull-request band
+and `spring-boot` past the large-repository threshold, so the two thresholds are
+covered. `hadoop` is an extreme rather than a representative case.
+
+**These timings do not answer the question they look like they answer.** Semgrep
+is source-only and never compiles. A build-required engine must build
+`spring-boot` before it analyses a line, and that cost is invisible here. The
+harness records build time as its own phase precisely so the difference cannot
+be hidden in a single number.
 
 Buckets straddle the service levels that matter: under three minutes at
 50–200k LOC, under ten minutes past 500k. The smallest bucket exists to expose

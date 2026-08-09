@@ -1,0 +1,27 @@
+id: c-0969619d
+label: safe
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-94
+acceptable_cwes: [CWE-94, CWE-95, CWE-96, CWE-78, CWE-470]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/fixed-sources/SpringSource__spring-security-oauth_CVE-2018-1260_2.3.2.RELEASE/spring-security-oauth2/src/main/java/org/springframework/security/oauth2/client/DefaultOAuth2RequestAuthenticator.java
+  start_line: 29
+  end_line: 43
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: custom-effective
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    The patched form of authenticate, taken from the commit that fixed CVE-2018-1260 in spring-security-oauth. This is the defence upstream actually shipped against a real published attack, not a plausible-looking sample written to look safe, which makes it the strongest trap material in this corpus. The method is confirmed to differ from the buggy version by more than whitespace, so it is genuinely the fix and not an untouched copy. A tool reporting CWE-94 here is matching on shape rather than reasoning about dataflow.
+  cve: null
+build:
+  required: false
+  recipe: null

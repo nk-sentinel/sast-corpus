@@ -1,0 +1,27 @@
+id: c-71a09815
+label: safe
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-78
+acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/fixed-sources/apache__activemq_CVE-2014-3576_5.10.1/activemq-broker/src/main/java/org/apache/activemq/broker/TransportConnection.java
+  start_line: 1536
+  end_line: 1538
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: custom-effective
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    The patched form of processControlCommand, taken from the commit that fixed CVE-2014-3576 in activemq. This is the defence upstream actually shipped against a real published attack, not a plausible-looking sample written to look safe, which makes it the strongest trap material in this corpus. The method is confirmed to differ from the buggy version by more than whitespace, so it is genuinely the fix and not an untouched copy. A tool reporting CWE-78 here is matching on shape rather than reasoning about dataflow.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,7 +1,7 @@
 {
   "corpus": "perf",
   "description": "Real repositories used only for scan-time measurement. Never accuracy-scored: they carry no ground truth, and timing the accuracy fixtures would measure a few thousand lines and say nothing about a production repository.",
-  "buckets": "Chosen to straddle the thresholds the service levels care about: under 3 minutes at 50-200k LOC, under 10 minutes past 500k.",
+  "buckets": "Bucket names are MEASURED, not intended. The first labels were estimates and every one of them was wrong \u2014 commons-lang was guessed at 50k and is 130k, spring-boot at 200k and is 642k. Against the service levels that matter (under 3 minutes at 50-200k LOC, under 10 minutes past 500k) commons-lang sits inside the pull-request band and spring-boot past the large-repo threshold; hadoop is an extreme rather than a representative case.",
   "sources": [
     {
       "name": "commons-cli",
@@ -11,7 +11,7 @@
       "languages": [
         "java"
       ],
-      "bucket": "10k",
+      "bucket": "15k",
       "approx_loc": 15716,
       "notes": "Smallest bucket: establishes fixed overhead \u2014 process start, rule compilation \u2014 that a large-repo number hides.",
       "loc_measured_by": "codeprint totals.code at the pinned revision"
@@ -24,9 +24,10 @@
       "languages": [
         "java"
       ],
-      "bucket": "50k",
-      "approx_loc": null,
-      "notes": "Lower edge of the pull-request gate service level."
+      "bucket": "130k",
+      "approx_loc": 129508,
+      "notes": "Lower edge of the pull-request gate service level.",
+      "loc_measured_by": "codeprint totals.code at the pinned revision"
     },
     {
       "name": "spring-boot",
@@ -36,9 +37,10 @@
       "languages": [
         "java"
       ],
-      "bucket": "200k",
-      "approx_loc": null,
-      "notes": "Upper edge of the pull-request gate, and a realistic Spring dependency graph."
+      "bucket": "640k",
+      "approx_loc": 642008,
+      "notes": "Upper edge of the pull-request gate, and a realistic Spring dependency graph.",
+      "loc_measured_by": "codeprint totals.code at the pinned revision"
     },
     {
       "name": "hadoop",
@@ -48,9 +50,10 @@
       "languages": [
         "java"
       ],
-      "bucket": "500k+",
-      "approx_loc": null,
-      "notes": "Past the large-repository threshold; the case where chunked or parallel scanning has to earn its place."
+      "bucket": "4.6M",
+      "approx_loc": 4655050,
+      "notes": "Past the large-repository threshold; the case where chunked or parallel scanning has to earn its place.",
+      "loc_measured_by": "codeprint totals.code at the pinned revision"
     }
   ]
 }

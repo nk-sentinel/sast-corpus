@@ -166,6 +166,53 @@ def is_test_path(path):
     return segments[-1].endswith(TEST_SUFFIXES)
 
 
+def _normalised(text):
+    """Collapse whitespace so reindentation is not mistaken for a fix."""
+    return " ".join(text.split())
+
+
+def derive_trap(buggy_source, fixed_source, class_name, method_name):
+    """The fixed version of a vulnerable method, as a false-positive trap.
+
+    This is the strongest trap material available anywhere in this corpus.
+    Upstream maintainers wrote it under real constraints against a real,
+    published attack — it is not a plausible-looking sample we invented, it is
+    the actual defence that shipped. A tool that still reports here is matching
+    on shape rather than reasoning about dataflow.
+
+    Returns None rather than guessing in two cases, each of which would
+    otherwise corrupt the ground truth:
+
+    - The fix **deleted** the method. `alibaba/one-java-agent` removed `unzip`
+      outright, and there is no safe sibling to point at. Emitting one would be
+      a fabricated trap.
+    - The method is **unchanged**. If the fix did not touch it, the fixed copy is
+      the same vulnerable code, and labelling it safe would invert the ground
+      truth and charge a correct finding as a false positive.
+    """
+    # No class fallback here, unlike the vulnerable side. For a flaw, "somewhere
+    # in this class" is a weak but honest claim. For a trap it is a much stronger
+    # one — that the whole class is correctly defended — and when the method was
+    # deleted there is nothing structurally comparable left to trap on at all.
+    fixed_span = find_method(fixed_source, method_name)
+    buggy_span = find_method(buggy_source, method_name)
+    if not fixed_span or not buggy_span:
+        return None
+
+    fixed_lines = fixed_source.splitlines()[fixed_span[0] - 1:fixed_span[1]]
+    buggy_lines = buggy_source.splitlines()[buggy_span[0] - 1:buggy_span[1]]
+
+    if _normalised("\n".join(fixed_lines)) == _normalised("\n".join(buggy_lines)):
+        return None
+
+    return {
+        "label": "safe",
+        "start_line": fixed_span[0],
+        "end_line": fixed_span[1],
+        "sanitizer": "custom-effective",
+    }
+
+
 def derive(dataset_root, sources_root, slug_filter=None):
     """Build candidate cases from the dataset plus fetched buggy checkouts."""
     dataset_root = Path(dataset_root)
@@ -218,6 +265,7 @@ def derive(dataset_root, sources_root, slug_filter=None):
             "method": row["method"],
             "signature": row["signature"],
             "buggy_commit": project["buggy_commit_id"],
+            "fix_commit": row["commit"],
             "repo": project["github_url"],
         })
 
@@ -367,6 +415,71 @@ def render_case(candidate):
     return "\n".join(lines) + "\n"
 
 
+def fixed_source(checkout, fix_commit, relative_path):
+    """Content of a file at the fix commit, without a second checkout.
+
+    The buggy tree is already a git repository, so the fixed blob is one fetch
+    and one `git show` away — far cheaper than cloning every project twice.
+    """
+    import subprocess
+
+    fetched = subprocess.run(
+        ["git", "-C", str(checkout), "fetch", "-q", "--depth", "1", "origin", fix_commit],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    if fetched.returncode != 0:
+        return None
+
+    shown = subprocess.run(
+        ["git", "-C", str(checkout), "show", "{}:{}".format(fix_commit, relative_path)],
+        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    if shown.returncode != 0:
+        return None
+
+    return shown.stdout.decode("utf-8", errors="replace")
+
+
+def render_trap(candidate, trap):
+    """Render the fixed-commit trap as a `label: safe` answer-key case."""
+    lines = [
+        "id: {}".format(case_id(candidate["cve"] + "::fixed", candidate["slug"])),
+        "label: safe",
+        "plane: vuln",
+        "tier: 3",
+        "language: java",
+        "framework: null",
+        "primary_cwe: {}".format(candidate["cwe"]),
+        "acceptable_cwes: [{}]".format(", ".join(candidate["acceptable_cwes"])),
+        "owasp_2021: null",
+        "severity: high",
+        "location:",
+        "  file: {}".format(trap["file"]),
+        "  start_line: {}".format(trap["start_line"]),
+        "  end_line: {}".format(trap["end_line"]),
+        "alt_locations: []",
+        "difficulty:",
+        "  flow: unknown",
+        "  sanitizer: {}".format(trap["sanitizer"]),
+        "  obfuscation: unknown",
+        "evidence:",
+        "  source: cve",
+        "  rationale: >-",
+        "    The patched form of {method}, taken from the commit that fixed {cve} in "
+        "{repo}. This is the defence upstream actually shipped against a real published "
+        "attack, not a plausible-looking sample written to look safe, which makes it the "
+        "strongest trap material in this corpus. The method is confirmed to differ from "
+        "the buggy version by more than whitespace, so it is genuinely the fix and not an "
+        "untouched copy. A tool reporting {cwe} here is matching on shape rather than "
+        "reasoning about dataflow.".format(
+            method=candidate["method"] or candidate["class"], cve=candidate["cve"],
+            repo=candidate["repo"].rsplit("/", 1)[-1], cwe=candidate["cwe"]),
+        "  cve: null",
+        "build:",
+        "  required: false",
+        "  recipe: null",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def fetch_project(project, sources_root):
     """Clone a project at its **buggy** commit — the fixed one has nothing to find."""
     import subprocess
@@ -398,6 +511,8 @@ def main(argv=None):
     parser.add_argument("--sources", type=Path, default=root / "tier3" / "project-sources")
     parser.add_argument("--slug", default=None, help="derive a single project")
     parser.add_argument("--out", type=Path, default=None, help="write candidates as JSON")
+    parser.add_argument("--write-traps", action="store_true",
+                        help="also derive false-positive traps from the fix commits")
     parser.add_argument("--write-cases", action="store_true",
                         help="write derived candidates into answers/cases/ for review")
     parser.add_argument("--fetch", type=int, default=0,
@@ -439,6 +554,49 @@ def main(argv=None):
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(json.dumps(candidates, indent=2))
         print("\nwrote {}".format(args.out))
+
+    if args.write_traps:
+        cases_dir = root / "answers" / "cases"
+        cases_dir.mkdir(parents=True, exist_ok=True)
+        fixed_root = root / "tier3" / "fixed-sources"
+        made, deleted, unchanged, unreachable = 0, 0, 0, 0
+
+        for candidate in candidates:
+            checkout = args.sources / candidate["slug"]
+            relative = candidate["file"].split("/", 3)[3]
+            buggy_path = checkout / relative
+            if not buggy_path.is_file():
+                unreachable += 1
+                continue
+
+            fixed = fixed_source(checkout, candidate["fix_commit"], relative)
+            if fixed is None:
+                unreachable += 1
+                continue
+
+            trap = derive_trap(buggy_path.read_text(errors="replace"), fixed,
+                               candidate["class"], candidate["method"])
+            if trap is None:
+                if not find_method(fixed, candidate["method"]):
+                    deleted += 1
+                else:
+                    unchanged += 1
+                continue
+
+            out_path = fixed_root / candidate["slug"] / relative
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(fixed)
+            trap["file"] = "tier3/fixed-sources/{}/{}".format(candidate["slug"], relative)
+
+            identifier = case_id(candidate["cve"] + "::fixed", candidate["slug"])
+            (cases_dir / "{}.yml".format(identifier)).write_text(render_trap(candidate, trap))
+            made += 1
+
+        print("\ntraps from fix commits: {} written".format(made))
+        print("  {} skipped: the fix deleted the method, so no safe sibling exists".format(deleted))
+        print("  {} skipped: method unchanged by the fix, so the 'fixed' copy is still "
+              "the vulnerable code".format(unchanged))
+        print("  {} skipped: fix commit or file unreachable".format(unreachable))
 
     if args.write_cases:
         cases_dir = root / "answers" / "cases"

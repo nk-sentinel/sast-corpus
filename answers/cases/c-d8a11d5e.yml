@@ -1,0 +1,27 @@
+id: c-d8a11d5e
+label: safe
+plane: vuln
+tier: 3
+language: java
+framework: null
+primary_cwe: CWE-79
+acceptable_cwes: [CWE-79, CWE-80, CWE-83, CWE-116]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/fixed-sources/nahsra__antisamy_CVE-2022-28367_1.6.5/src/main/java/org/owasp/validator/html/scan/AntiSamyDOMScanner.java
+  start_line: 403
+  end_line: 459
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: custom-effective
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    The patched form of processStyleTag, taken from the commit that fixed CVE-2022-28367 in antisamy. This is the defence upstream actually shipped against a real published attack, not a plausible-looking sample written to look safe, which makes it the strongest trap material in this corpus. The method is confirmed to differ from the buggy version by more than whitespace, so it is genuinely the fix and not an untouched copy. A tool reporting CWE-79 here is matching on shape rather than reasoning about dataflow.
+  cve: null
+build:
+  required: false
+  recipe: null

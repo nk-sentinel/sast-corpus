@@ -30,3 +30,7 @@ node_modules/
 /tier2/*/
 /tier3/*/
 /perf/*/
+
+# Fixed-commit trap sources are upstream code, derived on demand; committing
+# them would redistribute other projects licences along with ours.
+/tier3/fixed-sources/
