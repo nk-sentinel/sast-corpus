@@ -36,6 +36,44 @@ its full ruleset looks sensitive and noisy.
 **Consequence:** declare per tool which was used. Where effort allows, measure
 both — the delta is often more useful than either number.
 
+## An adapter can be wrong in a way that looks like a bad tool
+
+Every engine that cannot emit SARIF reaches the scorer through an adapter, and an
+adapter built against a guessed API shape produces plausible SARIF and wrong
+scores. The run completes, the scorecard looks credible, and nothing signals it.
+
+This is not hypothetical. The SonarQube adapter here read the CWE from the rule's
+`securityStandards`, which is what the documentation and every example suggest.
+On 25.1 Community that field does not exist — the API rejects it as an unknown
+value for `f` — and the rules returned with an issues export carry no CWE at all.
+Every finding would have arrived without one, fallen back to the location-only
+match rule, and made SonarQube look like a tool that does not tag weaknesses.
+
+**Consequence:** no adapter may be trusted until it has been run against a real
+export from the tool it claims to convert, and the regression fixture must be
+that captured output rather than one written by hand. The tests built from a
+hand-written fixture all passed.
+
+## Location-only matches rest on weaker evidence
+
+A tool that emits no CWE is matched on position alone, so it is neither unfairly
+zeroed nor given free credit. But those matches are weaker than the rest: any
+finding in the right place counts, whatever it was actually reporting.
+
+**Consequence:** the count is in every scorecard and belongs in every quotation of
+one. A result carrying many location-only matches is a weaker claim than the same
+figure carrying none.
+
+## Edition and licence tier decide capability
+
+SonarQube Community has no taint-analysis engine; interfile dataflow is a
+Developer Edition feature. Scored against an injection-heavy corpus it therefore
+records low recall, and that measures the edition rather than the product.
+
+**Consequence:** record the exact edition and licence tier beside the version. A
+result against a community or trial build says nothing about the commercial one,
+and quoting it as though it did would be straightforwardly misleading.
+
 ## Coverage is not quality
 
 A tool with no Swift support is not bad at Swift. Cases in an unsupported

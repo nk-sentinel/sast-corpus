@@ -45,8 +45,14 @@ are written and labelled by hand with a rationale in `evidence`.
 **Traps are first-class.** Every vulnerable case gets a `label: safe` sibling
 wherever a plausible-but-safe variant exists. A corpus without traps cannot
 measure a false-positive rate at all, and the false-positive rate is the number
-that decides whether developers trust the tool. Aim for roughly 15% of cases
-being traps, which is where published real-world benchmarks sit.
+that decides whether developers trust the tool.
+
+The corpus currently sits at **47% traps**, well above the ~15% published
+real-world benchmarks use. That is a consequence of how cases are built rather
+than a target: generated templates emit a safe sibling for every vulnerable one,
+and tier 3 takes its traps from the commits that fixed each CVE. A high ratio
+costs nothing — precision and recall are computed over their own denominators —
+but it does mean the case count is not a count of vulnerabilities.
 
 **A long taint path is not the same as a hard case.** `flow` describes how far
 the value travels. It does *not* say whether detection requires following it,
@@ -132,9 +138,21 @@ container digest, corpus commit, and the match policy the scorer printed.
 
 ## Timing
 
-Accuracy and performance use **different corpora**. `perf/` holds real
-repositories bucketed at roughly 10k, 50k, 200k and 500k+ LOC, straddling the
-thresholds the NFRs care about.
+Accuracy and performance use **different corpora**. `perf/` holds four real
+repositories, measured rather than estimated: 15,716 code lines
+(`commons-cli`), 129,508 (`commons-lang`), 642,008 (`spring-boot`) and 4,655,050
+(`hadoop`). The middle two straddle the thresholds the service levels care about.
+
+Those buckets were originally labelled 10k / 50k / 200k / 500k+ by guess, and
+every guess was wrong — `commons-lang` is 130k, `spring-boot` is 642k. The
+manifest now carries measurements.
+
+**Throughput is not a constant.** Seconds per 1k LOC improves elevenfold across
+this range, from 0.068 at 15k to 0.006 at 4.6M, because fixed overhead — process
+start, rule compilation, plugin loading — dominates a small repository and
+disappears on a large one. That is why the smallest bucket exists: a per-1k-LOC
+figure taken only from large repositories badly understates the cost of scanning
+a small service, which is what most pull-request gates actually scan.
 
 - At least 5 timed runs, 1 warmup; cold-cache runs use a drop-caches prepare step
 - Phases recorded separately: provisioning, build, analysis, upload/queue-wait.

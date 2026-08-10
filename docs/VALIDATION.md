@@ -53,6 +53,29 @@ score.py            0        0     1415     1325
 Zero true positives and zero false positives, with every case still accounted
 for. The matcher is not fabricating matches, and conservation holds at scale.
 
+## The adapters are validated separately, against real output
+
+The differential check above covers the scorer. It says nothing about the
+adapters, and an adapter is just as capable of producing a confidently wrong
+scorecard — more so, because its failures are silent.
+
+Two adapters are now driven by captured real output rather than fixtures written
+here:
+
+| Fixture | Captured from | What it proved |
+|---|---|---|
+| `spine/tests/data/real-semgrep.sarif` | a live Semgrep scan of `tier1` | the CSV round trip preserves every finding, path, line and CWE |
+| `spine/tests/data/real-sonarqube.json` | a live SonarQube 25.1 Community scan of `tier1` | the adapter's CWE source did not exist |
+
+The second is the reason this section exists. `sonarqube.py` read the CWE from
+the rule's `securityStandards`; on that version the API rejects the field
+outright. Every finding would have arrived with no CWE and fallen back to the
+location-only rule. The unit tests all passed, because the fixture they ran
+against was written by the same person who wrote the assumption.
+
+A regression test now asserts that no rule in the captured export carries
+`securityStandards`, so a return to the false premise fails loudly.
+
 ## What this does not establish
 
 **SARIF parsing is not independently validated.** Both paths call `parse_sarif`,
