@@ -85,7 +85,7 @@ tier3/           real CVE reproductions, derived from cwe-bench-java          (f
 tier2/           real vulnerable applications — manifest only, unlabelled     (fetched)
 perf/            repositories for scan-time measurement only                  (fetched)
 build/           build and syntax recipes, pinned toolchains
-docs/            COVERAGE · ROADMAP · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
+docs/            COVERAGE · ROADMAP · TIER3-DATASETS · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
 ```
 
 Directory and file names under `tier1/` carry no semantic content. Navigate via

@@ -33,7 +33,14 @@ computed precisely or a false positive will be found."*
 
 ## Work items
 
-### 0. Tier-3 spike — de-risk before planning around it
+### 0. Tier-3 spike — de-risk before planning around it ✅ **done**
+
+Outcome in [TIER3-DATASETS.md](TIER3-DATASETS.md): **PatchEval GO** (Apache 2.0,
+203–219 usable CVEs across Go/JS/Python, line anchoring verified byte-for-byte
+against every repository), **REEF conditional** (no licence, post-fix content,
+53% multi-file fixes — curated ~30 C/C++ cases only), **C# out of scope** (no
+viable source). Item 5 is revised upward from 100 to ~230 cases and from one
+language to six.
 
 The largest item is also the least certain, so it gets tested first.
 
@@ -147,11 +154,16 @@ Mechanical and low-risk, so it goes last. Seven thinnest languages, roughly four
 weaknesses each, chosen against the applicability matrix from item 1 so the new
 cells are ones that should exist.
 
-### 5. Tier-3 at scale — ~100
+### 5. Tier-3 at scale — ~230 (revised up from 100)
 
-Gated on item 0. Source-only languages first (Python, JS, Go), since every tool
-can see them without a build; C/C++ and C# after, where a build is required and
-the recipe work is real.
+Gated on item 0, now complete — see [TIER3-DATASETS.md](TIER3-DATASETS.md) for
+the measurements and the three derivation rules that cases turn on.
+
+PatchEval supplies Go, JavaScript and Python (~200). These are source-only, so
+every tool can see them without a build. REEF supplies a hand-picked ~30 C/C++
+cases, gated on a licence review, chosen from the 68% of C fixes that touch a
+single file. Java stays on cwe-bench-java. C# has no defensible source and is
+excluded rather than half-covered.
 
 ## Sequencing
 
@@ -161,9 +173,9 @@ the recipe work is real.
 2. hard cases               +120   highest value per case
 3. SCA + secrets            +60    cheapest per case
 4. breadth floor            +60    mechanical
-5. tier-3 at scale          +100   gated on 0
+5. tier-3 at scale          +230   gated on 0 (now done; revised up from 100)
                             ----
-                            +340 → ~645 cases
+                            +470 → ~775 cases
 ```
 
 ## New gates
