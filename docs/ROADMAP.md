@@ -1,6 +1,6 @@
 # Roadmap — phase 2
 
-Target: **305 → ~645 cases**, with the growth concentrated on the axes that
+Target: **305 → ~775 cases** (revised up from 645 after item 0), with the growth concentrated on the axes that
 separate tools rather than on more of the shape every tool already catches.
 
 ## Why not simply more breadth
@@ -42,12 +42,8 @@ against every repository), **REEF conditional** (no licence, post-fix content,
 viable source). Item 5 is revised upward from 100 to ~230 cases and from one
 language to six.
 
-The largest item is also the least certain, so it gets tested first.
-
-[REEF](https://arxiv.org/html/2503.01449v1) (4,466 CVEs, 30,987 patches across
-C, C++, C#, Go, Java, JS, Python) and PatchEval (1,000 vulnerabilities across
-Go/JS/Python, 65 CWEs) both post-date the choice of cwe-bench-java. Before
-committing to a case count, establish for each:
+The largest item was also the least certain, so it was tested first. What it had
+to establish, before any case count could be promised:
 
 - licence, and whether derived ground truth may be published
 - granularity — **function-level extraction is not usable**. Scoring needs whole
