@@ -5,6 +5,7 @@ tier: 1
 language: python
 framework: flask
 primary_cwe: CWE-79
+variant: tag-filter
 acceptable_cwes: [CWE-79, CWE-80]
 owasp_2021: A03
 severity: high

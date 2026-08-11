@@ -5,6 +5,7 @@ tier: 1
 language: javascript
 framework: express
 primary_cwe: CWE-918
+variant: unvalidated-url
 acceptable_cwes: [CWE-918]
 owasp_2021: A10
 severity: high

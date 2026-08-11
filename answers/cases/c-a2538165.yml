@@ -5,6 +5,7 @@ tier: 1
 language: python
 framework: null
 primary_cwe: CWE-327
+variant: weak-hash
 acceptable_cwes: [CWE-327, CWE-328, CWE-326]
 owasp_2021: A02
 severity: high

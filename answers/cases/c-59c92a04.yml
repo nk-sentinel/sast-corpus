@@ -5,6 +5,7 @@ tier: 1
 language: java
 framework: null
 primary_cwe: CWE-1395
+variant: vulnerable-version
 acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
 owasp_2021: A06
 severity: critical

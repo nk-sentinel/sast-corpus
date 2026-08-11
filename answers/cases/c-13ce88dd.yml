@@ -5,6 +5,7 @@ tier: 1
 language: go
 framework: net/http
 primary_cwe: CWE-89
+variant: format-string
 acceptable_cwes: [CWE-89, CWE-943, CWE-564]
 owasp_2021: A03
 severity: high

@@ -23,7 +23,7 @@ from gen.templates import CMDI, PATHT, SQLI, XSS, template
 
 PY_DEPTH = [
     template(
-        "py-sqli-local", "python", "py", SQLI, "flask", "intra-procedural",
+        "py-sqli-local@concat-statement", "python", "py", SQLI, "flask", "intra-procedural",
         {"view.py": (
             "import sqlite3\n\n\n"
             "def show(code):\n"
@@ -43,7 +43,7 @@ PY_DEPTH = [
         None, None,
     ),
     template(
-        "py-sqli-crossfn", "python", "py", SQLI, "flask", "inter-procedural",
+        "py-sqli-crossfn@concat-statement", "python", "py", SQLI, "flask", "inter-procedural",
         {"view.py": (
             "import sqlite3\n\n\n"
             "def _run(statement):\n"
@@ -70,7 +70,7 @@ PY_DEPTH = [
 
 WEAK = [
     template(
-        "py-path-filter", "python", "py", PATHT, "flask", "inter-file",
+        "py-path-filter@single-pass-filter", "python", "py", PATHT, "flask", "inter-file",
         {"handler.py": "from reader import contents\n\n\ndef show(name):\n    return contents(name)\n",
          "reader.py": (
              "import os\n\n"
@@ -110,7 +110,7 @@ WEAK = [
                 },
                 sink_file="reader.py", sink_match="with open(os.path.join",
                 source_file="handler.py", source_match="def show",
-                sanitizer="ineffective", label="vulnerable",
+                sanitizer="ineffective", label="vulnerable", variant="loop-filter",
                 rationale=(
                     "looping the replacement closes the ....// bypass but an absolute path is "
                     "untouched, and os.path.join discards the base entirely when handed one"),
@@ -118,7 +118,7 @@ WEAK = [
         },
     ),
     template(
-        "py-cmdi-filter", "python", "py", CMDI, "flask", "inter-file",
+        "py-cmdi-filter@blocklist-filter", "python", "py", CMDI, "flask", "inter-file",
         {"handler.py": "from runner import archive\n\n\ndef show(name):\n    return archive(name)\n",
          "runner.py": (
              "import subprocess\n\n\n"
@@ -142,7 +142,7 @@ WEAK = [
 
 MARKUP = [
     template(
-        "py-markup", "python", "py", XSS, "flask", "inter-file",
+        "py-markup@unescaped-output", "python", "py", XSS, "flask", "inter-file",
         {"handler.py": "from page import render_row\n\n\ndef show(name):\n    return render_row(name)\n",
          "page.py": (
              "def render_row(name):\n"
@@ -168,7 +168,7 @@ MARKUP = [
                 },
                 sink_file="page.py", sink_match="return \"<div class='row'>\"",
                 source_file="handler.py", source_match="def show",
-                sanitizer="ineffective", label="vulnerable",
+                sanitizer="ineffective", label="vulnerable", variant="tag-filter",
                 rationale=(
                     "removing one literal tag spelling leaves every event-handler attribute and "
                     "every other tag intact, and the filter itself is case-sensitive"),
@@ -176,7 +176,7 @@ MARKUP = [
         },
     ),
     template(
-        "js-markup", "javascript", "js", XSS, "express", "inter-file",
+        "js-markup@unescaped-output", "javascript", "js", XSS, "express", "inter-file",
         {"route.js": "const { renderRow } = require('./page');\n\nfunction show(req, res) {\n  return res.send(renderRow(req.query.name));\n}\n\nmodule.exports = { show };\n",
          "page.js": (
              "function renderRow(name) {\n"

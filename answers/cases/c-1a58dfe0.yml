@@ -5,38 +5,39 @@ tier: 3
 language: java
 framework: null
 primary_cwe: CWE-22
+variant: unknown
 acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
 owasp_2021: null
 severity: high
 location:
-  file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-client/src/main/java/org/springframework/cloud/config/environment/Environment.java
-  start_line: 107
-  end_line: 109
+  file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-client/src/main/java/org/springframework/cloud/config/client/ConfigServicePropertySourceLocator.java
+  start_line: 188
+  end_line: 257
 alt_locations:
-  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/ResourceController.java
-    start_line: 133
-    end_line: 137
-  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/ResourceController.java
-    start_line: 72
-    end_line: 78
-  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/ResourceController.java
-    start_line: 180
-    end_line: 187
-  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/ResourceController.java
-    start_line: 170
-    end_line: 178
+  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-client/src/main/java/org/springframework/cloud/config/environment/Environment.java
+    start_line: 107
+    end_line: 109
   - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/GenericResourceRepository.java
     start_line: 116
     end_line: 135
   - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/GenericResourceRepository.java
-    start_line: 88
-    end_line: 109
-  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/GenericResourceRepository.java
     start_line: 60
     end_line: 86
-  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-client/src/main/java/org/springframework/cloud/config/client/ConfigServicePropertySourceLocator.java
-    start_line: 188
-    end_line: 257
+  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/GenericResourceRepository.java
+    start_line: 88
+    end_line: 109
+  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/ResourceController.java
+    start_line: 133
+    end_line: 137
+  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/ResourceController.java
+    start_line: 180
+    end_line: 187
+  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/ResourceController.java
+    start_line: 72
+    end_line: 78
+  - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/ResourceController.java
+    start_line: 170
+    end_line: 178
   - file: tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/environment/EnvironmentController.java
     start_line: 65
     end_line: 506
@@ -47,7 +48,7 @@ difficulty:
 evidence:
   source: cve
   rationale: >-
-    CVE-2020-5405 in spring-cloud/spring-cloud-config, at the buggy commit 24e7292e5930367396461354d3f9d8ba8b94771c. The dataset records the fix as touching Environment.getProfiles; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 10 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+    CVE-2020-5405 in spring-cloud/spring-cloud-config, at the buggy commit 24e7292e5930367396461354d3f9d8ba8b94771c. The dataset records the fix as touching ConfigServicePropertySourceLocator.getRemoteEnvironment; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 10 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
   cve: CVE-2020-5405
 build:
   required: true

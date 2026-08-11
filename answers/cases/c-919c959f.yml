@@ -5,6 +5,7 @@ tier: 1
 language: python
 framework: null
 primary_cwe: CWE-611
+variant: entities-enabled
 acceptable_cwes: [CWE-611, CWE-827, CWE-776]
 owasp_2021: A05
 severity: high

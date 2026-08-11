@@ -5,6 +5,7 @@ tier: 1
 language: java
 framework: null
 primary_cwe: CWE-502
+variant: objectinputstream
 acceptable_cwes: [CWE-502]
 owasp_2021: A08
 severity: high

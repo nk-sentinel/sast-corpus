@@ -296,12 +296,21 @@ def render(rows, languages=None, cwes=None):
             ", ".join("`{}`".format(c) for c in contexts) or "·"))
 
     unlabelled = sum(1 for r in rows if not (r.get("variant") or "").strip())
+    unknown = sum(1 for r in rows if (r.get("variant") or "").strip() == "unknown")
+
     if unlabelled:
         out += ["",
-                "**{} of {} cases carry no variant label.** They were written before the "
-                "field existed and are counted as `(unlabelled)`. Until they are named, "
-                "the mechanism coverage above understates what exists and cannot show "
-                "what is missing.".format(unlabelled, len(rows))]
+                "**{} of {} cases carry no variant label** and are counted as "
+                "`(unlabelled)`. Until they are named the mechanism coverage above "
+                "understates what exists and cannot show what is missing."
+                .format(unlabelled, len(rows))]
+
+    if unknown:
+        out += ["",
+                "`unknown` is not the same gap. {} derived tier-3 cases carry it because "
+                "the mechanism is not knowable from the CVE metadata — only from reading "
+                "the code — and guessing would be indistinguishable from a finding in the "
+                "table above.".format(unknown)]
 
     out += ["", "## OWASP Top 10 (2021)", "", "| category | cases |", "|---|---|"]
     for code in sorted(OWASP_NAMES):

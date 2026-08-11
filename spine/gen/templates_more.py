@@ -42,7 +42,7 @@ JAVA_CLI = (
 
 JAVA = [
     _java(
-        "java-cmdi", CMDI,
+        "java-cmdi@shell-string", CMDI,
         {"Cli.java": JAVA_CLI,
          "Runner.java": (
              "package app;\n\n"
@@ -73,7 +73,7 @@ JAVA = [
         "an argument list is passed straight to the binary with no shell able to reinterpret it",
     ),
     _java(
-        "java-path", PATHT,
+        "java-path@unvalidated-join", PATHT,
         {"Cli.java": JAVA_CLI,
          "Runner.java": (
              "package app;\n\n"
@@ -107,7 +107,7 @@ JAVA = [
         "only the final name component is kept and the normalised result is checked to remain under the base",
     ),
     _java(
-        "java-deser", DESER,
+        "java-deser@objectinputstream", DESER,
         {"Cli.java": JAVA_CLI,
          "Runner.java": (
              "package app;\n\n"
@@ -141,7 +141,7 @@ JAVA = [
 
 RUST = [
     template(
-        "rs-cmdi", "rust", "rs", CMDI, None, "inter-file",
+        "rs-cmdi@shell-string", "rust", "rs", CMDI, None, "inter-file",
         {"main.rs": "mod runner;\n\nfn main() {\n    let name = std::env::args().nth(1).unwrap_or_default();\n    println!(\"{}\", runner::archive(&name));\n}\n",
          "runner.rs": (
              "use std::process::Command;\n\n"
@@ -164,7 +164,7 @@ RUST = [
         "main.rs", "fn main",
     ),
     template(
-        "rs-path", "rust", "rs", PATHT, None, "inter-file",
+        "rs-path@unvalidated-join", "rust", "rs", PATHT, None, "inter-file",
         {"main.rs": "mod reader;\n\nfn main() {\n    let name = std::env::args().nth(1).unwrap_or_default();\n    println!(\"{}\", reader::contents(&name));\n}\n",
          "reader.rs": (
              "use std::fs;\n"
@@ -199,7 +199,7 @@ RUST = [
 
 C = [
     template(
-        "c-cmdi", "c", "c", CMDI, None, "inter-file",
+        "c-cmdi@system-call", "c", "c", CMDI, None, "inter-file",
         {"main.c": "#include \"runner.h\"\n\nint main(int argc, char **argv) {\n    if (argc < 2) {\n        return 1;\n    }\n    return archive(argv[1]);\n}\n",
          "runner.h": "#ifndef RUNNER_H\n#define RUNNER_H\nint archive(const char *name);\n#endif\n",
          "runner.c": (
@@ -236,7 +236,7 @@ C = [
         "main.c", "int main",
     ),
     template(
-        "c-path", "c", "c", PATHT, None, "inter-file",
+        "c-path@unvalidated-concat", "c", "c", PATHT, None, "inter-file",
         {"main.c": "#include \"reader.h\"\n\nint main(int argc, char **argv) {\n    if (argc < 2) {\n        return 1;\n    }\n    return contents(argv[1]);\n}\n",
          "reader.h": "#ifndef READER_H\n#define READER_H\nint contents(const char *name);\n#endif\n",
          "reader.c": (
@@ -283,7 +283,7 @@ C = [
 
 CPP = [
     template(
-        "cpp-cmdi", "cpp", "cpp", CMDI, None, "inter-file",
+        "cpp-cmdi@system-call", "cpp", "cpp", CMDI, None, "inter-file",
         {"main.cpp": "#include <string>\n#include \"runner.hpp\"\n\nint main(int argc, char **argv) {\n    if (argc < 2) {\n        return 1;\n    }\n    return archive(std::string(argv[1]));\n}\n",
          "runner.hpp": "#pragma once\n#include <string>\nint archive(const std::string &name);\n",
          "runner.cpp": (
@@ -326,7 +326,7 @@ CPP = [
 
 KOTLIN = [
     template(
-        "kt-sqli", "kotlin", "kt", SQLI, None, "inter-file",
+        "kt-sqli@concat-statement", "kotlin", "kt", SQLI, None, "inter-file",
         {"Cli.kt": "package app\n\nfun main(args: Array<String>) {\n    println(lookup(args[0]))\n}\n",
          "Store.kt": (
              "package app\n\n"
@@ -355,7 +355,7 @@ KOTLIN = [
         "Cli.kt", "fun main",
     ),
     template(
-        "kt-cmdi", "kotlin", "kt", CMDI, None, "inter-file",
+        "kt-cmdi@shell-string", "kotlin", "kt", CMDI, None, "inter-file",
         {"Cli.kt": "package app\n\nfun main(args: Array<String>) {\n    println(archive(args[0]))\n}\n",
          "Runner.kt": (
              "package app\n\n"
@@ -381,7 +381,7 @@ KOTLIN = [
 
 SWIFT = [
     template(
-        "sw-cmdi", "swift", "swift", CMDI, None, "inter-file",
+        "sw-cmdi@shell-string", "swift", "swift", CMDI, None, "inter-file",
         {"main.swift": "import Foundation\n\nlet name = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : \"\"\nprint(archive(name))\n",
          "Runner.swift": (
              "import Foundation\n\n"

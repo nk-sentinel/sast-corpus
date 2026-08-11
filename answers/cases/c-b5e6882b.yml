@@ -5,6 +5,7 @@ tier: 1
 language: python
 framework: flask
 primary_cwe: CWE-502
+variant: pickle-untrusted
 acceptable_cwes: [CWE-502]
 owasp_2021: A08
 severity: high

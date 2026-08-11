@@ -34,6 +34,13 @@ def template(slug, language, extension, weakness, framework, flow,
     `extra` is a dict of variant name to Variant. Variant names feed the case
     id, so adding one never disturbs the ids already in the answer key.
     """
+    # `slug@variant` declares the mechanism without disturbing the slug, which
+    # feeds the case id. Renaming a slug would rewrite every id in the answer key
+    # and bury the real change in the diff.
+    variant_name = None
+    if "@" in slug:
+        slug, variant_name = slug.split("@", 1)
+
     primary, acceptable, owasp = weakness
     variants = {
         "vulnerable": Variant(
@@ -61,6 +68,7 @@ def template(slug, language, extension, weakness, framework, flow,
         flow=flow,
         obfuscation=obfuscation,
         variants=variants,
+        variant_name=variant_name,
     )
 
 
@@ -79,7 +87,7 @@ PY_ENTRY = "from store import lookup\n\n\ndef show(code):\n    return lookup(cod
 
 PYTHON = [
     template(
-        "py-sqli", "python", "py", SQLI, "flask", "inter-file",
+        "py-sqli@concat-statement", "python", "py", SQLI, "flask", "inter-file",
         {"handler.py": PY_ENTRY,
          "store.py": (
              "import sqlite3\n\n\n"
@@ -101,7 +109,7 @@ PYTHON = [
         "handler.py", "def show",
     ),
     template(
-        "py-cmdi", "python", "py", CMDI, "flask", "inter-file",
+        "py-cmdi@shell-string", "python", "py", CMDI, "flask", "inter-file",
         {"handler.py": "from runner import archive\n\n\ndef show(name):\n    return archive(name)\n",
          "runner.py": (
              "import subprocess\n\n\n"
@@ -121,7 +129,7 @@ PYTHON = [
         "handler.py", "def show",
     ),
     template(
-        "py-path", "python", "py", PATHT, "flask", "inter-file",
+        "py-path@unvalidated-join", "python", "py", PATHT, "flask", "inter-file",
         {"handler.py": "from reader import contents\n\n\ndef show(name):\n    return contents(name)\n",
          "reader.py": (
              "import os\n\n"
@@ -147,7 +155,7 @@ PYTHON = [
         "handler.py", "def show",
     ),
     template(
-        "py-ssrf", "python", "py", SSRF, "flask", "inter-file",
+        "py-ssrf@unvalidated-url", "python", "py", SSRF, "flask", "inter-file",
         {"handler.py": "from fetcher import body\n\n\ndef show(target):\n    return body(target)\n",
          "fetcher.py": (
              "import requests\n\n\n"
@@ -172,7 +180,7 @@ PYTHON = [
         "handler.py", "def show",
     ),
     template(
-        "py-deser", "python", "py", DESER, "flask", "inter-file",
+        "py-deser@pickle-untrusted", "python", "py", DESER, "flask", "inter-file",
         {"handler.py": "from loader import restore\n\n\ndef show(blob):\n    return restore(blob)\n",
          "loader.py": (
              "import pickle\n\n\n"
@@ -195,7 +203,7 @@ PYTHON = [
 
 JS = [
     template(
-        "js-sqli", "javascript", "js", SQLI, "express", "inter-file",
+        "js-sqli@concat-statement", "javascript", "js", SQLI, "express", "inter-file",
         {"route.js": "const { lookup } = require('./store');\n\nfunction show(req, res) {\n  return res.json(lookup(req.params.code));\n}\n\nmodule.exports = { show };\n",
          "store.js": (
              "const { pool } = require('./db');\n\n"
@@ -221,7 +229,7 @@ JS = [
         "route.js", "function show",
     ),
     template(
-        "js-cmdi", "javascript", "js", CMDI, "express", "inter-file",
+        "js-cmdi@shell-string", "javascript", "js", CMDI, "express", "inter-file",
         {"route.js": "const { archive } = require('./runner');\n\nfunction show(req, res) {\n  return archive(req.params.name, res);\n}\n\nmodule.exports = { show };\n",
          "runner.js": (
              "const { exec } = require('child_process');\n\n"
@@ -245,7 +253,7 @@ JS = [
         "route.js", "function show",
     ),
     template(
-        "js-path", "javascript", "js", PATHT, "express", "inter-file",
+        "js-path@unvalidated-join", "javascript", "js", PATHT, "express", "inter-file",
         {"route.js": "const { contents } = require('./reader');\n\nfunction show(req, res) {\n  return res.send(contents(req.params.name));\n}\n\nmodule.exports = { show };\n",
          "reader.js": (
              "const fs = require('fs');\n"
@@ -276,7 +284,7 @@ JS = [
         "route.js", "function show",
     ),
     template(
-        "js-ssrf", "javascript", "js", SSRF, "express", "inter-file",
+        "js-ssrf@unvalidated-url", "javascript", "js", SSRF, "express", "inter-file",
         {"route.js": "const { body } = require('./fetcher');\n\nfunction show(req, res) {\n  return body(req.query.target).then((t) => res.send(t));\n}\n\nmodule.exports = { show };\n",
          "fetcher.js": (
              "async function body(target) {\n"
@@ -306,7 +314,7 @@ JS = [
 
 TYPESCRIPT = [
     template(
-        "ts-sqli", "typescript", "ts", SQLI, "nestjs", "inter-file",
+        "ts-sqli@concat-statement", "typescript", "ts", SQLI, "nestjs", "inter-file",
         {"route.ts": "import { lookup } from './store';\n\nexport function show(code: string): unknown {\n  return lookup(code);\n}\n",
          "store.ts": (
              "import { pool } from './db';\n\n"
@@ -330,7 +338,7 @@ TYPESCRIPT = [
         "route.ts", "export function show",
     ),
     template(
-        "ts-cmdi", "typescript", "ts", CMDI, "nestjs", "inter-file",
+        "ts-cmdi@shell-string", "typescript", "ts", CMDI, "nestjs", "inter-file",
         {"route.ts": "import { archive } from './runner';\n\nexport function show(name: string): unknown {\n  return archive(name);\n}\n",
          "runner.ts": (
              "import { execSync } from 'child_process';\n\n"
@@ -367,7 +375,7 @@ func Show(code string) (string, error) {
 
 GO = [
     template(
-        "go-sqli", "go", "go", SQLI, "net/http", "inter-file",
+        "go-sqli@format-string", "go", "go", SQLI, "net/http", "inter-file",
         {"handler.go": GO_ENTRY,
          "store.go": (
              "package app\n\n"
@@ -395,7 +403,7 @@ GO = [
         "handler.go", "func Show",
     ),
     template(
-        "go-cmdi", "go", "go", CMDI, "net/http", "inter-file",
+        "go-cmdi@shell-string", "go", "go", CMDI, "net/http", "inter-file",
         {"handler.go": "package app\n\nfunc Show(name string) ([]byte, error) {\n\treturn Archive(name)\n}\n",
          "runner.go": (
              "package app\n\n"
@@ -416,7 +424,7 @@ GO = [
         "handler.go", "func Show",
     ),
     template(
-        "go-path", "go", "go", PATHT, "net/http", "inter-file",
+        "go-path@unvalidated-join", "go", "go", PATHT, "net/http", "inter-file",
         {"handler.go": "package app\n\nfunc Show(name string) ([]byte, error) {\n\treturn Contents(name)\n}\n",
          "reader.go": (
              "package app\n\n"
@@ -447,7 +455,7 @@ GO = [
 
 CSHARP = [
     template(
-        "cs-sqli", "csharp", "cs", SQLI, "aspnet", "inter-file",
+        "cs-sqli@concat-statement", "csharp", "cs", SQLI, "aspnet", "inter-file",
         {"Controller.cs": "namespace App;\n\npublic class Controller\n{\n    public object Show(string code) => Store.Lookup(code);\n}\n",
          "Store.cs": (
              "using Microsoft.Data.SqlClient;\n\n"
@@ -474,7 +482,7 @@ CSHARP = [
         "Controller.cs", "public object Show",
     ),
     template(
-        "cs-cmdi", "csharp", "cs", CMDI, "aspnet", "inter-file",
+        "cs-cmdi@shell-string", "csharp", "cs", CMDI, "aspnet", "inter-file",
         {"Controller.cs": "namespace App;\n\npublic class Controller\n{\n    public void Show(string name) => Runner.Archive(name);\n}\n",
          "Runner.cs": (
              "using System.Diagnostics;\n\n"
@@ -506,7 +514,7 @@ CSHARP = [
 
 PHP = [
     template(
-        "php-sqli", "php", "php", SQLI, "laravel", "inter-file",
+        "php-sqli@concat-statement", "php", "php", SQLI, "laravel", "inter-file",
         {"handler.php": "<?php\n\nrequire_once __DIR__ . '/store.php';\n\nfunction show($code) {\n    return lookup($code);\n}\n",
          "store.php": (
              "<?php\n\n"
@@ -530,7 +538,7 @@ PHP = [
         "handler.php", "function show",
     ),
     template(
-        "php-cmdi", "php", "php", CMDI, "laravel", "inter-file",
+        "php-cmdi@shell-string", "php", "php", CMDI, "laravel", "inter-file",
         {"handler.php": "<?php\n\nrequire_once __DIR__ . '/runner.php';\n\nfunction show($name) {\n    return archive($name);\n}\n",
          "runner.php": (
              "<?php\n\n"
@@ -555,7 +563,7 @@ PHP = [
 
 RUBY = [
     template(
-        "rb-sqli", "ruby", "rb", SQLI, "rails", "inter-file",
+        "rb-sqli@concat-statement", "ruby", "rb", SQLI, "rails", "inter-file",
         {"handler.rb": "require_relative 'store'\n\ndef show(code)\n  lookup(code)\nend\n",
          "store.rb": (
              "require 'sqlite3'\n\n"
@@ -577,7 +585,7 @@ RUBY = [
         "handler.rb", "def show",
     ),
     template(
-        "rb-cmdi", "ruby", "rb", CMDI, "rails", "inter-file",
+        "rb-cmdi@shell-string", "ruby", "rb", CMDI, "rails", "inter-file",
         {"handler.rb": "require_relative 'runner'\n\ndef show(name)\n  archive(name)\nend\n",
          "runner.rb": (
              "def archive(name)\n"

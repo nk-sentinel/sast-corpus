@@ -47,7 +47,7 @@ def _plain(slug, language, extension, weakness, framework, files_v, sink_v, file
 
 XXE_T = [
     _plain(
-        "py-xxe", "python", "py", XXE, None,
+        "py-xxe@entities-enabled", "python", "py", XXE, None,
         {"parser.py": (
             "from lxml import etree\n\n\n"
             "def parse(document):\n"
@@ -64,7 +64,7 @@ XXE_T = [
         "entity resolution, DTD loading and network access are all disabled before parsing",
     ),
     _plain(
-        "java-xxe", "java", "java", XXE, None,
+        "java-xxe@default-factory", "java", "java", XXE, None,
         {"Parser.java": (
             "package app;\n\n"
             "import java.io.ByteArrayInputStream;\n"
@@ -103,7 +103,7 @@ XXE_T = [
 
 CREDS_T = [
     _plain(
-        "py-creds", "python", "py", CREDS, None,
+        "py-creds@literal-in-source", "python", "py", CREDS, None,
         {"settings.py": (
             "import psycopg2\n\n"
             "DB_USER = \"reporting\"\n"
@@ -123,7 +123,7 @@ CREDS_T = [
         "the value is read from the environment and never appears in the repository",
     ),
     _plain(
-        "java-creds", "java", "java", CREDS, None,
+        "java-creds@literal-in-source", "java", "java", CREDS, None,
         {"Settings.java": (
             "package app;\n\n"
             "public final class Settings {\n"
@@ -151,7 +151,7 @@ CREDS_T = [
 
 CRYPTO_T = [
     _plain(
-        "py-digest", "python", "py", CRYPTO, None,
+        "py-digest@weak-hash", "python", "py", CRYPTO, None,
         {"tokens.py": (
             "import hashlib\n\n\n"
             "def fingerprint(value):\n"
@@ -166,7 +166,7 @@ CRYPTO_T = [
         "SHA-256 has no known collision attack and is the appropriate replacement here",
     ),
     _plain(
-        "java-cipher", "java", "java", CRYPTO, None,
+        "java-cipher@weak-cipher-mode", "java", "java", CRYPTO, None,
         {"Sealer.java": (
             "package app;\n\n"
             "import javax.crypto.Cipher;\n"
@@ -205,7 +205,7 @@ CRYPTO_T = [
 
 CSRF_T = [
     _plain(
-        "java-csrf", "java", "java", CSRF, "spring-security",
+        "java-csrf@protection-disabled", "java", "java", CSRF, "spring-security",
         {"WebConfig.java": (
             "package app;\n\n"
             "import org.springframework.context.annotation.Bean;\n"
@@ -307,7 +307,7 @@ CSRF_T = [
 
 SECRET_T = [
     _plain(
-        "secret-aws", "python", "py", CREDS, None,
+        "secret-aws@cloud-key-literal", "python", "py", CREDS, None,
         {"deploy.py": (
             "ACCESS_KEY_ID = \"AKIAIOSFODNN7EXAMPLE\"\n"
             "ACCESS_KEY = \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\"\n"
@@ -327,7 +327,7 @@ SECRET_T = [
         severity="critical",
     ),
     _plain(
-        "secret-entropy", "python", "py", CREDS, None,
+        "secret-entropy@signing-key-literal", "python", "py", CREDS, None,
         {"session.py": (
             "SIGNING_KEY = \"hunter2-Zx9Qv7Lm3Rt8Wn2Kd6Yp4Bs1Hf5Jg0Ac\"\n\n\n"
             "def sign(payload):\n"
@@ -352,7 +352,7 @@ SECRET_T = [
 
 SCA_T = [
     _plain(
-        "sca-maven", "java", "xml", SCA_CWE, None,
+        "sca-maven@vulnerable-version", "java", "xml", SCA_CWE, None,
         {"pom.xml": (
             "<project>\n"
             "  <modelVersion>4.0.0</modelVersion>\n"
@@ -393,7 +393,7 @@ SCA_T = [
         severity="critical",
     ),
     _plain(
-        "sca-npm", "javascript", "json", SCA_CWE, None,
+        "sca-npm@vulnerable-version", "javascript", "json", SCA_CWE, None,
         {"package.json": (
             "{\n"
             "  \"name\": \"inventory\",\n"

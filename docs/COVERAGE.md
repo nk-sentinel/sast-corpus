@@ -73,20 +73,20 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | weakness | mechanisms | context traps |
 |---|---|---|
-| `CWE-22` | `(unlabelled)` | · |
-| `CWE-78` | `(unlabelled)` | · |
-| `CWE-79` | `(unlabelled)` | · |
-| `CWE-89` | `(unlabelled)`, `dynamic-identifier`, `prepared-but-concatenated` | · |
-| `CWE-94` | `(unlabelled)` | · |
-| `CWE-327` | `(unlabelled)` | `in-comment`, `in-markdown`, `in-test-data` |
-| `CWE-352` | `(unlabelled)` | · |
-| `CWE-502` | `(unlabelled)` | · |
-| `CWE-611` | `(unlabelled)` | · |
-| `CWE-798` | `(unlabelled)` | · |
-| `CWE-918` | `(unlabelled)` | · |
-| `CWE-1395` | `(unlabelled)` | · |
+| `CWE-22` | `loop-filter`, `single-pass-filter`, `unknown`, `unvalidated-concat`, `unvalidated-join` | · |
+| `CWE-78` | `blocklist-filter`, `shell-string`, `system-call`, `unknown` | · |
+| `CWE-79` | `tag-filter`, `unescaped-output`, `unknown` | · |
+| `CWE-89` | `concat-statement`, `dynamic-identifier`, `format-string`, `prepared-but-concatenated` | · |
+| `CWE-94` | `unknown` | · |
+| `CWE-327` | `weak-cipher-mode`, `weak-hash` | `in-comment`, `in-markdown`, `in-test-data` |
+| `CWE-352` | `protection-disabled` | · |
+| `CWE-502` | `objectinputstream`, `pickle-untrusted` | · |
+| `CWE-611` | `default-factory`, `entities-enabled` | · |
+| `CWE-798` | `cloud-key-literal`, `literal-in-source`, `signing-key-literal` | · |
+| `CWE-918` | `unvalidated-url` | · |
+| `CWE-1395` | `vulnerable-version` | · |
 
-**147 of 153 cases carry no variant label.** They were written before the field existed and are counted as `(unlabelled)`. Until they are named, the mechanism coverage above understates what exists and cannot show what is missing.
+`unknown` is not the same gap. 49 derived tier-3 cases carry it because the mechanism is not knowable from the CVE metadata — only from reading the code — and guessing would be indistinguishable from a finding in the table above.
 
 ## OWASP Top 10 (2021)
 

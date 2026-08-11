@@ -5,32 +5,33 @@ tier: 3
 language: java
 framework: null
 primary_cwe: CWE-22
+variant: unknown
 acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
 owasp_2021: null
 severity: high
 location:
-  file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/staticfiles/StaticFilesConfiguration.java
-  start_line: 235
-  end_line: 238
+  file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/resource/ClassPathResourceHandler.java
+  start_line: 60
+  end_line: 88
 alt_locations:
-  - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/utils/StringUtils.java
-    start_line: 376
-    end_line: 391
-  - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/staticfiles/StaticFilesConfiguration.java
-    start_line: 180
-    end_line: 200
-  - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/staticfiles/StaticFilesConfiguration.java
-    start_line: 80
-    end_line: 101
-  - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/resource/ClassPathResourceHandler.java
-    start_line: 60
-    end_line: 88
   - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/resource/ExternalResourceHandler.java
     start_line: 59
     end_line: 87
   - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/staticfiles/StaticFilesConfiguration.java
+    start_line: 80
+    end_line: 101
+  - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/staticfiles/StaticFilesConfiguration.java
     start_line: 150
     end_line: 178
+  - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/staticfiles/StaticFilesConfiguration.java
+    start_line: 235
+    end_line: 238
+  - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/staticfiles/StaticFilesConfiguration.java
+    start_line: 180
+    end_line: 200
+  - file: tier3/project-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/utils/StringUtils.java
+    start_line: 376
+    end_line: 391
 difficulty:
   flow: unknown
   sanitizer: unknown
@@ -38,7 +39,7 @@ difficulty:
 evidence:
   source: cve
   rationale: >-
-    CVE-2016-9177 in perwendel/spark, at the buggy commit ce57dfb949ed183405f75dee8cf3262b45c9b3b5. The dataset records the fix as touching StaticFilesConfiguration.setExpireTimeSeconds; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 7 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
+    CVE-2016-9177 in perwendel/spark, at the buggy commit ce57dfb949ed183405f75dee8cf3262b45c9b3b5. The dataset records the fix as touching ClassPathResourceHandler.getResource; that method was located by name in the buggy checkout rather than by the recorded line numbers, which belong to the fixed file and do not correspond. Ground truth spans the 7 method(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw and a tool that flags any affected method has found this CVE.
   cve: CVE-2016-9177
 build:
   required: true

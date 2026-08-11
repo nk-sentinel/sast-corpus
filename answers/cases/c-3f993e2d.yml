@@ -5,6 +5,7 @@ tier: 1
 language: python
 framework: flask
 primary_cwe: CWE-22
+variant: loop-filter
 acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
 owasp_2021: A01
 severity: high

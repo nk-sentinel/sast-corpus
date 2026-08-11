@@ -5,6 +5,7 @@ tier: 1
 language: kotlin
 framework: null
 primary_cwe: CWE-78
+variant: shell-string
 acceptable_cwes: [CWE-78, CWE-77, CWE-88, CWE-94]
 owasp_2021: A03
 severity: high

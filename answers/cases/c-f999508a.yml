@@ -5,6 +5,7 @@ tier: 1
 language: java
 framework: spring-security
 primary_cwe: CWE-352
+variant: protection-disabled
 acceptable_cwes: [CWE-352]
 owasp_2021: A01
 severity: high
