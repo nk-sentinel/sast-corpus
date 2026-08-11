@@ -1,0 +1,31 @@
+id: c-b698ffa8
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: spring-security
+primary_cwe: CWE-862
+variant: intentionally-public
+acceptable_cwes: [CWE-862, CWE-284, CWE-285, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/b698ffa8/StatusController.java
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/java/b698ffa8/StatusController.java
+    start_line: 13
+    end_line: 13
+difficulty:
+  flow: framework-mediated
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a health check and a version endpoint, both explicitly marked public. These are meant to be unauthenticated, and a tool that flags every endpoint without a role requirement reports them — which is how an access-control rule becomes noise on exactly the routes that should be open
+  cve: null
+build:
+  required: false
+  recipe: null

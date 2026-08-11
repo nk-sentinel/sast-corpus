@@ -1,0 +1,31 @@
+id: c-322eacc2
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: spring-security
+primary_cwe: CWE-862
+variant: missing-annotation
+acceptable_cwes: [CWE-862, CWE-284, CWE-285, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/322eacc2/AdminController.java
+  start_line: 25
+  end_line: 25
+alt_locations:
+  - file: tier1/java/322eacc2/AdminController.java
+    start_line: 13
+    end_line: 13
+difficulty:
+  flow: framework-mediated
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    every handler in the controller carries the same role requirement
+  cve: null
+build:
+  required: false
+  recipe: null

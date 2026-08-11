@@ -1,0 +1,31 @@
+id: c-624ffa58
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: spring-security
+primary_cwe: CWE-863
+variant: wrong-role-checked
+acceptable_cwes: [CWE-863, CWE-862, CWE-285, CWE-284]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/624ffa58/BillingController.java
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/java/624ffa58/BillingController.java
+    start_line: 13
+    end_line: 13
+difficulty:
+  flow: framework-mediated
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the check is present and passes for any logged-in user, while the operation moves money for a named tenant. An authorization control exists, so a tool looking for the absence of one finds nothing; the defect is that the control asserts authentication where it needed authorization
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-261fc4dd
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: spring-security
+primary_cwe: CWE-862
+variant: missing-annotation
+acceptable_cwes: [CWE-862, CWE-284, CWE-285, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/261fc4dd/AdminController.java
+  start_line: 24
+  end_line: 24
+alt_locations:
+  - file: tier1/java/261fc4dd/AdminController.java
+    start_line: 13
+    end_line: 13
+difficulty:
+  flow: framework-mediated
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    one handler in an admin controller carries no authorization annotation while every sibling does. Nothing in the method is wrong; the defect is the absence, and it is visible only against the pattern its neighbours establish. This is the class the literature says static analysis struggles with, included so the corpus can record which tools manage it
+  cve: null
+build:
+  required: false
+  recipe: null

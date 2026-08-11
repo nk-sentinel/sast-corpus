@@ -1,0 +1,31 @@
+id: c-3cf594de
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: spring-mvc
+primary_cwe: CWE-639
+variant: user-controlled-key
+acceptable_cwes: [CWE-639, CWE-862, CWE-285, CWE-284, CWE-566]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/3cf594de/InvoiceController.java
+  start_line: 18
+  end_line: 18
+alt_locations:
+  - file: tier1/java/3cf594de/InvoiceController.java
+    start_line: 17
+    end_line: 17
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the identifier comes straight from the URL and selects the record with no comparison against the caller. Changing the number in the path returns another tenant's invoice. The store already offers byIdForOwner, so the ownership-aware call exists and is simply not the one used — which is the shape a dataflow tool can actually reach
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -242,12 +242,15 @@ CSRF_T = [
              "      <version>6.4.2</version>\n"
              "    </dependency>\n"
              "  </dependencies>\n"
-             "  <build><plugins><plugin>\n"
+             "  <build>\n"
+             "    <sourceDirectory>${project.basedir}</sourceDirectory>\n"
+             "    <plugins><plugin>\n"
              "    <groupId>org.apache.maven.plugins</groupId>\n"
              "    <artifactId>maven-compiler-plugin</artifactId>\n"
              "    <version>3.13.0</version>\n"
              "    <configuration><release>21</release></configuration>\n"
-             "  </plugin></plugins></build>\n"
+             "  </plugin></plugins>\n"
+             "  </build>\n"
              "</project>\n"),
         },
         "csrf.disable()",
@@ -289,12 +292,15 @@ CSRF_T = [
              "      <version>6.4.2</version>\n"
              "    </dependency>\n"
              "  </dependencies>\n"
-             "  <build><plugins><plugin>\n"
+             "  <build>\n"
+             "    <sourceDirectory>${project.basedir}</sourceDirectory>\n"
+             "    <plugins><plugin>\n"
              "    <groupId>org.apache.maven.plugins</groupId>\n"
              "    <artifactId>maven-compiler-plugin</artifactId>\n"
              "    <version>3.13.0</version>\n"
              "    <configuration><release>21</release></configuration>\n"
-             "  </plugin></plugins></build>\n"
+             "  </plugin></plugins>\n"
+             "  </build>\n"
              "</project>\n"),
         },
         "csrf.csrfTokenRepository(", "framework-implicit",

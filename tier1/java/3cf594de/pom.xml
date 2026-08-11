@@ -2,30 +2,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.sastcorpus</groupId>
-  <artifactId>webconfig</artifactId>
+  <artifactId>portal</artifactId>
   <version>1.0.0</version>
   <properties>
-    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-config</artifactId>
-      <version>6.4.2</version>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>6.2.1</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-web</artifactId>
+      <artifactId>spring-security-core</artifactId>
       <version>6.4.2</version>
     </dependency>
   </dependencies>
   <build>
     <sourceDirectory>${project.basedir}</sourceDirectory>
     <plugins><plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-compiler-plugin</artifactId>
-    <version>3.13.0</version>
-    <configuration><release>21</release></configuration>
-  </plugin></plugins>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.13.0</version>
+      <configuration><release>21</release></configuration>
+    </plugin></plugins>
   </build>
 </project>

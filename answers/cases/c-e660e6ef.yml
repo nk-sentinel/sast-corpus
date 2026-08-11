@@ -1,0 +1,31 @@
+id: c-e660e6ef
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: spring-security
+primary_cwe: CWE-863
+variant: wrong-role-checked
+acceptable_cwes: [CWE-863, CWE-862, CWE-285, CWE-284]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/e660e6ef/BillingController.java
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/java/e660e6ef/BillingController.java
+    start_line: 13
+    end_line: 13
+difficulty:
+  flow: framework-mediated
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the expression requires the role and binds the path variable to the caller's identity, so the operation is scoped to the tenant that owns it
+  cve: null
+build:
+  required: false
+  recipe: null

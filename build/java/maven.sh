@@ -42,6 +42,17 @@ while IFS= read -r pom; do
     fi
 
     if mvn -q -B -f "${pom}" -Dmaven.test.skip=true compile > "/tmp/mvn-$(basename "${fixture}").log" 2>&1; then
+        # Maven exits 0 when it finds no sources to compile. A fixture whose
+        # layout does not match sourceDirectory therefore reports a clean build
+        # while producing an empty artifact — and a build-required engine then
+        # sees nothing, which is the exact failure this gate exists to prevent.
+        classes=$(find "${fixture}" -name '*.class' -print -quit 2>/dev/null)
+        if [ -z "${classes}" ]; then
+            echo "FAIL  ${rel}: build succeeded but produced no class files" >&2
+            echo "       check <sourceDirectory> against the fixture layout" >&2
+            FAILURES=$((FAILURES + 1))
+            continue
+        fi
         echo "ok    ${rel}"
     else
         echo "FAIL  ${rel}" >&2

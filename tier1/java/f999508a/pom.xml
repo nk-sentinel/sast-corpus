@@ -19,10 +19,13 @@
       <version>6.4.2</version>
     </dependency>
   </dependencies>
-  <build><plugins><plugin>
+  <build>
+    <sourceDirectory>${project.basedir}</sourceDirectory>
+    <plugins><plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-compiler-plugin</artifactId>
     <version>3.13.0</version>
     <configuration><release>21</release></configuration>
-  </plugin></plugins></build>
+  </plugin></plugins>
+  </build>
 </project>
