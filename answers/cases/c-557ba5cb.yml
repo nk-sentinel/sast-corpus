@@ -1,0 +1,31 @@
+id: c-557ba5cb
+label: safe
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/kotlin/557ba5cb/Work.kt
+  start_line: 12
+  end_line: 12
+alt_locations:
+  - file: tier1/kotlin/557ba5cb/Cli.kt
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the scheme and host are checked against an allowlist first
+  cve: null
+build:
+  required: false
+  recipe: null

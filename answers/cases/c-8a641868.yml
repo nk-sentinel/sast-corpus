@@ -1,0 +1,31 @@
+id: c-8a641868
+label: vulnerable
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-798
+variant: literal-in-source
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/rust/8a641868/work.rs
+  start_line: 1
+  end_line: 1
+alt_locations:
+  - file: tier1/rust/8a641868/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the password is a compiled-in constant and survives in the binary as well as the repository
+  cve: null
+build:
+  required: false
+  recipe: null

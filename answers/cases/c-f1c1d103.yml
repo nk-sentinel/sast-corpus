@@ -1,0 +1,31 @@
+id: c-f1c1d103
+label: vulnerable
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-120
+variant: unbounded-copy
+acceptable_cwes: [CWE-120, CWE-787, CWE-121, CWE-676]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/f1c1d103/work.cpp
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/cpp/f1c1d103/main.cpp
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a C string copy into a fixed C++ stack buffer. std::string carries its length and the code discards it, so the destination size is never consulted
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-e194f9a2
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-502
+variant: binaryformatter
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/csharp/e194f9a2/Work.cs
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/csharp/e194f9a2/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    BinaryFormatter reconstructs whatever types the payload names and runs their deserialisation callbacks. Microsoft marks it obsolete and dangerous precisely because no configuration makes it safe on untrusted input
+  cve: null
+build:
+  required: false
+  recipe: null

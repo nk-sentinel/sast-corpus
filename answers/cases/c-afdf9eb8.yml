@@ -1,0 +1,31 @@
+id: c-afdf9eb8
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/csharp/afdf9eb8/Work.cs
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/csharp/afdf9eb8/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    MD5 has practical collisions, so a digest built on it no longer distinguishes inputs
+  cve: null
+build:
+  required: false
+  recipe: null

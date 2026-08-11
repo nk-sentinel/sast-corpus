@@ -98,7 +98,45 @@ else
     SKIPPED+=("rust")
 fi
 
+# Languages with no local toolchain but a small official image. Opt-in via
+# SYNTAX_USE_DOCKER=1 so the default run stays offline and fast; CI sets it.
+# Mounted read-only — a syntax check has no business writing to the corpus.
+check_in_docker() {
+    local language="$1" pattern="$2" image="$3" command="$4"
+    local checked
+    checked=$(find "${ROOT}/tier1/${language}" -name "${pattern}" -type f 2>/dev/null | wc -l)
+    [ "${checked}" -eq 0 ] && { report "${language}" 0; return; }
+
+    # The `while` runs in a subshell, so a variable set inside it cannot carry a
+    # failure out. The FAIL lines on stdout are the only signal, and counting
+    # them is also how many fixtures broke.
+    if ! docker run --rm -v "${ROOT}:/w:ro" -w /w "${image}" sh -c "
+            find tier1/${language} -name '${pattern}' -type f | sort | while IFS= read -r f; do
+                ${command} \"\$f\" >/dev/null 2>&1 || echo \"FAIL  \$f\"
+            done" > "${WORK}/out" 2>&1; then
+        echo "FAIL  ${language}: ${image} did not run" >> "${WORK}/out"
+    fi
+
+    local broken
+    broken=$(grep -c '^FAIL' "${WORK}/out")
+    if [ "${broken}" -gt 0 ]; then
+        grep '^FAIL' "${WORK}/out" >&2
+        FAILURES=$((FAILURES + broken))
+        echo "  ${language}: ${checked} file(s) checked, ${broken} did NOT parse"
+        return
+    fi
+    report "${language}" "${checked}"
+}
+
+DOCKER_LANGUAGES=""
+if [ "${SYNTAX_USE_DOCKER:-0}" = "1" ] && have docker; then
+    check_in_docker php "*.php" php:8.3-cli "php -l"
+    check_in_docker ruby "*.rb" ruby:3.3-slim "ruby -c"
+    DOCKER_LANGUAGES="php ruby"
+fi
+
 for language in typescript csharp php ruby kotlin swift; do
+    case " ${DOCKER_LANGUAGES} " in *" ${language} "*) continue ;; esac
     if [ -d "${ROOT}/tier1/${language}" ]; then
         SKIPPED+=("${language}")
     fi

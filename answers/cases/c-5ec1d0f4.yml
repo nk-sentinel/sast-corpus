@@ -1,0 +1,31 @@
+id: c-5ec1d0f4
+label: vulnerable
+plane: vuln
+tier: 1
+language: typescript
+framework: null
+primary_cwe: CWE-502
+variant: prototype-pollution
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/typescript/5ec1d0f4/work.ts
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/typescript/5ec1d0f4/route.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    keys are copied from parsed input with no filtering, so __proto__ and constructor reach the assignment and change behaviour for objects the caller never touched. JSON.parse itself is safe; the merge that follows is not
+  cve: null
+build:
+  required: false
+  recipe: null

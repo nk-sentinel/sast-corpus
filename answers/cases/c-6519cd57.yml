@@ -1,0 +1,31 @@
+id: c-6519cd57
+label: safe
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/swift/6519cd57/Work.swift
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/swift/6519cd57/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the scheme and host are checked against an allowlist before the fetch
+  cve: null
+build:
+  required: false
+  recipe: null

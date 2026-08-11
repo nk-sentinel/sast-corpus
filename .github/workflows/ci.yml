@@ -59,4 +59,11 @@ jobs:
       - name: Run every build and syntax recipe
         # Build-required engines see nothing in a fixture that will not compile,
         # and a fixture that will not parse scores as a miss for every tool.
+        #
+        # SYNTAX_USE_DOCKER pulls php:8.3-cli and ruby:3.3-slim to parse those
+        # two languages, which no setup-* action here provides. Left off by
+        # default so a local run stays offline; on in CI, where the pull is
+        # cheaper than shipping fixtures nobody has parsed.
+        env:
+          SYNTAX_USE_DOCKER: "1"
         run: ./build/verify.sh

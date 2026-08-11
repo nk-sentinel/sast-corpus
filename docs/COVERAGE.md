@@ -8,10 +8,12 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 219 |
-| False-positive traps | 106 (48%) |
+| Cases | 305 |
+| False-positive traps | 149 (49%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
+| Distinct weaknesses | 33 |
+| Weaknesses per language | 6 thinnest (swift) → 16 deepest (java) |
 | Visible to build-required engines | 37 |
 
 ## Language × weakness
@@ -19,18 +21,18 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 | language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-20 | CWE-77 | CWE-94 | CWE-117 | CWE-120 | CWE-121 | CWE-122 | CWE-125 | CWE-134 | CWE-190 | CWE-200 | CWE-284 | CWE-306 | CWE-416 | CWE-434 | CWE-476 | CWE-532 | CWE-639 | CWE-770 | CWE-787 | CWE-862 | CWE-863 | CWE-1395 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | java | 2/1 | 6/5 | 5/4 | 15/11 | 1/1 | · | 1/1 | 1/1 | 1/4 | 1/1 | · | 1/1 | 4/3 | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | 1/1 | · | 2/2 | 1/1 | 1/1 |
-| kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| kotlin | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 9/9 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 | · | 2/2 | · | 1/1 | · | 1/1 | · | · | · | · |
 | javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
-| typescript | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| go | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| csharp | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| typescript | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| go | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| csharp | 1/1 | 1/1 | · | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | · | 1/1 | · | 1/1 | · | · | · | 1/1 | · | · | · |
-| cpp | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · |
-| swift | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| php | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| ruby | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| rust | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| cpp | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · | 1/1 | · | · | · | · | · | 1/1 | · | 1/1 | · | · | · | 1/1 | · | · | · |
+| swift | 1/1 | 1/1 | · | 1/1 | · | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| php | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| ruby | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| rust | 1/1 | 1/1 | · | 1/1 | · | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 
 Weakness codes:
 
@@ -44,46 +46,46 @@ Weakness codes:
 - `CWE-798` — hard-coded credentials
 - `CWE-327` — broken crypto
 - `CWE-352` — cross-site request forgery
-- `CWE-20` — 
-- `CWE-77` — 
+- `CWE-20` — improper input validation
+- `CWE-77` — command injection
 - `CWE-94` — code injection
-- `CWE-117` — 
-- `CWE-120` — 
-- `CWE-121` — 
-- `CWE-122` — 
-- `CWE-125` — 
-- `CWE-134` — 
-- `CWE-190` — 
-- `CWE-200` — 
-- `CWE-284` — 
-- `CWE-306` — 
-- `CWE-416` — 
-- `CWE-434` — 
-- `CWE-476` — 
-- `CWE-532` — 
-- `CWE-639` — 
-- `CWE-770` — 
-- `CWE-787` — 
-- `CWE-862` — 
-- `CWE-863` — 
+- `CWE-117` — improper output neutralisation for logs
+- `CWE-120` — buffer copy without size check
+- `CWE-121` — stack-based buffer overflow
+- `CWE-122` — heap-based buffer overflow
+- `CWE-125` — out-of-bounds read
+- `CWE-134` — externally controlled format string
+- `CWE-190` — integer overflow or wraparound
+- `CWE-200` — exposure of sensitive information
+- `CWE-284` — improper access control
+- `CWE-306` — missing authentication for critical function
+- `CWE-416` — use after free
+- `CWE-434` — unrestricted upload of dangerous file type
+- `CWE-476` — NULL pointer dereference
+- `CWE-532` — sensitive information in a log file
+- `CWE-639` — authorisation bypass through user-controlled key
+- `CWE-770` — allocation without limits or throttling
+- `CWE-787` — out-of-bounds write
+- `CWE-862` — missing authorisation
+- `CWE-863` — incorrect authorisation
 - `CWE-1395` — dependency on a vulnerable component
 
 ## Gaps
 
-**88 of 130 language-by-weakness cells are empty.** Full coverage of the grid is not the goal — CSRF has no meaning in a C program, and SQL injection none in a shell script — but an empty cell still means a tool is never tested on that combination, so it cannot pass or fail it. The languages carrying only one or two weaknesses are the ones where a result rests on the least evidence.
+**48 of 130 language-by-weakness cells are empty.** Full coverage of the grid is not the goal — CSRF has no meaning in a C program, and SQL injection none in a shell script — but an empty cell still means a tool is never tested on that combination, so it cannot pass or fail it. The languages carrying only one or two weaknesses are the ones where a result rests on the least evidence.
 
 Weaknesses covered per language, thinnest first:
 
-- `swift` — 1
-- `kotlin` — 2
-- `typescript` — 2
-- `csharp` — 2
-- `php` — 2
-- `ruby` — 2
-- `rust` — 2
-- `cpp` — 3
-- `go` — 4
 - `javascript` — 6
+- `swift` — 6
+- `rust` — 6
+- `kotlin` — 7
+- `typescript` — 7
+- `csharp` — 7
+- `cpp` — 7
+- `php` — 7
+- `ruby` — 7
+- `go` — 9
 - `c` — 11
 - `python` — 15
 - `java` — 18
@@ -97,18 +99,18 @@ The distinct-CWE total for the corpus says nothing about spread. This is what ea
 | `java` | 16 | 38 |
 | `python` | 15 | 58 |
 | `c` | 11 | 22 |
+| `go` | 9 | 18 |
+| `cpp` | 7 | 14 |
+| `csharp` | 7 | 14 |
+| `kotlin` | 7 | 14 |
+| `php` | 7 | 14 |
+| `ruby` | 7 | 14 |
+| `typescript` | 7 | 14 |
 | `javascript` | 6 | 12 |
-| `go` | 4 | 8 |
-| `cpp` | 3 | 6 |
-| `csharp` | 2 | 4 |
-| `kotlin` | 2 | 4 |
-| `php` | 2 | 4 |
-| `ruby` | 2 | 4 |
-| `rust` | 2 | 4 |
-| `typescript` | 2 | 4 |
-| `swift` | 1 | 2 |
+| `rust` | 6 | 12 |
+| `swift` | 6 | 12 |
 
-Grid density is **16%** — 68 of the language-by-weakness cells the present material spans are filled. Full density is not the goal, since many combinations are meaningless, but the figure is the honest measure of how far the corpus generalises beyond its deepest languages.
+Grid density is **27%** — 111 of the language-by-weakness cells the present material spans are filled. Full density is not the goal, since many combinations are meaningless, but the figure is the honest measure of how far the corpus generalises beyond its deepest languages.
 
 ## Variants per weakness
 
@@ -120,7 +122,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-22` | `loop-filter`, `single-pass-filter`, `unknown`, `unvalidated-concat`, `unvalidated-join` | · |
 | `CWE-77` | `argument-injection` | · |
 | `CWE-78` | `blocklist-filter`, `shell-string`, `system-call`, `unknown` | · |
-| `CWE-79` | `tag-filter`, `unescaped-output`, `unknown` | · |
+| `CWE-79` | `tag-filter`, `template-html-optout`, `unescaped-output`, `unknown` | · |
 | `CWE-89` | `concat-statement`, `dynamic-identifier`, `format-string`, `prepared-but-concatenated` | · |
 | `CWE-94` | `unknown` | · |
 | `CWE-117` | `unsanitised-log-entry` | · |
@@ -138,9 +140,9 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-416` | `dangling-reference`, `use-after-free` | · |
 | `CWE-434` | `blocklist-extension`, `unchecked-upload` | · |
 | `CWE-476` | `unchecked-allocation` | · |
-| `CWE-502` | `objectinputstream`, `pickle-untrusted` | · |
+| `CWE-502` | `binaryformatter`, `marshal-untrusted`, `objectinputstream`, `pickle-untrusted`, `prototype-pollution`, `unserialize-untrusted`, `yaml-untrusted` | · |
 | `CWE-532` | `credentials-in-log` | · |
-| `CWE-611` | `default-factory`, `entities-enabled` | · |
+| `CWE-611` | `default-factory`, `default-resolver`, `entities-enabled` | · |
 | `CWE-639` | `user-controlled-key` | · |
 | `CWE-770` | `unbounded-allocation` | · |
 | `CWE-787` | `unchecked-index-write` | · |
@@ -156,22 +158,22 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | category | cases |
 |---|---|
-| A01 Broken Access Control | 29 |
-| A02 Cryptographic Failures | 7 |
-| A03 Injection | 82 |
+| A01 Broken Access Control | 43 |
+| A02 Cryptographic Failures | 21 |
+| A03 Injection | 100 |
 | A04 Insecure Design | 10 |
-| A05 Security Misconfiguration | 4 |
+| A05 Security Misconfiguration | 6 |
 | A06 Vulnerable Components | 4 |
-| A07 Identification and Authentication Failures | 22 |
-| A08 Software and Data Integrity Failures | 4 |
+| A07 Identification and Authentication Failures | 38 |
+| A08 Software and Data Integrity Failures | 16 |
 | A09 Logging and Monitoring Failures | 4 |
-| A10 Server-Side Request Forgery | 4 |
+| A10 Server-Side Request Forgery | 14 |
 
 ## Detection planes
 
 | plane | cases |
 |---|---|
-| vuln | 201 |
+| vuln | 287 |
 | secret | 14 |
 | sca | 4 |
 | crypto | · |
@@ -182,7 +184,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | tier | cases |
 |---|---|
-| 1 — synthetic fixtures | 170 |
+| 1 — synthetic fixtures | 256 |
 | 2 — real applications | · |
 | 3 — CVE reproductions | 49 |
 
@@ -192,12 +194,12 @@ A cell in the matrix above holding one case proves only that the weakness class 
 |---|---|
 | intra-procedural | 39 |
 | inter-procedural | 2 |
-| inter-file | 121 |
+| inter-file | 207 |
 | framework-mediated | 8 |
 
 | sanitizer | cases |
 |---|---|
-| none | 84 |
+| none | 127 |
 | ineffective | 4 |
-| custom-effective | 75 |
+| custom-effective | 118 |
 | framework-implicit | 28 |

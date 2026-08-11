@@ -1,0 +1,31 @@
+id: c-92c0bfd5
+label: safe
+plane: vuln
+tier: 1
+language: php
+framework: null
+primary_cwe: CWE-502
+variant: unserialize-untrusted
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/php/92c0bfd5/work.php
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/php/92c0bfd5/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    json_decode with the associative flag produces arrays and scalars only, and instantiates nothing
+  cve: null
+build:
+  required: false
+  recipe: null

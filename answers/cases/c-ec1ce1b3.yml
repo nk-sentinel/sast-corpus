@@ -1,0 +1,31 @@
+id: c-ec1ce1b3
+label: vulnerable
+plane: vuln
+tier: 1
+language: ruby
+framework: null
+primary_cwe: CWE-502
+variant: marshal-untrusted
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/ruby/ec1ce1b3/work.rb
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/ruby/ec1ce1b3/handler.rb
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    Marshal.load reconstructs arbitrary objects and invokes their initialisation hooks, so a gadget available in the loaded gems becomes reachable from the payload
+  cve: null
+build:
+  required: false
+  recipe: null

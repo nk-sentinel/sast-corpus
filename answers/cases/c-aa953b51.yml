@@ -1,0 +1,31 @@
+id: c-aa953b51
+label: vulnerable
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79, CWE-80, CWE-116]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/go/aa953b51/render.go
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/go/aa953b51/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    html/template escapes by default and template.HTML is the documented way to opt out. Wrapping request data in it disables the protection for exactly the value that needed it, and the surrounding code looks like correct template use
+  cve: null
+build:
+  required: false
+  recipe: null

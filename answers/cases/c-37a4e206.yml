@@ -1,0 +1,31 @@
+id: c-37a4e206
+label: safe
+plane: vuln
+tier: 1
+language: typescript
+framework: null
+primary_cwe: CWE-798
+variant: literal-in-source
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/typescript/37a4e206/work.ts
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/typescript/37a4e206/route.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is read from the environment
+  cve: null
+build:
+  required: false
+  recipe: null

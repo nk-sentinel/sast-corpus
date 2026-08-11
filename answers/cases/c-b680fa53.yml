@@ -1,0 +1,31 @@
+id: c-b680fa53
+label: safe
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-502
+variant: binaryformatter
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/csharp/b680fa53/Work.cs
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/csharp/b680fa53/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the payload can only populate a declared record with one string field, so no type in the process is reachable from it
+  cve: null
+build:
+  required: false
+  recipe: null

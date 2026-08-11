@@ -1,0 +1,31 @@
+id: c-df6ba131
+label: vulnerable
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-787
+variant: unchecked-index-write
+acceptable_cwes: [CWE-787, CWE-120, CWE-121]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/df6ba131/work.cpp
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/cpp/df6ba131/main.cpp
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    operator[] performs no bounds check on write any more than on read, so an out-of-range index corrupts whatever follows the vector's buffer
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-9cb98577
+label: safe
+plane: vuln
+tier: 1
+language: php
+framework: null
+primary_cwe: CWE-79
+variant: unescaped-output
+acceptable_cwes: [CWE-79, CWE-80, CWE-116]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/php/9cb98577/work.php
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/php/9cb98577/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    htmlspecialchars with ENT_QUOTES encodes both quote styles as well as the angle brackets, which the single-quoted attribute here requires
+  cve: null
+build:
+  required: false
+  recipe: null

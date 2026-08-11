@@ -1,0 +1,31 @@
+id: c-4cf95309
+label: safe
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-502
+variant: yaml-untrusted
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/go/4cf95309/load.go
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/go/4cf95309/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    only the name field is decodable, so no privilege field is reachable from the payload
+  cve: null
+build:
+  required: false
+  recipe: null

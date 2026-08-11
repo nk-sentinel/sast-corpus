@@ -1,0 +1,31 @@
+id: c-b98d3cbe
+label: vulnerable
+plane: vuln
+tier: 1
+language: php
+framework: null
+primary_cwe: CWE-502
+variant: unserialize-untrusted
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/php/b98d3cbe/work.php
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/php/b98d3cbe/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    unserialize instantiates whatever classes the payload names and triggers their magic methods, so a gadget chain present anywhere in the loaded code becomes reachable without any of it being called explicitly
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-173b5981
+label: safe
+plane: vuln
+tier: 1
+language: typescript
+framework: null
+primary_cwe: CWE-502
+variant: prototype-pollution
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/typescript/173b5981/work.ts
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/typescript/173b5981/route.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the prototype keys are refused and the target has no prototype to pollute
+  cve: null
+build:
+  required: false
+  recipe: null

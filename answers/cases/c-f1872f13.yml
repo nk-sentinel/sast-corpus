@@ -1,0 +1,31 @@
+id: c-f1872f13
+label: vulnerable
+plane: vuln
+tier: 1
+language: php
+framework: null
+primary_cwe: CWE-79
+variant: unescaped-output
+acceptable_cwes: [CWE-79, CWE-80, CWE-116]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/php/f1872f13/work.php
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/php/f1872f13/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value goes straight into markup with no encoding, so a tag inside it is parsed as markup by the browser
+  cve: null
+build:
+  required: false
+  recipe: null

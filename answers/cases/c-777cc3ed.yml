@@ -1,0 +1,31 @@
+id: c-777cc3ed
+label: safe
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-89
+variant: format-string
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/rust/777cc3ed/work.rs
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/rust/777cc3ed/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the statement carries a placeholder and the value travels beside it as a bound parameter
+  cve: null
+build:
+  required: false
+  recipe: null

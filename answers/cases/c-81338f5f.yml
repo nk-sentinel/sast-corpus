@@ -1,0 +1,31 @@
+id: c-81338f5f
+label: vulnerable
+plane: vuln
+tier: 1
+language: typescript
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/typescript/81338f5f/work.ts
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/typescript/81338f5f/route.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value becomes the whole URL with no restriction on scheme or host
+  cve: null
+build:
+  required: false
+  recipe: null

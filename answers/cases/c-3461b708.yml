@@ -1,0 +1,31 @@
+id: c-3461b708
+label: vulnerable
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/swift/3461b708/Work.swift
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/swift/3461b708/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value becomes the whole URL, so the process fetches whatever address it names, including loopback and link-local metadata endpoints
+  cve: null
+build:
+  required: false
+  recipe: null

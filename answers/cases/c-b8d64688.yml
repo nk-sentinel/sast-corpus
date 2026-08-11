@@ -1,0 +1,31 @@
+id: c-b8d64688
+label: vulnerable
+plane: vuln
+tier: 1
+language: typescript
+framework: null
+primary_cwe: CWE-79
+variant: unescaped-output
+acceptable_cwes: [CWE-79, CWE-80, CWE-116]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/typescript/b8d64688/work.ts
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/typescript/b8d64688/route.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is placed straight into markup, so a tag inside it is parsed as markup. TypeScript's types describe the shape of the string and say nothing about its context
+  cve: null
+build:
+  required: false
+  recipe: null

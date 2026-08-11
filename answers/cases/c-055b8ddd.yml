@@ -1,0 +1,31 @@
+id: c-055b8ddd
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-798
+variant: literal-in-source
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/csharp/055b8ddd/Work.cs
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/csharp/055b8ddd/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a const string is embedded in the assembly and recoverable from it, not only from the repository
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-7daa07b8
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-22
+variant: unvalidated-join
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/csharp/7daa07b8/Work.cs
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/csharp/7daa07b8/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    Path.Combine discards the base entirely when the second argument is rooted, so an absolute path reads anywhere the process can reach, and dot-dot walks out otherwise
+  cve: null
+build:
+  required: false
+  recipe: null

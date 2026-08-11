@@ -1,0 +1,31 @@
+id: c-2e5bd471
+label: vulnerable
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-502
+variant: objectinputstream
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/kotlin/2e5bd471/Work.kt
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/kotlin/2e5bd471/Cli.kt
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    readObject reconstructs whatever classes the stream names and runs their hooks while doing it, regardless of the declared return type
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-dcdfc464
+label: safe
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-787
+variant: unchecked-index-write
+acceptable_cwes: [CWE-787, CWE-120, CWE-121]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/dcdfc464/work.cpp
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/cpp/dcdfc464/main.cpp
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    both ends of the range are checked against the container's own size before the write
+  cve: null
+build:
+  required: false
+  recipe: null

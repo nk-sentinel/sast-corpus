@@ -1,0 +1,31 @@
+id: c-b750c32e
+label: vulnerable
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-89
+variant: concat-statement
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/swift/b750c32e/Work.swift
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/swift/b750c32e/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is concatenated into the statement text, which the driver parses as code
+  cve: null
+build:
+  required: false
+  recipe: null

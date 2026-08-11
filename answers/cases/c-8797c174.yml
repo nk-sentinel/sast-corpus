@@ -1,0 +1,31 @@
+id: c-8797c174
+label: safe
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/rust/8797c174/work.rs
+  start_line: 14
+  end_line: 14
+alt_locations:
+  - file: tier1/rust/8797c174/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the scheme and host are checked against a fixed list before the request is made
+  cve: null
+build:
+  required: false
+  recipe: null

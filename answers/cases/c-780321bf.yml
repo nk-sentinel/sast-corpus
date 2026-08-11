@@ -1,0 +1,31 @@
+id: c-780321bf
+label: vulnerable
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/kotlin/780321bf/Work.kt
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/kotlin/780321bf/Cli.kt
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    MD5 has practical collisions and no longer distinguishes two inputs
+  cve: null
+build:
+  required: false
+  recipe: null

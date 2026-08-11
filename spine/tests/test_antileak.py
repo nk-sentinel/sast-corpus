@@ -506,3 +506,36 @@ class ContextTrapsNeedTheThingTheLintForbids(LintCase):
         errors, _ = self.scan()
 
         self.assertTrue(errors)
+
+
+class RealApiNamesThatLookLikeHints(LintCase):
+    """CryptoKit puts MD5 and SHA1 under an enum literally named `Insecure`, so
+    the correct Swift spelling of a weak-hash fixture contains one of the lint's
+    own hint words. Flagging it would make every Swift crypto case unusable —
+    the same failure as `sqlite3` containing `sqli`."""
+
+    def test_cryptokit_insecure_namespace_is_not_a_hint(self):
+        self.write("tier1/swift/aaaa/Work.swift",
+                   "import CryptoKit\n\nlet d = Insecure.MD5.hash(data: Data())\n")
+
+        errors, _ = self.scan()
+
+        self.assertEqual(errors, [])
+
+    def test_insecure_sha1_is_also_permitted(self):
+        self.write("tier1/swift/aaaa/Work.swift",
+                   "import CryptoKit\n\nlet d = Insecure.SHA1.hash(data: Data())\n")
+
+        self.assertEqual(self.scan()[0], [])
+
+    def test_an_identifier_actually_named_insecure_is_still_a_hint(self):
+        self.write("tier1/swift/aaaa/Work.swift", "let insecureQuery = 1\n")
+
+        errors, _ = self.scan()
+
+        self.assertIn("hint-in-content", self.kinds(errors))
+
+    def test_the_word_on_its_own_is_still_a_hint(self):
+        self.write("tier1/java/aaaa/A.java", "class A { void insecure() {} }\n")
+
+        self.assertIn("hint-in-content", self.kinds(self.scan()[0]))

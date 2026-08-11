@@ -1,0 +1,31 @@
+id: c-2de0b431
+label: safe
+plane: vuln
+tier: 1
+language: typescript
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/typescript/2de0b431/work.ts
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/typescript/2de0b431/route.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the parsed scheme and host are checked against an allowlist before use
+  cve: null
+build:
+  required: false
+  recipe: null

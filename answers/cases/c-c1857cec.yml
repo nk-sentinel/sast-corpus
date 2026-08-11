@@ -1,0 +1,31 @@
+id: c-c1857cec
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-611
+variant: default-resolver
+acceptable_cwes: [CWE-611, CWE-827, CWE-776]
+owasp_2021: A05
+severity: high
+location:
+  file: tier1/csharp/c1857cec/Work.cs
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/csharp/c1857cec/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    DTD processing is enabled and a resolver that fetches external references is attached, so a declared entity reads local files or reaches the network
+  cve: null
+build:
+  required: false
+  recipe: null

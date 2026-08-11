@@ -1,0 +1,31 @@
+id: c-4c8c8a0c
+label: safe
+plane: vuln
+tier: 1
+language: php
+framework: null
+primary_cwe: CWE-22
+variant: unvalidated-concat
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/php/4c8c8a0c/work.php
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/php/4c8c8a0c/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    basename discards the directory part and the resolved path is checked to stay under the base
+  cve: null
+build:
+  required: false
+  recipe: null

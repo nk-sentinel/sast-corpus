@@ -1,0 +1,31 @@
+id: c-cce849ff
+label: vulnerable
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/rust/cce849ff/work.rs
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/rust/cce849ff/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the request value becomes the whole URL with no scheme or host restriction, so the process can be aimed at any address it can route to
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-b01cd98f
+label: vulnerable
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/go/b01cd98f/fetch.go
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/go/b01cd98f/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the request value becomes the whole URL, so the server can be pointed at the metadata endpoint or any internal address it can route to
+  cve: null
+build:
+  required: false
+  recipe: null

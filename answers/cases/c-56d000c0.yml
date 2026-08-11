@@ -1,0 +1,31 @@
+id: c-56d000c0
+label: vulnerable
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/rust/56d000c0/work.rs
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/rust/56d000c0/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    MD5 is used for a fingerprint. Practical collisions mean two different inputs can produce the same digest, so it no longer distinguishes them
+  cve: null
+build:
+  required: false
+  recipe: null

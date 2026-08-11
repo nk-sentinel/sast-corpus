@@ -1,0 +1,31 @@
+id: c-1a72882d
+label: safe
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-89
+variant: concat-statement
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/swift/1a72882d/Work.swift
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/swift/1a72882d/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the statement carries a placeholder and the value is bound beside it
+  cve: null
+build:
+  required: false
+  recipe: null

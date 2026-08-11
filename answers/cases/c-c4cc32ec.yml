@@ -1,0 +1,31 @@
+id: c-c4cc32ec
+label: vulnerable
+plane: vuln
+tier: 1
+language: ruby
+framework: null
+primary_cwe: CWE-79
+variant: unescaped-output
+acceptable_cwes: [CWE-79, CWE-80, CWE-116]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/ruby/c4cc32ec/work.rb
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/ruby/c4cc32ec/handler.rb
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is concatenated into markup without encoding, so a tag inside it is parsed as markup
+  cve: null
+build:
+  required: false
+  recipe: null

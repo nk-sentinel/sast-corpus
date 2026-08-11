@@ -1,0 +1,31 @@
+id: c-c4c9de95
+label: safe
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-22
+variant: unvalidated-join
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/swift/c4c9de95/Work.swift
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/swift/c4c9de95/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    lastPathComponent discards every directory component and the result is confirmed under the base
+  cve: null
+build:
+  required: false
+  recipe: null

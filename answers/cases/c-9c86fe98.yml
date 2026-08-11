@@ -1,0 +1,31 @@
+id: c-9c86fe98
+label: safe
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/rust/9c86fe98/work.rs
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/rust/9c86fe98/main.rs
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    SHA-256 has no known collision attack
+  cve: null
+build:
+  required: false
+  recipe: null

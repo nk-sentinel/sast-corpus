@@ -1,0 +1,31 @@
+id: c-d1f88ac9
+label: safe
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79, CWE-80, CWE-116]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/go/d1f88ac9/render.go
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/go/d1f88ac9/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is passed as a plain string, so the template package escapes it for the context it lands in
+  cve: null
+build:
+  required: false
+  recipe: null

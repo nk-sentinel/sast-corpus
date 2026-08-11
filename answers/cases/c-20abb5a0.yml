@@ -1,0 +1,31 @@
+id: c-20abb5a0
+label: vulnerable
+plane: vuln
+tier: 1
+language: ruby
+framework: null
+primary_cwe: CWE-22
+variant: unvalidated-join
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/ruby/20abb5a0/work.rb
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/ruby/20abb5a0/handler.rb
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    File.join honours dot-dot segments, so the read escapes the base directory
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-f147f84a
+label: safe
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-22
+variant: unvalidated-join
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/kotlin/f147f84a/Work.kt
+  start_line: 12
+  end_line: 12
+alt_locations:
+  - file: tier1/kotlin/f147f84a/Cli.kt
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    only the leaf name is used and the canonical path is checked to remain under the base
+  cve: null
+build:
+  required: false
+  recipe: null

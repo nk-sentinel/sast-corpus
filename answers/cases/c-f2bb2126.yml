@@ -1,0 +1,31 @@
+id: c-f2bb2126
+label: vulnerable
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: high
+location:
+  file: tier1/swift/f2bb2126/Work.swift
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/swift/f2bb2126/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    CryptoKit places MD5 under an enum literally named Insecure, and the code reaches into it anyway. Practical collisions mean the digest no longer distinguishes two inputs
+  cve: null
+build:
+  required: false
+  recipe: null

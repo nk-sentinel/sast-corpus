@@ -11,20 +11,22 @@ ground truth, with the same match rules.
 
 | | |
 |---|---|
-| Cases | **219** — 170 tier-1 synthetic, 49 tier-3 real CVEs |
-| False-positive traps | **106 (48%)** |
+| Cases | **305** — 256 tier-1 synthetic, 49 tier-3 real CVEs |
+| False-positive traps | **149 (49%)** |
 | Weaknesses | **33 CWEs — all 25 of the 2025 CWE Top 25** |
 | OWASP Top 10 (2021) | **10 of 10** categories |
-| Languages | 13 |
+| Languages | 13, **none below 6 weaknesses** |
 | Detection planes | `vuln` · `secret` · `sca` |
 | Visible to build-required engines | tier-1 Java, plus 28 of 28 CVE projects that compile |
 | Scan-time corpus | 4 real repositories, 15k → 4.6M measured code lines |
 
-**Read the depth table before the totals.** 33 CWEs is a corpus-wide figure and
-the spread is heavily uneven: Java is tested on 16 weaknesses, Python 15, C 11 —
-and Swift on one. Grid density is 16%. A result for a language low in that table
-rests on very little, and [docs/COVERAGE.md](docs/COVERAGE.md) ranks them
-thinnest-first for exactly that reason.
+**Read the depth table before the totals.** 33 CWEs is a corpus-wide figure, and
+no language carries all of them. The spread runs from Java at 16 weaknesses and
+Python at 15 down to a floor of 6 — every language now clears that floor, which
+is the minimum at which a per-language number means anything, but 6 of 33 is a
+narrow base and a scorecard row built on it should be read as a sample, not a
+verdict. Grid density is 25%. [docs/COVERAGE.md](docs/COVERAGE.md) ranks
+languages thinnest-first for exactly that reason.
 
 [docs/COVERAGE.md](docs/COVERAGE.md) holds the language × weakness matrix,
 depth per language, the mechanisms each weakness is tested through, and an
@@ -177,12 +179,19 @@ python3 spine/lint/antileak.py --disclose   # slow; leakage figure for a scoreca
 python3 spine/schema/compile_answers.py     # regenerate the answer key
 python3 spine/report/coverage.py            # regenerate docs/COVERAGE.md
 ./build/verify.sh                           # compile and parse every fixture
+SYNTAX_USE_DOCKER=1 ./build/verify.sh       # additionally parse PHP and Ruby
 python3 -m unittest discover -s spine/tests -t .
 ```
 
 Enforcement and disclosure are deliberately separate. The gate covers fixtures we
 authored and runs on every push; walking the vendored tiers reads whole real
 repositories and is only wanted when writing a scorecard.
+
+**8 of 13 languages are parse-verified**: Python, JavaScript, Go, C, C++ and Rust
+from local toolchains, plus PHP and Ruby via `SYNTAX_USE_DOCKER=1` (on in CI).
+TypeScript, C#, Kotlin and Swift have no toolchain here and are reported as
+*skipped*, never as passed — a fixture that does not parse yields nothing from
+any tool, which in a scorecard is indistinguishable from every tool missing it.
 
 ## Reporting
 

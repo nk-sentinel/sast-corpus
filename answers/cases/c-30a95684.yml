@@ -1,0 +1,31 @@
+id: c-30a95684
+label: safe
+plane: vuln
+tier: 1
+language: typescript
+framework: null
+primary_cwe: CWE-79
+variant: unescaped-output
+acceptable_cwes: [CWE-79, CWE-80, CWE-116]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/typescript/30a95684/work.ts
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/typescript/30a95684/route.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    every character that could open a tag or close the attribute is encoded first
+  cve: null
+build:
+  required: false
+  recipe: null

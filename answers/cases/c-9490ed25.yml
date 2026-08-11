@@ -1,0 +1,31 @@
+id: c-9490ed25
+label: safe
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-798
+variant: literal-in-source
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/csharp/9490ed25/Work.cs
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/csharp/9490ed25/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is read from the environment at runtime
+  cve: null
+build:
+  required: false
+  recipe: null

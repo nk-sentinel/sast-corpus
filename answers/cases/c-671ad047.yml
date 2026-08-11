@@ -1,0 +1,31 @@
+id: c-671ad047
+label: vulnerable
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/kotlin/671ad047/Work.kt
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/kotlin/671ad047/Cli.kt
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value becomes the whole URL, so the process fetches whatever address it names
+  cve: null
+build:
+  required: false
+  recipe: null

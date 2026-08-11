@@ -58,6 +58,27 @@ CWE_NAMES = {
     "CWE-918": "server-side request forgery",
     "CWE-94": "code injection",
     "CWE-1395": "dependency on a vulnerable component",
+    "CWE-20": "improper input validation",
+    "CWE-77": "command injection",
+    "CWE-117": "improper output neutralisation for logs",
+    "CWE-120": "buffer copy without size check",
+    "CWE-121": "stack-based buffer overflow",
+    "CWE-122": "heap-based buffer overflow",
+    "CWE-125": "out-of-bounds read",
+    "CWE-134": "externally controlled format string",
+    "CWE-190": "integer overflow or wraparound",
+    "CWE-200": "exposure of sensitive information",
+    "CWE-284": "improper access control",
+    "CWE-306": "missing authentication for critical function",
+    "CWE-416": "use after free",
+    "CWE-434": "unrestricted upload of dangerous file type",
+    "CWE-476": "NULL pointer dereference",
+    "CWE-532": "sensitive information in a log file",
+    "CWE-639": "authorisation bypass through user-controlled key",
+    "CWE-770": "allocation without limits or throttling",
+    "CWE-787": "out-of-bounds write",
+    "CWE-862": "missing authorisation",
+    "CWE-863": "incorrect authorisation",
 }
 
 OWASP_NAMES = {
@@ -210,6 +231,15 @@ def render(rows, languages=None, cwes=None):
         key=lambda c: int(c.split("-")[1]),
     )
 
+    # Ranked here rather than at the depth section below: the totals block
+    # quotes the two ends of this list, and it must be the same ranking the
+    # reader sees further down. Depth is a tier-1 measure — tier-3 rows come
+    # from whatever CVEs the upstream dataset happens to contain, so counting
+    # them would credit breadth nobody designed.
+    tier1 = [r for r in rows if r.get("tier") == "1"]
+    depth = sorted(depth_by_language(tier1 or rows).items(),
+                   key=lambda kv: (-kv[1], kv[0]))
+
     out = [
         "# Coverage",
         "",
@@ -232,6 +262,13 @@ def render(rows, languages=None, cwes=None):
         "| Languages covered | {} of {} |".format(len(present_languages), len(languages)),
         "| Target weaknesses covered | {} of {} |".format(
             len({c for _, c in grid} & set(cwes)), len(cwes)),
+        "| Distinct weaknesses | {} |".format(len({c for _, c in grid})),
+        # Stated as a range, never as an average. The mean would read as though
+        # every language sat near it; the floor is what a thin row actually
+        # rests on, and it is the figure a per-language score should be read
+        # against.
+        "| Weaknesses per language | {} thinnest ({}) → {} deepest ({}) |".format(
+            depth[-1][1], depth[-1][0], depth[0][1], depth[0][0]),
         "| Visible to build-required engines | {} |".format(summary["build_required"]),
         "",
         "## Language × weakness",
@@ -310,9 +347,7 @@ def render(rows, languages=None, cwes=None):
         out += ["None. Every target language and weakness has a vulnerable case "
                 "and a safe sibling.", ""]
 
-    tier1 = [r for r in rows if r.get("tier") == "1"]
-    depth = depth_by_language(tier1 or rows)
-    ranked = sorted(depth.items(), key=lambda kv: (-kv[1], kv[0]))
+    ranked = depth
 
     out += ["## Depth per language", "",
             "The distinct-CWE total for the corpus says nothing about spread. This is "

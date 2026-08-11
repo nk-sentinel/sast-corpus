@@ -1,0 +1,31 @@
+id: c-d4724859
+label: safe
+plane: vuln
+tier: 1
+language: ruby
+framework: null
+primary_cwe: CWE-79
+variant: unescaped-output
+acceptable_cwes: [CWE-79, CWE-80, CWE-116]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/ruby/d4724859/work.rb
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/ruby/d4724859/handler.rb
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    escapeHTML encodes the angle brackets and both quote styles before insertion
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-b4897cf4
+label: safe
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-611
+variant: default-resolver
+acceptable_cwes: [CWE-611, CWE-827, CWE-776]
+owasp_2021: A05
+severity: high
+location:
+  file: tier1/csharp/b4897cf4/Work.cs
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/csharp/b4897cf4/Controller.cs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the DOCTYPE is prohibited and no resolver is attached
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -61,8 +61,18 @@ def path_hints(text):
     return bool(_tokens(text) & PATH_TOKEN_HINTS)
 
 
+# Real API spellings that happen to contain one of our own hint words. Apple's
+# CryptoKit files MD5 and SHA1 under an enum named `Insecure`, so the correct
+# spelling of a Swift weak-hash fixture is `Insecure.MD5.hash(...)`. Flagging it
+# would make every Swift crypto case unwritable — the same trap as `sqlite3`
+# containing `sqli`. Masked before hint matching, and only in content: a path is
+# ours to name, an API is not.
+REAL_API_SPELLINGS = re.compile(r"\bInsecure\.(?:MD5|SHA1)\b")
+
+
 def content_hints(line):
     """Giveaway words in a line of source."""
+    line = REAL_API_SPELLINGS.sub("", line)
     if UNAMBIGUOUS_PATTERN.search(line):
         return True
     return bool(_tokens(line) & CONTENT_TOKEN_HINTS)

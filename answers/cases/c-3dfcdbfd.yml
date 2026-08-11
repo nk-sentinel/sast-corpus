@@ -1,0 +1,31 @@
+id: c-3dfcdbfd
+label: vulnerable
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-502
+variant: yaml-untrusted
+acceptable_cwes: [CWE-502, CWE-915]
+owasp_2021: A08
+severity: high
+location:
+  file: tier1/go/3dfcdbfd/load.go
+  start_line: 15
+  end_line: 15
+alt_locations:
+  - file: tier1/go/3dfcdbfd/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the caller controls the encoded stream and therefore every field it sets, including the privilege flag the code branches on immediately afterwards
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,10 +1,11 @@
+import csv
 import sys
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from report.coverage import Cell, gaps, matrix, render, summarise
+from report.coverage import CWE_NAMES, Cell, gaps, matrix, render, summarise
 
 
 def a_row(**overrides):
@@ -241,3 +242,45 @@ class BreadthIsReportedHonestly(unittest.TestCase):
         text = render(self.rows, languages=["java", "swift"], cwes=["CWE-89"])
 
         self.assertIn("depth", text.lower())
+
+
+class EveryWeaknessIsNamed(unittest.TestCase):
+    """A CWE with no entry in CWE_NAMES renders as `- CWE-476 — ` — an empty
+    bullet that reads as an oversight in a document vendors will be shown. The
+    table has to keep pace with the corpus, so the corpus checks it."""
+
+    def test_no_cwe_in_the_answer_key_is_unnamed(self):
+        root = Path(__file__).resolve().parents[2]
+        key = root / "answers" / "expectedresults-1.0.csv"
+        with key.open() as handle:
+            used = {row["primary_cwe"] for row in csv.DictReader(handle)}
+
+        unnamed = sorted(c for c in used if not CWE_NAMES.get(c))
+
+        self.assertEqual(unnamed, [], f"{len(unnamed)} weakness(es) render blank")
+
+
+class TotalsReportBreadthHonestly(unittest.TestCase):
+    """`33 weaknesses` and `13 languages` sitting next to each other invite the
+    reading that every language carries every weakness. It carries far fewer.
+    The totals block states the distinct count and the per-language floor
+    together, so the narrow-base caveat is visible without opening the matrix."""
+
+    def rendered(self):
+        root = Path(__file__).resolve().parents[2]
+        with (root / "answers" / "expectedresults-1.0.csv").open() as handle:
+            return render(list(csv.DictReader(handle)))
+
+    def test_distinct_weakness_count_is_stated(self):
+        self.assertIn("| Distinct weaknesses |", self.rendered())
+
+    def test_thinnest_language_is_stated(self):
+        self.assertIn("| Weaknesses per language |", self.rendered())
+
+    def test_the_floor_is_the_minimum_not_the_average(self):
+        line = [l for l in self.rendered().splitlines()
+                if l.startswith("| Weaknesses per language |")][0]
+
+        # java is the deepest and swift among the thinnest; the row must show
+        # the spread, not a single flattering figure.
+        self.assertRegex(line, r"\b6\b.*\b16\b|\b16\b.*\b6\b")
