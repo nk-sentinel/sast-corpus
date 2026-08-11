@@ -28,6 +28,10 @@ narrow base and a scorecard row built on it should be read as a sample, not a
 verdict. Grid density is 25%. [docs/COVERAGE.md](docs/COVERAGE.md) ranks
 languages thinnest-first for exactly that reason.
 
+Next phase is planned in [docs/ROADMAP.md](docs/ROADMAP.md): the growth goes
+into the axes that separate tools — obfuscation and ineffective sanitizers are
+currently 0 and 4 cases of 256 — rather than into more direct flows.
+
 [docs/COVERAGE.md](docs/COVERAGE.md) holds the language × weakness matrix,
 depth per language, the mechanisms each weakness is tested through, and an
 explicit list of what is **not** covered. It is generated from the answer key
@@ -81,7 +85,7 @@ tier3/           real CVE reproductions, derived from cwe-bench-java          (f
 tier2/           real vulnerable applications — manifest only, unlabelled     (fetched)
 perf/            repositories for scan-time measurement only                  (fetched)
 build/           build and syntax recipes, pinned toolchains
-docs/            COVERAGE · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
+docs/            COVERAGE · ROADMAP · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
 ```
 
 Directory and file names under `tier1/` carry no semantic content. Navigate via
