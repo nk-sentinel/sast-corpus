@@ -1,0 +1,31 @@
+id: c-a2de47d1
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-134
+variant: user-controlled-format
+acceptable_cwes: [CWE-134, CWE-20]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/a2de47d1/work.c
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/c/a2de47d1/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the argument becomes the format string, so directives inside it are interpreted. %n writes to memory and %s walks the stack, which turns a print into both a read and a write primitive
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-310d33a8
+label: safe
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-134
+variant: user-controlled-format
+acceptable_cwes: [CWE-134, CWE-20]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/310d33a8/work.c
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/c/310d33a8/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the value is passed as an argument to a constant format, so its contents are never interpreted as directives
+  cve: null
+build:
+  required: false
+  recipe: null

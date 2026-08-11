@@ -1,0 +1,31 @@
+id: c-246717f6
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-476
+variant: unchecked-allocation
+acceptable_cwes: [CWE-476, CWE-690]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/246717f6/work.c
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/c/246717f6/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the allocation result is written to without being tested. malloc returns NULL under memory pressure and the very next statement dereferences it
+  cve: null
+build:
+  required: false
+  recipe: null

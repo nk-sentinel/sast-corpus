@@ -1,0 +1,31 @@
+id: c-d48cf0f4
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-787
+variant: unchecked-index-write
+acceptable_cwes: [CWE-787, CWE-120, CWE-121, CWE-122, CWE-788]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/d48cf0f4/work.c
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/c/d48cf0f4/main.c
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the index arrives from the argument and is used to write with no bounds test at all. A negative value writes before the array as readily as a large one writes past it
+  cve: null
+build:
+  required: false
+  recipe: null

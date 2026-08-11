@@ -1,0 +1,31 @@
+id: c-7dcaf5e1
+label: vulnerable
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-416
+variant: dangling-reference
+acceptable_cwes: [CWE-416, CWE-825, CWE-672]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/7dcaf5e1/work.cpp
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/cpp/7dcaf5e1/main.cpp
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    pick returns a reference to a local that is destroyed when it returns, so chosen binds to storage that no longer exists. The call site looks ordinary; only the callee's return type makes it a defect
+  cve: null
+build:
+  required: false
+  recipe: null

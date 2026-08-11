@@ -1,0 +1,31 @@
+id: c-b3293869
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-120
+variant: unbounded-copy
+acceptable_cwes: [CWE-120, CWE-787, CWE-121, CWE-676]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/b3293869/work.c
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/c/b3293869/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    strcpy copies until it finds a terminator and never consults the size of the destination, so any argument longer than 31 characters writes past a 32-byte buffer
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-57617afb
+label: safe
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-190
+variant: allocation-size-overflow
+acceptable_cwes: [CWE-190, CWE-680, CWE-131]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/57617afb/work.c
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/c/57617afb/main.c
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the count is bounded before the multiplication and the arithmetic is widened, so the product cannot wrap
+  cve: null
+build:
+  required: false
+  recipe: null

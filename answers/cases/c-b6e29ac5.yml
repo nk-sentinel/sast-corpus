@@ -1,0 +1,31 @@
+id: c-b6e29ac5
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-190
+variant: allocation-size-overflow
+acceptable_cwes: [CWE-190, CWE-680, CWE-131]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/b6e29ac5/work.c
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/c/b6e29ac5/main.c
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the multiplication happens in int and wraps, so a large argument produces a small allocation followed by a memset of the intended size. The allocation is null-checked and the check passes, because the allocation genuinely succeeded — at the wrong size
+  cve: null
+build:
+  required: false
+  recipe: null

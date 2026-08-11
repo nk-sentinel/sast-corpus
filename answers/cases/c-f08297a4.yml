@@ -1,0 +1,31 @@
+id: c-f08297a4
+label: safe
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-122
+variant: off-by-one-allocation
+acceptable_cwes: [CWE-122, CWE-120, CWE-787]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/f08297a4/work.c
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/c/f08297a4/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the allocation reserves the extra byte the terminator needs
+  cve: null
+build:
+  required: false
+  recipe: null

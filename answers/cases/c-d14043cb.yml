@@ -1,0 +1,31 @@
+id: c-d14043cb
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-125
+variant: unchecked-index-read
+acceptable_cwes: [CWE-125, CWE-126, CWE-127]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/d14043cb/work.c
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/c/d14043cb/main.c
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    an unchecked index reads whatever follows the array in memory and returns it to the caller, which is how adjacent data is disclosed rather than corrupted
+  cve: null
+build:
+  required: false
+  recipe: null

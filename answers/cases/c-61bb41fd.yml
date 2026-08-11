@@ -1,0 +1,31 @@
+id: c-61bb41fd
+label: safe
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-476
+variant: unchecked-allocation
+acceptable_cwes: [CWE-476, CWE-690]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/61bb41fd/work.c
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/c/61bb41fd/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the result is tested before any use, which is the whole of the fix
+  cve: null
+build:
+  required: false
+  recipe: null

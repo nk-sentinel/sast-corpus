@@ -609,5 +609,6 @@ from gen.templates_depth import DEPTH_ALL  # noqa: E402
 from gen.templates_more import MORE_ALL  # noqa: E402
 from gen.templates_planes import PLANES_ALL  # noqa: E402
 from gen.templates_secrets import SECRETS_ALL  # noqa: E402
+from gen.templates_memory import MEMORY_ALL  # noqa: E402
 
-ALL = ALL + DEPTH_ALL + MORE_ALL + PLANES_ALL + SECRETS_ALL
+ALL = ALL + DEPTH_ALL + MORE_ALL + PLANES_ALL + SECRETS_ALL + MEMORY_ALL

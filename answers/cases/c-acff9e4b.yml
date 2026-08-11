@@ -1,0 +1,31 @@
+id: c-acff9e4b
+label: safe
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-125
+variant: unchecked-index-read
+acceptable_cwes: [CWE-125, CWE-126, CWE-127]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/acff9e4b/work.cpp
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/cpp/acff9e4b/main.cpp
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    at() is the checked accessor and throws rather than reading past the end; the negative case is rejected before the cast, since converting a negative int to size_t would produce a very large index that at() would then reject for the wrong reason
+  cve: null
+build:
+  required: false
+  recipe: null

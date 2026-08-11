@@ -1,0 +1,31 @@
+id: c-bc76bbc5
+label: vulnerable
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-125
+variant: unchecked-index-read
+acceptable_cwes: [CWE-125, CWE-126, CWE-127]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/bc76bbc5/work.cpp
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/cpp/bc76bbc5/main.cpp
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    operator[] on a vector performs no bounds check, by design — it is the unchecked accessor. An out-of-range index reads past the buffer just as a raw array would
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-52cbd699
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-121
+variant: stack-format-copy
+acceptable_cwes: [CWE-121, CWE-120, CWE-787]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/52cbd699/work.c
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/c/52cbd699/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    sprintf writes the formatted result into a fixed stack buffer with no length limit, so the return address and saved registers beyond `line` are reachable from the argument
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-38ae5e22
+label: safe
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-121
+variant: stack-format-copy
+acceptable_cwes: [CWE-121, CWE-120, CWE-787]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/38ae5e22/work.c
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/c/38ae5e22/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the same format with the destination size supplied, so the write stops at the boundary
+  cve: null
+build:
+  required: false
+  recipe: null

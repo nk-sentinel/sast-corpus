@@ -1,0 +1,31 @@
+id: c-3b7f3c69
+label: vulnerable
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-416
+variant: use-after-free
+acceptable_cwes: [CWE-416, CWE-825, CWE-672]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/3b7f3c69/work.c
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/c/3b7f3c69/main.c
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the block is read after it has been returned to the allocator. The pointer still holds the old address, so nothing about the expression looks wrong in isolation — only the order of the two statements makes it a defect
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-564f357c
+label: safe
+plane: vuln
+tier: 1
+language: c
+framework: null
+primary_cwe: CWE-125
+variant: unchecked-index-read
+acceptable_cwes: [CWE-125, CWE-126, CWE-127]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/c/564f357c/work.c
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/c/564f357c/main.c
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the index is confined to the array before it is used
+  cve: null
+build:
+  required: false
+  recipe: null
