@@ -132,6 +132,36 @@ def split_variants(variants):
     return mechanisms, contexts
 
 
+def depth_by_language(rows):
+    """Distinct weaknesses tested per language.
+
+    A total across the whole corpus hides concentration. Thirty-three CWEs in
+    three languages is a different corpus from thirty-three spread evenly, and
+    only the second supports a claim about a polyglot estate — so the per
+    language figure is the one that answers "can this evaluate a tool for my
+    stack".
+    """
+    found = {}
+    for row in rows:
+        found.setdefault(row["language"], set()).add(row["primary_cwe"])
+    return {language: len(cwes) for language, cwes in found.items()}
+
+
+def density(rows):
+    """Filled fraction of the language-by-weakness grid the corpus spans.
+
+    Measured against the languages and weaknesses actually present, not against
+    the target list, so it answers how evenly the existing material is spread
+    rather than how much of the ambition is met.
+    """
+    languages = {row["language"] for row in rows}
+    cwes = {row["primary_cwe"] for row in rows}
+    if not languages or not cwes:
+        return 0.0
+    filled = {(row["language"], row["primary_cwe"]) for row in rows}
+    return len(filled) / (len(languages) * len(cwes))
+
+
 def gaps(rows, languages, cwes):
     """Three distinct kinds of hole, because they need different fixes."""
     grid = matrix(rows)
@@ -279,6 +309,29 @@ def render(rows, languages=None, cwes=None):
     if not (absent_languages or uncovered or hole["missing"] or hole["untrapped"] or hole["no_positive"]):
         out += ["None. Every target language and weakness has a vulnerable case "
                 "and a safe sibling.", ""]
+
+    tier1 = [r for r in rows if r.get("tier") == "1"]
+    depth = depth_by_language(tier1 or rows)
+    ranked = sorted(depth.items(), key=lambda kv: (-kv[1], kv[0]))
+
+    out += ["## Depth per language", "",
+            "The distinct-CWE total for the corpus says nothing about spread. This is "
+            "what each language is actually tested on, and it is heavily uneven — a "
+            "result for a language near the bottom of this table rests on very little.",
+            "",
+            "| language | weaknesses | cases |", "|---|---|---|"]
+    for language, count in ranked:
+        cases = sum(1 for r in (tier1 or rows) if r["language"] == language)
+        out.append("| `{}` | {} | {} |".format(language, count, cases))
+
+    out += ["",
+            "Grid density is **{:.0%}** — {} of the language-by-weakness cells the "
+            "present material spans are filled. Full density is not the goal, since "
+            "many combinations are meaningless, but the figure is the honest measure "
+            "of how far the corpus generalises beyond its deepest languages."
+            .format(density(tier1 or rows),
+                    len({(r["language"], r["primary_cwe"]) for r in (tier1 or rows)})),
+            ""]
 
     out += ["## Variants per weakness", "",
             "A cell in the matrix above holding one case proves only that the weakness "

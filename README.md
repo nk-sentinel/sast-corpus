@@ -11,20 +11,34 @@ ground truth, with the same match rules.
 
 | | |
 |---|---|
-| Cases | **147** — 98 tier-1 synthetic, 49 tier-3 real CVEs |
-| False-positive traps | **69 (47%)** |
+| Cases | **219** — 170 tier-1 synthetic, 49 tier-3 real CVEs |
+| False-positive traps | **106 (48%)** |
+| Weaknesses | **33 CWEs — all 25 of the 2025 CWE Top 25** |
+| OWASP Top 10 (2021) | **10 of 10** categories |
 | Languages | 13 |
-| Weaknesses | 12 CWEs, covering the 10 targeted classes |
-| Detection planes | `vuln` 139 · `secret` 4 · `sca` 4 |
-| Visible to build-required engines | 34 cases, plus 28 of 28 CVE projects that compile |
+| Detection planes | `vuln` · `secret` · `sca` |
+| Visible to build-required engines | tier-1 Java, plus 28 of 28 CVE projects that compile |
 | Scan-time corpus | 4 real repositories, 15k → 4.6M measured code lines |
 
-[docs/COVERAGE.md](docs/COVERAGE.md) holds the language × weakness matrix and,
-more usefully, an explicit list of what is **not** covered. It is generated from
-the answer key and checked in CI, so it cannot drift.
+**Read the depth table before the totals.** 33 CWEs is a corpus-wide figure and
+the spread is heavily uneven: Java is tested on 16 weaknesses, Python 15, C 11 —
+and Swift on one. Grid density is 16%. A result for a language low in that table
+rests on very little, and [docs/COVERAGE.md](docs/COVERAGE.md) ranks them
+thinnest-first for exactly that reason.
+
+[docs/COVERAGE.md](docs/COVERAGE.md) holds the language × weakness matrix,
+depth per language, the mechanisms each weakness is tested through, and an
+explicit list of what is **not** covered. It is generated from the answer key
+and checked in CI, so it cannot drift.
 
 Read the gaps before the coverage. A language with no cases contributes nothing
 to a scorecard, which looks exactly like a tool having nothing to find.
+
+Weaknesses are tested through **named mechanisms**, not one case each. SQL
+injection alone spans concatenation into a statement, a query concatenated
+*before* being prepared, and an identifier that cannot be bound at all — a tool
+can catch the first and miss the rest. Context traps sit alongside them, asking
+whether a scanner can tell code from a changelog, a comment, or test data.
 
 ## Design rules
 

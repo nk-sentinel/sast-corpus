@@ -209,3 +209,35 @@ class VariantCoverage(unittest.TestCase):
         rows = [a_row(primary_cwe="CWE-89", variant="prepared-but-concatenated")]
 
         self.assertIn("prepared-but-concatenated", render(rows))
+
+
+class BreadthIsReportedHonestly(unittest.TestCase):
+    """A distinct-CWE total says nothing about spread. 33 CWEs concentrated in
+    three languages is a different corpus from 33 spread evenly, and only the
+    second supports a claim about a polyglot estate."""
+
+    def setUp(self):
+        self.rows = ([a_row(language="java", primary_cwe=f"CWE-{n}") for n in (89, 78, 22, 79)] +
+                     [a_row(language="swift", primary_cwe="CWE-78")])
+
+    def test_reports_cwe_depth_per_language(self):
+        from report.coverage import depth_by_language
+
+        depth = depth_by_language(self.rows)
+
+        self.assertEqual(depth["java"], 4)
+        self.assertEqual(depth["swift"], 1)
+
+    def test_reports_matrix_density(self):
+        from report.coverage import density
+        # 2 languages x 4 CWEs = 8 cells; 5 are filled
+        self.assertAlmostEqual(density(self.rows), 5 / 8)
+
+    def test_density_of_an_empty_corpus_is_zero_not_a_crash(self):
+        from report.coverage import density
+        self.assertEqual(density([]), 0.0)
+
+    def test_the_report_states_the_concentration(self):
+        text = render(self.rows, languages=["java", "swift"], cwes=["CWE-89"])
+
+        self.assertIn("depth", text.lower())

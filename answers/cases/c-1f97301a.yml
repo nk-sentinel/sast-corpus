@@ -1,0 +1,31 @@
+id: c-1f97301a
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-log-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/java/1f97301a/Audit.java
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/java/1f97301a/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    both line terminators are replaced before the value reaches the log, so it cannot become more than one record
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-18e8cd1f
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-532
+variant: credentials-in-log
+acceptable_cwes: [CWE-532, CWE-200, CWE-215]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/python/18e8cd1f/audit.py
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/python/18e8cd1f/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the credential is written to the log, where it outlives the request, travels to whatever aggregator ships the logs, and is readable by everyone with operational access rather than only by the authentication path
+  cve: null
+build:
+  required: false
+  recipe: null

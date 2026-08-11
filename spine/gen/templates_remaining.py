@@ -291,3 +291,70 @@ REMAINING = [
 ]
 
 REMAINING_ALL = REMAINING
+
+
+LOG_EXPOSURE = ("CWE-532", ["CWE-532", "CWE-200", "CWE-215"], "A09")
+LOG_INJECTION = ("CWE-117", ["CWE-117", "CWE-93", "CWE-116"], "A09")
+
+LOGGING = [
+    template(
+        "py-log-secrets@credentials-in-log", "python", "py", LOG_EXPOSURE, None, "inter-file",
+        {"handler.py": "from audit import record\n\n\ndef show(user, password):\n    return record(user, password)\n",
+         "audit.py": (
+             "import logging\n\n"
+             "logger = logging.getLogger(__name__)\n\n\n"
+             "def record(user, password):\n"
+             "    logger.info(\"sign-in user=%s password=%s\", user, password)\n"
+             "    return True\n")},
+        "audit.py", "logger.info(\"sign-in user=%s password=%s\"",
+        "the credential is written to the log, where it outlives the request, travels to "
+        "whatever aggregator ships the logs, and is readable by everyone with operational "
+        "access rather than only by the authentication path",
+        {"handler.py": "from audit import record\n\n\ndef show(user, password):\n    return record(user, password)\n",
+         "audit.py": (
+             "import logging\n\n"
+             "logger = logging.getLogger(__name__)\n\n\n"
+             "def record(user, password):\n"
+             "    logger.info(\"sign-in user=%s\", user)\n"
+             "    return True\n")},
+        "audit.py", "logger.info(\"sign-in user=%s\"", "custom-effective",
+        "the identity is logged and the credential is not, which is the whole of the fix",
+        "handler.py", "def show",
+    ),
+    template(
+        "java-log-injection@unsanitised-log-entry", "java", "java", LOG_INJECTION, None,
+        "inter-file",
+        {"Cli.java": ("package app;\n\npublic class Cli {\n"
+                      "    public static void main(String[] args) {\n"
+                      "        Audit.handle(args[0]);\n    }\n}\n"),
+         "Audit.java": (
+             "package app;\n\n"
+             "import java.util.logging.Logger;\n\n"
+             "public class Audit {\n"
+             "    private static final Logger LOGGER = Logger.getLogger(\"audit\");\n\n"
+             "    static void handle(String user) {\n"
+             "        LOGGER.info(\"sign-in attempt for \" + user);\n    }\n}\n")},
+        "Audit.java", "LOGGER.info(\"sign-in attempt for \"",
+        "a newline inside the value starts a second log line, so the caller writes entries the "
+        "application never emitted. Anything reading those logs afterwards — an analyst, an "
+        "alerting rule, a SIEM correlation — is reading attacker-authored records as though the "
+        "system had produced them",
+        {"Cli.java": ("package app;\n\npublic class Cli {\n"
+                      "    public static void main(String[] args) {\n"
+                      "        Audit.handle(args[0]);\n    }\n}\n"),
+         "Audit.java": (
+             "package app;\n\n"
+             "import java.util.logging.Logger;\n\n"
+             "public class Audit {\n"
+             "    private static final Logger LOGGER = Logger.getLogger(\"audit\");\n\n"
+             "    static void handle(String user) {\n"
+             "        String flattened = user.replace('\\n', '_').replace('\\r', '_');\n"
+             "        LOGGER.info(\"sign-in attempt for \" + flattened);\n    }\n}\n")},
+        "Audit.java", "LOGGER.info(\"sign-in attempt for \"", "custom-effective",
+        "both line terminators are replaced before the value reaches the log, so it cannot "
+        "become more than one record",
+        "Cli.java", "static void main",
+    ),
+]
+
+REMAINING_ALL = REMAINING_ALL + LOGGING

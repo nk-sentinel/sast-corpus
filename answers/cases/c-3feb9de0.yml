@@ -1,0 +1,31 @@
+id: c-3feb9de0
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-532
+variant: credentials-in-log
+acceptable_cwes: [CWE-532, CWE-200, CWE-215]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/python/3feb9de0/audit.py
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/python/3feb9de0/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the identity is logged and the credential is not, which is the whole of the fix
+  cve: null
+build:
+  required: false
+  recipe: null

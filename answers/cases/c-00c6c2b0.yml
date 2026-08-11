@@ -1,0 +1,31 @@
+id: c-00c6c2b0
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-log-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/java/00c6c2b0/Audit.java
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/java/00c6c2b0/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a newline inside the value starts a second log line, so the caller writes entries the application never emitted. Anything reading those logs afterwards — an analyst, an alerting rule, a SIEM correlation — is reading attacker-authored records as though the system had produced them
+  cve: null
+build:
+  required: false
+  recipe: null
