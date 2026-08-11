@@ -102,6 +102,31 @@ python3 spine/adapters/generic_csv.py fortify.csv --tool Fortify \
     --path-column File --line-column Line --cwe-column CWE > results.sarif
 ```
 
+Add `--timing runs/<name>.json` to fold scan time into the same report.
+
+The output states what the corpus knows, what the tool did, and how long it
+took. It contains **no pass or fail** — no thresholds, no verdicts. Deciding
+whether a number is good enough is the reader's job, and a threshold baked into
+the tool would only be one more thing to argue with.
+
+```
+WHAT THE CORPUS KNOWS
+      78  known issues
+      69  pieces of code that resemble issues but are not (traps)
+
+WHAT THE TOOL DID
+      11  found, of 78 known issues
+      67  missed
+       2  false alarms — reported on code the corpus states is safe
+       6  reported outside the answer key — not judged either way
+```
+
+Those last two lines stay separate on purpose. A finding on a deliberate trap is
+a **confirmed** false positive — the corpus asserts that code is safe. A finding
+somewhere else may be a real issue the corpus does not know about, since cases
+exist only because someone thought to write them. Reporting the second as a
+false positive would charge the tool for the corpus's blind spots.
+
 The scorer is a single standard-library Python file with no dependencies, so a
 result can be reproduced offline by anyone holding the corpus.
 

@@ -205,6 +205,7 @@ def scorecard(report, tolerance=DEFAULT_TOLERANCE, include_flow_locations=False)
             }
             for dimension, groups in by.items()
         },
+        "narrative": narrative(report),
         "location_only_matches": sum(1 for o in report.outcomes if o.location_only),
         "unmatched_findings": len(report.unmatched),
         "surplus_findings": len(report.surplus),
@@ -468,42 +469,107 @@ def normalise_path(uri):
     return path.replace("\\", "/")
 
 
-def render_text(card):
-    """Human-readable scorecard. Recall and precision always appear together."""
+def narrative(report):
+    """The counts a corpus owner actually asks for.
+
+    Deliberately free of verdict: the corpus reports what happened and the
+    reader decides whether it is good enough. A threshold baked in here would be
+    one more thing to argue with.
+
+    `false_alarms` and `not_judged` stay separate, and that distinction is the
+    only one worth insisting on. A finding on a deliberate trap is a confirmed
+    false positive — the corpus states that code is safe. A finding somewhere
+    else may be a real issue the corpus does not know about, since cases exist
+    only because someone thought to write them. Folding the second into the
+    first would report the corpus's blind spots as the tool's mistakes.
+    """
+    counts = report.counts()
+    return {
+        "known_issues": counts["tp"] + counts["fn"],
+        "found": counts["tp"],
+        "missed": counts["fn"],
+        "traps": counts["fp"] + counts["tn"],
+        "false_alarms": counts["fp"],
+        "traps_avoided": counts["tn"],
+        "not_judged": len(report.unmatched),
+        "duplicate_reports": len(report.surplus),
+    }
+
+
+def _plural(count, singular, plural=None):
+    return singular if count == 1 else (plural or singular + "s")
+
+
+def render_text(card, timing=None):
+    """Human-readable scorecard: plain counts first, metrics after."""
+    n = card["narrative"]
     overall = card["overall"]
+
     lines = [
-        "counts      tp={tp} fp={fp} fn={fn} tn={tn}".format(**overall),
-        "precision   {:.3f}".format(overall["precision"]),
-        "recall      {:.3f}".format(overall["recall"]),
-        "f1          {:.3f}".format(overall["f1"]),
-        "f3          {:.3f}   (recall weighted 9x)".format(overall["f3"]),
-        "tpr / fpr   {:.3f} / {:.3f}".format(overall["tpr"], overall["fpr"]),
-        "youden j    {:.3f}".format(overall["youden_j"]),
+        "WHAT THE CORPUS KNOWS",
+        "  {:>6}  known {}".format(n["known_issues"], _plural(n["known_issues"], "issue")),
+        "  {:>6}  {} that resemble issues but are not (traps)".format(
+            n["traps"], _plural(n["traps"], "piece of code", "pieces of code")),
         "",
-        "line tolerance +/-{}   location-only matches {}   unmatched {}   surplus {}".format(
-            card["match_policy"]["line_tolerance"],
-            card["location_only_matches"],
-            card["unmatched_findings"],
-            card["surplus_findings"],
-        ),
+        "WHAT THE TOOL DID",
+        "  {:>6}  found, of {} known {}".format(
+            n["found"], n["known_issues"], _plural(n["known_issues"], "issue")),
+        "  {:>6}  missed".format(n["missed"]),
+        "  {:>6}  false {} — reported on code the corpus states is safe".format(
+            n["false_alarms"], _plural(n["false_alarms"], "alarm")),
+        "  {:>6}  reported outside the answer key — not judged either way".format(n["not_judged"]),
+    ]
+
+    if n["duplicate_reports"]:
+        lines.append("  {:>6}  extra {} on issues already counted".format(
+            n["duplicate_reports"], _plural(n["duplicate_reports"], "report")))
+
+    if timing:
+        summary = timing.get("summary", {})
+        total = (summary.get("total") or {}).get("p50")
+        loc = summary.get("scanned_loc")
+        per_1k = (summary.get("seconds_per_1k_loc") or {}).get("total")
+        lines += ["", "HOW LONG IT TOOK"]
+        if total is not None:
+            lines.append("  {:>6}  seconds (median of the timed runs)".format(round(total, 2)))
+        if loc:
+            lines.append("  {:>6}  scanned lines of code".format("{:,}".format(loc)))
+        if per_1k is not None:
+            lines.append("  {:>6}  seconds per 1k scanned lines".format(round(per_1k, 3)))
+
+    lines += [
+        "",
+        "RATES",
+        "  found {} of {} known issues".format(n["found"], n["known_issues"]),
+        "  raised a false alarm on {} of {} traps".format(n["false_alarms"], n["traps"]),
+        "  recall {:.3f}   precision {:.3f}   f1 {:.3f}   f3 {:.3f}".format(
+            overall["recall"], overall["precision"], overall["f1"], overall["f3"]),
+        "  tpr {:.3f}   fpr {:.3f}   youden j {:.3f}".format(
+            overall["tpr"], overall["fpr"], overall["youden_j"]),
     ]
 
     if overall["undefined"]:
-        lines.append("undefined: {} (reported as 0.0)".format(", ".join(overall["undefined"])))
+        lines.append("  undefined, reported as 0.0: {}".format(", ".join(overall["undefined"])))
 
-    for dimension in ("language", "tier", "flow"):
+    lines += [
+        "",
+        "HOW THESE WERE COUNTED",
+        "  line tolerance +/-{}".format(card["match_policy"]["line_tolerance"]),
+        "  {} {} matched on position because the tool emitted no CWE".format(
+            card["location_only_matches"],
+            _plural(card["location_only_matches"], "finding")),
+    ]
+
+    for dimension in ("tier", "language", "flow"):
         groups = card["by"].get(dimension) or {}
-        if not groups:
+        if len(groups) < 2:
             continue
-        lines.append("")
-        lines.append("by {}:".format(dimension))
+        lines += ["", "BY {}".format(dimension.upper())]
         for key in sorted(groups, key=str):
             m = groups[key]
-            lines.append(
-                "  {:<22} recall {:.3f}  precision {:.3f}  (tp={} fp={} fn={} tn={})".format(
-                    str(key), m["recall"], m["precision"], m["tp"], m["fp"], m["fn"], m["tn"]
-                )
-            )
+            known = m["tp"] + m["fn"]
+            lines.append("  {:<22} found {} of {:<4} false alarms {} of {}".format(
+                str(key), m["tp"], known, m["fp"], m["fp"] + m["tn"]))
 
     return "\n".join(lines)
 
@@ -517,6 +583,8 @@ def main(argv=None):
                         help="also match taint-path steps; loosens matching, so state it when reporting")
     parser.add_argument("--strict", action="store_true",
                         help="treat missing results as zero findings rather than an error, so a crashed or timed-out scan scores as a failure to detect")
+    parser.add_argument("--timing", type=Path, default=None,
+                        help="a spine/timing/bench.py output file, to report scan time alongside")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
 
@@ -535,7 +603,11 @@ def main(argv=None):
     report = match_findings(findings, cases, tolerance=args.tolerance)
     card = scorecard(report, tolerance=args.tolerance, include_flow_locations=args.include_flow_locations)
 
-    print(json.dumps(card, indent=2) if args.json else render_text(card))
+    timing = json.loads(args.timing.read_text()) if args.timing and args.timing.is_file() else None
+    if timing:
+        card["timing"] = timing.get("summary")
+
+    print(json.dumps(card, indent=2) if args.json else render_text(card, timing))
     return 0
 
 
