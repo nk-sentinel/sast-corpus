@@ -1,0 +1,31 @@
+id: c-f72ac7f4
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-20
+variant: unvalidated-numeric-range
+acceptable_cwes: [CWE-20, CWE-1284, CWE-129]
+owasp_2021: A04
+severity: high
+location:
+  file: tier1/python/f72ac7f4/ledger.py
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/python/f72ac7f4/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the quantity is parsed and used with no range check. A negative value produces a negative total, which downstream becomes a credit rather than a charge — the parse succeeded, the arithmetic is correct, and nothing in either file is malformed
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -611,6 +611,7 @@ from gen.templates_planes import PLANES_ALL  # noqa: E402
 from gen.templates_secrets import SECRETS_ALL  # noqa: E402
 from gen.templates_memory import MEMORY_ALL  # noqa: E402
 from gen.templates_authz import AUTHZ_ALL  # noqa: E402
+from gen.templates_remaining import REMAINING_ALL  # noqa: E402
 
 ALL = (ALL + DEPTH_ALL + MORE_ALL + PLANES_ALL + SECRETS_ALL + MEMORY_ALL
-       + AUTHZ_ALL)
+       + AUTHZ_ALL + REMAINING_ALL)

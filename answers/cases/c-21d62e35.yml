@@ -1,0 +1,31 @@
+id: c-21d62e35
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-434
+variant: blocklist-extension
+acceptable_cwes: [CWE-434, CWE-646, CWE-73]
+owasp_2021: A04
+severity: high
+location:
+  file: tier1/python/21d62e35/storage.py
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/python/21d62e35/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    an allowlist decides what is permitted rather than a list of what is not
+  cve: null
+build:
+  required: false
+  recipe: null

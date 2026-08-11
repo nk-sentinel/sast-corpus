@@ -1,0 +1,31 @@
+id: c-403bfa13
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-77
+variant: argument-injection
+acceptable_cwes: [CWE-77, CWE-88, CWE-78]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/403bfa13/Runner.java
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/java/403bfa13/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a ProcessBuilder with an argument list, which is the canonical fix for command injection and is applied correctly here. The value still reaches git's option parser, so --upload-pack= executes a program without any shell being involved
+  cve: null
+build:
+  required: false
+  recipe: null

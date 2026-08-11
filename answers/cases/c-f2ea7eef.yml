@@ -1,0 +1,31 @@
+id: c-f2ea7eef
+label: safe
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-77
+variant: argument-injection
+acceptable_cwes: [CWE-77, CWE-88, CWE-78]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/go/f2ea7eef/runner.go
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/go/f2ea7eef/handler.go
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the leading dash is rejected and a -- separator ends option parsing, so the value can only be read as an operand
+  cve: null
+build:
+  required: false
+  recipe: null

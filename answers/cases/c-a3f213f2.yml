@@ -1,0 +1,31 @@
+id: c-a3f213f2
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-770
+variant: unbounded-allocation
+acceptable_cwes: [CWE-770, CWE-400, CWE-789]
+owasp_2021: A04
+severity: high
+location:
+  file: tier1/java/a3f213f2/Intake.java
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/java/a3f213f2/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    readAllBytes buffers the entire stream regardless of size, so the allocation is under the caller's control
+  cve: null
+build:
+  required: false
+  recipe: null

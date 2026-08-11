@@ -8,29 +8,29 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 199 |
-| False-positive traps | 96 (48%) |
+| Cases | 215 |
+| False-positive traps | 104 (48%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
 | Visible to build-required engines | 37 |
 
 ## Language × weakness
 
-| language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-94 | CWE-120 | CWE-121 | CWE-122 | CWE-125 | CWE-134 | CWE-190 | CWE-200 | CWE-306 | CWE-416 | CWE-476 | CWE-639 | CWE-787 | CWE-862 | CWE-863 | CWE-1395 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| java | 2/1 | 6/5 | 5/4 | 15/11 | 1/1 | · | 1/1 | 1/1 | 1/4 | 1/1 | 4/3 | · | · | · | · | · | · | · | · | · | · | 1/1 | · | 2/2 | 1/1 | 1/1 |
-| kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 9/9 | 1/1 | · | · | · | · | · | · | · | · | 1/1 | 1/1 | · | · | · | · | · | · | · |
-| javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
-| typescript | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| go | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| csharp | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | 1/1 | 1/1 | · | 1/1 | · | · | · |
-| cpp | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · | · | · | 1/1 | · | · | · | · | · | · |
-| swift | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| php | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| ruby | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| rust | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-20 | CWE-77 | CWE-94 | CWE-120 | CWE-121 | CWE-122 | CWE-125 | CWE-134 | CWE-190 | CWE-200 | CWE-284 | CWE-306 | CWE-416 | CWE-434 | CWE-476 | CWE-639 | CWE-770 | CWE-787 | CWE-862 | CWE-863 | CWE-1395 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| java | 2/1 | 6/5 | 5/4 | 15/11 | 1/1 | · | 1/1 | 1/1 | 1/4 | 1/1 | · | 1/1 | 4/3 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | 1/1 | 1/1 | · | 2/2 | 1/1 | 1/1 |
+| kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 9/9 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 | · | 2/2 | · | · | 1/1 | · | · | · | · |
+| javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
+| typescript | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| go | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| csharp | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | · | 1/1 | · | 1/1 | · | · | 1/1 | · | · | · |
+| cpp | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · |
+| swift | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| php | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| ruby | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| rust | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 
 Weakness codes:
 
@@ -44,6 +44,8 @@ Weakness codes:
 - `CWE-798` — hard-coded credentials
 - `CWE-327` — broken crypto
 - `CWE-352` — cross-site request forgery
+- `CWE-20` — 
+- `CWE-77` — 
 - `CWE-94` — code injection
 - `CWE-120` — 
 - `CWE-121` — 
@@ -52,10 +54,13 @@ Weakness codes:
 - `CWE-134` — 
 - `CWE-190` — 
 - `CWE-200` — 
+- `CWE-284` — 
 - `CWE-306` — 
 - `CWE-416` — 
+- `CWE-434` — 
 - `CWE-476` — 
 - `CWE-639` — 
+- `CWE-770` — 
 - `CWE-787` — 
 - `CWE-862` — 
 - `CWE-863` — 
@@ -74,12 +79,12 @@ Weaknesses covered per language, thinnest first:
 - `php` — 2
 - `ruby` — 2
 - `rust` — 2
-- `go` — 3
 - `cpp` — 3
+- `go` — 4
 - `javascript` — 6
-- `python` — 11
 - `c` — 11
-- `java` — 14
+- `python` — 14
+- `java` — 17
 
 ## Variants per weakness
 
@@ -87,7 +92,9 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | weakness | mechanisms | context traps |
 |---|---|---|
+| `CWE-20` | `unvalidated-numeric-range` | · |
 | `CWE-22` | `loop-filter`, `single-pass-filter`, `unknown`, `unvalidated-concat`, `unvalidated-join` | · |
+| `CWE-77` | `argument-injection` | · |
 | `CWE-78` | `blocklist-filter`, `shell-string`, `system-call`, `unknown` | · |
 | `CWE-79` | `tag-filter`, `unescaped-output`, `unknown` | · |
 | `CWE-89` | `concat-statement`, `dynamic-identifier`, `format-string`, `prepared-but-concatenated` | · |
@@ -99,14 +106,17 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-134` | `user-controlled-format` | · |
 | `CWE-190` | `allocation-size-overflow` | · |
 | `CWE-200` | `stack-trace-to-client` | · |
+| `CWE-284` | `client-controlled-role` | · |
 | `CWE-306` | `no-authentication` | · |
 | `CWE-327` | `weak-cipher-mode`, `weak-hash` | `in-comment`, `in-markdown`, `in-test-data` |
 | `CWE-352` | `protection-disabled` | · |
 | `CWE-416` | `dangling-reference`, `use-after-free` | · |
+| `CWE-434` | `blocklist-extension`, `unchecked-upload` | · |
 | `CWE-476` | `unchecked-allocation` | · |
 | `CWE-502` | `objectinputstream`, `pickle-untrusted` | · |
 | `CWE-611` | `default-factory`, `entities-enabled` | · |
 | `CWE-639` | `user-controlled-key` | · |
+| `CWE-770` | `unbounded-allocation` | · |
 | `CWE-787` | `unchecked-index-write` | · |
 | `CWE-798` | `chat-token`, `cloud-key-pair`, `connection-string`, `identifier-not-secret`, `literal-in-source`, `payment-key`, `pem-private-key`, `signing-key-literal`, `vcs-token` | `in-example-config` |
 | `CWE-862` | `intentionally-public`, `missing-annotation` | · |
@@ -120,10 +130,10 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | category | cases |
 |---|---|
-| A01 Broken Access Control | 27 |
+| A01 Broken Access Control | 29 |
 | A02 Cryptographic Failures | 7 |
-| A03 Injection | 78 |
-| A04 Insecure Design | · |
+| A03 Injection | 82 |
+| A04 Insecure Design | 10 |
 | A05 Security Misconfiguration | 4 |
 | A06 Vulnerable Components | 4 |
 | A07 Identification and Authentication Failures | 22 |
@@ -135,7 +145,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | plane | cases |
 |---|---|
-| vuln | 181 |
+| vuln | 197 |
 | secret | 14 |
 | sca | 4 |
 | crypto | · |
@@ -146,7 +156,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | tier | cases |
 |---|---|
-| 1 — synthetic fixtures | 150 |
+| 1 — synthetic fixtures | 166 |
 | 2 — real applications | · |
 | 3 — CVE reproductions | 49 |
 
@@ -156,12 +166,12 @@ A cell in the matrix above holding one case proves only that the weakness class 
 |---|---|
 | intra-procedural | 39 |
 | inter-procedural | 2 |
-| inter-file | 101 |
+| inter-file | 117 |
 | framework-mediated | 8 |
 
 | sanitizer | cases |
 |---|---|
-| none | 74 |
+| none | 82 |
 | ineffective | 4 |
-| custom-effective | 65 |
+| custom-effective | 73 |
 | framework-implicit | 28 |

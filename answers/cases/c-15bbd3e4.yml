@@ -1,0 +1,31 @@
+id: c-15bbd3e4
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-284
+variant: client-controlled-role
+acceptable_cwes: [CWE-284, CWE-862, CWE-863, CWE-807]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/15bbd3e4/Gate.java
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/java/15bbd3e4/Cli.java
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the identical comparison, against a role resolved server-side from the session rather than read from the request
+  cve: null
+build:
+  required: false
+  recipe: null

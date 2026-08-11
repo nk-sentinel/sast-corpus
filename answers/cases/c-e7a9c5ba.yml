@@ -1,0 +1,31 @@
+id: c-e7a9c5ba
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: flask
+primary_cwe: CWE-770
+variant: unbounded-allocation
+acceptable_cwes: [CWE-770, CWE-400, CWE-789]
+owasp_2021: A04
+severity: high
+location:
+  file: tier1/python/e7a9c5ba/intake.py
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/python/e7a9c5ba/handler.py
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the whole request body is read into memory with no cap, so the peak allocation is whatever the caller chooses to send and a handful of concurrent requests exhausts the process
+  cve: null
+build:
+  required: false
+  recipe: null
