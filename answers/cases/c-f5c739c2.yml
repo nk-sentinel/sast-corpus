@@ -1,0 +1,32 @@
+id: c-f5c739c2
+label: vulnerable
+plane: secret
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: connection-string
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/python/f5c739c2/db.py
+  start_line: 1
+  end_line: 1
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the password is embedded in the connection URL, which travels into logs, error messages and process listings as well as the repository
+  cve: null
+secret:
+  kind: database-connection-string
+  live_validatable: true
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,32 @@
+id: c-eeaf56d8
+label: safe
+plane: secret
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: chat-token
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/python/eeaf56d8/notify.py
+  start_line: 1
+  end_line: 1
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the identical body with the xoxb- prefix removed — a compound build identifier. A detector keying on entropy or on the dash-separated shape rather than on the prefix reports this
+  cve: null
+secret:
+  kind: slack-bot-token
+  live_validatable: false
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,32 @@
+id: c-29e00879
+label: safe
+plane: secret
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: in-example-config
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: critical
+location:
+  file: tier1/python/29e00879/deploy.py
+  start_line: 2
+  end_line: 2
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the exact key pair AWS publishes in its own documentation. Mature scanners allowlist it by name, so reporting it is a false positive — and a corpus that scored it as a real secret would penalise the tools doing the right thing
+  cve: null
+secret:
+  kind: aws-access-key
+  live_validatable: false
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

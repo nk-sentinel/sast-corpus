@@ -1,18 +1,18 @@
-id: c-1d35e890
+id: c-8e6ee098
 label: safe
 plane: secret
 tier: 1
 language: python
 framework: null
 primary_cwe: CWE-798
-variant: cloud-key-literal
+variant: pem-private-key
 acceptable_cwes: [CWE-798, CWE-259, CWE-321]
 owasp_2021: A07
 severity: critical
 location:
-  file: tier1/python/1d35e890/deploy.py
-  start_line: 4
-  end_line: 4
+  file: tier1/python/8e6ee098/transport.py
+  start_line: 1
+  end_line: 1
 alt_locations: []
 difficulty:
   flow: intra-procedural
@@ -21,10 +21,10 @@ difficulty:
 evidence:
   source: generated
   rationale: >-
-    both halves are read from the environment, so neither appears in the repository
+    a PUBLIC key in the same PEM envelope. Public keys are meant to be distributed and are not secrets; a detector matching on BEGIN.*KEY rather than on the private variants reports this every time a certificate is committed
   cve: null
 secret:
-  kind: aws-access-key
+  kind: private-key
   live_validatable: false
   in_git_history_only: false
 build:

@@ -1,0 +1,32 @@
+id: c-64b0a280
+label: safe
+plane: secret
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: connection-string
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/python/64b0a280/db.py
+  start_line: 3
+  end_line: 3
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the URL carries no password; it is injected from the environment at connection time
+  cve: null
+secret:
+  kind: database-connection-string
+  live_validatable: false
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

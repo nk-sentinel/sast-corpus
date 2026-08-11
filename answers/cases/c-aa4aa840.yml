@@ -1,0 +1,28 @@
+id: c-aa4aa840
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: identifier-not-secret
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/python/aa4aa840/ids.py
+  start_line: 1
+  end_line: 1
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a forty-character hex string used as a session token. It is a credential despite looking exactly like a commit SHA, which is what makes the pair below the interesting comparison
+  cve: null
+build:
+  required: false
+  recipe: null

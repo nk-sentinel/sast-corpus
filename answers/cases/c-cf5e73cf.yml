@@ -1,0 +1,32 @@
+id: c-cf5e73cf
+label: vulnerable
+plane: secret
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: cloud-key-pair
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: critical
+location:
+  file: tier1/python/cf5e73cf/deploy.py
+  start_line: 2
+  end_line: 2
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a long-lived cloud credential pair committed in source, matching the AKIA prefix and 40-character secret shape a detector keys on
+  cve: null
+secret:
+  kind: aws-access-key
+  live_validatable: true
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

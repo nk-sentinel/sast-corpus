@@ -1,0 +1,32 @@
+id: c-0ce1a053
+label: vulnerable
+plane: secret
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: chat-token
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: high
+location:
+  file: tier1/python/0ce1a053/notify.py
+  start_line: 1
+  end_line: 1
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a Slack bot token in source. The xoxb- prefix is unambiguous and the token grants whatever the bot was scoped to
+  cve: null
+secret:
+  kind: slack-bot-token
+  live_validatable: true
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

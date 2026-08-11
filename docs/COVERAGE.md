@@ -8,8 +8,8 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 153 |
-| False-positive traps | 73 (48%) |
+| Cases | 165 |
+| False-positive traps | 79 (48%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
 | Visible to build-required engines | 37 |
@@ -20,7 +20,7 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | java | 2/1 | 6/5 | 5/4 | 15/11 | 1/1 | · | 1/1 | 1/1 | 1/4 | 1/1 | 4/3 | 1/1 |
 | kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
-| python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 3/3 | 1/1 | · | · | · |
+| python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 9/9 | 1/1 | · | · | · |
 | javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | 1/1 |
 | typescript | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
 | go | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · |
@@ -82,7 +82,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-352` | `protection-disabled` | · |
 | `CWE-502` | `objectinputstream`, `pickle-untrusted` | · |
 | `CWE-611` | `default-factory`, `entities-enabled` | · |
-| `CWE-798` | `cloud-key-literal`, `literal-in-source`, `signing-key-literal` | · |
+| `CWE-798` | `chat-token`, `cloud-key-pair`, `connection-string`, `identifier-not-secret`, `literal-in-source`, `payment-key`, `pem-private-key`, `signing-key-literal`, `vcs-token` | `in-example-config` |
 | `CWE-918` | `unvalidated-url` | · |
 | `CWE-1395` | `vulnerable-version` | · |
 
@@ -98,7 +98,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | A04 Insecure Design | · |
 | A05 Security Misconfiguration | 4 |
 | A06 Vulnerable Components | 4 |
-| A07 Identification and Authentication Failures | 8 |
+| A07 Identification and Authentication Failures | 20 |
 | A08 Software and Data Integrity Failures | 4 |
 | A09 Logging and Monitoring Failures | · |
 | A10 Server-Side Request Forgery | 4 |
@@ -107,8 +107,8 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | plane | cases |
 |---|---|
-| vuln | 145 |
-| secret | 4 |
+| vuln | 147 |
+| secret | 14 |
 | sca | 4 |
 | crypto | · |
 
@@ -118,7 +118,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | tier | cases |
 |---|---|
-| 1 — synthetic fixtures | 104 |
+| 1 — synthetic fixtures | 116 |
 | 2 — real applications | · |
 | 3 — CVE reproductions | 49 |
 
@@ -126,14 +126,14 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | taint path | cases |
 |---|---|
-| intra-procedural | 27 |
+| intra-procedural | 39 |
 | inter-procedural | 2 |
 | inter-file | 75 |
 | framework-mediated | · |
 
 | sanitizer | cases |
 |---|---|
-| none | 51 |
+| none | 57 |
 | ineffective | 4 |
-| custom-effective | 46 |
+| custom-effective | 52 |
 | framework-implicit | 24 |

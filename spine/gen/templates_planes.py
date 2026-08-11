@@ -307,26 +307,6 @@ CSRF_T = [
 
 SECRET_T = [
     _plain(
-        "secret-aws@cloud-key-literal", "python", "py", CREDS, None,
-        {"deploy.py": (
-            "ACCESS_KEY_ID = \"AKIAIOSFODNN7EXAMPLE\"\n"
-            "ACCESS_KEY = \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\"\n"
-            "REGION = \"eu-west-1\"\n")},
-        "ACCESS_KEY = ",
-        {"deploy.py": (
-            "import os\n\n"
-            "ACCESS_KEY_ID = os.environ[\"AWS_ACCESS_KEY_ID\"]\n"
-            "ACCESS_KEY = os.environ[\"AWS_SECRET_ACCESS_KEY\"]\n"
-            "REGION = \"eu-west-1\"\n")},
-        "ACCESS_KEY = ", "custom-effective",
-        "a long-lived cloud credential pair committed to source, recoverable from history by anyone with the repository",
-        "both halves are read from the environment, so neither appears in the repository",
-        plane="secret",
-        extra_v={"kind": "aws-access-key", "live_validatable": True, "in_git_history_only": False},
-        extra_s={"kind": "aws-access-key", "live_validatable": False, "in_git_history_only": False},
-        severity="critical",
-    ),
-    _plain(
         "secret-entropy@signing-key-literal", "python", "py", CREDS, None,
         {"session.py": (
             "SIGNING_KEY = \"hunter2-Zx9Qv7Lm3Rt8Wn2Kd6Yp4Bs1Hf5Jg0Ac\"\n\n\n"

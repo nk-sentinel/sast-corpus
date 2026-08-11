@@ -1,31 +1,31 @@
-id: c-14bbf497
-label: vulnerable
+id: c-f4fa2876
+label: safe
 plane: secret
 tier: 1
 language: python
 framework: null
 primary_cwe: CWE-798
-variant: cloud-key-literal
+variant: in-example-config
 acceptable_cwes: [CWE-798, CWE-259, CWE-321]
 owasp_2021: A07
 severity: critical
 location:
-  file: tier1/python/14bbf497/deploy.py
-  start_line: 2
-  end_line: 2
+  file: tier1/python/f4fa2876/billing.py
+  start_line: 1
+  end_line: 1
 alt_locations: []
 difficulty:
   flow: intra-procedural
-  sanitizer: none
+  sanitizer: custom-effective
   obfuscation: none
 evidence:
   source: generated
   rationale: >-
-    a long-lived cloud credential pair committed to source, recoverable from history by anyone with the repository
+    the same shape with the body replaced by a run of x characters — a placeholder left in a template. It matches a prefix-only pattern and authenticates to nothing
   cve: null
 secret:
-  kind: aws-access-key
-  live_validatable: true
+  kind: stripe-secret-key
+  live_validatable: false
   in_git_history_only: false
 build:
   required: false
