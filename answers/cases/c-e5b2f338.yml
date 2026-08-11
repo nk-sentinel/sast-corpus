@@ -1,0 +1,36 @@
+id: c-e5b2f338
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: dynamic-identifier
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/e5b2f338/src/main/java/audit/EventRepository.java
+  start_line: 16
+  end_line: 19
+alt_locations:
+  - file: tier1/java/e5b2f338/src/main/java/audit/Cli.java
+    start_line: 8
+    end_line: 9
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    The value is bound correctly with setString, so the obvious defence is
+    present and working. The ORDER BY identifier beside it is concatenated, and
+    a column name cannot be bound by any driver — the parameter placeholder is
+    only defined for values. The correct fix is an allowlist, which is what the
+    safe sibling c-9f0c76e1 does. A tool that treats "uses setString" as proof
+    of safety reports nothing here.
+  cve: null
+build:
+  required: true
+  recipe: build/java/javac.sh

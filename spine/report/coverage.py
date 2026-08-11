@@ -98,6 +98,40 @@ def matrix(rows):
     return {key: Cell(vulnerable=v, safe=s) for key, (v, s) in counts.items()}
 
 
+CONTEXT_VARIANTS = frozenset({
+    "in-markdown", "in-comment", "in-test-data", "in-vendored",
+    "in-example-config", "in-changelog", "in-licence-header",
+})
+
+
+def variants_by_cwe(rows):
+    """Which mechanisms each weakness is tested through.
+
+    A cell holding one case only proves a tool knows the weakness class exists.
+    A tool can catch concatenation into a Statement and miss every other route
+    to the same CWE — a query concatenated before being prepared, an identifier
+    that cannot be bound at all, an ORM raw fragment.
+    """
+    found = {}
+    for row in rows:
+        variant = (row.get("variant") or "").strip() or "(unlabelled)"
+        found.setdefault(row["primary_cwe"], set()).add(variant)
+    return found
+
+
+def split_variants(variants):
+    """Mechanisms and context traps, reported apart.
+
+    They answer different questions. A mechanism asks whether the tool follows
+    this route to the weakness; a context trap asks whether it can tell code
+    from prose, test data or a vendored tree — which is where real scanners
+    generate much of their noise.
+    """
+    mechanisms = sorted(v for v in variants if v not in CONTEXT_VARIANTS)
+    contexts = sorted(v for v in variants if v in CONTEXT_VARIANTS)
+    return mechanisms, contexts
+
+
 def gaps(rows, languages, cwes):
     """Three distinct kinds of hole, because they need different fixes."""
     grid = matrix(rows)
@@ -246,7 +280,30 @@ def render(rows, languages=None, cwes=None):
         out += ["None. Every target language and weakness has a vulnerable case "
                 "and a safe sibling.", ""]
 
-    out += ["## OWASP Top 10 (2021)", "", "| category | cases |", "|---|---|"]
+    out += ["## Variants per weakness", "",
+            "A cell in the matrix above holding one case proves only that the weakness "
+            "class is represented. These are the distinct mechanisms each weakness is "
+            "actually tested through, and the context traps that ask whether a tool can "
+            "tell code from prose.", "",
+            "| weakness | mechanisms | context traps |", "|---|---|---|"]
+
+    by_variant = variants_by_cwe(rows)
+    for cwe in sorted(by_variant, key=lambda c: int(c.split("-")[1])):
+        mechanisms, contexts = split_variants(by_variant[cwe])
+        out.append("| `{}` | {} | {} |".format(
+            cwe,
+            ", ".join("`{}`".format(m) for m in mechanisms) or "·",
+            ", ".join("`{}`".format(c) for c in contexts) or "·"))
+
+    unlabelled = sum(1 for r in rows if not (r.get("variant") or "").strip())
+    if unlabelled:
+        out += ["",
+                "**{} of {} cases carry no variant label.** They were written before the "
+                "field existed and are counted as `(unlabelled)`. Until they are named, "
+                "the mechanism coverage above understates what exists and cannot show "
+                "what is missing.".format(unlabelled, len(rows))]
+
+    out += ["", "## OWASP Top 10 (2021)", "", "| category | cases |", "|---|---|"]
     for code in sorted(OWASP_NAMES):
         count = summary["by_owasp"].get(code, 0)
         out.append("| {} {} | {} |".format(code, OWASP_NAMES[code], count or "·"))

@@ -1,0 +1,32 @@
+id: c-b41fc528
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-327
+variant: in-test-data
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: low
+location:
+  file: tier1/java/3b8ea4c7/src/test/resources/expected-digests.txt
+  start_line: 1
+  end_line: 3
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    Three 32-character hex strings in a test resource. They are MD5 digests of
+    empty string, "hello" and "test", used as expected values by a test that
+    asserts a legacy format is still parsed. Data, not computation. A secrets
+    scanner may also read them as high-entropy strings; they are neither
+    credentials nor a weak-algorithm use.
+  cve: null
+build:
+  required: false
+  recipe: null

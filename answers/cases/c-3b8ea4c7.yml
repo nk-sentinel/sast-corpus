@@ -1,0 +1,32 @@
+id: c-3b8ea4c7
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-327
+variant: in-comment
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: medium
+location:
+  file: tier1/java/3b8ea4c7/src/main/java/cache/KeyBuilder.java
+  start_line: 8
+  end_line: 11
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    The word MD5 appears in a comment recording that MD5 was removed. No digest
+    is computed anywhere in the file and no crypto API is called. A tool matching
+    algorithm names in text rather than in calls reports this, and that is a
+    false positive. This case is exempt from the no-comments rule because the
+    comment is the thing under test.
+  cve: null
+build:
+  required: false
+  recipe: null

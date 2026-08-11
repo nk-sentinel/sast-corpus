@@ -8,17 +8,17 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 147 |
-| False-positive traps | 69 (47%) |
+| Cases | 153 |
+| False-positive traps | 73 (48%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
-| Visible to build-required engines | 34 |
+| Visible to build-required engines | 37 |
 
 ## Language × weakness
 
 | language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-94 | CWE-1395 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| java | · | 6/5 | 5/4 | 15/11 | 1/1 | · | 1/1 | 1/1 | 1/1 | 1/1 | 4/3 | 1/1 |
+| java | 2/1 | 6/5 | 5/4 | 15/11 | 1/1 | · | 1/1 | 1/1 | 1/4 | 1/1 | 4/3 | 1/1 |
 | kotlin | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · |
 | python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 3/3 | 1/1 | · | · | · |
 | javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | 1/1 |
@@ -49,7 +49,7 @@ Weakness codes:
 
 ## Gaps
 
-**89 of 130 language-by-weakness cells are empty.** Full coverage of the grid is not the goal — CSRF has no meaning in a C program, and SQL injection none in a shell script — but an empty cell still means a tool is never tested on that combination, so it cannot pass or fail it. The languages carrying only one or two weaknesses are the ones where a result rests on the least evidence.
+**88 of 130 language-by-weakness cells are empty.** Full coverage of the grid is not the goal — CSRF has no meaning in a C program, and SQL injection none in a shell script — but an empty cell still means a tool is never tested on that combination, so it cannot pass or fail it. The languages carrying only one or two weaknesses are the ones where a result rests on the least evidence.
 
 Weaknesses covered per language, thinnest first:
 
@@ -65,15 +65,36 @@ Weaknesses covered per language, thinnest first:
 - `go` — 3
 - `javascript` — 6
 - `python` — 9
-- `java` — 10
+- `java` — 11
+
+## Variants per weakness
+
+A cell in the matrix above holding one case proves only that the weakness class is represented. These are the distinct mechanisms each weakness is actually tested through, and the context traps that ask whether a tool can tell code from prose.
+
+| weakness | mechanisms | context traps |
+|---|---|---|
+| `CWE-22` | `(unlabelled)` | · |
+| `CWE-78` | `(unlabelled)` | · |
+| `CWE-79` | `(unlabelled)` | · |
+| `CWE-89` | `(unlabelled)`, `dynamic-identifier`, `prepared-but-concatenated` | · |
+| `CWE-94` | `(unlabelled)` | · |
+| `CWE-327` | `(unlabelled)` | `in-comment`, `in-markdown`, `in-test-data` |
+| `CWE-352` | `(unlabelled)` | · |
+| `CWE-502` | `(unlabelled)` | · |
+| `CWE-611` | `(unlabelled)` | · |
+| `CWE-798` | `(unlabelled)` | · |
+| `CWE-918` | `(unlabelled)` | · |
+| `CWE-1395` | `(unlabelled)` | · |
+
+**147 of 153 cases carry no variant label.** They were written before the field existed and are counted as `(unlabelled)`. Until they are named, the mechanism coverage above understates what exists and cannot show what is missing.
 
 ## OWASP Top 10 (2021)
 
 | category | cases |
 |---|---|
 | A01 Broken Access Control | 17 |
-| A02 Cryptographic Failures | 4 |
-| A03 Injection | 53 |
+| A02 Cryptographic Failures | 7 |
+| A03 Injection | 56 |
 | A04 Insecure Design | · |
 | A05 Security Misconfiguration | 4 |
 | A06 Vulnerable Components | 4 |
@@ -86,7 +107,7 @@ Weaknesses covered per language, thinnest first:
 
 | plane | cases |
 |---|---|
-| vuln | 139 |
+| vuln | 145 |
 | secret | 4 |
 | sca | 4 |
 | crypto | · |
@@ -97,7 +118,7 @@ Weaknesses covered per language, thinnest first:
 
 | tier | cases |
 |---|---|
-| 1 — synthetic fixtures | 98 |
+| 1 — synthetic fixtures | 104 |
 | 2 — real applications | · |
 | 3 — CVE reproductions | 49 |
 
@@ -105,14 +126,14 @@ Weaknesses covered per language, thinnest first:
 
 | taint path | cases |
 |---|---|
-| intra-procedural | 24 |
+| intra-procedural | 27 |
 | inter-procedural | 2 |
-| inter-file | 72 |
+| inter-file | 75 |
 | framework-mediated | · |
 
 | sanitizer | cases |
 |---|---|
-| none | 48 |
-| ineffective | 2 |
-| custom-effective | 45 |
+| none | 51 |
+| ineffective | 4 |
+| custom-effective | 46 |
 | framework-implicit | 24 |

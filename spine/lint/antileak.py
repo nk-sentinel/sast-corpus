@@ -106,6 +106,46 @@ class Leak:
         return "{}:{}: {}: {}".format(self.path, self.line, self.kind, self.detail)
 
 
+# Variants whose whole point is the thing the lint forbids. A trap asserting
+# that a weak algorithm named in a changelog is not a crypto finding has to name
+# it in a changelog; one asserting that a comment is not code has to contain a
+# comment. Without these, the corpus can only measure false positives in code —
+# and prose, test data and vendored trees are where real scanners generate most
+# of theirs.
+CONTEXT_VARIANTS = frozenset({
+    "in-markdown", "in-comment", "in-test-data", "in-vendored",
+    "in-example-config", "in-changelog", "in-licence-header",
+})
+
+
+def waived_files(root):
+    """Files the answer key marks as context traps.
+
+    Read from the compiled answer key rather than from a marker beside the
+    fixture. A marker beside the fixture would be ground truth living outside
+    `answers/`, which is the single rule the rest of the corpus rests on — and it
+    would tell a reader that this particular file is special, which is itself a
+    hint.
+    """
+    import csv
+
+    waived = set()
+    answers = Path(root) / "answers"
+    if not answers.is_dir():
+        return waived
+
+    for key in sorted(answers.glob("expectedresults-*.csv")):
+        try:
+            with key.open(newline="") as handle:
+                for row in csv.DictReader(handle):
+                    if (row.get("variant") or "") in CONTEXT_VARIANTS:
+                        waived.add(row.get("file", ""))
+        except (OSError, csv.Error):
+            continue
+
+    return waived
+
+
 def scan_tree(root, disclose=False):
     """Returns (errors, warnings).
 
@@ -123,18 +163,19 @@ def scan_tree(root, disclose=False):
     """
     root = Path(root)
     errors, warnings = [], []
+    waived = waived_files(root)
 
     for tier in STRICT_TIERS:
-        errors.extend(_scan_tier(root, tier, strict=True))
+        errors.extend(_scan_tier(root, tier, strict=True, waived=waived))
 
     if disclose:
         for tier in DISCLOSED_TIERS:
-            warnings.extend(_scan_tier(root, tier, strict=False))
+            warnings.extend(_scan_tier(root, tier, strict=False, waived=waived))
 
     return errors, warnings
 
 
-def _scan_tier(root, tier, strict):
+def _scan_tier(root, tier, strict, waived=frozenset()):
     leaks = []
     tier_root = root / tier
     if not tier_root.is_dir():
@@ -150,6 +191,9 @@ def _scan_tier(root, tier, strict):
             continue
 
         relative = path.relative_to(root).as_posix()
+
+        if relative in waived:
+            continue
 
         leaks.extend(_scan_path(relative, path.name))
 

@@ -47,6 +47,7 @@ class Variant:
     source_match: str = None
     flow: str = None
     obfuscation: str = None
+    variant: str = None
     # Plane-specific ground truth: the `secret` or `sca` block for this case.
     # The vuln plane needs none, and emitting an empty one would fail the schema.
     extra_ground_truth: dict = None
@@ -64,6 +65,7 @@ class Template:
     flow: str
     obfuscation: str
     variants: dict
+    variant_name: str = None
     plane: str = "vuln"
     framework: str = None
     build_required: bool = False
@@ -134,6 +136,7 @@ def _emit_variant(template, name, variant, root):
         "language": template.language,
         "framework": template.framework,
         "primary_cwe": template.primary_cwe,
+        "variant": variant.variant or template.variant_name,
         "acceptable_cwes": list(template.acceptable_cwes),
         "owasp_2021": template.owasp_2021,
         "severity": template.severity,
@@ -193,6 +196,7 @@ def _render_yaml(case):
         "language: {}".format(case["language"]),
         "framework: {}".format(case["framework"] if case["framework"] else "null"),
         "primary_cwe: {}".format(case["primary_cwe"]),
+        "variant: {}".format(case.get("variant") or "null"),
         "acceptable_cwes: [{}]".format(", ".join(case["acceptable_cwes"])),
         "owasp_2021: {}".format(case["owasp_2021"] or "null"),
         "severity: {}".format(case["severity"]),

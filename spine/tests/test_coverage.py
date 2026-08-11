@@ -175,3 +175,37 @@ class GapsAreActuallyRendered(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class VariantCoverage(unittest.TestCase):
+    """One case in a (language, CWE) cell used to mean the cell was covered. It
+    does not: a tool can catch concat-into-Statement and miss every other route
+    to the same CWE."""
+
+    def test_counts_variants_per_weakness(self):
+        from report.coverage import variants_by_cwe
+        rows = [a_row(primary_cwe="CWE-89", variant="concat-statement"),
+                a_row(primary_cwe="CWE-89", variant="dynamic-identifier"),
+                a_row(primary_cwe="CWE-78", variant="shell-true")]
+
+        found = variants_by_cwe(rows)
+
+        self.assertEqual(found["CWE-89"], {"concat-statement", "dynamic-identifier"})
+
+    def test_cases_with_no_variant_are_grouped_as_unlabelled(self):
+        from report.coverage import variants_by_cwe
+        rows = [a_row(primary_cwe="CWE-89", variant="")]
+
+        self.assertEqual(variants_by_cwe(rows)["CWE-89"], {"(unlabelled)"})
+
+    def test_context_traps_are_reported_separately_from_mechanisms(self):
+        from report.coverage import split_variants
+        mechanisms, contexts = split_variants({"concat-statement", "in-markdown", "in-comment"})
+
+        self.assertEqual(mechanisms, ["concat-statement"])
+        self.assertEqual(contexts, ["in-comment", "in-markdown"])
+
+    def test_the_rendered_report_names_the_variants(self):
+        rows = [a_row(primary_cwe="CWE-89", variant="prepared-but-concatenated")]
+
+        self.assertIn("prepared-but-concatenated", render(rows))

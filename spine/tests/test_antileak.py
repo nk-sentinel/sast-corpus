@@ -443,3 +443,66 @@ class TheGateAndTheDisclosureAreDifferentJobs(LintCase):
         full, _ = scan_tree(self.root, disclose=True)
 
         self.assertEqual(fast, full)
+
+
+class ContextTrapsNeedTheThingTheLintForbids(LintCase):
+    """A trap testing 'MD5 named in a changelog is not a crypto finding' has to
+    contain the word MD5 in a changelog. A trap testing 'a weak algorithm named
+    in a comment is not a finding' has to contain a comment.
+
+    The waiver is read from the answer key rather than from a marker beside the
+    fixture, because a marker beside the fixture is ground truth outside
+    `answers/` — the one rule the whole corpus rests on.
+    """
+
+    def key(self, *rows):
+        header = ("id,label,plane,tier,language,framework,primary_cwe,variant,acceptable_cwes,"
+                  "owasp_2021,severity,file,start_line,end_line,alt_locations,flow,sanitizer,"
+                  "obfuscation,build_required")
+        self.write("answers/expectedresults-1.0.csv", header + "\n" + "\n".join(rows) + "\n")
+
+    def row(self, path, variant, label="safe"):
+        return ("c-aaaaaaaa,{label},vuln,1,java,,CWE-327,{variant},CWE-327,A02,high,"
+                "{path},1,1,,intra-procedural,none,none,false").format(
+                    label=label, variant=variant, path=path)
+
+    def test_a_context_trap_may_carry_a_comment(self):
+        self.write("tier1/java/aaaa/Notes.java", "// uses MD5 for cache keys\nclass Notes {}\n")
+        self.key(self.row("tier1/java/aaaa/Notes.java", "in-comment"))
+
+        errors, _ = self.scan()
+
+        self.assertEqual(errors, [])
+
+    def test_a_context_trap_may_name_the_weakness_in_markdown(self):
+        self.write("tier1/java/aaaa/CHANGELOG.md", "# Changes\n\n- replaced MD5 with SHA-256\n")
+        self.key(self.row("tier1/java/aaaa/CHANGELOG.md", "in-markdown"))
+
+        errors, _ = self.scan()
+
+        self.assertEqual(errors, [])
+
+    def test_the_waiver_applies_only_to_the_file_the_answer_key_names(self):
+        self.write("tier1/java/aaaa/Notes.java", "// uses MD5 for cache keys\nclass Notes {}\n")
+        self.write("tier1/java/aaaa/Other.java", "// an ordinary comment\nclass Other {}\n")
+        self.key(self.row("tier1/java/aaaa/Notes.java", "in-comment"))
+
+        errors, _ = self.scan()
+
+        self.assertTrue(any("Other.java" in e.path for e in errors))
+        self.assertFalse(any("Notes.java" in e.path for e in errors))
+
+    def test_a_non_context_variant_earns_no_waiver(self):
+        self.write("tier1/java/aaaa/Store.java", "// build the query\nclass Store {}\n")
+        self.key(self.row("tier1/java/aaaa/Store.java", "concat-statement", label="vulnerable"))
+
+        errors, _ = self.scan()
+
+        self.assertTrue(errors)
+
+    def test_without_an_answer_key_nothing_is_waived(self):
+        self.write("tier1/java/aaaa/Notes.java", "// uses MD5\nclass Notes {}\n")
+
+        errors, _ = self.scan()
+
+        self.assertTrue(errors)

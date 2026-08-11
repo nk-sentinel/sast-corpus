@@ -1,0 +1,32 @@
+id: c-6d2a90fb
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-327
+variant: in-markdown
+acceptable_cwes: [CWE-327, CWE-328, CWE-326]
+owasp_2021: A02
+severity: medium
+location:
+  file: tier1/java/3b8ea4c7/CHANGELOG.md
+  start_line: 5
+  end_line: 7
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    A changelog naming MD5, DES, a path traversal and CWE-22 — all in prose,
+    describing fixes that were made. Markdown is not executable and none of these
+    are calls. A scanner that greps its own rule vocabulary across every file
+    reports several findings here, and every one is a false positive. This is a
+    common real-world noise source and the corpus had no case for it.
+  cve: null
+build:
+  required: false
+  recipe: null

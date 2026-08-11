@@ -48,6 +48,7 @@ class Case:
     language: str
     framework: str
     primary_cwe: str
+    variant: str
     acceptable_cwes: frozenset
     owasp_2021: str
     severity: str
@@ -156,6 +157,7 @@ def load_answer_key(path):
                     language=row["language"],
                     framework=row["framework"],
                     primary_cwe=row["primary_cwe"],
+                    variant=row.get("variant", ""),
                     acceptable_cwes=frozenset(_split(row["acceptable_cwes"])),
                     owasp_2021=row["owasp_2021"],
                     severity=row["severity"],

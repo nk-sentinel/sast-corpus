@@ -19,6 +19,7 @@ def a_case(**overrides):
         "language": "java",
         "framework": "spring-mvc",
         "primary_cwe": "CWE-89",
+        "variant": "concat-statement",
         "acceptable_cwes": frozenset({"CWE-89", "CWE-943"}),
         "owasp_2021": "A03",
         "severity": "high",

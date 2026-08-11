@@ -1,0 +1,33 @@
+id: c-9f0c76e1
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: dynamic-identifier
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/9f0c76e1/src/main/java/audit/EventRepository.java
+  start_line: 20
+  end_line: 24
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    The structural mirror of c-e5b2f338, and deliberately still concatenates the
+    ORDER BY identifier — because that is the only way to write it. The value is
+    bound, and the identifier is checked against a fixed list of three column
+    names before it reaches the string. A tool that flags any concatenation into
+    SQL reports this, and that is a false positive: an allowlist is the correct
+    defence for an identifier, not a shortcoming.
+  cve: null
+build:
+  required: true
+  recipe: build/java/javac.sh

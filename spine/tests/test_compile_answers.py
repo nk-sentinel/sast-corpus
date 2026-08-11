@@ -281,3 +281,24 @@ class ExternalTierFilesMayBeAbsent(unittest.TestCase):
 
         self.assertEqual(len(errors), 1)
         self.assertIn("900", errors[0])
+
+
+class VariantColumn(unittest.TestCase):
+    """One case per CWE proves a tool knows the class exists. Variants are where
+    tools separate: a matcher keyed on 'uses PreparedStatement' scores a
+    concatenated-then-prepared query as safe."""
+
+    def test_the_variant_reaches_the_answer_key(self):
+        row = to_csv_row(a_case(variant="prepared-but-concatenated"))
+
+        self.assertEqual(row["variant"], "prepared-but-concatenated")
+
+    def test_a_case_without_a_variant_yields_an_empty_cell(self):
+        self.assertEqual(to_csv_row(a_case())["variant"], "")
+
+    def test_two_cases_may_share_a_cwe_and_differ_only_by_variant(self):
+        a = to_csv_row(a_case(id="c-aaaaaaaa", variant="concat-statement"))
+        b = to_csv_row(a_case(id="c-bbbbbbbb", variant="dynamic-identifier"))
+
+        self.assertEqual(a["primary_cwe"], b["primary_cwe"])
+        self.assertNotEqual(a["variant"], b["variant"])

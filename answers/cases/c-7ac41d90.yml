@@ -1,0 +1,35 @@
+id: c-7ac41d90
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: prepared-but-concatenated
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/7ac41d90/src/main/java/ledger/EntryRepository.java
+  start_line: 16
+  end_line: 18
+alt_locations:
+  - file: tier1/java/7ac41d90/src/main/java/ledger/Cli.java
+    start_line: 8
+    end_line: 9
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    PreparedStatement is used, and that is the whole point. The statement text
+    was already assembled by concatenation before prepareStatement ever saw it,
+    so binding never happens and the parameter is parsed as SQL. A tool keyed on
+    the presence of PreparedStatement scores this as safe, which is why the
+    sanitizer is labelled ineffective rather than none.
+  cve: null
+build:
+  required: true
+  recipe: build/java/javac.sh
