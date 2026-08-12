@@ -1,0 +1,31 @@
+id: c-dae62426
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/dae62426/Report.java
+  start_line: 15
+  end_line: 15
+alt_locations:
+  - file: tier1/java/dae62426/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: collection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value goes into a map under one key and comes back out under the same key. Tracking it requires modelling map contents per key rather than treating the map as one opaque tainted blob — and a tool that does the latter also reports the untainted 'mode' entry
+  cve: null
+build:
+  required: false
+  recipe: null

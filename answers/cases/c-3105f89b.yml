@@ -1,0 +1,31 @@
+id: c-3105f89b
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/3105f89b/Report.java
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/java/3105f89b/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: callback
+evidence:
+  source: hand-authored
+  rationale: >-
+    the concatenation happens inside a lambda that is passed to another method and invoked there. The sink never names the caller's value directly, and resolving it means following a function object across a call
+  cve: null
+build:
+  required: false
+  recipe: null

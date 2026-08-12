@@ -242,3 +242,62 @@ class Planes(unittest.TestCase):
 
         self.assertNotIn("secret", case)
         self.assertNotIn("sca", case)
+
+
+class ProvenanceIsDeclarable(unittest.TestCase):
+    """Hand-authored cases must not be recorded as generator output. The
+    monoculture ratio is the number that says how much of the corpus a tool
+    could overfit to, and it is worthless if everything claims one provenance."""
+
+    def test_a_template_defaults_to_generated(self):
+        template = _minimal()
+
+        self.assertEqual(emit(template, "tier1")[0]["evidence"]["source"], "generated")
+
+    def test_a_template_can_declare_itself_hand_authored(self):
+        template = _minimal()
+        template.source = "hand-authored"
+
+        self.assertEqual(emit(template, "tier1")[0]["evidence"]["source"],
+                         "hand-authored")
+
+
+class HardObfuscationValues(unittest.TestCase):
+    """`strong-update` and `container-field` are the two mechanisms the original
+    enum did not anticipate. Both are needed before any case can use them."""
+
+    def test_strong_update_is_accepted(self):
+        template = _minimal()
+        template.obfuscation = "strong-update"
+
+        self.assertEqual(emit(template, "tier1")[0]["difficulty"]["obfuscation"],
+                         "strong-update")
+
+    def test_container_field_is_accepted(self):
+        template = _minimal()
+        template.obfuscation = "container-field"
+
+        self.assertEqual(emit(template, "tier1")[0]["difficulty"]["obfuscation"],
+                         "container-field")
+
+    def test_the_schema_admits_both(self):
+        import json
+        from pathlib import Path as _P
+        schema = json.loads((_P(__file__).resolve().parents[2] / "spine" / "schema"
+                             / "case.schema.json").read_text())
+        allowed = schema["properties"]["difficulty"]["properties"]["obfuscation"]["enum"]
+
+        self.assertIn("strong-update", allowed)
+        self.assertIn("container-field", allowed)
+
+
+def _minimal():
+    return Template(
+        slug="t", language="java", extension="java", primary_cwe="CWE-89",
+        acceptable_cwes=["CWE-89"], owasp_2021="A03", severity="high",
+        flow="inter-file", obfuscation="none",
+        variants={"vulnerable": Variant(
+            label="vulnerable", files={"A.java": "class A { void f() {} }\n"},
+            sink_file="A.java", sink_match="void f()", sanitizer="none",
+            rationale="a rationale long enough for the schema minimum length here")},
+    )

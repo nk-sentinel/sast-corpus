@@ -1,0 +1,28 @@
+id: c-3d75e894
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/3d75e894/Report.java
+  start_line: 22
+  end_line: 22
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: collection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the map is a fixed allowlist and the caller's value is only ever a key into it, so what reaches the sink is one of two constants
+  cve: null
+build:
+  required: false
+  recipe: null

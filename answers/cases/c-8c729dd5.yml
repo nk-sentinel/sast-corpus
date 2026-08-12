@@ -1,0 +1,28 @@
+id: c-8c729dd5
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/8c729dd5/Report.java
+  start_line: 3
+  end_line: 3
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: aliasing
+evidence:
+  source: hand-authored
+  rationale: >-
+    the statement carries a placeholder and the value is bound beside it, so aliasing changes nothing
+  cve: null
+build:
+  required: false
+  recipe: null

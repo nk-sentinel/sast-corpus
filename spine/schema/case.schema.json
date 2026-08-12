@@ -157,8 +157,11 @@
             "collection",
             "reflection",
             "callback",
+            "strong-update",
+            "container-field",
             "unknown"
-          ]
+          ],
+          "description": "How far the flow is from a direct source-to-sink chain. `strong-update` is a false-positive trap rather than a difficulty: the variable is overwritten with a safe value before the sink, and a tool that does not model overwriting reports a vulnerability that is not there. `container-field` holds the taint in an object field and passes the object around."
         }
       }
     },

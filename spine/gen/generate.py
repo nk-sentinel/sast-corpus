@@ -71,6 +71,10 @@ class Template:
     build_required: bool = False
     build_recipe: str = None
     entry_file: str = field(default=None)
+    # Hand-authored cases must not be recorded as generator output: the
+    # monoculture ratio says how much of the corpus shares one shape, and it is
+    # worthless if everything claims the same provenance.
+    source: str = "generated"
 
 
 def case_id(slug, label):
@@ -152,7 +156,7 @@ def _emit_variant(template, name, variant, root):
             "obfuscation": variant.obfuscation or template.obfuscation,
         },
         "evidence": {
-            "source": "generated",
+            "source": template.source,
             "rationale": variant.rationale,
             "cve": None,
         },

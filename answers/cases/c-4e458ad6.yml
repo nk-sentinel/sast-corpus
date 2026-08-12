@@ -1,0 +1,28 @@
+id: c-4e458ad6
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/4e458ad6/Report.java
+  start_line: 8
+  end_line: 8
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: reflection
+evidence:
+  source: hand-authored
+  rationale: >-
+    reflection is used just as heavily, and the resolved target is a string method that starts no process. A tool that flags reflection itself rather than what it resolves to reports this one
+  cve: null
+build:
+  required: false
+  recipe: null

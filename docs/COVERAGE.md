@@ -8,8 +8,8 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 305 |
-| False-positive traps | 149 (49%) |
+| Cases | 317 |
+| False-positive traps | 155 (49%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
 | Distinct weaknesses | 33 |
@@ -20,7 +20,7 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-20 | CWE-77 | CWE-94 | CWE-117 | CWE-120 | CWE-121 | CWE-122 | CWE-125 | CWE-134 | CWE-190 | CWE-200 | CWE-284 | CWE-306 | CWE-416 | CWE-434 | CWE-476 | CWE-532 | CWE-639 | CWE-770 | CWE-787 | CWE-862 | CWE-863 | CWE-1395 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| java | 2/1 | 6/5 | 5/4 | 15/11 | 1/1 | · | 1/1 | 1/1 | 1/4 | 1/1 | · | 1/1 | 4/3 | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | 1/1 | · | 2/2 | 1/1 | 1/1 |
+| java | 4/3 | 8/7 | 5/4 | 17/13 | 1/1 | · | 1/1 | 1/1 | 1/4 | 1/1 | · | 1/1 | 4/3 | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | 1/1 | · | 2/2 | 1/1 | 1/1 |
 | kotlin | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | python | 3/3 | 2/2 | 2/1 | 3/2 | 1/1 | 1/1 | 1/1 | 9/9 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 | · | 2/2 | · | 1/1 | · | 1/1 | · | · | · | · |
 | javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
@@ -96,7 +96,7 @@ The distinct-CWE total for the corpus says nothing about spread. This is what ea
 
 | language | weaknesses | cases |
 |---|---|---|
-| `java` | 16 | 38 |
+| `java` | 16 | 50 |
 | `python` | 15 | 58 |
 | `c` | 11 | 22 |
 | `go` | 9 | 18 |
@@ -124,9 +124,9 @@ Template-generated cases share a shape a tool can **overfit** to, so the hand-au
 |---|---|
 | `generated` | 250 |
 | `cve` | 49 |
-| `hand-authored` | 6 |
+| `hand-authored` | 18 |
 
-**18% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
+**21% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
 
 ## Variants per weakness
 
@@ -135,11 +135,11 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | weakness | mechanisms | context traps |
 |---|---|---|
 | `CWE-20` | `unvalidated-numeric-range` | · |
-| `CWE-22` | `loop-filter`, `single-pass-filter`, `unknown`, `unvalidated-concat`, `unvalidated-join` | · |
+| `CWE-22` | `(unlabelled)`, `loop-filter`, `single-pass-filter`, `unknown`, `unvalidated-concat`, `unvalidated-join` | · |
 | `CWE-77` | `argument-injection` | · |
-| `CWE-78` | `blocklist-filter`, `shell-string`, `system-call`, `unknown` | · |
+| `CWE-78` | `(unlabelled)`, `blocklist-filter`, `shell-string`, `system-call`, `unknown` | · |
 | `CWE-79` | `tag-filter`, `template-html-optout`, `unescaped-output`, `unknown` | · |
-| `CWE-89` | `concat-statement`, `dynamic-identifier`, `format-string`, `prepared-but-concatenated` | · |
+| `CWE-89` | `(unlabelled)`, `concat-statement`, `dynamic-identifier`, `format-string`, `prepared-but-concatenated` | · |
 | `CWE-94` | `unknown` | · |
 | `CWE-117` | `unsanitised-log-entry` | · |
 | `CWE-120` | `unbounded-copy` | · |
@@ -168,15 +168,17 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-918` | `unvalidated-url` | · |
 | `CWE-1395` | `vulnerable-version` | · |
 
+**12 of 317 cases carry no variant label** and are counted as `(unlabelled)`. Until they are named the mechanism coverage above understates what exists and cannot show what is missing.
+
 `unknown` is not the same gap. 49 derived tier-3 cases carry it because the mechanism is not knowable from the CVE metadata — only from reading the code — and guessing would be indistinguishable from a finding in the table above.
 
 ## OWASP Top 10 (2021)
 
 | category | cases |
 |---|---|
-| A01 Broken Access Control | 43 |
+| A01 Broken Access Control | 47 |
 | A02 Cryptographic Failures | 21 |
-| A03 Injection | 100 |
+| A03 Injection | 108 |
 | A04 Insecure Design | 10 |
 | A05 Security Misconfiguration | 6 |
 | A06 Vulnerable Components | 4 |
@@ -189,7 +191,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | plane | cases |
 |---|---|
-| vuln | 287 |
+| vuln | 299 |
 | secret | 14 |
 | sca | 4 |
 | crypto | · |
@@ -200,7 +202,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | tier | cases |
 |---|---|
-| 1 — synthetic fixtures | 256 |
+| 1 — synthetic fixtures | 268 |
 | 2 — real applications | · |
 | 3 — CVE reproductions | 49 |
 
@@ -210,12 +212,12 @@ A cell in the matrix above holding one case proves only that the weakness class 
 |---|---|
 | intra-procedural | 39 |
 | inter-procedural | 2 |
-| inter-file | 207 |
+| inter-file | 219 |
 | framework-mediated | 8 |
 
 | sanitizer | cases |
 |---|---|
-| none | 127 |
+| none | 133 |
 | ineffective | 4 |
-| custom-effective | 118 |
+| custom-effective | 124 |
 | framework-implicit | 28 |

@@ -34,6 +34,7 @@ c-20abb5a0,vulnerable,vuln,1,ruby,,CWE-22,unvalidated-join,CWE-22;CWE-23;CWE-35;
 c-21d62e35,safe,vuln,1,python,flask,CWE-434,blocklist-extension,CWE-434;CWE-646;CWE-73,A04,high,tier1/python/21d62e35/storage.py,13,13,tier1/python/21d62e35/handler.py:4:4,inter-file,custom-effective,none,false,generated
 c-222ae855,safe,vuln,3,java,,CWE-22,unknown,CWE-22;CWE-23;CWE-35;CWE-36;CWE-73,,high,tier3/fixed-sources/spring-cloud__spring-cloud-config_CVE-2020-5405_2.1.6.RELEASE/spring-cloud-config-client/src/main/java/org/springframework/cloud/config/client/ConfigServicePropertySourceLocator.java,223,292,,unknown,custom-effective,unknown,false,cve
 c-22dfe86f,vulnerable,vuln,1,typescript,,CWE-798,literal-in-source,CWE-798;CWE-259;CWE-321,A07,high,tier1/typescript/22dfe86f/work.ts,1,1,tier1/typescript/22dfe86f/route.ts:3:3,inter-file,none,none,false,generated
+c-236f8d7e,safe,vuln,1,java,,CWE-22,,CWE-22;CWE-23;CWE-36,A01,high,tier1/java/236f8d7e/Report.java,30,30,,inter-file,custom-effective,container-field,false,hand-authored
 c-246717f6,vulnerable,vuln,1,c,,CWE-476,unchecked-allocation,CWE-476;CWE-690,A03,high,tier1/c/246717f6/work.c,7,7,tier1/c/246717f6/main.c:4:4,inter-file,none,none,false,generated
 c-246971e4,vulnerable,vuln,1,kotlin,,CWE-78,shell-string,CWE-78;CWE-77;CWE-88;CWE-94,A03,high,tier1/kotlin/246971e4/Runner.kt,5,5,tier1/kotlin/246971e4/Cli.kt:3:3,inter-file,none,none,false,generated
 c-255029b8,vulnerable,vuln,3,java,,CWE-94,unknown,CWE-94;CWE-95;CWE-96;CWE-78;CWE-470,,high,tier3/project-sources/SpringSource__spring-security-oauth_CVE-2018-1260_2.3.2.RELEASE/spring-security-oauth2/src/main/java/org/springframework/security/oauth2/client/DefaultOAuth2RequestAuthenticator.java,29,40,,unknown,unknown,unknown,true,cve
@@ -51,6 +52,7 @@ c-2de0b431,safe,vuln,1,typescript,,CWE-918,unvalidated-url,CWE-918,A10,high,tier
 c-2e5bd471,vulnerable,vuln,1,kotlin,,CWE-502,objectinputstream,CWE-502;CWE-915,A08,high,tier1/kotlin/2e5bd471/Work.kt,10,10,tier1/kotlin/2e5bd471/Cli.kt:3:3,inter-file,none,none,false,generated
 c-2fb93e9c,safe,vuln,1,php,,CWE-798,literal-in-source,CWE-798;CWE-259;CWE-321,A07,high,tier1/php/2fb93e9c/work.php,4,4,tier1/php/2fb93e9c/handler.php:5:5,inter-file,custom-effective,none,false,generated
 c-30a95684,safe,vuln,1,typescript,,CWE-79,unescaped-output,CWE-79;CWE-80;CWE-116,A03,high,tier1/typescript/30a95684/work.ts,7,7,tier1/typescript/30a95684/route.ts:3:3,inter-file,custom-effective,none,false,generated
+c-3105f89b,vulnerable,vuln,1,java,,CWE-89,,CWE-89;CWE-943;CWE-564,A03,high,tier1/java/3105f89b/Report.java,11,11,tier1/java/3105f89b/Cli.java:3:3,inter-file,none,callback,false,hand-authored
 c-310d33a8,safe,vuln,1,c,,CWE-134,user-controlled-format,CWE-134;CWE-20,A03,high,tier1/c/310d33a8/work.c,5,5,tier1/c/310d33a8/main.c:4:4,inter-file,custom-effective,none,false,generated
 c-322eacc2,safe,vuln,1,java,spring-security,CWE-862,missing-annotation,CWE-862;CWE-284;CWE-285;CWE-863,A01,high,tier1/java/322eacc2/AdminController.java,25,25,tier1/java/322eacc2/AdminController.java:13:13,framework-mediated,framework-implicit,none,false,generated
 c-335016b6,safe,vuln,3,java,,CWE-22,unknown,CWE-22;CWE-23;CWE-35;CWE-36;CWE-73,,high,tier3/fixed-sources/perwendel__spark_CVE-2016-9177_2.5.1/src/main/java/spark/resource/ClassPathResourceHandler.java,61,97,,unknown,custom-effective,unknown,false,cve
@@ -66,12 +68,14 @@ c-38ae5e22,safe,vuln,1,c,,CWE-121,stack-format-copy,CWE-121;CWE-120;CWE-787,A03,
 c-38ce6b7b,vulnerable,vuln,1,python,,CWE-798,literal-in-source,CWE-798;CWE-259;CWE-321,A07,high,tier1/python/38ce6b7b/settings.py,4,4,,intra-procedural,none,none,false,generated
 c-391a9ec1,safe,vuln,1,cpp,,CWE-78,system-call,CWE-78;CWE-77;CWE-88;CWE-94,A03,high,tier1/cpp/391a9ec1/runner.cpp,12,12,tier1/cpp/391a9ec1/main.cpp:4:4,inter-file,framework-implicit,none,false,generated
 c-39a122bb,safe,vuln,1,ruby,,CWE-798,literal-in-source,CWE-798;CWE-259;CWE-321,A07,high,tier1/ruby/39a122bb/work.rb,2,2,tier1/ruby/39a122bb/handler.rb:3:3,inter-file,custom-effective,none,false,generated
+c-39b7c40e,vulnerable,vuln,1,java,,CWE-78,,CWE-78;CWE-77;CWE-88,A03,high,tier1/java/39b7c40e/Report.java,9,9,tier1/java/39b7c40e/Cli.java:3:3,inter-file,none,reflection,false,hand-authored
 c-3b7f3c69,vulnerable,vuln,1,c,,CWE-416,use-after-free,CWE-416;CWE-825;CWE-672,A03,high,tier1/c/3b7f3c69/work.c,11,11,tier1/c/3b7f3c69/main.c:4:4,inter-file,none,none,false,generated
 c-3b8ea4c7,safe,vuln,1,java,,CWE-327,in-comment,CWE-327;CWE-328;CWE-326,A02,medium,tier1/java/3b8ea4c7/src/main/java/cache/KeyBuilder.java,8,11,,intra-procedural,none,none,false,hand-authored
 c-3bbbebd9,vulnerable,vuln,1,kotlin,,CWE-89,concat-statement,CWE-89;CWE-943;CWE-564,A03,high,tier1/kotlin/3bbbebd9/Store.kt,8,8,tier1/kotlin/3bbbebd9/Cli.kt:3:3,inter-file,none,none,false,generated
 c-3bdd2ef5,safe,vuln,1,c,,CWE-120,unbounded-copy,CWE-120;CWE-787;CWE-121;CWE-676,A03,high,tier1/c/3bdd2ef5/work.c,7,7,tier1/c/3bdd2ef5/main.c:4:4,inter-file,custom-effective,none,false,generated
 c-3c3edc3a,vulnerable,vuln,1,java,,CWE-502,objectinputstream,CWE-502,A08,high,tier1/java/3c3edc3a/Runner.java,11,11,tier1/java/3c3edc3a/Cli.java:4:4,inter-file,none,none,true,generated
 c-3cf594de,vulnerable,vuln,1,java,spring-mvc,CWE-639,user-controlled-key,CWE-639;CWE-862;CWE-285;CWE-284;CWE-566,A01,high,tier1/java/3cf594de/InvoiceController.java,18,18,tier1/java/3cf594de/InvoiceController.java:17:17,inter-file,none,none,false,generated
+c-3d75e894,safe,vuln,1,java,,CWE-78,,CWE-78;CWE-77;CWE-88,A03,high,tier1/java/3d75e894/Report.java,22,22,,inter-file,custom-effective,collection,false,hand-authored
 c-3dfcdbfd,vulnerable,vuln,1,go,,CWE-502,yaml-untrusted,CWE-502;CWE-915,A08,high,tier1/go/3dfcdbfd/load.go,15,15,tier1/go/3dfcdbfd/handler.go:3:3,inter-file,none,none,false,generated
 c-3eb3dd5f,vulnerable,vuln,1,python,flask,CWE-306,no-authentication,CWE-306;CWE-287;CWE-862,A07,high,tier1/python/3eb3dd5f/routes.py,15,15,tier1/python/3eb3dd5f/routes.py:10:10,framework-mediated,none,none,false,generated
 c-3f213266,safe,vuln,3,java,,CWE-79,unknown,CWE-79;CWE-80;CWE-83;CWE-116,,high,tier3/fixed-sources/apache__jspwiki_CVE-2019-10089_2.11.0.M4/jspwiki-main/src/main/java/org/apache/wiki/render/WysiwygEditingRenderer.java,159,180,,unknown,custom-effective,unknown,false,cve
@@ -91,6 +95,7 @@ c-4b90942d,vulnerable,vuln,1,go,,CWE-798,literal-in-source,CWE-798;CWE-259;CWE-3
 c-4c2633d6,vulnerable,vuln,1,go,net/http,CWE-78,shell-string,CWE-78;CWE-77;CWE-88;CWE-94,A03,high,tier1/go/4c2633d6/runner.go,9,9,tier1/go/4c2633d6/handler.go:3:3,inter-file,none,none,false,generated
 c-4c8c8a0c,safe,vuln,1,php,,CWE-22,unvalidated-concat,CWE-22;CWE-23;CWE-35;CWE-36,A01,high,tier1/php/4c8c8a0c/work.php,8,8,tier1/php/4c8c8a0c/handler.php:5:5,inter-file,custom-effective,none,false,generated
 c-4cf95309,safe,vuln,1,go,,CWE-502,yaml-untrusted,CWE-502;CWE-915,A08,high,tier1/go/4cf95309/load.go,11,11,tier1/go/4cf95309/handler.go:3:3,inter-file,custom-effective,none,false,generated
+c-4e458ad6,safe,vuln,1,java,,CWE-78,,CWE-78;CWE-77;CWE-88,A03,high,tier1/java/4e458ad6/Report.java,8,8,,inter-file,custom-effective,reflection,false,hand-authored
 c-501108c4,vulnerable,vuln,3,java,,CWE-78,unknown,CWE-78;CWE-77;CWE-88;CWE-94,,high,tier3/project-sources/jenkinsci__script-security-plugin_CVE-2023-24422_1228.vd93135a_2fb_25/src/main/java/org/jenkinsci/plugins/scriptsecurity/sandbox/groovy/SandboxInterceptor.java,170,181,,unknown,unknown,unknown,true,cve
 c-52cbd699,vulnerable,vuln,1,c,,CWE-121,stack-format-copy,CWE-121;CWE-120;CWE-787,A03,high,tier1/c/52cbd699/work.c,7,7,tier1/c/52cbd699/main.c:4:4,inter-file,none,none,false,generated
 c-52dbef2e,vulnerable,vuln,1,rust,,CWE-89,format-string,CWE-89;CWE-943;CWE-564,A03,high,tier1/rust/52dbef2e/work.rs,2,2,tier1/rust/52dbef2e/main.rs:3:3,inter-file,none,none,false,generated
@@ -117,10 +122,12 @@ c-5f69b855,vulnerable,vuln,3,java,,CWE-79,unknown,CWE-79;CWE-80;CWE-83;CWE-116,,
 c-61bb41fd,safe,vuln,1,c,,CWE-476,unchecked-allocation,CWE-476;CWE-690,A03,high,tier1/c/61bb41fd/work.c,7,7,tier1/c/61bb41fd/main.c:4:4,inter-file,custom-effective,none,false,generated
 c-61c5d622,safe,vuln,1,python,flask,CWE-770,unbounded-allocation,CWE-770;CWE-400;CWE-789,A04,high,tier1/python/61c5d622/intake.py,5,5,tier1/python/61c5d622/handler.py:4:4,inter-file,custom-effective,none,false,generated
 c-624ffa58,vulnerable,vuln,1,java,spring-security,CWE-863,wrong-role-checked,CWE-863;CWE-862;CWE-285;CWE-284,A01,high,tier1/java/624ffa58/BillingController.java,13,13,tier1/java/624ffa58/BillingController.java:13:13,framework-mediated,none,none,false,generated
+c-63b24836,vulnerable,vuln,1,java,,CWE-89,,CWE-89;CWE-943;CWE-564,A03,high,tier1/java/63b24836/Report.java,9,9,tier1/java/63b24836/Cli.java:3:3,inter-file,none,aliasing,false,hand-authored
 c-642ce512,vulnerable,vuln,1,c,,CWE-78,system-call,CWE-78;CWE-77;CWE-88;CWE-94,A03,high,tier1/c/642ce512/runner.c,8,8,tier1/c/642ce512/main.c:3:3,inter-file,none,none,false,generated
 c-64b0a280,safe,secret,1,python,,CWE-798,connection-string,CWE-798;CWE-259;CWE-321,A07,high,tier1/python/64b0a280/db.py,3,3,,intra-procedural,custom-effective,none,false,generated
 c-6519cd57,safe,vuln,1,swift,,CWE-918,unvalidated-url,CWE-918,A10,high,tier1/swift/6519cd57/Work.swift,8,8,tier1/swift/6519cd57/main.swift:4:4,inter-file,custom-effective,none,false,generated
 c-6522933e,vulnerable,vuln,1,php,,CWE-327,weak-hash,CWE-327;CWE-328;CWE-326,A02,high,tier1/php/6522933e/work.php,4,4,tier1/php/6522933e/handler.php:5:5,inter-file,none,none,false,generated
+c-6572f5e0,safe,vuln,1,java,,CWE-22,,CWE-22;CWE-23;CWE-36,A01,high,tier1/java/6572f5e0/Report.java,10,10,,inter-file,custom-effective,strong-update,false,hand-authored
 c-662bf3c7,vulnerable,vuln,1,python,flask,CWE-918,unvalidated-url,CWE-918,A10,high,tier1/python/662bf3c7/fetcher.py,5,5,tier1/python/662bf3c7/handler.py:4:4,inter-file,none,none,false,generated
 c-6713f28b,safe,vuln,1,csharp,,CWE-22,unvalidated-join,CWE-22;CWE-23;CWE-35;CWE-36,A01,high,tier1/csharp/6713f28b/Work.cs,16,16,tier1/csharp/6713f28b/Controller.cs:5:5,inter-file,custom-effective,none,false,generated
 c-671ad047,vulnerable,vuln,1,kotlin,,CWE-918,unvalidated-url,CWE-918,A10,high,tier1/kotlin/671ad047/Work.kt,6,6,tier1/kotlin/671ad047/Cli.kt:3:3,inter-file,none,none,false,generated
@@ -159,6 +166,7 @@ c-8797c174,safe,vuln,1,rust,,CWE-918,unvalidated-url,CWE-918,A10,high,tier1/rust
 c-89532d79,safe,vuln,1,kotlin,,CWE-78,shell-string,CWE-78;CWE-77;CWE-88;CWE-94,A03,high,tier1/kotlin/89532d79/Runner.kt,4,4,tier1/kotlin/89532d79/Cli.kt:3:3,inter-file,framework-implicit,none,false,generated
 c-8a641868,vulnerable,vuln,1,rust,,CWE-798,literal-in-source,CWE-798;CWE-259;CWE-321,A07,high,tier1/rust/8a641868/work.rs,1,1,tier1/rust/8a641868/main.rs:3:3,inter-file,none,none,false,generated
 c-8bbae14e,safe,vuln,1,rust,,CWE-798,literal-in-source,CWE-798;CWE-259;CWE-321,A07,high,tier1/rust/8bbae14e/work.rs,2,2,tier1/rust/8bbae14e/main.rs:3:3,inter-file,custom-effective,none,false,generated
+c-8c729dd5,safe,vuln,1,java,,CWE-89,,CWE-89;CWE-943;CWE-564,A03,high,tier1/java/8c729dd5/Report.java,3,3,,inter-file,custom-effective,aliasing,false,hand-authored
 c-8e1d8622,safe,vuln,3,java,,CWE-78,unknown,CWE-78;CWE-77;CWE-88;CWE-94,,high,tier3/fixed-sources/jenkinsci__script-security-plugin_CVE-2023-24422_1228.vd93135a_2fb_25/src/main/java/org/jenkinsci/plugins/scriptsecurity/sandbox/groovy/SandboxInterceptor.java,171,200,,unknown,custom-effective,unknown,false,cve
 c-8e2d4686,vulnerable,vuln,3,java,,CWE-94,unknown,CWE-94;CWE-95;CWE-96;CWE-78;CWE-470,,high,tier3/project-sources/asf__nifi_CVE-2023-36542_1.22.0/nifi-nar-bundles/nifi-jms-bundle/nifi-jms-processors/src/main/java/org/apache/nifi/jms/cf/JMSConnectionFactoryProvider.java,76,78,,unknown,unknown,unknown,true,cve
 c-8e6ee098,safe,secret,1,python,,CWE-798,pem-private-key,CWE-798;CWE-259;CWE-321,A07,critical,tier1/python/8e6ee098/transport.py,1,1,,intra-procedural,custom-effective,none,false,generated
@@ -175,6 +183,7 @@ c-97c0277b,safe,vuln,1,java,spring-mvc,CWE-639,user-controlled-key,CWE-639;CWE-8
 c-9ada35f0,vulnerable,vuln,1,python,flask,CWE-22,single-pass-filter,CWE-22;CWE-23;CWE-35;CWE-36,A01,high,tier1/python/9ada35f0/reader.py,8,8,tier1/python/9ada35f0/handler.py:4:4,inter-file,none,none,false,generated
 c-9c86fe98,safe,vuln,1,rust,,CWE-327,weak-hash,CWE-327;CWE-328;CWE-326,A02,high,tier1/rust/9c86fe98/work.rs,5,5,tier1/rust/9c86fe98/main.rs:3:3,inter-file,custom-effective,none,false,generated
 c-9cb98577,safe,vuln,1,php,,CWE-79,unescaped-output,CWE-79;CWE-80;CWE-116,A03,high,tier1/php/9cb98577/work.php,5,5,tier1/php/9cb98577/handler.php:5:5,inter-file,custom-effective,none,false,generated
+c-9e712554,vulnerable,vuln,1,java,,CWE-22,,CWE-22;CWE-23;CWE-36,A01,high,tier1/java/9e712554/Report.java,24,24,tier1/java/9e712554/Cli.java:3:3,inter-file,none,container-field,false,hand-authored
 c-9f0c76e1,safe,vuln,1,java,,CWE-89,dynamic-identifier,CWE-89;CWE-943;CWE-564,A03,high,tier1/java/9f0c76e1/src/main/java/audit/EventRepository.java,20,24,,inter-file,custom-effective,none,true,hand-authored
 c-9f6af198,safe,vuln,3,java,,CWE-22,unknown,CWE-22;CWE-23;CWE-35;CWE-36;CWE-73,,high,tier3/fixed-sources/wildfly__wildfly_CVE-2018-1047_11.0.0.Final/undertow/src/main/java/org/wildfly/extension/undertow/deployment/ServletResourceManager.java,73,107,,unknown,custom-effective,unknown,false,cve
 c-a2538165,safe,vuln,1,python,,CWE-327,weak-hash,CWE-327;CWE-328;CWE-326,A02,high,tier1/python/a2538165/tokens.py,5,5,,intra-procedural,custom-effective,none,false,generated
@@ -194,6 +203,7 @@ c-afc09b06,safe,vuln,1,python,flask,CWE-502,pickle-untrusted,CWE-502,A08,high,ti
 c-afdf9eb8,vulnerable,vuln,1,csharp,,CWE-327,weak-hash,CWE-327;CWE-328;CWE-326,A02,high,tier1/csharp/afdf9eb8/Work.cs,10,10,tier1/csharp/afdf9eb8/Controller.cs:5:5,inter-file,none,none,false,generated
 c-afe5d343,safe,vuln,1,python,flask,CWE-79,unescaped-output,CWE-79;CWE-80,A03,high,tier1/python/afe5d343/page.py,5,5,tier1/python/afe5d343/handler.py:4:4,inter-file,custom-effective,none,false,generated
 c-b01cd98f,vulnerable,vuln,1,go,,CWE-918,unvalidated-url,CWE-918,A10,high,tier1/go/b01cd98f/fetch.go,9,9,tier1/go/b01cd98f/handler.go:3:3,inter-file,none,none,false,generated
+c-b1873e10,vulnerable,vuln,1,java,,CWE-22,,CWE-22;CWE-23;CWE-36,A01,high,tier1/java/b1873e10/Report.java,9,9,tier1/java/b1873e10/Cli.java:3:3,inter-file,none,none,false,hand-authored
 c-b1ad1f38,vulnerable,vuln,1,php,,CWE-798,literal-in-source,CWE-798;CWE-259;CWE-321,A07,high,tier1/php/b1ad1f38/work.php,3,3,tier1/php/b1ad1f38/handler.php:5:5,inter-file,none,none,false,generated
 c-b26ddc35,vulnerable,vuln,1,typescript,nestjs,CWE-78,shell-string,CWE-78;CWE-77;CWE-88;CWE-94,A03,high,tier1/typescript/b26ddc35/runner.ts,5,5,tier1/typescript/b26ddc35/route.ts:3:3,inter-file,none,none,false,generated
 c-b3293869,vulnerable,vuln,1,c,,CWE-120,unbounded-copy,CWE-120;CWE-787;CWE-121;CWE-676,A03,high,tier1/c/b3293869/work.c,7,7,tier1/c/b3293869/main.c:4:4,inter-file,none,none,false,generated
@@ -234,6 +244,7 @@ c-ca66da4a,vulnerable,vuln,1,go,,CWE-327,weak-hash,CWE-327;CWE-328;CWE-326,A02,h
 c-cb1d6231,safe,vuln,1,python,flask,CWE-306,no-authentication,CWE-306;CWE-287;CWE-862,A07,high,tier1/python/cb1d6231/routes.py,16,16,tier1/python/cb1d6231/routes.py:10:10,framework-mediated,framework-implicit,none,false,generated
 c-cc41cd31,safe,vuln,1,php,laravel,CWE-78,shell-string,CWE-78;CWE-77;CWE-88;CWE-94,A03,high,tier1/php/cc41cd31/runner.php,5,5,tier1/php/cc41cd31/handler.php:5:5,inter-file,custom-effective,none,false,generated
 c-cce849ff,vulnerable,vuln,1,rust,,CWE-918,unvalidated-url,CWE-918,A10,high,tier1/rust/cce849ff/work.rs,5,5,tier1/rust/cce849ff/main.rs:3:3,inter-file,none,none,false,generated
+c-cd37d891,safe,vuln,1,java,,CWE-89,,CWE-89;CWE-943;CWE-564,A03,high,tier1/java/cd37d891/Report.java,11,11,,inter-file,custom-effective,callback,false,hand-authored
 c-cf5e73cf,vulnerable,secret,1,python,,CWE-798,cloud-key-pair,CWE-798;CWE-259;CWE-321,A07,critical,tier1/python/cf5e73cf/deploy.py,2,2,,intra-procedural,none,none,false,generated
 c-cff4aee4,vulnerable,vuln,3,java,,CWE-22,unknown,CWE-22;CWE-23;CWE-35;CWE-36;CWE-73,,high,tier3/project-sources/spring-cloud__spring-cloud-config_CVE-2020-5410_2.1.8.RELEASE/spring-cloud-config-server/src/main/java/org/springframework/cloud/config/server/resource/GenericResourceRepository.java,53,83,,unknown,unknown,unknown,true,cve
 c-d14043cb,vulnerable,vuln,1,c,,CWE-125,unchecked-index-read,CWE-125;CWE-126;CWE-127,A03,high,tier1/c/d14043cb/work.c,6,6,tier1/c/d14043cb/main.c:5:5,inter-file,none,none,false,generated
@@ -245,6 +256,7 @@ c-d4bc096b,vulnerable,vuln,1,php,laravel,CWE-78,shell-string,CWE-78;CWE-77;CWE-8
 c-d7c9e28d,safe,vuln,1,kotlin,,CWE-327,weak-hash,CWE-327;CWE-328;CWE-326,A02,high,tier1/kotlin/d7c9e28d/Work.kt,6,6,tier1/kotlin/d7c9e28d/Cli.kt:3:3,inter-file,custom-effective,none,false,generated
 c-d8a11d5e,safe,vuln,3,java,,CWE-79,unknown,CWE-79;CWE-80;CWE-83;CWE-116,,high,tier3/fixed-sources/nahsra__antisamy_CVE-2022-28367_1.6.5/src/main/java/org/owasp/validator/html/scan/AntiSamyDOMScanner.java,403,459,,unknown,custom-effective,unknown,false,cve
 c-da9eb511,safe,vuln,1,ruby,,CWE-327,weak-hash,CWE-327;CWE-328;CWE-326,A02,high,tier1/ruby/da9eb511/work.rb,4,4,tier1/ruby/da9eb511/handler.rb:3:3,inter-file,custom-effective,none,false,generated
+c-dae62426,vulnerable,vuln,1,java,,CWE-78,,CWE-78;CWE-77;CWE-88,A03,high,tier1/java/dae62426/Report.java,15,15,tier1/java/dae62426/Cli.java:3:3,inter-file,none,collection,false,hand-authored
 c-dc36bcbb,vulnerable,secret,1,python,,CWE-798,signing-key-literal,CWE-798;CWE-259;CWE-321,A07,high,tier1/python/dc36bcbb/session.py,1,1,,intra-procedural,none,none,false,generated
 c-dcdfc464,safe,vuln,1,cpp,,CWE-787,unchecked-index-write,CWE-787;CWE-120;CWE-121,A03,high,tier1/cpp/dcdfc464/work.cpp,9,9,tier1/cpp/dcdfc464/main.cpp:5:5,inter-file,custom-effective,none,false,generated
 c-dd3babb8,safe,vuln,1,swift,,CWE-327,weak-hash,CWE-327;CWE-328;CWE-326,A02,high,tier1/swift/dd3babb8/Work.swift,5,5,tier1/swift/dd3babb8/main.swift:4:4,inter-file,custom-effective,none,false,generated

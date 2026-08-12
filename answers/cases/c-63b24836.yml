@@ -1,0 +1,31 @@
+id: c-63b24836
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/63b24836/Report.java
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/java/63b24836/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: aliasing
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is added through one reference and read back through another that points at the same list. A tool that does not resolve the two names to one object sees a list that was never written to, and reports nothing
+  cve: null
+build:
+  required: false
+  recipe: null

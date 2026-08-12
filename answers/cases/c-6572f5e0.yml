@@ -1,0 +1,28 @@
+id: c-6572f5e0
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/6572f5e0/Report.java
+  start_line: 10
+  end_line: 10
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: strong-update
+evidence:
+  source: hand-authored
+  rationale: >-
+    the caller's value is assigned and then overwritten with a constant before the read, so nothing of it reaches the path. A tool that records the first assignment without modelling the overwrite reports a traversal that cannot happen. This half tests over-approximation rather than detection
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,28 @@
+id: c-236f8d7e
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/236f8d7e/Report.java
+  start_line: 30
+  end_line: 30
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: container-field
+evidence:
+  source: hand-authored
+  rationale: >-
+    the setter reduces the value to a bare filename, and the read confirms the resolved path stays under the base directory
+  cve: null
+build:
+  required: false
+  recipe: null
