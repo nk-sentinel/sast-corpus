@@ -31,6 +31,10 @@ COLUMNS = [
     "sanitizer",
     "obfuscation",
     "build_required",
+    # Whether a case came from the generator, a person, or a CVE. Carried into
+    # the key so a scorecard can split results by provenance: the
+    # synthetic-versus-real gap is the largest caveat on any tier-1 number.
+    "source",
 ]
 
 
@@ -73,6 +77,10 @@ def compile_answer_key(repo_root, schema_path, out_path):
     if errors:
         return errors
 
+    # Retired cases leave the answer key and keep their file. Deleting the YAML
+    # would make an older scorecard unexplainable: the row would be gone with
+    # nothing recording why.
+    cases = [case for case in cases if "retired" not in case]
     cases.sort(key=lambda case: case["id"])
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -83,6 +91,25 @@ def compile_answer_key(repo_root, schema_path, out_path):
             writer.writerow(to_csv_row(case))
 
     return []
+
+
+def compile_rows(repo_root, schema_path=None):
+    """The rows an answer key would contain, raising rather than returning errors.
+
+    Same pipeline as `compile_answers`, without writing anything — for callers
+    that want the data rather than the file.
+    """
+    repo_root = Path(repo_root)
+    schema_path = schema_path or Path(__file__).resolve().parent / "case.schema.json"
+    out = repo_root / ".compile-rows.csv"
+    errors = compile_answer_key(repo_root, schema_path, out)
+    if errors:
+        raise ValueError("; ".join(errors[:5]))
+    try:
+        with out.open() as handle:
+            return list(csv.DictReader(handle))
+    finally:
+        out.unlink(missing_ok=True)
 
 
 def main(argv=None):
@@ -260,6 +287,7 @@ def to_csv_row(case):
         "flow": difficulty["flow"],
         "sanitizer": difficulty["sanitizer"],
         "obfuscation": difficulty["obfuscation"],
+        "source": (case.get("evidence") or {}).get("source"),
         "build_required": "true" if case["build"]["required"] else "false",
     }
 

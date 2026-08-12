@@ -1,11 +1,13 @@
 import shutil
 import sys
+import csv
 import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from schema.compile_answers import COLUMNS, compile_rows
 from schema.compile_answers import (
     duplicate_id_errors,
     file_errors,
@@ -302,3 +304,91 @@ class VariantColumn(unittest.TestCase):
 
         self.assertEqual(a["primary_cwe"], b["primary_cwe"])
         self.assertNotEqual(a["variant"], b["variant"])
+
+
+class RetiredCasesLeaveTheAnswerKey(unittest.TestCase):
+    """A retired case stops being scored but is not deleted. Deleting the YAML
+    would make a scorecard produced against an earlier corpus version
+    unexplainable — the row would be gone with nothing saying why."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        (self.root / "answers" / "cases").mkdir(parents=True)
+        self.addCleanup(self.tmp.cleanup)
+
+    def case(self, name, extra=""):
+        source = self.root / "tier1" / "java" / "x"
+        source.mkdir(parents=True, exist_ok=True)
+        (source / "A.java").write_text("class A {}\n" * 5)
+        (self.root / "answers" / "cases" / f"{name}.yml").write_text(
+            "id: {}\n"
+            "label: vulnerable\n"
+            "plane: vuln\n"
+            "tier: 1\n"
+            "language: java\n"
+            "primary_cwe: CWE-89\n"
+            "acceptable_cwes: [CWE-89]\n"
+            "owasp_2021: A03\n"
+            "severity: high\n"
+            "location:\n"
+            "  file: tier1/java/x/A.java\n"
+            "  start_line: 1\n"
+            "  end_line: 2\n"
+            "difficulty:\n"
+            "  flow: inter-file\n"
+            "  sanitizer: none\n"
+            "  obfuscation: none\n"
+            "evidence:\n"
+            "  source: generated\n"
+            "  rationale: a rationale long enough to satisfy the schema minimum length\n"
+            "  cve: null\n"
+            "build:\n"
+            "  required: false\n"
+            "  recipe: null\n"
+            "{}".format(name, extra))
+
+    def test_a_live_case_is_in_the_key(self):
+        self.case("c-11111111")
+
+        rows = compile_rows(self.root)
+
+        self.assertEqual([r["id"] for r in rows], ["c-11111111"])
+
+    def test_a_retired_case_is_not(self):
+        self.case("c-11111111")
+        self.case("c-22222222", extra="retired: upstream CVE was withdrawn\n")
+
+        rows = compile_rows(self.root)
+
+        self.assertEqual([r["id"] for r in rows], ["c-11111111"])
+
+    def test_retiring_without_a_reason_fails_the_compile(self):
+        self.case("c-33333333", extra="retired: true\n")
+
+        with self.assertRaises(ValueError):
+            compile_rows(self.root)
+
+
+class ProvenanceReachesTheAnswerKey(unittest.TestCase):
+    """`evidence.source` says whether a case came out of the generator, was
+    hand-authored, or was derived from a CVE. Without it in the key, a scorer
+    cannot split results by provenance — and the synthetic-versus-real gap is
+    the single largest caveat on any tier-1 number."""
+
+    def test_source_is_a_column(self):
+        self.assertIn("source", COLUMNS)
+
+    def test_it_carries_the_declared_value(self):
+        root = Path(__file__).resolve().parents[2]
+        with (root / "answers" / "expectedresults-1.0.csv").open() as handle:
+            rows = list(csv.DictReader(handle))
+
+        self.assertTrue(any(row.get("source") == "generated" for row in rows))
+
+    def test_cve_derived_cases_are_distinguishable(self):
+        root = Path(__file__).resolve().parents[2]
+        with (root / "answers" / "expectedresults-1.0.csv").open() as handle:
+            rows = list(csv.DictReader(handle))
+
+        self.assertTrue(any(row.get("source") == "cve" for row in rows))

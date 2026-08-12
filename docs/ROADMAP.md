@@ -57,7 +57,7 @@ Deliverable is a written go/no-go per dataset, not fixtures. If both fail on
 granularity, fall back to deriving directly from GitHub Advisory fix commits for
 a smaller, hand-picked set.
 
-### 1. Applicability matrix + retirement mechanics
+### 1. Applicability matrix + retirement mechanics ✅ **done**
 
 Two pieces of bookkeeping that make every later number honest.
 
@@ -65,6 +65,13 @@ Two pieces of bookkeeping that make every later number honest.
 but XXE in C and use-after-free in Java are not cells anyone should fill. An
 explicit `applicable(language, cwe)` map turns 25% density into a figure that
 means something, and stops the coverage doc implying gaps that are not gaps.
+
+Built: `spine/report/applicability.json` (validated against the answer key in
+CI), `spine/report/lifecycle.py`, a `retired` field in the case schema, and a
+`source` column in the answer key. Density is now reported both ways — 27% of
+all cells, 35% of the cells where the weakness can arise. The monoculture ratio
+came out at **18% hand-authored**, which is the number the cap has to work
+against.
 
 **Retirement.** Growth without a lifecycle story ends in a corpus nobody prunes:
 

@@ -27,7 +27,7 @@ from pathlib import Path
 # as a script run from the repository root, where sys.path[0] is spine/report.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from report import applicability
+from report import applicability, lifecycle
 
 # Languages the schema admits. A language absent from the corpus is still listed,
 # because "we cannot evaluate Swift" is the useful fact.
@@ -389,6 +389,20 @@ def render(rows, languages=None, cwes=None):
             "Neither figure should be read as an ambition to reach 100%. They bound how "
             "far a per-language result generalises: a row resting on few cells is a "
             "sample, not a verdict.",
+            ""]
+
+    authored = lifecycle.authored_ratio(rows)
+    counts = Counter((r.get("source") or "unrecorded") for r in rows)
+    out += ["## Where the cases came from", "",
+            "Template-generated cases share a shape a tool can **overfit** to, so the "
+            "hand-authored share is tracked rather than left to drift.",
+            "",
+            "| provenance | cases |", "|---|---|"]
+    out += ["| `{}` | {} |".format(name, count) for name, count in counts.most_common()]
+    out += ["",
+            "**{:.0%} of cases are hand-authored or CVE-derived** — everything not "
+            "produced by the generator. A corpus dominated by one generator measures "
+            "how well a tool handles that generator.".format(authored),
             ""]
 
     out += ["## Variants per weakness", "",

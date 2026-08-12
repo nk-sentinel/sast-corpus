@@ -12,7 +12,8 @@
         "java"
       ],
       "notes": "Declared but unused: no case in the answer key derives from it \u2014 cwe-bench-java covered the same ground first. Kept as a pinned candidate for a later phase rather than silently dropped. Not carried by the export bundle, and its absence does not fail an offline check.",
-      "optional": true
+      "optional": true,
+      "pinned_on": "2026-08-12"
     },
     {
       "name": "cwe-bench-java",
@@ -22,7 +23,8 @@
       "languages": [
         "java"
       ],
-      "notes": "120 manually vetted CVEs over path traversal, command injection, XSS and code injection. Ships machine-readable metadata, so ground truth can be derived rather than hand-transcribed."
+      "notes": "120 manually vetted CVEs over path traversal, command injection, XSS and code injection. Ships machine-readable metadata, so ground truth can be derived rather than hand-transcribed.",
+      "pinned_on": "2026-08-12"
     }
   ]
 }

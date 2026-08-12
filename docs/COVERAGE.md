@@ -116,6 +116,18 @@ That figure counts cells nobody should fill. Use-after-free in Java and XXE in C
 
 Neither figure should be read as an ambition to reach 100%. They bound how far a per-language result generalises: a row resting on few cells is a sample, not a verdict.
 
+## Where the cases came from
+
+Template-generated cases share a shape a tool can **overfit** to, so the hand-authored share is tracked rather than left to drift.
+
+| provenance | cases |
+|---|---|
+| `generated` | 250 |
+| `cve` | 49 |
+| `hand-authored` | 6 |
+
+**18% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
+
 ## Variants per weakness
 
 A cell in the matrix above holding one case proves only that the weakness class is represented. These are the distinct mechanisms each weakness is actually tested through, and the context traps that ask whether a tool can tell code from prose.

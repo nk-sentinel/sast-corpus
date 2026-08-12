@@ -286,6 +286,11 @@
       "pattern": "^[a-z0-9-]+$",
       "default": null,
       "description": "The specific mechanism this case exercises within its CWE. One case per CWE only proves a tool knows the class exists; variants are where tools separate. For CWE-89: concat-statement, prepared-but-concatenated, dynamic-identifier, format-string, orm-raw-fragment, second-order. Also names context traps, where the same token in a different place is not a finding: in-markdown, in-comment, in-test-data, in-vendored, in-example-config."
+    },
+    "retired": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Why this case stopped being scored. Present means retired: the case leaves the answer key but the file stays, so a scorecard produced against an earlier corpus version remains explainable. A string, never a boolean \u2014 `retired: true` records that someone stopped trusting the case and not why, and the why is the part a later reader needs."
     }
   },
   "$defs": {

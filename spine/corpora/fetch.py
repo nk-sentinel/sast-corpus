@@ -18,6 +18,7 @@ in either scorecard would say so.
 """
 
 import argparse
+import datetime
 import json
 import os
 import re
@@ -25,6 +26,10 @@ import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from report.lifecycle import pin_age_warnings
 
 FULL_SHA = re.compile(r"^[0-9a-f]{40}$")
 REQUIRED = ("name", "repo", "sha", "license")
@@ -44,10 +49,14 @@ class Source:
     # an offline check fail every time it runs — a check that always fails is one
     # people learn to ignore.
     optional: bool = False
+    # When this pin was last reviewed — not when the commit was made. A full SHA
+    # never moves, which is the point, and also means nothing tells you when
+    # someone last looked at it.
+    pinned_on: str = None
 
 
 FIELDS = ("name", "repo", "sha", "license", "languages", "notes",
-          "approx_loc", "bucket", "optional")
+          "approx_loc", "bucket", "optional", "pinned_on")
 
 
 def load_manifest_data(data):
@@ -239,6 +248,16 @@ def main(argv=None):
             print("    checkout is not at the pinned revision; remove it and refetch",
                   file=sys.stderr)
             failures += 1
+
+    if args.check:
+        # Surfaced here because --check is where someone goes to ask about the
+        # corpora. A staleness report living somewhere nobody runs is not a check.
+        warning = pin_age_warnings(
+            [{"name": s.name, "pinned_on": s.pinned_on} for s in sources],
+            today=datetime.date.today().isoformat())
+        if warning:
+            print()
+            print(warning, end="")
 
     if failures:
         print("\n{} source(s) unavailable".format(failures), file=sys.stderr)

@@ -14,7 +14,8 @@
       "bucket": "15k",
       "approx_loc": 15716,
       "notes": "Smallest bucket: establishes fixed overhead \u2014 process start, rule compilation \u2014 that a large-repo number hides.",
-      "loc_measured_by": "codeprint totals.code at the pinned revision"
+      "loc_measured_by": "codeprint totals.code at the pinned revision",
+      "pinned_on": "2026-08-12"
     },
     {
       "name": "commons-lang",
@@ -27,7 +28,8 @@
       "bucket": "130k",
       "approx_loc": 129508,
       "notes": "Lower edge of the pull-request gate service level.",
-      "loc_measured_by": "codeprint totals.code at the pinned revision"
+      "loc_measured_by": "codeprint totals.code at the pinned revision",
+      "pinned_on": "2026-08-12"
     },
     {
       "name": "spring-boot",
@@ -40,7 +42,8 @@
       "bucket": "640k",
       "approx_loc": 642008,
       "notes": "Upper edge of the pull-request gate, and a realistic Spring dependency graph.",
-      "loc_measured_by": "codeprint totals.code at the pinned revision"
+      "loc_measured_by": "codeprint totals.code at the pinned revision",
+      "pinned_on": "2026-08-12"
     },
     {
       "name": "hadoop",
@@ -53,7 +56,8 @@
       "bucket": "4.6M",
       "approx_loc": 4655050,
       "notes": "Past the large-repository threshold; the case where chunked or parallel scanning has to earn its place.",
-      "loc_measured_by": "codeprint totals.code at the pinned revision"
+      "loc_measured_by": "codeprint totals.code at the pinned revision",
+      "pinned_on": "2026-08-12"
     }
   ]
 }

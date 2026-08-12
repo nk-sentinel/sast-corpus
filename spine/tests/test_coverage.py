@@ -277,6 +277,22 @@ class DensityAgainstApplicableCells(unittest.TestCase):
                            density(rows))
 
 
+class MonocultureIsReported(unittest.TestCase):
+    """Template-generated cases share a shape a tool can overfit to. The
+    roadmap's cap only means something if the ratio is on the page."""
+
+    def rendered(self):
+        root = Path(__file__).resolve().parents[2]
+        with (root / "answers" / "expectedresults-1.0.csv").open() as handle:
+            return render(list(csv.DictReader(handle)))
+
+    def test_the_hand_authored_share_is_stated(self):
+        self.assertIn("hand-authored", self.rendered().lower())
+
+    def test_the_generator_is_named_as_the_risk(self):
+        self.assertIn("overfit", self.rendered().lower())
+
+
 class EveryWeaknessIsNamed(unittest.TestCase):
     """A CWE with no entry in CWE_NAMES renders as `- CWE-476 — ` — an empty
     bullet that reads as an oversight in a document vendors will be shown. The

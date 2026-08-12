@@ -7,6 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from report.lifecycle import pin_age_warnings
 from corpora.fetch import (Source, build_parser, checkout_state,
                            load_manifest, manifest_errors, offline_outcome,
                            offline_requested, load_manifest_data, target_path)
@@ -115,6 +116,56 @@ def load_manifest_source(**overrides):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PinReviewDates(unittest.TestCase):
+    """A pin is a full SHA and never moves, which is the point — and also means
+    nothing tells you when one was last looked at. The date makes the clock
+    visible; it does not make the pin change."""
+
+    def test_the_manifest_can_record_when_a_pin_was_reviewed(self):
+        sources = load_manifest_data({"sources": [
+            {"name": "hadoop", "repo": "https://x/y", "sha": "a" * 40,
+             "license": "Apache-2.0", "pinned_on": "2026-08-12"}]})
+
+        self.assertEqual(sources[0].pinned_on, "2026-08-12")
+
+    def test_a_source_without_a_date_keeps_none(self):
+        sources = load_manifest_data({"sources": [
+            {"name": "x", "repo": "https://x/y", "sha": "b" * 40, "license": "MIT"}]})
+
+        self.assertIsNone(sources[0].pinned_on)
+
+    def test_every_shipped_manifest_records_dates(self):
+        # An undated pin reports as stale, which is the safe direction but noisy.
+        root = Path(__file__).resolve().parents[2]
+        undated = []
+        for corpus in ("tier2", "tier3", "perf"):
+            manifest = root / corpus / "sources.json"
+            if not manifest.is_file():
+                continue
+            for source in load_manifest(manifest):
+                if not source.pinned_on:
+                    undated.append(f"{corpus}/{source.name}")
+
+        self.assertEqual(undated, [])
+
+
+class StalenessIsSurfacedWhereItIsLookedAt(unittest.TestCase):
+    """--check is where someone goes to ask about the corpora, so it is where
+    the age of a pin belongs. A staleness report nobody runs is not a check."""
+
+    def test_check_reports_a_stale_pin(self):
+        sources = [{"name": "hadoop", "pinned_on": "2020-01-01"}]
+
+        text = pin_age_warnings(sources, today="2026-08-12", months=12)
+
+        self.assertIn("hadoop", text)
+
+    def test_recent_pins_add_no_noise(self):
+        sources = [{"name": "hadoop", "pinned_on": "2026-08-01"}]
+
+        self.assertEqual(pin_age_warnings(sources, today="2026-08-12", months=12), "")
 
 
 class OfflineOperation(unittest.TestCase):
