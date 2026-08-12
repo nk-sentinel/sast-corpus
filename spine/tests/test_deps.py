@@ -9,7 +9,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from export.deps import (Coordinate, build_parser, build_plan, collect, dedupe,
-                         Project, classify, describe_failure, render_report,
+                         Project, build_environment, classify, describe_failure,
+                         parse_gradle_projects, render_report,
                          parse_gradle_tree, parse_maven_list,
                          parse_maven_plugins, render_text)
 
@@ -214,6 +215,63 @@ class EveryProjectIsAccountedFor(unittest.TestCase):
         finished = sum(1 for line in output.splitlines()
                        if line.strip().startswith(("x:", "y:")))
         self.assertEqual(started, finished)
+
+
+class ToolchainIsActuallyApplied(unittest.TestCase):
+    """The per-project JDK has to reach the subprocess.
+
+    It was computed and then never passed, so every resolution ran under
+    whatever java was on PATH — nothing, here — rather than the JDK the project
+    declares. Resolution that ignores the toolchain is not resolving what the
+    build resolves."""
+
+    def test_java_home_is_set(self):
+        env = build_environment("/opt/jdk-17", {"PATH": "/usr/bin"})
+
+        self.assertEqual(env["JAVA_HOME"], "/opt/jdk-17")
+
+    def test_the_jdk_bin_comes_first_on_the_path(self):
+        env = build_environment("/opt/jdk-17", {"PATH": "/usr/bin"})
+
+        self.assertTrue(env["PATH"].startswith("/opt/jdk-17/bin:"))
+
+    def test_the_rest_of_the_environment_survives(self):
+        # Gradle and Maven need HOME to find their caches; a minimal env breaks
+        # them in ways that look like resolution failures.
+        env = build_environment("/opt/jdk-17", {"PATH": "/usr/bin", "HOME": "/home/x"})
+
+        self.assertEqual(env["HOME"], "/home/x")
+
+
+class GradleSubprojects(unittest.TestCase):
+    """`gradlew dependencies` reports the ROOT project only. In a multi-project
+    build the root usually declares nothing, so the command succeeds and returns
+    'No dependencies' — which is not a failure and not an answer. Tapestry and
+    Spring Framework both did exactly this."""
+
+    def test_reads_subproject_paths(self):
+        out = ("Root project 'spring'\n"
+               "+--- Project ':spring-core'\n"
+               "\\--- Project ':spring-web'\n")
+
+        self.assertEqual(parse_gradle_projects(out), [":spring-core", ":spring-web"])
+
+    def test_reads_nested_subprojects(self):
+        out = ("+--- Project ':a'\n"
+               "|    \\--- Project ':a:b'\n")
+
+        self.assertIn(":a:b", parse_gradle_projects(out))
+
+    def test_the_root_itself_is_not_a_subproject(self):
+        self.assertEqual(parse_gradle_projects("Root project 'x'\n"), [])
+
+    def test_ignores_chatter(self):
+        out = ("Root project 'x'\n"
+               "+--- Project ':a'\n"
+               "\n"
+               "To see a list of the tasks, run gradlew tasks\n")
+
+        self.assertEqual(parse_gradle_projects(out), [":a"])
 
 
 class PartialIsNotEmpty(unittest.TestCase):

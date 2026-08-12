@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -255,10 +256,39 @@ def build_plan(info, present_files):
 BUILD_FILES = ("pom.xml", "gradlew", "build.gradle", "build.xml")
 
 
-def _run(command, cwd, timeout=900):
+def build_environment(java_home, base=None):
+    """Environment for a resolution subprocess.
+
+    The declared JDK has to actually reach the build. Computing it and not
+    passing it means every project resolves under whatever java is on PATH,
+    which is not what the build uses and may be nothing at all. The ambient
+    environment is preserved rather than replaced — Gradle and Maven need HOME
+    to find their caches, and a minimal environment breaks them in ways that
+    look exactly like resolution failures.
+    """
+    environment = dict(os.environ if base is None else base)
+    environment["JAVA_HOME"] = str(java_home)
+    environment["PATH"] = f"{java_home}/bin:" + environment.get("PATH", "")
+    return environment
+
+
+GRADLE_PROJECT = re.compile(r"Project '(:[^']+)'")
+
+
+def parse_gradle_projects(text):
+    """Subproject paths from `gradlew projects`.
+
+    `gradlew dependencies` reports the root project alone, and in a multi-project
+    build the root usually declares nothing — so the command succeeds, prints
+    'No dependencies', and answers nothing. Each subproject has to be asked.
+    """
+    return [match.group(1) for match in GRADLE_PROJECT.finditer(text)]
+
+
+def _run(command, cwd, timeout=900, env=None):
     try:
         return subprocess.run(command, cwd=cwd, capture_output=True,
-                              text=True, timeout=timeout)
+                              text=True, timeout=timeout, env=env)
     except (subprocess.TimeoutExpired, OSError) as exc:
         return subprocess.CompletedProcess(command, 1, "", str(exc))
 
@@ -293,6 +323,7 @@ def collect(root, only=None, offline=True, progress=True, exclude=()):
 
         jdk = info.get("jdk")
         java_home = env / ("jdk-17" if jdk == "17" else "jdk1.8.0_202")
+        environment = build_environment(java_home)
         present = {name for name in BUILD_FILES if (source / name).exists()}
         tool, version = build_plan(info, present)
 
@@ -303,8 +334,10 @@ def collect(root, only=None, offline=True, progress=True, exclude=()):
                 project.error = f"maven {version} not provisioned"
             else:
                 flags = ["-o"] if offline else []
-                listing = _run([str(mvn), *flags, "-B", "dependency:list"], source)
-                plugins = _run([str(mvn), *flags, "-B", "dependency:resolve-plugins"], source)
+                listing = _run([str(mvn), *flags, "-B", "dependency:list"], source,
+                               env=environment)
+                plugins = _run([str(mvn), *flags, "-B", "dependency:resolve-plugins"],
+                               source, env=environment)
                 project.coordinates = (parse_maven_list(listing.stdout)
                                        + parse_maven_plugins(plugins.stdout))
                 project.error = describe_failure({
@@ -315,10 +348,24 @@ def collect(root, only=None, offline=True, progress=True, exclude=()):
             project = Project(name, "gradlew", jdk, str(info.get("gradle") or "wrapper"))
             wrapper = source / "gradlew"
             flags = ["--offline"] if offline else []
-            listing = _run([str(wrapper), *flags, "-q", "dependencies"], source)
+            listing = _run([str(wrapper), *flags, "-q", "dependencies"], source,
+                           env=environment)
             project.coordinates = parse_gradle_tree(listing.stdout)
+
+            # The root project answers for itself only. Where it declares
+            # nothing — the normal case for a multi-project build — every
+            # subproject has to be asked separately.
+            if not project.coordinates:
+                listed = _run([str(wrapper), *flags, "-q", "projects"], source,
+                              env=environment)
+                for path in parse_gradle_projects(listed.stdout):
+                    sub = _run([str(wrapper), *flags, "-q", f"{path}:dependencies"],
+                               source, env=environment, timeout=300)
+                    project.coordinates.extend(parse_gradle_tree(sub.stdout))
+
             project.error = describe_failure({
-                "dependencies": (listing.returncode == 0, _reason(listing)),
+                "dependencies": (listing.returncode == 0 and bool(project.coordinates),
+                                 _reason(listing) or "no coordinates in any subproject"),
             })
         else:
             project = Project(name, "unknown")
