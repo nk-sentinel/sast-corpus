@@ -50,6 +50,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 # PatchEval's, so a shallow fetch reaches its parent directly.
 FETCH_DEPTH = 2
 
+# A fetch of a specific SHA hangs rather than refusing when the server will not
+# serve it, and there is no fallback here to try instead — so this only decides
+# how long the run waits before moving on. At the default it was half an hour a
+# repository.
+FETCH_TIMEOUT = 120
+
 from corpora.repos import (ALWAYS_SKIP, MAX_REPO_MB, is_permitted_repo,
                            repository_metadata, within_size_cap)
 
@@ -154,7 +160,8 @@ def checkout_parent(repo, fix_commit, destination):
         return "clone-failed"
     _run(["git", "-C", str(destination), "remote", "add", "origin", repo])
     if _run(["git", "-C", str(destination), "fetch", "-q",
-             "--depth", str(FETCH_DEPTH), "origin", fix_commit]).returncode != 0:
+             "--depth", str(FETCH_DEPTH), "origin", fix_commit],
+            timeout=FETCH_TIMEOUT).returncode != 0:
         return "fetch-failed"
     parent = _run(["git", "-C", str(destination), "rev-parse",
                    "FETCH_HEAD^"]).stdout.strip()

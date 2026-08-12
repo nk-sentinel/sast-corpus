@@ -1,0 +1,31 @@
+id: c-35dda52b
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-284
+variant: unknown
+acceptable_cwes: [CWE-284]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/ikus060__rdiffweb@d1aaa96/rdiffweb/core/model/__init__.py
+  start_line: 70
+  end_line: 139
+alt_locations:
+  - file: tier3/patcheval/ikus060__rdiffweb@d1aaa96/rdiffweb/core/model/_user.py
+    start_line: 153
+    end_line: 185
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-4724 in ikus060/rdiffweb, at the buggy commit d1aaa96. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2022-4724
+build:
+  required: false
+  recipe: null

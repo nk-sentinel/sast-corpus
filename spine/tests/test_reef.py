@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from corpora.reef import (ALWAYS_SKIP, FETCH_DEPTH, MAX_REPO_MB,
+from corpora.reef import (ALWAYS_SKIP, FETCH_DEPTH, FETCH_TIMEOUT, MAX_REPO_MB,
                           is_permitted_repo, is_unambiguous, parse_pre_fix_span,
                           path_from_raw_url, within_size_cap)
 
@@ -161,3 +161,14 @@ class SharedGuardCoversBothDerivations(unittest.TestCase):
         from corpora.repos import worth_fetching
 
         self.assertTrue(worth_fetching("https://github.com/gogs/gogs", ask_api=False))
+
+
+class FetchFailsFast(unittest.TestCase):
+    """Fetching a specific SHA works only when the server will serve it, and
+    where it will not the negotiation hangs rather than refusing. With the
+    default timeout each such repository cost half an hour. REEF has no fallback
+    path — a fetch that cannot serve the commit has nothing else to try — so the
+    timeout only decides how long the run waits before moving on."""
+
+    def test_the_fetch_gives_up_within_a_few_minutes(self):
+        self.assertLessEqual(FETCH_TIMEOUT, 180)

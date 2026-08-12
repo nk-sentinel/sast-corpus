@@ -1,0 +1,28 @@
+id: c-a5cdb2d3
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-862
+variant: unknown
+acceptable_cwes: [CWE-862, CWE-285, CWE-863]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/go-vela__server@5a3ffe3/source/github/authentication.go
+  start_line: 105
+  end_line: 122
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-21432 in go-vela/server, at the buggy commit 5a3ffe3. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2021-21432
+build:
+  required: false
+  recipe: null

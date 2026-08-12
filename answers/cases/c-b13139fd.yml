@@ -1,0 +1,31 @@
+id: c-b13139fd
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-200
+variant: unknown
+acceptable_cwes: [CWE-200]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/zopefoundation__Products.GenericSetup@835c1ac/src/Products/GenericSetup/context.py
+  start_line: 482
+  end_line: 501
+alt_locations:
+  - file: tier3/patcheval/zopefoundation__Products.GenericSetup@835c1ac/src/Products/GenericSetup/context.py
+    start_line: 547
+    end_line: 565
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-21360 in zopefoundation/Products.GenericSetup, at the buggy commit 835c1ac. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2021-21360
+build:
+  required: false
+  recipe: null
