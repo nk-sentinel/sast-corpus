@@ -34,6 +34,10 @@ import sys
 import urllib.parse
 from pathlib import Path
 
+# Importable both as `corpora.<name>` (tests put spine/ on the path) and as a
+# script run from the repository root, where sys.path[0] is spine/corpora.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 # A repository larger than this is not a scan target anyone wants in a corpus,
 # and obtaining it costs more than the case is worth. torvalds/linux is in this
 # dataset and accounts for a large share of its C entries.

@@ -35,6 +35,10 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Importable both as `corpora.<name>` (tests put spine/ on the path) and as a
+# script run from the repository root, where sys.path[0] is spine/corpora.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from corpora.repos import worth_fetching
 
 LANGUAGES = {"Go": "go", "JavaScript": "javascript", "Python": "python"}
