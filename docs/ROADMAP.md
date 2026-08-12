@@ -165,7 +165,7 @@ Mechanical and low-risk, so it goes last. Seven thinnest languages, roughly four
 weaknesses each, chosen against the applicability matrix from item 1 so the new
 cells are ones that should exist.
 
-### 5. Tier-3 at scale — ~230 (revised up from 100)
+### 5. Tier-3 at scale — ~230 (revised up from 100) ⏳ **deriving**
 
 Gated on item 0, now complete — see [TIER3-DATASETS.md](TIER3-DATASETS.md) for
 the measurements and the three derivation rules that cases turn on.

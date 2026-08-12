@@ -35,9 +35,18 @@ import urllib.parse
 from pathlib import Path
 
 # A repository larger than this is not a scan target anyone wants in a corpus,
-# and cloning it costs more than the case is worth. torvalds/linux is in this
+# and obtaining it costs more than the case is worth. torvalds/linux is in this
 # dataset and accounts for a large share of its C entries.
 MAX_REPO_MB = 400
+
+# Two commits deep: the fix, and the parent that is the state being scanned.
+#
+# The first version used a blobless clone and then checked the tree out, which
+# is the slowest possible way to obtain a large repository — the checkout
+# fetches every blob in the tree in batches, and it spent minutes on one repo
+# before this was noticed. The fix commit SHA from REEF is complete, unlike
+# PatchEval's, so a shallow fetch reaches its parent directly.
+FETCH_DEPTH = 2
 
 HUNK_HEADER = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+\d+(?:,\d+)? @@")
 
@@ -92,6 +101,37 @@ def path_from_raw_url(url, commit):
     return urllib.parse.unquote(url.split(marker, 1)[1])
 
 
+def within_size_cap(metadata):
+    """Is this repository small enough to be worth obtaining?
+
+    An unknown size is allowed rather than guessed: no answer from the API is
+    not evidence that a repository is huge, and refusing on silence would drop
+    cases for a reason unrelated to them.
+    """
+    if not metadata:
+        return True
+    size_kb = metadata.get("size")
+    if not isinstance(size_kb, int):
+        return True
+    return size_kb <= MAX_REPO_MB * 1024
+
+
+def repository_metadata(repo, timeout=15):
+    """Size and default branch from the GitHub API, or None if unavailable."""
+    import urllib.error
+    import urllib.request
+
+    parts = repo.rstrip("/").split("/")
+    if len(parts) < 2:
+        return None
+    api = "https://api.github.com/repos/{}/{}".format(parts[-2], parts[-1])
+    try:
+        with urllib.request.urlopen(api, timeout=timeout) as response:
+            return json.loads(response.read().decode("utf-8", "replace"))
+    except (urllib.error.URLError, OSError, ValueError):
+        return None
+
+
 def primary_cwe(entry):
     for cwe in entry.get("CWEs") or []:
         if cwe in REACHABLE:
@@ -118,16 +158,25 @@ def slug_for(repo_url):
 
 
 def checkout_parent(repo, fix_commit, destination):
-    """Check out the commit *before* the fix — the state being scanned."""
+    """Check out the commit *before* the fix — the state being scanned.
+
+    Shallow rather than blobless. The fix SHA is complete, so fetching two
+    commits deep reaches its parent and brings that tree in one operation,
+    instead of a blobless clone whose checkout then fetches every blob in
+    batches.
+    """
     destination = Path(destination)
     if (destination / ".git").is_dir():
         return "present"
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    if _run(["git", "clone", "-q", "--filter=blob:none", "--no-checkout",
-             repo, str(destination)]).returncode != 0:
+    destination.mkdir(parents=True, exist_ok=True)
+    if _run(["git", "init", "-q", str(destination)]).returncode != 0:
         return "clone-failed"
+    _run(["git", "-C", str(destination), "remote", "add", "origin", repo])
+    if _run(["git", "-C", str(destination), "fetch", "-q",
+             "--depth", str(FETCH_DEPTH), "origin", fix_commit]).returncode != 0:
+        return "fetch-failed"
     parent = _run(["git", "-C", str(destination), "rev-parse",
-                   "{}^".format(fix_commit)]).stdout.strip()
+                   "FETCH_HEAD^"]).stdout.strip()
     if not parent:
         return "parent-missing"
     if _run(["git", "-C", str(destination), "checkout", "-q", parent]).returncode != 0:
@@ -222,6 +271,11 @@ def derive(chosen, checkouts_root, progress=True):
         destination = checkouts_root / slug
         if progress:
             print("  {} {}".format(item["cve"], slug), file=sys.stderr, flush=True)
+        if not within_size_cap(repository_metadata(item["repo"])):
+            skipped.append((item["cve"], "repository above the {} MB cap"
+                            .format(MAX_REPO_MB)))
+            continue
+
         state = checkout_parent(item["repo"], item["fix_commit"], destination)
         if state != "fetched" and state != "present":
             skipped.append((item["cve"], state))

@@ -4,8 +4,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from corpora.reef import (MAX_REPO_MB, is_unambiguous, parse_pre_fix_span,
-                          path_from_raw_url)
+from corpora.reef import (FETCH_DEPTH, MAX_REPO_MB, is_unambiguous,
+                          parse_pre_fix_span, path_from_raw_url, within_size_cap)
 
 
 class HunkHeaders(unittest.TestCase):
@@ -83,3 +83,36 @@ class RepositorySize(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SizeCapIsEnforced(unittest.TestCase):
+    """MAX_REPO_MB was declared and never consulted — a cap that exists only as a
+    constant is documentation, not a limit. The first run spent minutes fetching
+    blobs for a repository it should never have started on."""
+
+    def test_a_small_repository_is_allowed(self):
+        self.assertTrue(within_size_cap({"size": 20_000}))       # 20 MB
+
+    def test_a_large_repository_is_rejected(self):
+        self.assertFalse(within_size_cap({"size": 4_000_000}))   # ~4 GB
+
+    def test_the_boundary_is_the_cap(self):
+        self.assertFalse(within_size_cap({"size": (MAX_REPO_MB + 1) * 1024}))
+        self.assertTrue(within_size_cap({"size": MAX_REPO_MB * 1024}))
+
+    def test_an_unknown_size_is_allowed_rather_than_guessed(self):
+        # Silence from the API is not evidence that a repository is huge, and
+        # refusing on it would drop cases for a reason unrelated to them.
+        self.assertTrue(within_size_cap(None))
+        self.assertTrue(within_size_cap({}))
+        self.assertTrue(within_size_cap({"size": None}))
+
+
+class FetchStrategy(unittest.TestCase):
+    """A blobless clone followed by a full checkout fetches every blob in the
+    tree in batches, which is the slowest possible way to obtain a large
+    repository. REEF's fix commit SHA is complete, so its parent is two commits
+    deep and a shallow fetch reaches it directly."""
+
+    def test_the_fetch_depth_reaches_the_parent(self):
+        self.assertGreaterEqual(FETCH_DEPTH, 2)
