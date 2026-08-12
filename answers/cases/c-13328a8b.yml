@@ -1,0 +1,31 @@
+id: c-13328a8b
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/13328a8b/work.py
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/python/13328a8b/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: aliasing
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is appended through one name and read back through another bound to the same list. Python rebinding makes the two names indistinguishable at runtime, and a tool that treats them as separate objects sees an empty list
+  cve: null
+build:
+  required: false
+  recipe: null

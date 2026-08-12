@@ -1,0 +1,31 @@
+id: c-9b8b3bb4
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/9b8b3bb4/work.py
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/python/9b8b3bb4/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: callback
+evidence:
+  source: hand-authored
+  rationale: >-
+    the concatenation happens inside a lambda handed to another function and called there. The sink never names the caller's value, so reaching it means following a function object across a call
+  cve: null
+build:
+  required: false
+  recipe: null

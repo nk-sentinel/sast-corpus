@@ -1,0 +1,31 @@
+id: c-a073f4bf
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/python/a073f4bf/work.py
+  start_line: 3
+  end_line: 3
+alt_locations:
+  - file: tier1/python/a073f4bf/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value reaches the path unchanged, so dot-dot segments walk out of the base directory. This is the direct half of the pair
+  cve: null
+build:
+  required: false
+  recipe: null

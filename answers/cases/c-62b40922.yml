@@ -1,0 +1,28 @@
+id: c-62b40922
+label: safe
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/go/62b40922/work.go
+  start_line: 26
+  end_line: 26
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: container-field
+evidence:
+  source: hand-authored
+  rationale: >-
+    the field holds a bare filename and the cleaned path is confirmed to stay under the base directory
+  cve: null
+build:
+  required: false
+  recipe: null

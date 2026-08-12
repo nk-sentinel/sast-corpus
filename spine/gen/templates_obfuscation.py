@@ -304,3 +304,318 @@ JAVA = [
 ]
 
 OBFUSCATION_ALL = JAVA
+
+
+# --- python -------------------------------------------------------------------
+
+PY_ENTRY = {"cli.py": ("import sys\n\nfrom work import build\n\n\n"
+                       "def main():\n"
+                       "    print(build(sys.argv[1] if len(sys.argv) > 1 else \"\"))\n")}
+
+PYTHON = [
+    hard("py-alias@second-reference", "python", "py", SQLI, "aliasing", "inter-file",
+         dict(PY_ENTRY, **{"work.py": (
+             "def build(code):\n"
+             "    holder = []\n"
+             "    same = holder\n"
+             "    holder.append(code)\n"
+             "    return run(\"SELECT status FROM orders WHERE code = '\" + same[0] + \"'\")\n\n\n"
+             "def run(statement):\n    return statement\n")}),
+         "work.py", "return run(\"SELECT status FROM orders WHERE code = '\"",
+         "the value is appended through one name and read back through another bound to "
+         "the same list. Python rebinding makes the two names indistinguishable at "
+         "runtime, and a tool that treats them as separate objects sees an empty list",
+         dict(PY_ENTRY, **{"work.py": (
+             "def build(code):\n"
+             "    return run(\"SELECT status FROM orders WHERE code = %s\", (code,))\n\n\n"
+             "def run(statement, params):\n    return statement + \"|\" + str(params)\n")}),
+         "work.py", "return run(\"SELECT status FROM orders WHERE code = %s\"",
+         "the statement carries a placeholder and the value travels as a bound "
+         "parameter, so aliasing changes nothing",
+         entry_file="cli.py", source_file="cli.py", source_match="sys.argv[1]"),
+
+    hard("py-collection@dict-round-trip", "python", "py", CMDI, "collection", "inter-file",
+         dict(PY_ENTRY, **{"work.py": (
+             "import subprocess\n\n\n"
+             "def build(name):\n"
+             "    params = {\"target\": name, \"mode\": \"summary\"}\n"
+             "    return run(params[\"target\"])\n\n\n"
+             "def run(target):\n"
+             "    subprocess.run(\"/usr/bin/report \" + target, shell=True, check=False)\n"
+             "    return target\n")}),
+         "work.py", "subprocess.run(\"/usr/bin/report \"",
+         "the value enters a dict under one key and leaves under the same key. Following "
+         "it needs per-key modelling; a tool that taints the whole dict also reports the "
+         "constant 'mode' entry, and one that gives up at the boundary reports nothing",
+         dict(PY_ENTRY, **{"work.py": (
+             "import subprocess\n\n\n"
+             "ALLOWED = {\"daily\": \"daily\", \"weekly\": \"weekly\"}\n\n\n"
+             "def build(name):\n"
+             "    target = ALLOWED.get(name)\n"
+             "    if target is None:\n        return \"\"\n"
+             "    return run(target)\n\n\n"
+             "def run(target):\n"
+             "    subprocess.run([\"/usr/bin/report\", target], check=False)\n"
+             "    return target\n")}),
+         "work.py", "subprocess.run([\"/usr/bin/report\", target]",
+         "the dict is a fixed allowlist the caller can only index into, and the call "
+         "passes an argument vector rather than a shell string",
+         entry_file="cli.py", source_file="cli.py", source_match="sys.argv[1]"),
+
+    hard("py-field@object-carried", "python", "py", PATHT, "container-field", "inter-file",
+         dict(PY_ENTRY, **{"work.py": (
+             "class Request:\n"
+             "    def __init__(self):\n        self.name = None\n\n\n"
+             "def build(name):\n"
+             "    request = Request()\n"
+             "    request.name = name\n"
+             "    return read(request)\n\n\n"
+             "def read(request):\n"
+             "    with open(\"/srv/reports/\" + request.name) as handle:\n"
+             "        return handle.read()\n")}),
+         "work.py", "with open(\"/srv/reports/\"",
+         "the value is stored on an attribute and the object is what crosses into the "
+         "reader. Tracking it means following taint through object state rather than "
+         "through an argument",
+         dict(PY_ENTRY, **{"work.py": (
+             "import os\n\n\n"
+             "BASE = \"/srv/reports\"\n\n\n"
+             "class Request:\n"
+             "    def __init__(self):\n        self.name = None\n\n\n"
+             "def build(name):\n"
+             "    request = Request()\n"
+             "    request.name = os.path.basename(name)\n"
+             "    return read(request)\n\n\n"
+             "def read(request):\n"
+             "    target = os.path.realpath(os.path.join(BASE, request.name))\n"
+             "    if not target.startswith(BASE + os.sep):\n        return \"\"\n"
+             "    with open(target) as handle:\n        return handle.read()\n")}),
+         "work.py", "with open(target) as handle",
+         "the attribute is set to a bare filename and the resolved path is confirmed to "
+         "stay under the base directory",
+         entry_file="cli.py", source_file="cli.py", source_match="sys.argv[1]"),
+
+    hard("py-callback@lambda-boundary", "python", "py", SQLI, "callback", "inter-file",
+         dict(PY_ENTRY, **{"work.py": (
+             "def build(code):\n"
+             "    compose = lambda value: \"SELECT status FROM orders WHERE code = '\" + value + \"'\"\n"
+             "    return apply(compose, code)\n\n\n"
+             "def apply(step, value):\n"
+             "    return run(step(value))\n\n\n"
+             "def run(statement):\n    return statement\n")}),
+         "work.py", "return run(step(value))",
+         "the concatenation happens inside a lambda handed to another function and "
+         "called there. The sink never names the caller's value, so reaching it means "
+         "following a function object across a call",
+         dict(PY_ENTRY, **{"work.py": (
+             "def build(code):\n"
+             "    compose = lambda value: \"SELECT status FROM orders WHERE code = %s\"\n"
+             "    return apply(compose, code)\n\n\n"
+             "def apply(step, value):\n"
+             "    return run(step(value), (value,))\n\n\n"
+             "def run(statement, params):\n    return statement + \"|\" + str(params)\n")}),
+         "work.py", "return run(step(value), (value,))",
+         "the lambda ignores its argument and yields a parameterised statement; the "
+         "value is bound separately",
+         entry_file="cli.py", source_file="cli.py", source_match="sys.argv[1]"),
+
+    hard("py-reflect@runtime-named-sink", "python", "py", CMDI, "reflection", "inter-file",
+         dict(PY_ENTRY, **{"work.py": (
+             "import importlib\n\n\n"
+             "def build(name):\n"
+             "    module = importlib.import_module(\"subprocess\")\n"
+             "    call = getattr(module, \"run\")\n"
+             "    call(\"/usr/bin/report \" + name, shell=True, check=False)\n"
+             "    return name\n")}),
+         "work.py", "call(\"/usr/bin/report \" + name",
+         "the module and the function are both named by strings, so `subprocess.run` "
+         "never appears as a call. A tool matching on call syntax sees `call(...)` and "
+         "has no reason to treat it as a process launch",
+         dict(PY_ENTRY, **{"work.py": (
+             "import importlib\n\n\n"
+             "def build(name):\n"
+             "    module = importlib.import_module(\"html\")\n"
+             "    call = getattr(module, \"escape\")\n"
+             "    return call(name)\n")}),
+         "work.py", "return call(name)",
+         "the same dynamic lookup resolves to an HTML escaper, which starts no process. "
+         "A tool that flags dynamic dispatch rather than what it resolves to reports "
+         "this one",
+         entry_file="cli.py", source_file="cli.py", source_match="sys.argv[1]"),
+
+    hard("py-strongupdate@overwritten-before-sink", "python", "py", PATHT,
+         "none", "inter-file",
+         dict(PY_ENTRY, **{"work.py": (
+             "def build(name):\n"
+             "    target = name\n"
+             "    with open(\"/srv/reports/\" + target) as handle:\n"
+             "        return handle.read()\n")}),
+         "work.py", "with open(\"/srv/reports/\"",
+         "the value reaches the path unchanged, so dot-dot segments walk out of the base "
+         "directory. This is the direct half of the pair",
+         dict(PY_ENTRY, **{"work.py": (
+             "def build(name):\n"
+             "    target = name\n"
+             "    target = \"daily-summary.txt\"\n"
+             "    with open(\"/srv/reports/\" + target) as handle:\n"
+             "        return handle.read()\n")}),
+         "work.py", "with open(\"/srv/reports/\"",
+         "the caller's value is bound and then rebound to a constant before the open, so "
+         "none of it reaches the path. A tool that records the first binding without "
+         "modelling the rebind reports a traversal that cannot happen",
+         entry_file="cli.py", source_file="cli.py", source_match="sys.argv[1]",
+         safe_obfuscation="strong-update"),
+]
+
+OBFUSCATION_ALL = OBFUSCATION_ALL + PYTHON
+
+
+# --- go -----------------------------------------------------------------------
+
+GO_ENTRY = {"main.go": (
+    "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\n"
+    "func main() {\n\tvalue := \"\"\n\tif len(os.Args) > 1 {\n\t\tvalue = os.Args[1]\n\t}\n"
+    "\tfmt.Println(build(value))\n}\n")}
+
+GO = [
+    hard("go-alias@second-reference", "go", "go", SQLI, "aliasing", "inter-file",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\n"
+             "func build(code string) string {\n"
+             "\tholder := []string{}\n"
+             "\tsame := &holder\n"
+             "\tholder = append(holder, code)\n"
+             "\treturn run(\"SELECT status FROM orders WHERE code = '\" + (*same)[0] + \"'\")\n}\n\n"
+             "func run(statement string) string {\n\treturn statement\n}\n")}),
+         "work.go", "return run(\"SELECT status FROM orders WHERE code = '\"",
+         "the slice is written through the value and read back through a pointer to it. "
+         "Resolving that the two reach the same backing array is pointer analysis, not "
+         "name matching",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\n"
+             "func build(code string) string {\n"
+             "\treturn run(\"SELECT status FROM orders WHERE code = $1\", code)\n}\n\n"
+             "func run(statement string, value string) string {\n"
+             "\treturn statement + \"|\" + value\n}\n")}),
+         "work.go", "return run(\"SELECT status FROM orders WHERE code = $1\"",
+         "the statement carries a placeholder and the value is passed beside it",
+         entry_file="main.go", source_file="main.go", source_match="os.Args[1]"),
+
+    hard("go-collection@map-round-trip", "go", "go", CMDI, "collection", "inter-file",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\nimport \"os/exec\"\n\n"
+             "func build(name string) string {\n"
+             "\tparams := map[string]string{\"target\": name, \"mode\": \"summary\"}\n"
+             "\treturn run(params[\"target\"])\n}\n\n"
+             "func run(target string) string {\n"
+             "\t_ = exec.Command(\"sh\", \"-c\", \"/usr/bin/report \"+target).Run()\n"
+             "\treturn target\n}\n")}),
+         "work.go", "exec.Command(\"sh\", \"-c\"",
+         "the value enters a map under one key and leaves under the same key, and the "
+         "result is handed to a shell. Following it needs per-key modelling of map "
+         "contents",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\nimport \"os/exec\"\n\n"
+             "var allowed = map[string]string{\"daily\": \"daily\", \"weekly\": \"weekly\"}\n\n"
+             "func build(name string) string {\n"
+             "\ttarget, ok := allowed[name]\n"
+             "\tif !ok {\n\t\treturn \"\"\n\t}\n"
+             "\treturn run(target)\n}\n\n"
+             "func run(target string) string {\n"
+             "\t_ = exec.Command(\"/usr/bin/report\", target).Run()\n"
+             "\treturn target\n}\n")}),
+         "work.go", "exec.Command(\"/usr/bin/report\", target)",
+         "the map is a fixed allowlist the caller can only look up in, and the command "
+         "is executed directly rather than through a shell",
+         entry_file="main.go", source_file="main.go", source_match="os.Args[1]"),
+
+    hard("go-field@struct-carried", "go", "go", PATHT, "container-field", "inter-file",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\nimport \"os\"\n\n"
+             "type request struct {\n\tname string\n}\n\n"
+             "func build(name string) string {\n"
+             "\tr := &request{}\n\tr.name = name\n"
+             "\treturn read(r)\n}\n\n"
+             "func read(r *request) string {\n"
+             "\tdata, err := os.ReadFile(\"/srv/reports/\" + r.name)\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\treturn string(data)\n}\n")}),
+         "work.go", "os.ReadFile(\"/srv/reports/\"",
+         "the value is stored in a struct field and the pointer travels to the reader, "
+         "so the taint crosses the call as object state rather than as an argument",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\nimport (\n\t\"os\"\n\t\"path/filepath\"\n\t\"strings\"\n)\n\n"
+             "const base = \"/srv/reports\"\n\n"
+             "type request struct {\n\tname string\n}\n\n"
+             "func build(name string) string {\n"
+             "\tr := &request{}\n\tr.name = filepath.Base(name)\n"
+             "\treturn read(r)\n}\n\n"
+             "func read(r *request) string {\n"
+             "\ttarget := filepath.Clean(filepath.Join(base, r.name))\n"
+             "\tif !strings.HasPrefix(target, base+string(os.PathSeparator)) {\n"
+             "\t\treturn \"\"\n\t}\n"
+             "\tdata, err := os.ReadFile(target)\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\treturn string(data)\n}\n")}),
+         "work.go", "os.ReadFile(target)",
+         "the field holds a bare filename and the cleaned path is confirmed to stay "
+         "under the base directory",
+         entry_file="main.go", source_file="main.go", source_match="os.Args[1]"),
+
+    hard("go-callback@closure-boundary", "go", "go", SQLI, "callback", "inter-file",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\n"
+             "func build(code string) string {\n"
+             "\tcompose := func(value string) string {\n"
+             "\t\treturn \"SELECT status FROM orders WHERE code = '\" + value + \"'\"\n\t}\n"
+             "\treturn apply(compose, code)\n}\n\n"
+             "func apply(step func(string) string, value string) string {\n"
+             "\treturn run(step(value))\n}\n\n"
+             "func run(statement string) string {\n\treturn statement\n}\n")}),
+         "work.go", "return run(step(value))",
+         "the concatenation lives in a closure passed to another function and invoked "
+         "there, so the sink never names the caller's value directly",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\n"
+             "func build(code string) string {\n"
+             "\tcompose := func(value string) string {\n"
+             "\t\treturn \"SELECT status FROM orders WHERE code = $1\"\n\t}\n"
+             "\treturn apply(compose, code)\n}\n\n"
+             "func apply(step func(string) string, value string) string {\n"
+             "\treturn run(step(value), value)\n}\n\n"
+             "func run(statement string, value string) string {\n"
+             "\treturn statement + \"|\" + value\n}\n")}),
+         "work.go", "return run(step(value), value)",
+         "the closure ignores its argument and returns a parameterised statement; the "
+         "value travels separately",
+         entry_file="main.go", source_file="main.go", source_match="os.Args[1]"),
+
+    hard("go-strongupdate@overwritten-before-sink", "go", "go", PATHT,
+         "none", "inter-file",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\nimport \"os\"\n\n"
+             "func build(name string) string {\n"
+             "\ttarget := name\n"
+             "\tdata, err := os.ReadFile(\"/srv/reports/\" + target)\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\treturn string(data)\n}\n")}),
+         "work.go", "os.ReadFile(\"/srv/reports/\"",
+         "the value reaches the path unchanged, so dot-dot segments walk out of the base "
+         "directory. This is the direct half of the pair",
+         dict(GO_ENTRY, **{"work.go": (
+             "package main\n\nimport \"os\"\n\n"
+             "func build(name string) string {\n"
+             "\ttarget := name\n"
+             "\ttarget = \"daily-summary.txt\"\n"
+             "\tdata, err := os.ReadFile(\"/srv/reports/\" + target)\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\treturn string(data)\n}\n")}),
+         "work.go", "os.ReadFile(\"/srv/reports/\"",
+         "the caller's value is assigned and then overwritten with a constant before the "
+         "read, so none of it reaches the path. A tool that records the first assignment "
+         "without modelling the overwrite reports a traversal that cannot happen",
+         entry_file="main.go", source_file="main.go", source_match="os.Args[1]",
+         safe_obfuscation="strong-update"),
+]
+
+OBFUSCATION_ALL = OBFUSCATION_ALL + GO

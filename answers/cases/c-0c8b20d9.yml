@@ -1,0 +1,28 @@
+id: c-0c8b20d9
+label: safe
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/go/0c8b20d9/work.go
+  start_line: 16
+  end_line: 16
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: collection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the map is a fixed allowlist the caller can only look up in, and the command is executed directly rather than through a shell
+  cve: null
+build:
+  required: false
+  recipe: null

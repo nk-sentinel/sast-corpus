@@ -1,0 +1,31 @@
+id: c-153336e6
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/python/153336e6/work.py
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/python/153336e6/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: container-field
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is stored on an attribute and the object is what crosses into the reader. Tracking it means following taint through object state rather than through an argument
+  cve: null
+build:
+  required: false
+  recipe: null

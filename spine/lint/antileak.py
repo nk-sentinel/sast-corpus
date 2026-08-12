@@ -78,7 +78,12 @@ def content_hints(line):
     return bool(_tokens(line) & CONTENT_TOKEN_HINTS)
 
 
-RULE_ANNOTATION = re.compile(r"\b(?:todoruleid|todook|ruleid|ok)\s*:", re.IGNORECASE)
+# `(?!=)` keeps the assignment operator out of it. Go's comma-ok idiom
+# (`value, ok := m[key]`) and Python's walrus (`if (ok := check())`) both write
+# `ok :` and are ordinary code, not semgrep annotations — the same class of
+# collision as `sqlite3` containing `sqli`.
+RULE_ANNOTATION = re.compile(r"\b(?:todoruleid|todook|ruleid|ok)\s*:(?!=)",
+                             re.IGNORECASE)
 ANSWER_KEY_NAME = re.compile(r"expectedresults.*\.csv$|^c-[0-9a-f]{8}\.ya?ml$", re.IGNORECASE)
 
 LINE_COMMENT_MARKERS = {

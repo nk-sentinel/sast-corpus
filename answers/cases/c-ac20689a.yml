@@ -1,0 +1,28 @@
+id: c-ac20689a
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/python/ac20689a/work.py
+  start_line: 4
+  end_line: 4
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: strong-update
+evidence:
+  source: hand-authored
+  rationale: >-
+    the caller's value is bound and then rebound to a constant before the open, so none of it reaches the path. A tool that records the first binding without modelling the rebind reports a traversal that cannot happen
+  cve: null
+build:
+  required: false
+  recipe: null

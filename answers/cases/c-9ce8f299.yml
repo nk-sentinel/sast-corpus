@@ -1,0 +1,28 @@
+id: c-9ce8f299
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/9ce8f299/work.py
+  start_line: 7
+  end_line: 7
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: reflection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the same dynamic lookup resolves to an HTML escaper, which starts no process. A tool that flags dynamic dispatch rather than what it resolves to reports this one
+  cve: null
+build:
+  required: false
+  recipe: null

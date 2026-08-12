@@ -1,0 +1,31 @@
+id: c-2ea3f1a9
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/2ea3f1a9/work.py
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/python/2ea3f1a9/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: reflection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the module and the function are both named by strings, so `subprocess.run` never appears as a call. A tool matching on call syntax sees `call(...)` and has no reason to treat it as a process launch
+  cve: null
+build:
+  required: false
+  recipe: null

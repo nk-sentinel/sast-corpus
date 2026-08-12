@@ -1,0 +1,31 @@
+id: c-83bcb360
+label: vulnerable
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/go/83bcb360/work.go
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/go/83bcb360/main.go
+    start_line: 11
+    end_line: 11
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value reaches the path unchanged, so dot-dot segments walk out of the base directory. This is the direct half of the pair
+  cve: null
+build:
+  required: false
+  recipe: null

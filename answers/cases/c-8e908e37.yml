@@ -1,0 +1,28 @@
+id: c-8e908e37
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/8e908e37/work.py
+  start_line: 7
+  end_line: 7
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: callback
+evidence:
+  source: hand-authored
+  rationale: >-
+    the lambda ignores its argument and yields a parameterised statement; the value is bound separately
+  cve: null
+build:
+  required: false
+  recipe: null

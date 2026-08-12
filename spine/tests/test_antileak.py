@@ -539,3 +539,35 @@ class RealApiNamesThatLookLikeHints(LintCase):
         self.write("tier1/java/aaaa/A.java", "class A { void insecure() {} }\n")
 
         self.assertIn("hint-in-content", self.kinds(self.scan()[0]))
+
+
+class LanguageIdiomsThatLookLikeAnnotations(LintCase):
+    """Semgrep marks expected findings with `ruleid:` and `ok:` in comments. Go's
+    comma-ok idiom writes `value, ok := m[key]`, which contains `ok :` and is one
+    of the most common lines in the language — flagging it would make Go
+    fixtures unwritable."""
+
+    def test_go_comma_ok_is_not_an_annotation(self):
+        self.write("tier1/go/aaaa/work.go",
+                   "package main\n\nfunc f(m map[string]string, k string) string {\n"
+                   "\tv, ok := m[k]\n\tif !ok {\n\t\treturn \"\"\n\t}\n\treturn v\n}\n")
+
+        errors, _ = self.scan()
+
+        self.assertEqual(errors, [])
+
+    def test_a_real_annotation_is_still_caught(self):
+        self.write("tier1/go/aaaa/work.go", "package main\n\n// ok: some-rule-name\n")
+
+        self.assertIn("rule-annotation", self.kinds(self.scan()[0]))
+
+    def test_a_ruleid_annotation_is_still_caught(self):
+        self.write("tier1/python/aaaa/work.py", "# ruleid: taint-flow\nx = 1\n")
+
+        self.assertIn("rule-annotation", self.kinds(self.scan()[0]))
+
+    def test_a_walrus_assignment_is_not_an_annotation(self):
+        # Python's := has the same shape.
+        self.write("tier1/python/aaaa/work.py", "if (ok := check()):\n    pass\n")
+
+        self.assertEqual(self.scan()[0], [])

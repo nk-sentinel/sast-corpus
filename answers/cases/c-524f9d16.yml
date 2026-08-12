@@ -1,0 +1,31 @@
+id: c-524f9d16
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/524f9d16/work.py
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/python/524f9d16/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: collection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value enters a dict under one key and leaves under the same key. Following it needs per-key modelling; a tool that taints the whole dict also reports the constant 'mode' entry, and one that gives up at the boundary reports nothing
+  cve: null
+build:
+  required: false
+  recipe: null

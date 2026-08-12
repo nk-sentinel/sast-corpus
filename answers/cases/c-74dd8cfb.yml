@@ -1,0 +1,31 @@
+id: c-74dd8cfb
+label: vulnerable
+plane: vuln
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/go/74dd8cfb/work.go
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/go/74dd8cfb/main.go
+    start_line: 11
+    end_line: 11
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: aliasing
+evidence:
+  source: hand-authored
+  rationale: >-
+    the slice is written through the value and read back through a pointer to it. Resolving that the two reach the same backing array is pointer analysis, not name matching
+  cve: null
+build:
+  required: false
+  recipe: null
