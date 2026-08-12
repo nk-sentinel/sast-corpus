@@ -85,7 +85,7 @@ tier3/           real CVE reproductions, derived from cwe-bench-java          (f
 tier2/           real vulnerable applications — manifest only, unlabelled     (fetched)
 perf/            repositories for scan-time measurement only                  (fetched)
 build/           build and syntax recipes, pinned toolchains
-docs/            COVERAGE · ROADMAP · TIER3-DATASETS · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
+docs/            COVERAGE · ROADMAP · TIER3-DATASETS · AIRGAP-EXPORT · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
 ```
 
 Directory and file names under `tier1/` carry no semantic content. Navigate via
@@ -98,6 +98,12 @@ python3 spine/corpora/fetch.py tier3          # CVE datasets
 python3 spine/corpora/fetch.py perf           # scan-time targets
 python3 spine/corpora/fetch.py perf --check   # status without cloning
 ```
+
+**Exporting to an environment without GitHub access?** See
+[docs/AIRGAP-EXPORT.md](docs/AIRGAP-EXPORT.md). 88% of the fetched footprint is
+build output that is regenerated on arrival, so the transfer is ~2.5 GB rather
+than 27 GB — but the dependency source has to be settled before the transfer,
+not during the evaluation.
 
 Pinned to full commit SHAs rather than vendored: those trees are far larger than
 this repository and are code we did not write. A manifest whose revision is a
