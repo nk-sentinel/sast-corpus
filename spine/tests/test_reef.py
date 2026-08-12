@@ -4,8 +4,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from corpora.reef import (FETCH_DEPTH, MAX_REPO_MB, is_unambiguous,
-                          parse_pre_fix_span, path_from_raw_url, within_size_cap)
+from corpora.reef import (ALWAYS_SKIP, FETCH_DEPTH, MAX_REPO_MB,
+                          is_permitted_repo, is_unambiguous, parse_pre_fix_span,
+                          path_from_raw_url, within_size_cap)
 
 
 class HunkHeaders(unittest.TestCase):
@@ -116,3 +117,29 @@ class FetchStrategy(unittest.TestCase):
 
     def test_the_fetch_depth_reaches_the_parent(self):
         self.assertGreaterEqual(FETCH_DEPTH, 2)
+
+
+class SizeCapSurvivesRateLimiting(unittest.TestCase):
+    """The API allows 60 unauthenticated requests an hour and a run asks for one
+    per repository, so the limit is reached partway through and every later
+    check returns nothing. Treating that as "allowed" turned the cap off exactly
+    when it was still needed — chromium/chromium was admitted that way.
+
+    A static denylist is the part that cannot be rate-limited."""
+
+    def test_a_known_giant_is_refused_without_asking(self):
+        self.assertFalse(is_permitted_repo("https://github.com/chromium/chromium"))
+
+    def test_the_kernel_is_refused(self):
+        self.assertFalse(is_permitted_repo("https://github.com/torvalds/linux"))
+
+    def test_an_ordinary_repository_is_allowed(self):
+        self.assertTrue(is_permitted_repo("https://github.com/protobuf-c/protobuf-c"))
+
+    def test_matching_is_on_the_full_owner_and_name(self):
+        # A project merely named after one of them is not one of them.
+        self.assertTrue(is_permitted_repo("https://github.com/someone/linux-utils"))
+
+    def test_the_denylist_names_why_each_entry_is_there(self):
+        for repo, reason in ALWAYS_SKIP.items():
+            self.assertTrue(reason, f"{repo} is refused with no reason recorded")

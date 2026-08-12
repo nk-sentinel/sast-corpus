@@ -1,0 +1,28 @@
+id: c-8e872373
+label: vulnerable
+plane: vuln
+tier: 3
+language: c
+framework: null
+primary_cwe: CWE-125
+variant: unknown
+acceptable_cwes: [CWE-125, CWE-119, CWE-126]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/reef/spurious__SDL-mirror/src/video/SDL_bmp.c
+  start_line: 313
+  end_line: 318
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2019-7636 in spurious/SDL-mirror, at the commit before 6fe58e12b33d. The fix touched exactly one file with exactly one hunk, which is the only shape this derivation accepts — REEF records which commit fixed a CVE and not which file or hunk held the flaw, so anything less certain would be a guess presented as ground truth. The range is the pre-fix side of the hunk header, which describes the file as it is in this checkout.
+  cve: CVE-2019-7636
+build:
+  required: false
+  recipe: null

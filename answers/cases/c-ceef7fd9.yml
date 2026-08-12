@@ -1,0 +1,28 @@
+id: c-ceef7fd9
+label: vulnerable
+plane: vuln
+tier: 3
+language: c
+framework: null
+primary_cwe: CWE-22
+variant: unknown
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/reef/jellyfin__jellyfin/MediaBrowser.Controller/ClientEvent/ClientEventLogger.cs
+  start_line: 23
+  end_line: 28
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-30626 in jellyfin/jellyfin, at the commit before 82ad2633fdfb. The fix touched exactly one file with exactly one hunk, which is the only shape this derivation accepts — REEF records which commit fixed a CVE and not which file or hunk held the flaw, so anything less certain would be a guess presented as ground truth. The range is the pre-fix side of the hunk header, which describes the file as it is in this checkout.
+  cve: CVE-2023-30626
+build:
+  required: false
+  recipe: null

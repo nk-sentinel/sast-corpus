@@ -1,0 +1,28 @@
+id: c-78d91c6d
+label: vulnerable
+plane: vuln
+tier: 3
+language: cpp
+framework: null
+primary_cwe: CWE-120
+variant: unknown
+acceptable_cwes: [CWE-120, CWE-787, CWE-121]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/reef/SerenityOS__serenity/Userland/Libraries/LibCrypto/NumberTheory/ModularFunctions.cpp
+  start_line: 258
+  end_line: 264
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-27343 in SerenityOS/serenity, at the commit before 48fbf6a88d48. The fix touched exactly one file with exactly one hunk, which is the only shape this derivation accepts — REEF records which commit fixed a CVE and not which file or hunk held the flaw, so anything less certain would be a guess presented as ground truth. The range is the pre-fix side of the hunk header, which describes the file as it is in this checkout.
+  cve: CVE-2021-27343
+build:
+  required: false
+  recipe: null

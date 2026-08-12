@@ -1,0 +1,28 @@
+id: c-e45fa7db
+label: vulnerable
+plane: vuln
+tier: 3
+language: c
+framework: null
+primary_cwe: CWE-22
+variant: unknown
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/reef/Ombi-app__Ombi/src/Ombi/Controllers/V2/SystemController.cs
+  start_line: 44
+  end_line: 68
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-32322 in Ombi-app/Ombi, at the commit before b8a8f029d804. The fix touched exactly one file with exactly one hunk, which is the only shape this derivation accepts — REEF records which commit fixed a CVE and not which file or hunk held the flaw, so anything less certain would be a guess presented as ground truth. The range is the pre-fix side of the hunk header, which describes the file as it is in this checkout.
+  cve: CVE-2023-32322
+build:
+  required: false
+  recipe: null

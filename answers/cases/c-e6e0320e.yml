@@ -1,0 +1,28 @@
+id: c-e6e0320e
+label: vulnerable
+plane: vuln
+tier: 3
+language: cpp
+framework: null
+primary_cwe: CWE-787
+variant: unknown
+acceptable_cwes: [CWE-787, CWE-119, CWE-120]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/reef/darktable-org__rawspeed/src/librawspeed/common/TableLookUp.cpp
+  start_line: 40
+  end_line: 45
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-25017 in darktable-org/rawspeed, at the commit before dbe7591e54ba. The fix touched exactly one file with exactly one hunk, which is the only shape this derivation accepts — REEF records which commit fixed a CVE and not which file or hunk held the flaw, so anything less certain would be a guess presented as ground truth. The range is the pre-fix side of the hunk header, which describes the file as it is in this checkout.
+  cve: CVE-2018-25017
+build:
+  required: false
+  recipe: null

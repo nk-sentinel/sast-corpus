@@ -1,0 +1,28 @@
+id: c-defa9559
+label: vulnerable
+plane: vuln
+tier: 3
+language: cpp
+framework: null
+primary_cwe: CWE-787
+variant: unknown
+acceptable_cwes: [CWE-787, CWE-119, CWE-120]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/reef/ethereum__solidity/docs/ir/ir-breaking-changes.rst
+  start_line: 46
+  end_line: 52
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-36402 in ethereum/solidity, at the commit before c39a5e2b7a3f. The fix touched exactly one file with exactly one hunk, which is the only shape this derivation accepts — REEF records which commit fixed a CVE and not which file or hunk held the flaw, so anything less certain would be a guess presented as ground truth. The range is the pre-fix side of the hunk header, which describes the file as it is in this checkout.
+  cve: CVE-2020-36402
+build:
+  required: false
+  recipe: null

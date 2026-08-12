@@ -1,0 +1,28 @@
+id: c-8042b47a
+label: vulnerable
+plane: vuln
+tier: 3
+language: cpp
+framework: null
+primary_cwe: CWE-190
+variant: unknown
+acceptable_cwes: [CWE-190, CWE-680, CWE-191]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/reef/facebook__hermes/lib/VM/detail/IdentifierHashTable.cpp
+  start_line: 138
+  end_line: 143
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-35289 in facebook/hermes, at the commit before 5b6255ae049f. The fix touched exactly one file with exactly one hunk, which is the only shape this derivation accepts — REEF records which commit fixed a CVE and not which file or hunk held the flaw, so anything less certain would be a guess presented as ground truth. The range is the pre-fix side of the hunk header, which describes the file as it is in this checkout.
+  cve: CVE-2022-35289
+build:
+  required: false
+  recipe: null

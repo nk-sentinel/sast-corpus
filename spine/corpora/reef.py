@@ -48,6 +48,39 @@ MAX_REPO_MB = 400
 # PatchEval's, so a shallow fetch reaches its parent directly.
 FETCH_DEPTH = 2
 
+# Repositories refused without asking the API.
+#
+# The size check needs one API request per repository and GitHub allows 60 an
+# hour unauthenticated, so a run of any size exhausts it partway through — after
+# which every check returns nothing and "unknown size is allowed" turns the cap
+# off exactly when it is still needed. chromium/chromium was admitted that way
+# and began fetching before it was noticed. This list is the part that cannot be
+# rate-limited, and each entry records why it is here.
+ALWAYS_SKIP = {
+    "torvalds/linux": "the kernel; hundreds of REEF's C entries and no one's scan target",
+    "chromium/chromium": "tens of gigabytes, and a monorepo rather than a project",
+    "llvm/llvm-project": "monorepo; a single commit's tree is larger than the cap",
+    "mozilla/gecko-dev": "browser monorepo, mirrored and enormous",
+    "WebKit/WebKit": "browser engine; same shape as the two above",
+    "apple/swift": "compiler monorepo",
+    "openjdk/jdk": "runtime monorepo",
+    "php/php-src": "large and mostly generated C",
+    "ImageMagick/ImageMagick": "very large history dominated by test corpora",
+}
+
+
+def is_permitted_repo(repo):
+    """Is this repository one we will consider at all?
+
+    Matched on the full owner and name, so a project merely named after one of
+    them is unaffected.
+    """
+    parts = repo.rstrip("/").replace(".git", "").split("/")
+    if len(parts) < 2:
+        return True
+    return "{}/{}".format(parts[-2], parts[-1]) not in ALWAYS_SKIP
+
+
 HUNK_HEADER = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+\d+(?:,\d+)? @@")
 
 REACHABLE = {
@@ -242,7 +275,7 @@ def select(rows, wanted=40, skip_repos=()):
             continue
         html = entry.get("html_url") or ""
         repo = "/".join(html.split("/")[:5])
-        if any(s in repo for s in skip_repos):
+        if not is_permitted_repo(repo) or any(s in repo for s in skip_repos):
             continue
         fix_commit = html.rstrip("/").split("/")[-1]
         detail = entry["details"][0]
