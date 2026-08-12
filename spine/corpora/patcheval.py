@@ -56,7 +56,11 @@ FETCH_DEPTH = 2
 # minutes and the run crawled at two CVEs an hour. The fallback is the slow path
 # by definition and keeps its room.
 FAST_FETCH_TIMEOUT = 120
-FALLBACK_TIMEOUT = 1800
+# The fallback is a blobless clone followed by a checkout that fetches every
+# blob in the tree, which for a large repository is slow by construction. Bounded
+# anyway: a project that cannot be obtained in this long is not worth one case,
+# and 230 of them at half an hour each is a run nobody will ever finish.
+FALLBACK_TIMEOUT = 480
 
 # Weaknesses a scanner can match on, in the order we prefer them. A CVE tagged
 # both CWE-284 and CWE-22 is a path traversal; the class is the label a database
