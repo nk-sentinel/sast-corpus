@@ -165,10 +165,22 @@ Mechanical and low-risk, so it goes last. Seven thinnest languages, roughly four
 weaknesses each, chosen against the applicability matrix from item 1 so the new
 cells are ones that should exist.
 
-### 5. Tier-3 at scale — ~230 (revised up from 100) ⏳ **deriving**
+### 5. Tier-3 at scale — ~230 (revised up from 100) ◐ **partly done: 97 of ~230**
 
 Gated on item 0, now complete — see [TIER3-DATASETS.md](TIER3-DATASETS.md) for
 the measurements and the three derivation rules that cases turn on.
+
+**Where it got to.** 97 real-CVE cases across four languages — Java 49 from
+cwe-bench-java, Go 17, Python 16, JavaScript 15 — against 49 Java-only before.
+The derivation tooling is complete, tested and re-runnable; what stopped short
+is network time, not correctness. Cloning several hundred real repositories is
+slow and unreliable, and the run was restarted repeatedly while its fetch
+strategy was corrected. Re-running picks up where it left off: checkouts are
+reused, cases are written as they are derived, and identifiers are stable, so a
+second run converges on the same answer key rather than duplicating it.
+
+    python3 spine/corpora/patcheval.py --dataset <patcheval_verified.json> --write
+    python3 spine/corpora/reef.py --data <reef/data> --wanted 90 --write
 
 PatchEval supplies Go, JavaScript and Python (~200). These are source-only, so
 every tool can see them without a build. REEF supplies a hand-picked ~30 C/C++
