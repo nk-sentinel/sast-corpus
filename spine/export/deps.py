@@ -26,6 +26,8 @@ import argparse
 import json
 import re
 import subprocess
+import sys
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -230,8 +232,13 @@ def _run(command, cwd, timeout=900):
         return subprocess.CompletedProcess(command, 1, "", str(exc))
 
 
-def collect(root, only=None, offline=True):
-    """Walk the tier-3 projects and gather what each build resolves."""
+def collect(root, only=None, offline=True, progress=True):
+    """Walk the tier-3 projects and gather what each build resolves.
+
+    Progress goes to stderr, unbuffered. Resolution runs a real build tool
+    against 28 projects and takes tens of minutes; a harness that prints nothing
+    until it finishes is indistinguishable from one that has hung.
+    """
     root = Path(root)
     env = root / "tier3" / "cwe-bench-java" / "java-env"
     projects = []
@@ -242,6 +249,9 @@ def collect(root, only=None, offline=True):
         source = root / "tier3" / "project-sources" / name
         if not source.is_dir():
             continue
+        started = time.monotonic()
+        if progress:
+            print(f"  resolving {name} ...", file=sys.stderr, flush=True)
 
         jdk = info.get("jdk")
         java_home = env / ("jdk-17" if jdk == "17" else "jdk1.8.0_202")
@@ -281,6 +291,10 @@ def collect(root, only=None, offline=True):
             project = Project(name, "unknown")
             project.error = "build-info declares neither mvn nor gradle"
 
+        if progress:
+            outcome = project.error or f"{len(project.coordinates)} coordinates"
+            print(f"    {name}: {outcome} [{time.monotonic() - started:.0f}s]",
+                  file=sys.stderr, flush=True)
         projects.append(project)
     return projects
 

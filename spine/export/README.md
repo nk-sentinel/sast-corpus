@@ -39,3 +39,49 @@ That the repository will *serve* them. These projects pin releases from 2014 to
 repository that quarantines known-vulnerable versions blocks precisely what
 tier 3 is made of. The checklist makes that answerable in advance; it does not
 answer it.
+
+## `bundle.py` — the transfer archive
+
+```bash
+python3 spine/export/bundle.py --profile scoring          # ~403 MB compressed
+python3 spine/export/bundle.py --profile build --split 4G # parts for transfer media
+python3 spine/export/bundle.py --profile perf --keep-git  # keep vendored history
+```
+
+| profile | adds | measured |
+|---|---|---|
+| `scoring` | fixtures, answer key, spine, tier-3 sources | 403 MB compressed, 120,110 files |
+| `perf` | + scan-time repositories | + ~400 MB |
+| `build` | + JDKs and build tools | + 544 MB |
+| `full` | + prefetched dependency caches | + up to 6.9 GB |
+
+**Two archives, on purpose.** Rule 1 of this corpus is that the answer key lives
+outside the fixtures. A single archive would undo it — a scanner pointed at the
+extracted root reads every CWE identifier and rationale, and an LLM-based
+scanner then scores on the answers rather than the code. The `-corpus` archive
+holds the scan target and the `-answers` archive holds the ground truth, and
+they should not be unpacked into the same tree before scanning.
+
+**What is left behind, and why it is safe to leave:**
+
+- `target/` — 17.6 of the 20 GB, regenerated on arrival by Maven in strict
+  offline mode. Verified: projects rebuild given the toolchain their
+  `build-info` declares
+- `.git` in vendored trees — 602 MB, replaced by the pinned commit SHA in
+  `MANIFEST.json`. `--keep-git` restores it for incremental scanning
+- REEF — never bundled, at any profile. 737 MB of copied third-party source
+  under no licence
+
+**Verifying on arrival** needs nothing from us:
+
+```bash
+sha256sum -c SHA256SUMS      # run from the extracted corpus root
+```
+
+`MANIFEST.json` stays small enough to read — profile, corpus version, file
+count, and the upstream commit for each vendored tree. Per-file digests live in
+`SHA256SUMS` because embedding 120k of them made the manifest 31 MB, and because
+the standard format needs no tooling of ours to check.
+
+Provenance is scoped to what actually travelled: a `scoring` bundle pins
+`cwe-bench-java` and `vul4j` and says nothing about `perf`.
