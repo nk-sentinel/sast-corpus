@@ -1,0 +1,31 @@
+id: c-b41dadb9
+label: vulnerable
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-862
+variant: no-ownership-check
+acceptable_cwes: [CWE-862, CWE-285, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/swift/b41dadb9/Work.swift
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/swift/b41dadb9/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the identifier is taken from the caller and used to fetch a record with no check that the caller owns it, so incrementing it walks the whole table
+  cve: null
+build:
+  required: false
+  recipe: null

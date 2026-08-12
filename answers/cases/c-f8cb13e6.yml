@@ -1,0 +1,31 @@
+id: c-f8cb13e6
+label: safe
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-125
+variant: unchecked-index-in-unsafe
+acceptable_cwes: [CWE-125, CWE-129, CWE-787]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/rust/f8cb13e6/src/work.rs
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/rust/f8cb13e6/src/main.rs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    get returns an option rather than a value, so an index past the end is a case to handle instead of a read
+  cve: null
+build:
+  required: false
+  recipe: null

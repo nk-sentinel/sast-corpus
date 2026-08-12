@@ -1,0 +1,31 @@
+id: c-b0eff1c0
+label: vulnerable
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/swift/b0eff1c0/Work.swift
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/swift/b0eff1c0/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a newline inside the value starts a second log line, so the caller writes records the application never emitted
+  cve: null
+build:
+  required: false
+  recipe: null

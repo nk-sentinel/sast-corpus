@@ -159,7 +159,7 @@ history-only secrets. Traps stay the majority on this plane — telling a
 credential from a UUID, digest or placeholder is the hard part, not matching a
 prefix.
 
-### 4. Breadth floor 6 → 10 — ~60
+### 4. Breadth floor 6 → 10 — ~60 ✅ **done**
 
 Mechanical and low-risk, so it goes last. Seven thinnest languages, roughly four
 weaknesses each, chosen against the applicability matrix from item 1 so the new

@@ -67,7 +67,14 @@ def path_hints(text):
 # would make every Swift crypto case unwritable — the same trap as `sqlite3`
 # containing `sqli`. Masked before hint matching, and only in content: a path is
 # ours to name, an API is not.
-REAL_API_SPELLINGS = re.compile(r"\bInsecure\.(?:MD5|SHA1)\b")
+REAL_API_SPELLINGS = re.compile(
+    r"\bInsecure\.(?:MD5|SHA1)\b"
+    # `unsafe` is a Rust keyword and the only way to write the construct where
+    # the language's memory guarantee is given up, so a memory-safety fixture in
+    # Rust cannot exist without it. Only the keyword forms are masked: `unsafe`
+    # used as part of a name or in prose is still a hint.
+    r"|\bunsafe\s*\{"
+    r"|\bunsafe\s+(?:fn|impl|trait|extern)\b")
 
 
 def content_hints(line):

@@ -1,0 +1,31 @@
+id: c-89912669
+label: vulnerable
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-190
+variant: unchecked-arithmetic
+acceptable_cwes: [CWE-190, CWE-680, CWE-191]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/swift/89912669/Work.swift
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/swift/89912669/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the masking multiply wraps silently instead of trapping, so a large count produces a small or negative total and the allocation that follows is sized from a number that bears no relation to the request
+  cve: null
+build:
+  required: false
+  recipe: null

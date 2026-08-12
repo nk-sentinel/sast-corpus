@@ -1,0 +1,31 @@
+id: c-f2c1e051
+label: vulnerable
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-200
+variant: error-detail-returned
+acceptable_cwes: [CWE-200, CWE-209, CWE-532]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/swift/f2c1e051/Work.swift
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/swift/f2c1e051/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the internal error is returned to the caller verbatim, handing over hostnames, ports and account names that the caller had no way to learn otherwise
+  cve: null
+build:
+  required: false
+  recipe: null

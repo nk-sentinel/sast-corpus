@@ -1,0 +1,31 @@
+id: c-36652ce6
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-200
+variant: stack-returned
+acceptable_cwes: [CWE-200, CWE-209, CWE-532]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/javascript/36652ce6/work.js
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/javascript/36652ce6/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the stack trace is returned to the caller, handing over file paths, internal hostnames and the shape of the code that produced the failure
+  cve: null
+build:
+  required: false
+  recipe: null

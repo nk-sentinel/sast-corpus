@@ -1,0 +1,31 @@
+id: c-3e9c7e6f
+label: vulnerable
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-134
+variant: caller-controls-the-template
+acceptable_cwes: [CWE-134, CWE-133]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/3e9c7e6f/work.cpp
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/cpp/3e9c7e6f/main.cpp
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the caller supplies the format template itself, so conversion specifiers in it are honoured against arguments that were never passed — reading whatever the calling convention puts where the arguments should be, and with %n writing there too
+  cve: null
+build:
+  required: false
+  recipe: null

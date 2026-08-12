@@ -1,0 +1,31 @@
+id: c-6e378083
+label: vulnerable
+plane: vuln
+tier: 1
+language: php
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/php/6e378083/work.php
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/php/6e378083/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a newline inside the value starts a second line in the log, so the caller writes records the application never emitted and anything reading them afterwards treats attacker-authored lines as system output
+  cve: null
+build:
+  required: false
+  recipe: null

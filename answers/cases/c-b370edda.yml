@@ -1,0 +1,31 @@
+id: c-b370edda
+label: vulnerable
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-121
+variant: unbounded-copy
+acceptable_cwes: [CWE-121, CWE-787, CWE-120]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/b370edda/work.cpp
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/cpp/b370edda/main.cpp
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the copy is bounded by where the source happens to end rather than by the size of the destination, so anything past thirty-one characters writes over whatever the stack frame holds next — saved registers and the return address among them
+  cve: null
+build:
+  required: false
+  recipe: null

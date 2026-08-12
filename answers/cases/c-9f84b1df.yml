@@ -1,0 +1,31 @@
+id: c-9f84b1df
+label: safe
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/kotlin/9f84b1df/Work.kt
+  start_line: 3
+  end_line: 3
+alt_locations:
+  - file: tier1/kotlin/9f84b1df/Cli.kt
+    start_line: 2
+    end_line: 2
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    both line-break characters are removed before the value is written
+  cve: null
+build:
+  required: false
+  recipe: null

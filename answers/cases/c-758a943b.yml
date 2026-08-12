@@ -1,0 +1,31 @@
+id: c-758a943b
+label: vulnerable
+plane: vuln
+tier: 1
+language: kotlin
+framework: null
+primary_cwe: CWE-862
+variant: no-ownership-check
+acceptable_cwes: [CWE-862, CWE-285, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/kotlin/758a943b/Work.kt
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/kotlin/758a943b/Cli.kt
+    start_line: 2
+    end_line: 2
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the identifier comes from the caller and the record is fetched with no check that they own it, so changing the number walks the whole table
+  cve: null
+build:
+  required: false
+  recipe: null

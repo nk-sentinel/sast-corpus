@@ -1,0 +1,31 @@
+id: c-b244343c
+label: safe
+plane: vuln
+tier: 1
+language: php
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/php/b244343c/work.php
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/php/b244343c/handler.php
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    both line-break characters are removed before the value is written
+  cve: null
+build:
+  required: false
+  recipe: null

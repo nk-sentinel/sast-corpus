@@ -1,0 +1,31 @@
+id: c-036a5a0e
+label: vulnerable
+plane: vuln
+tier: 1
+language: typescript
+framework: null
+primary_cwe: CWE-200
+variant: stack-returned
+acceptable_cwes: [CWE-200, CWE-209, CWE-532]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/typescript/036a5a0e/work.ts
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/typescript/036a5a0e/cli.ts
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the internal failure detail is handed back to the caller, giving away hostnames, ports and account names they had no other way to learn
+  cve: null
+build:
+  required: false
+  recipe: null

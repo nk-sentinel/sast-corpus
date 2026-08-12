@@ -1,0 +1,31 @@
+id: c-c10a4495
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-200
+variant: error-detail-returned
+acceptable_cwes: [CWE-200, CWE-209, CWE-532]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/csharp/c10a4495/Work.cs
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/csharp/c10a4495/Cli.cs
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the internal failure detail is handed back to the caller, giving away hostnames, ports and account names they had no other way to learn
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-9db58813
+label: safe
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/csharp/9db58813/Work.cs
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/csharp/9db58813/Cli.cs
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    both line-break characters are removed before the value is written
+  cve: null
+build:
+  required: false
+  recipe: null

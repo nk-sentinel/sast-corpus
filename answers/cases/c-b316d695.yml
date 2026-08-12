@@ -1,0 +1,31 @@
+id: c-b316d695
+label: safe
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-862
+variant: no-ownership-check
+acceptable_cwes: [CWE-862, CWE-285, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/swift/b316d695/Work.swift
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/swift/b316d695/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    ownership is confirmed against the acting user before the record is read
+  cve: null
+build:
+  required: false
+  recipe: null

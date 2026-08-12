@@ -1,0 +1,31 @@
+id: c-142c90fb
+label: vulnerable
+plane: vuln
+tier: 1
+language: ruby
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/ruby/142c90fb/work.rb
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/ruby/142c90fb/handler.rb
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a newline inside the value starts a second line in the log, so the caller writes records the application never emitted and anything reading them afterwards treats attacker-authored lines as system output
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-a6de7528
+label: vulnerable
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-125
+variant: unchecked-index-in-unsafe
+acceptable_cwes: [CWE-125, CWE-129, CWE-787]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/rust/a6de7528/src/work.rs
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/rust/a6de7528/src/main.rs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    get_unchecked skips the bounds check that makes indexing safe, and the index comes straight from the caller. Past the end of the array it reads whatever lies beyond it — the one way safe Rust's guarantee is given up, and it is given up explicitly here
+  cve: null
+build:
+  required: false
+  recipe: null

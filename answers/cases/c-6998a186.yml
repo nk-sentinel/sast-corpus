@@ -1,0 +1,31 @@
+id: c-6998a186
+label: safe
+plane: vuln
+tier: 1
+language: cpp
+framework: null
+primary_cwe: CWE-121
+variant: unbounded-copy
+acceptable_cwes: [CWE-121, CWE-787, CWE-120]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/cpp/6998a186/work.cpp
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/cpp/6998a186/main.cpp
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the length is clamped to the destination before the copy and the result is terminated explicitly
+  cve: null
+build:
+  required: false
+  recipe: null

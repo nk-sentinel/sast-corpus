@@ -1,0 +1,31 @@
+id: c-80c214f2
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-117
+variant: unsanitised-entry
+acceptable_cwes: [CWE-117, CWE-93, CWE-116]
+owasp_2021: A09
+severity: high
+location:
+  file: tier1/javascript/80c214f2/work.js
+  start_line: 2
+  end_line: 2
+alt_locations:
+  - file: tier1/javascript/80c214f2/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    a newline inside the value starts a second log line, so the caller writes records the application never emitted
+  cve: null
+build:
+  required: false
+  recipe: null

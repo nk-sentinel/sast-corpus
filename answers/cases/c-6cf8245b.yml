@@ -1,0 +1,31 @@
+id: c-6cf8245b
+label: safe
+plane: vuln
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-862
+variant: no-ownership-check
+acceptable_cwes: [CWE-862, CWE-285, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/rust/6cf8245b/src/work.rs
+  start_line: 15
+  end_line: 15
+alt_locations:
+  - file: tier1/rust/6cf8245b/src/main.rs
+    start_line: 5
+    end_line: 5
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    ownership is confirmed against the acting user before the record is read
+  cve: null
+build:
+  required: false
+  recipe: null

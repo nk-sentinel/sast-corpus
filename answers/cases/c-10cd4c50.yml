@@ -1,0 +1,31 @@
+id: c-10cd4c50
+label: safe
+plane: vuln
+tier: 1
+language: swift
+framework: null
+primary_cwe: CWE-190
+variant: unchecked-arithmetic
+acceptable_cwes: [CWE-190, CWE-680, CWE-191]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/swift/10cd4c50/Work.swift
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/swift/10cd4c50/main.swift
+    start_line: 4
+    end_line: 4
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: generated
+  rationale: >-
+    the multiply reports whether it wrapped and the result is rejected when it did
+  cve: null
+build:
+  required: false
+  recipe: null

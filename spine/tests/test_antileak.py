@@ -571,3 +571,37 @@ class LanguageIdiomsThatLookLikeAnnotations(LintCase):
         self.write("tier1/python/aaaa/work.py", "if (ok := check()):\n    pass\n")
 
         self.assertEqual(self.scan()[0], [])
+
+
+class KeywordsThatAreAlsoHintWords(LintCase):
+    """`unsafe` is a Rust keyword, and the only way to write the construct where
+    the language's memory guarantee is given up. A memory-safety fixture in Rust
+    cannot exist without it, so the keyword form is permitted while the word used
+    as a name is still caught."""
+
+    def test_an_unsafe_block_is_permitted(self):
+        self.write("tier1/rust/aaaa/work.rs",
+                   "pub fn f(t: &[u8], i: usize) -> u8 {\n"
+                   "    unsafe { *t.get_unchecked(i) }\n}\n")
+
+        self.assertEqual(self.scan()[0], [])
+
+    def test_an_unsafe_function_is_permitted(self):
+        self.write("tier1/rust/aaaa/work.rs", "pub unsafe fn f() {}\n")
+
+        self.assertEqual(self.scan()[0], [])
+
+    def test_an_unsafe_impl_is_permitted(self):
+        self.write("tier1/rust/aaaa/work.rs", "unsafe impl Send for X {}\n")
+
+        self.assertEqual(self.scan()[0], [])
+
+    def test_the_word_used_as_a_name_is_still_a_hint(self):
+        self.write("tier1/rust/aaaa/work.rs", "let unsafe_value = 1;\n")
+
+        self.assertIn("hint-in-content", self.kinds(self.scan()[0]))
+
+    def test_the_word_in_prose_is_still_a_hint(self):
+        self.write("tier1/python/aaaa/work.py", "MESSAGE = 'this is unsafe'\n")
+
+        self.assertIn("hint-in-content", self.kinds(self.scan()[0]))
