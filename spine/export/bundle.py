@@ -181,7 +181,6 @@ def build_manifest(root, files, profile, keep_git=False, version=None, corpora=N
         "keep_git": keep_git,
         "file_count": len(files),
         "total_bytes": total,
-        "checksums": "SHA256SUMS",
         "pinned": _pinned(root, corpora),
     }
 
@@ -284,7 +283,16 @@ def bundle(root, profile, out, keep_git=False, part_bytes=None):
                 report["missing"].append(str(path))
         destination = out / f"sast-corpus-{version}-{profile}-{archive_name}.tar.gz"
         write_archive(root, files, destination)
+
+        # One checksum list per archive. A single combined list would make a
+        # correct extraction fail verification: the two archives are meant to be
+        # unpacked separately, so checking the scannable tree against a list
+        # that also covers the answer key reports every answer file as missing.
+        sums_name = f"SHA256SUMS.{archive_name}"
+        (out / sums_name).write_text(render_checksums(root, files))
+
         entry = {"archive": destination.name, "files": len(files),
+                 "checksums": sums_name,
                  "bytes": destination.stat().st_size}
         if part_bytes:
             entry["parts"] = _split_file(destination, part_bytes)
@@ -295,7 +303,6 @@ def bundle(root, profile, out, keep_git=False, part_bytes=None):
     corpora = [c for c in ("tier2", "tier3", "perf")
                if any(str(p).startswith(c) for comp in components for p in comp.paths)]
 
-    (out / "SHA256SUMS").write_text(render_checksums(root, every_file))
     manifest = build_manifest(root, every_file, profile, keep_git, version, corpora)
     manifest["archives"] = report["archives"]
     (out / "MANIFEST.json").write_text(json.dumps(manifest, indent=1) + "\n")
@@ -335,14 +342,14 @@ def main(argv=None):
     print(f"profile {report['profile']}, corpus {report['version']}")
     for entry in report["archives"]:
         size = entry.get("bytes", 0) / (1 << 20)
-        print(f"  {entry['archive']}  {entry['files']} files  {size:.1f} MB")
+        print(f"  {entry['archive']}  {entry['files']} files  {size:.1f} MB"
+              f"  ({entry['checksums']})")
         for part in entry.get("parts", []):
             print(f"      {part['name']}  {part['bytes'] / (1 << 20):.1f} MB")
     if report["missing"]:
         # Silence here would look like a complete bundle.
         print(f"  NOT PRESENT and therefore NOT bundled: {', '.join(report['missing'])}")
     print(f"  {report['manifest']}")
-    print(f"  {Path(report['manifest']).parent / 'SHA256SUMS'}")
     print("\nThe answer key is in the -answers archive, deliberately apart from the")
     print("scannable one. Do not extract both into the same tree before scanning.")
     return 0

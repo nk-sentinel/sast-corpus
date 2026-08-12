@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from export.bundle import (PROFILES, build_manifest, checksum, components_for,
+from export.bundle import (PROFILES, build_manifest, bundle, checksum, components_for,
                            iter_files, render_checksums, render_licenses,
                            should_exclude, split_plan)
 
@@ -228,6 +228,51 @@ class Checksums(BundleCase):
         text = render_checksums(self.root, iter_files(self.root, [Path("tier1")]))
 
         self.assertEqual(len(text.strip().splitlines()), 3)
+
+
+class ChecksumsAreWrittenPerArchive(BundleCase):
+    """The two archives are meant to be extracted separately, so one checksum
+    file covering both makes a correct extraction fail: verifying the corpus
+    tree alone reports every answer-key file as missing. Each archive carries
+    its own list."""
+
+    def test_bundle_writes_one_checksum_file_per_archive(self):
+        self.write("tier1/a.java")
+        self.write("answers/expectedresults-1.0.csv", "id\n")
+        self.write("spine/score/score.py")
+
+        bundle(self.root, "scoring", self.root / "out")
+
+        names = {p.name for p in (self.root / "out").glob("SHA256SUMS*")}
+        self.assertEqual(names, {"SHA256SUMS.corpus", "SHA256SUMS.answers"})
+
+    def test_the_corpus_list_holds_no_answer_key(self):
+        self.write("tier1/a.java")
+        self.write("answers/expectedresults-1.0.csv", "id\n")
+
+        bundle(self.root, "scoring", self.root / "out")
+
+        text = (self.root / "out" / "SHA256SUMS.corpus").read_text()
+        self.assertNotIn("answers/", text)
+
+    def test_the_answers_list_holds_the_answer_key(self):
+        self.write("tier1/a.java")
+        self.write("answers/expectedresults-1.0.csv", "id\n")
+
+        bundle(self.root, "scoring", self.root / "out")
+
+        text = (self.root / "out" / "SHA256SUMS.answers").read_text()
+        self.assertIn("answers/expectedresults-1.0.csv", text)
+
+    def test_the_manifest_names_both_lists(self):
+        self.write("tier1/a.java")
+        self.write("answers/expectedresults-1.0.csv", "id\n")
+
+        bundle(self.root, "scoring", self.root / "out")
+
+        manifest = json.loads((self.root / "out" / "MANIFEST.json").read_text())
+        listed = {a["checksums"] for a in manifest["archives"]}
+        self.assertEqual(listed, {"SHA256SUMS.corpus", "SHA256SUMS.answers"})
 
 
 class Licences(BundleCase):

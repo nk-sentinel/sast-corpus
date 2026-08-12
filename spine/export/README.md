@@ -85,3 +85,53 @@ the standard format needs no tooling of ours to check.
 
 Provenance is scoped to what actually travelled: a `scoring` bundle pins
 `cwe-bench-java` and `vul4j` and says nothing about `perf`.
+
+## `verify.py` — the arrival check
+
+A bundle that unpacks without error is not evidence. Run this before scoring:
+
+```bash
+python3 spine/export/verify.py --root /path/to/extracted     # integrity + gates
+python3 spine/export/verify.py --root . --checksums-only     # integrity alone
+```
+
+Standard library only, no network, nothing to install — the same property that
+lets the scorer run anywhere lets verification run anywhere.
+
+```
+ARRIVAL CHECK — sast-corpus 1.0, profile scoring
+
+INTEGRITY
+   119806  files checksummed
+        0  missing
+        0  modified — content differs from the manifest
+        0  present but not in the manifest
+
+Verified: this is the same corpus that left, and a scorecard
+produced against it is comparable to one produced at origin.
+```
+
+Then it re-runs the corpus's own gates where it landed: the answer key must
+regenerate identically, the anti-leak lint must stay clean, fixtures must parse,
+the unit tests must pass, and the negative control must score an empty result
+set at 0 found and 0 false alarms.
+
+**A skipped gate fails the run.** "We could not check" is not "we checked and it
+was fine" — the rule the syntax gate already follows for absent toolchains. A
+run that reports green because nothing ran is the failure this file exists to
+prevent.
+
+**It catches the one mistake that quietly ruins a bake-off.** Extracting the
+answers archive over the scannable tree leaves the ground truth where a scanner
+reads it, and the scan still looks entirely normal. Each archive carries its own
+`SHA256SUMS.<name>`, and a corpus tree with an `answers/` directory in it is
+reported and fails:
+
+```
+GROUND TRUTH IS IN THE SCAN TARGET
+306 answer-key file(s) sit under answers/ in a tree whose
+checksum list does not cover them ...
+```
+
+Verified against real corruption, not only in unit tests: a modified file, a
+deleted file and a misplaced answers archive each produce a non-zero exit.
