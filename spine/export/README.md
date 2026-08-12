@@ -135,3 +135,42 @@ checksum list does not cover them ...
 
 Verified against real corruption, not only in unit tests: a modified file, a
 deleted file and a misplaced answers archive each produce a non-zero exit.
+
+## `fetch.py --offline`
+
+```bash
+python3 spine/corpora/fetch.py tier3 --offline
+SAST_CORPUS_OFFLINE=1 python3 spine/corpora/fetch.py tier3   # same, via environment
+```
+
+Never reaches the network. Without it a fetch in an airgapped environment does
+not fail fast — it hangs against an unreachable host, which reads as the corpus
+being broken rather than the environment having no route out. The environment
+variable exists so an airgapped host does not depend on anyone remembering the
+flag.
+
+**Presence is no longer judged by `.git`.** The export drops vendored history on
+purpose, so the old check would have called every restored tree *absent* and
+tried to clone it — the one thing that cannot work there. A populated directory
+without history now reads as `restored`: usable, with its provenance in
+`MANIFEST.json` rather than in git.
+
+```
+tier3: 2 source(s) [offline]
+  vul4j                  absent
+    optional and not present; it contributes no cases, so scoring is unaffected
+  cwe-bench-java         restored
+```
+
+Sources may be declared `optional` in a manifest. `vul4j` is the first: it is
+pinned and fetchable, and no case in the answer key derives from it, because
+cwe-bench-java covered the same ground first. Failing an offline check over a
+source that contributes nothing would make the check fail every time it runs,
+and a check that always fails is one people learn to ignore.
+
+## A note on which tooling runs
+
+The bundle carries `spine/`, so an extracted corpus runs the tooling as it was
+when the bundle was built, not whatever is on the host. When verifying an older
+bundle, check `MANIFEST.json` for its corpus version before concluding that a
+behaviour is a bug.

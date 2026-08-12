@@ -19,6 +19,7 @@ in either scorecard would say so.
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -39,16 +40,25 @@ class Source:
     notes: str = ""
     approx_loc: int = None
     bucket: str = None
+    # Declared but not required. A source that produces no cases should not make
+    # an offline check fail every time it runs — a check that always fails is one
+    # people learn to ignore.
+    optional: bool = False
+
+
+FIELDS = ("name", "repo", "sha", "license", "languages", "notes",
+          "approx_loc", "bucket", "optional")
+
+
+def load_manifest_data(data):
+    return [
+        Source(**{key: entry[key] for key in FIELDS if key in entry})
+        for entry in data.get("sources", [])
+    ]
 
 
 def load_manifest(path):
-    data = json.loads(Path(path).read_text())
-    return [
-        Source(**{key: entry.get(key) for key in
-                  ("name", "repo", "sha", "license", "languages", "notes",
-                   "approx_loc", "bucket")})
-        for entry in data.get("sources", [])
-    ]
+    return load_manifest_data(json.loads(Path(path).read_text()))
 
 
 def manifest_errors(data):
@@ -87,6 +97,56 @@ def target_path(root, corpus, source):
     return destination
 
 
+def _head(destination):
+    current = subprocess.run(["git", "-C", str(destination), "rev-parse", "HEAD"],
+                             stdout=subprocess.PIPE, text=True)
+    return current.stdout.strip() if current.returncode == 0 else None
+
+
+def checkout_state(destination, sha, head=None):
+    """What is on disk, without assuming git history is there to ask.
+
+    The export bundle drops `.git` on purpose — 602 MB of packfiles for code we
+    did not write, replaced by the pinned SHA recorded in MANIFEST.json. Judging
+    presence by the presence of `.git` would therefore call every restored tree
+    *absent* and try to clone it, which is precisely what an airgapped
+    environment cannot do. A populated directory without history is `restored`:
+    usable, with its provenance in the manifest rather than in git.
+    """
+    destination = Path(destination)
+    if not destination.is_dir():
+        return "absent"
+    if (destination / ".git").is_dir():
+        current = (head or _head)(destination)
+        return "present" if current == sha else "wrong-revision"
+    return "restored" if any(destination.iterdir()) else "absent"
+
+
+def offline_outcome(state, optional=False):
+    """Whether a state is usable with no network, and what to do if not.
+
+    `optional` sources are declared in a manifest but produce no cases, so their
+    absence is reported and does not fail the run.
+    """
+    if state in ("present", "restored"):
+        return "ok", ""
+    if state == "wrong-revision":
+        return "error", ("checkout is not at the pinned revision and cannot be "
+                         "refetched offline; restore this source from the bundle")
+    if optional:
+        return "note", ("optional and not present; it contributes no cases, so "
+                        "scoring is unaffected")
+    return "error", ("not present and cannot be fetched offline; restore it from "
+                     "the export bundle (see docs/AIRGAP-EXPORT.md)")
+
+
+def offline_requested(argv_offline, environ):
+    """An airgapped host should not depend on anyone remembering a flag."""
+    if argv_offline:
+        return True
+    return str(environ.get("SAST_CORPUS_OFFLINE", "")).strip().lower() in ("1", "true", "yes")
+
+
 def fetch(source, destination):
     """Clone at the pinned revision. Existing checkouts are left alone."""
     if (destination / ".git").is_dir():
@@ -110,7 +170,7 @@ def fetch(source, destination):
     return "fetched"
 
 
-def main(argv=None):
+def build_parser():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     root = Path(__file__).resolve().parents[2]
     parser.add_argument("corpus", choices=("tier2", "tier3", "perf"))
@@ -118,7 +178,16 @@ def main(argv=None):
     parser.add_argument("--check", action="store_true",
                         help="validate the manifest and report status without cloning")
     parser.add_argument("--only", default=None, help="fetch a single source by name")
-    args = parser.parse_args(argv)
+    parser.add_argument("--offline", action="store_true",
+                        help="never reach the network; report what is present and "
+                             "fail on anything that is not. Also set by "
+                             "SAST_CORPUS_OFFLINE=1")
+    return parser
+
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
+    offline = offline_requested(args.offline, os.environ)
 
     manifest_path = args.root / args.corpus / "sources.json"
     if not manifest_path.is_file():
@@ -136,15 +205,30 @@ def main(argv=None):
     if args.only:
         sources = [s for s in sources if s.name == args.only]
 
-    print("{}: {} source(s)".format(args.corpus, len(sources)))
+    print("{}: {} source(s){}".format(
+        args.corpus, len(sources), " [offline]" if offline else ""))
     failures = 0
 
     for source in sources:
         destination = target_path(args.root, args.corpus, source)
         if args.check:
-            state = "present" if (destination / ".git").is_dir() else "absent"
-            print("  {:<22} {:<10} {:<14} {}".format(
+            state = checkout_state(destination, source.sha)
+            print("  {:<22} {:<12} {:<14} {}".format(
                 source.name, state, source.license, source.sha[:12]))
+            continue
+
+        if offline:
+            # Never touch the network. A clone attempt here does not fail fast:
+            # it hangs against an unreachable host, which looks like the corpus
+            # being broken rather than the environment being airgapped.
+            state = checkout_state(destination, source.sha)
+            status, advice = offline_outcome(state, source.optional)
+            print("  {:<22} {}".format(source.name, state))
+            if advice:
+                stream = sys.stderr if status == "error" else sys.stdout
+                print("    {}".format(advice), file=stream)
+            if status == "error":
+                failures += 1
             continue
 
         state = fetch(source, destination)

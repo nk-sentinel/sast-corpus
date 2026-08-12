@@ -7,7 +7,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from corpora.fetch import Source, load_manifest, manifest_errors, target_path
+from corpora.fetch import (Source, build_parser, checkout_state,
+                           load_manifest, manifest_errors, offline_outcome,
+                           offline_requested, load_manifest_data, target_path)
 
 MANIFEST = {
     "corpus": "tier2",
@@ -113,3 +115,134 @@ def load_manifest_source(**overrides):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OfflineOperation(unittest.TestCase):
+    """In an airgapped environment there is nothing to clone from, and a fetch
+    that tries anyway hangs on an unreachable host instead of saying so."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        self.addCleanup(self.tmp.cleanup)
+
+    def test_a_bundle_restored_tree_is_not_absent(self):
+        # The export drops .git deliberately — 602 MB of history for code we did
+        # not write, replaced by the pinned SHA in MANIFEST.json. Judging
+        # presence by .git would call every restored tree absent and try to
+        # clone it, which is exactly what cannot work here.
+        destination = self.root / "webgoat"
+        (destination / "src").mkdir(parents=True)
+        (destination / "src" / "A.java").write_text("class A {}")
+
+        self.assertEqual(checkout_state(destination, "a" * 40), "restored")
+
+    def test_a_checkout_at_the_pinned_revision_is_present(self):
+        destination = self.root / "x"
+        (destination / ".git").mkdir(parents=True)
+
+        state = checkout_state(destination, "a" * 40,
+                               head=lambda _: "a" * 40)
+
+        self.assertEqual(state, "present")
+
+    def test_a_checkout_at_another_revision_is_flagged(self):
+        destination = self.root / "x"
+        (destination / ".git").mkdir(parents=True)
+
+        state = checkout_state(destination, "a" * 40, head=lambda _: "b" * 40)
+
+        self.assertEqual(state, "wrong-revision")
+
+    def test_an_empty_directory_is_absent(self):
+        destination = self.root / "x"
+        destination.mkdir()
+
+        self.assertEqual(checkout_state(destination, "a" * 40), "absent")
+
+    def test_a_missing_directory_is_absent(self):
+        self.assertEqual(checkout_state(self.root / "nope", "a" * 40), "absent")
+
+
+class OfflineOutcomes(unittest.TestCase):
+    def test_a_restored_tree_is_usable(self):
+        status, _ = offline_outcome("restored")
+
+        self.assertEqual(status, "ok")
+
+    def test_a_present_checkout_is_usable(self):
+        self.assertEqual(offline_outcome("present")[0], "ok")
+
+    def test_an_absent_source_is_an_error_offline(self):
+        status, message = offline_outcome("absent")
+
+        self.assertEqual(status, "error")
+
+    def test_the_error_says_how_to_resolve_it(self):
+        # There is no network here, so "run fetch again" is useless advice.
+        _, message = offline_outcome("absent")
+
+        self.assertIn("bundle", message.lower())
+
+    def test_a_wrong_revision_is_an_error(self):
+        self.assertEqual(offline_outcome("wrong-revision")[0], "error")
+
+
+class OptionalSources(unittest.TestCase):
+    """A manifest may declare a source that produces no cases. vul4j is one: it
+    is fetched, it is 21 MB of GPL-3.0 code, and no case in the answer key
+    references it. Treating its absence as a failure would make the offline
+    check fail permanently, and a check that always fails is a check people
+    learn to ignore."""
+
+    def test_a_required_source_missing_offline_is_an_error(self):
+        status, _ = offline_outcome("absent", optional=False)
+
+        self.assertEqual(status, "error")
+
+    def test_an_optional_source_missing_offline_is_not_an_error(self):
+        status, _ = offline_outcome("absent", optional=True)
+
+        self.assertNotEqual(status, "error")
+
+    def test_an_optional_absence_is_still_reported(self):
+        _, message = offline_outcome("absent", optional=True)
+
+        self.assertTrue(message)
+
+    def test_optional_defaults_to_required(self):
+        # Silence about a missing source is worse than a noisy check.
+        self.assertEqual(offline_outcome("absent")[0], "error")
+
+    def test_the_manifest_can_declare_a_source_optional(self):
+        sources = load_manifest_data({"sources": [
+            {"name": "vul4j", "repo": "https://x/y", "sha": "a" * 40,
+             "license": "GPL-3.0", "optional": True}]})
+
+        self.assertTrue(sources[0].optional)
+
+    def test_a_source_is_required_unless_it_says_otherwise(self):
+        sources = load_manifest_data({"sources": [
+            {"name": "cwe-bench-java", "repo": "https://x/y", "sha": "b" * 40,
+             "license": "MIT"}]})
+
+        self.assertFalse(sources[0].optional)
+
+
+class OfflineFlag(unittest.TestCase):
+    def test_offline_is_off_by_default(self):
+        self.assertFalse(build_parser().parse_args(["tier2"]).offline)
+
+    def test_offline_can_be_requested(self):
+        self.assertTrue(build_parser().parse_args(["tier2", "--offline"]).offline)
+
+    def test_the_environment_can_turn_it_on(self):
+        # An airgapped host should not depend on anyone remembering a flag.
+        self.assertTrue(offline_requested(argv_offline=False,
+                                          environ={"SAST_CORPUS_OFFLINE": "1"}))
+
+    def test_the_flag_alone_is_enough(self):
+        self.assertTrue(offline_requested(argv_offline=True, environ={}))
+
+    def test_neither_means_online(self):
+        self.assertFalse(offline_requested(argv_offline=False, environ={}))

@@ -123,16 +123,17 @@ need `docker save` if PHP and Ruby are to stay parse-verified on the far side;
 otherwise both drop back to *not checked*, which the gate already reports
 honestly.
 
-## Proposed tooling
+## Tooling
 
-Four pieces, all standard library, no network anywhere in the restore path:
+Four pieces, all standard library, no network anywhere in the restore path.
+All four are built — see [../spine/export/README.md](../spine/export/README.md):
 
 | | |
 |---|---|
 | `spine/export/bundle.py` | `--profile {scoring,perf,build,full}`, `--split <size>` for transfer-media limits. Writes `MANIFEST.json` — SHA-256 per file, pinned upstream commit per vendored tree, corpus version, profile, toolchain versions — and a generated `LICENSES.md` |
 | `spine/export/deps.py` | Emits the JFrog checklist: every Maven GAV and Gradle coordinate, dependencies and plugins, per project |
 | `spine/export/verify.py` | Runs on arrival: checksums, then the existing gates |
-| `fetch.py --offline` | Hard-fails rather than attempting a clone, so an airgapped run cannot half-succeed |
+| `fetch.py --offline` | Refuses the network and reports what is present. Also set by `SAST_CORPUS_OFFLINE=1`. Recognises a bundle-restored tree that has no `.git` |
 
 ## Proving it arrived intact
 
