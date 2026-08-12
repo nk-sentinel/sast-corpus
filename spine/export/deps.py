@@ -277,30 +277,28 @@ def collect(root, only=None, offline=True, progress=True, exclude=()):
             mvn = env / f"apache-maven-{info['mvn']}" / "bin" / "mvn"
             if not mvn.exists():
                 project.error = f"maven {info['mvn']} not provisioned"
-                projects.append(project)
-                continue
-            flags = ["-o"] if offline else []
-            listing = _run([str(mvn), *flags, "-B", "dependency:list"], source)
-            plugins = _run([str(mvn), *flags, "-B", "dependency:resolve-plugins"], source)
-            project.coordinates = (parse_maven_list(listing.stdout)
-                                   + parse_maven_plugins(plugins.stdout))
-            project.error = describe_failure({
-                "dependencies": (listing.returncode == 0, _reason(listing)),
-                "plugins": (plugins.returncode == 0, _reason(plugins)),
-            })
+            else:
+                flags = ["-o"] if offline else []
+                listing = _run([str(mvn), *flags, "-B", "dependency:list"], source)
+                plugins = _run([str(mvn), *flags, "-B", "dependency:resolve-plugins"], source)
+                project.coordinates = (parse_maven_list(listing.stdout)
+                                       + parse_maven_plugins(plugins.stdout))
+                project.error = describe_failure({
+                    "dependencies": (listing.returncode == 0, _reason(listing)),
+                    "plugins": (plugins.returncode == 0, _reason(plugins)),
+                })
         elif info.get("gradle"):
             project = Project(name, "gradle", jdk, str(info.get("gradle")))
             wrapper = source / "gradlew"
             if not wrapper.exists():
                 project.error = "no gradle wrapper; needs a provisioned gradle"
-                projects.append(project)
-                continue
-            flags = ["--offline"] if offline else []
-            listing = _run([str(wrapper), *flags, "-q", "dependencies"], source)
-            project.coordinates = parse_gradle_tree(listing.stdout)
-            project.error = describe_failure({
-                "dependencies": (listing.returncode == 0, _reason(listing)),
-            })
+            else:
+                flags = ["--offline"] if offline else []
+                listing = _run([str(wrapper), *flags, "-q", "dependencies"], source)
+                project.coordinates = parse_gradle_tree(listing.stdout)
+                project.error = describe_failure({
+                    "dependencies": (listing.returncode == 0, _reason(listing)),
+                })
         else:
             project = Project(name, "unknown")
             project.error = "build-info declares neither mvn nor gradle"

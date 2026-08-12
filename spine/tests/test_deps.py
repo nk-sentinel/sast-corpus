@@ -1,10 +1,14 @@
+import contextlib
+import io
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from export.deps import (Coordinate, build_parser, dedupe, describe_failure,
+from export.deps import (Coordinate, build_parser, collect, dedupe, describe_failure,
                          parse_gradle_tree, parse_maven_list,
                          parse_maven_plugins, render_text)
 
@@ -115,6 +119,57 @@ class GradleDependencyTree(unittest.TestCase):
         got = parse_gradle_tree(out)
 
         self.assertEqual([(c.artifact, c.version) for c in got], [("bar", "1.0")])
+
+
+class EveryProjectIsAccountedFor(unittest.TestCase):
+    """A project whose toolchain is missing still has to appear in the progress
+    output. Otherwise the log shows `resolving X ...` with no outcome and the
+    reader is left guessing whether it hung, crashed, or was skipped — and this
+    is a run people watch for tens of minutes."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        self.addCleanup(self.tmp.cleanup)
+
+    def project(self, name, info):
+        info_dir = self.root / "tier3" / "cwe-bench-java" / "build-info"
+        info_dir.mkdir(parents=True, exist_ok=True)
+        (info_dir / f"{name}.json").write_text(json.dumps(info))
+        (self.root / "tier3" / "project-sources" / name).mkdir(parents=True, exist_ok=True)
+
+    def collect_output(self):
+        stream = io.StringIO()
+        with contextlib.redirect_stderr(stream):
+            projects = collect(self.root)
+        return projects, stream.getvalue()
+
+    def test_a_project_with_no_provisioned_maven_is_reported(self):
+        self.project("x", {"jdk": "8u202", "mvn": "9.9.9"})
+
+        projects, output = self.collect_output()
+
+        self.assertEqual(len(projects), 1)
+        self.assertIn("not provisioned", output)
+
+    def test_a_gradle_project_with_no_wrapper_is_reported(self):
+        self.project("y", {"jdk": "17", "gradle": "8.9"})
+
+        projects, output = self.collect_output()
+
+        self.assertEqual(len(projects), 1)
+        self.assertIn("gradle", output)
+
+    def test_no_project_starts_without_finishing(self):
+        self.project("x", {"jdk": "8u202", "mvn": "9.9.9"})
+        self.project("y", {"jdk": "17", "gradle": "8.9"})
+
+        _, output = self.collect_output()
+
+        started = output.count("resolving ")
+        finished = sum(1 for line in output.splitlines()
+                       if line.strip().startswith(("x:", "y:")))
+        self.assertEqual(started, finished)
 
 
 class Deduplication(unittest.TestCase):
