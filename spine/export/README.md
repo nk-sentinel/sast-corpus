@@ -32,6 +32,37 @@ Dependencies and plugins come from two separate commands, and one can fail while
 the other succeeds. Per-stage failures are named per project rather than
 collapsed into "some artifacts found", for the same reason.
 
+### Measured result
+
+27 projects resolved (nifi excluded — 13 GB, and its plugin tree dominates the
+run): **5,533 distinct artifacts, 365 of them plugins**.
+
+```
+ 18  resolved cleanly
+  6  partial — resolved, with at least one module failing
+  3  contributed nothing
+  1  excluded by request
+```
+
+Partial and empty are separated deliberately. activemq reports one failed module
+alongside 26,934 resolved coordinates, and listing it beside a project that
+produced nothing would misstate what the checklist covers. The three that
+contributed nothing — DSpace, tapestry-5, spring-framework — have their
+artifacts **absent from the list**, and that is stated rather than left to be
+discovered on the far side.
+
+Two outputs: `export/jfrog-checklist.json` (per-project detail) and
+`export/jfrog-artifacts.txt` (one coordinate per line, for handing over).
+
+### Build routing follows the files, not the metadata
+
+Five projects declare a `gradle` key in `build-info` and every one of them
+contains `pom.xml` and no Gradle file at all — the key does not mean what its
+name suggests. Two others use a separate `gradlew` key and do carry a wrapper.
+Trusting the metadata routed 7 of 28 projects to a tool they do not use and cost
+1,632 artifacts, which is why routing reads the build files on disk and takes
+only versions from `build-info`.
+
 ## What the checklist does not tell you
 
 That the repository will *serve* them. These projects pin releases from 2014 to

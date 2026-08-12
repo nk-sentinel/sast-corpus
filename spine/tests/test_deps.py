@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from export.deps import (Coordinate, build_parser, build_plan, collect, dedupe,
-                         describe_failure,
+                         Project, classify, describe_failure, render_report,
                          parse_gradle_tree, parse_maven_list,
                          parse_maven_plugins, render_text)
 
@@ -214,6 +214,41 @@ class EveryProjectIsAccountedFor(unittest.TestCase):
         finished = sum(1 for line in output.splitlines()
                        if line.strip().startswith(("x:", "y:")))
         self.assertEqual(started, finished)
+
+
+class PartialIsNotEmpty(unittest.TestCase):
+    """A multi-module build where one module fails still resolves the rest.
+    activemq reports 26,934 coordinates alongside one failed module; calling
+    that a failure alongside a project that produced nothing tells the reader
+    the wrong thing about what the checklist covers."""
+
+    def test_a_project_with_coordinates_and_an_error_is_partial(self):
+        project = Project("x", "maven", coordinates=[Coordinate("g", "a", "1")],
+                          error="dependencies failed: one module")
+
+        self.assertEqual(classify(project), "partial")
+
+    def test_a_project_with_an_error_and_nothing_resolved_is_empty(self):
+        self.assertEqual(classify(Project("x", "maven", error="boom")), "empty")
+
+    def test_a_clean_project_is_resolved(self):
+        project = Project("x", "maven", coordinates=[Coordinate("g", "a", "1")])
+
+        self.assertEqual(classify(project), "resolved")
+
+    def test_an_excluded_project_is_its_own_category(self):
+        self.assertEqual(classify(Project("x", "excluded", error="excluded by request")),
+                         "excluded")
+
+    def test_the_report_separates_partial_from_empty(self):
+        projects = [Project("a", "maven", coordinates=[Coordinate("g", "a", "1")],
+                            error="one module failed"),
+                    Project("b", "maven", error="nothing worked")]
+
+        text = render_report(projects)
+
+        self.assertIn("partial", text.lower())
+        self.assertIn("contributed nothing", text.lower())
 
 
 class Deduplication(unittest.TestCase):

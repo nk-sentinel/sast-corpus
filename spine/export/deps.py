@@ -332,6 +332,21 @@ def collect(root, only=None, offline=True, progress=True, exclude=()):
     return projects
 
 
+def classify(project):
+    """How much of a project made it into the checklist.
+
+    Partial and empty are different facts. A large multi-module build where one
+    module fails still resolves everything else — activemq contributes 26,934
+    coordinates alongside one failed module — and reporting that beside a
+    project that produced nothing misstates what the checklist covers.
+    """
+    if project.tool == "excluded":
+        return "excluded"
+    if not project.error:
+        return "resolved"
+    return "partial" if project.coordinates else "empty"
+
+
 def render_text(coordinates):
     return "\n".join(coordinate.text() for coordinate in coordinates) + "\n"
 
@@ -340,27 +355,40 @@ def render_report(projects, offline=False):
     """Human-readable summary. States what could NOT be collected as loudly as
     what could — a checklist that silently omits a project reads as complete."""
     every = dedupe([c for p in projects for c in p.coordinates])
+    grouped = {}
+    for project in projects:
+        grouped.setdefault(classify(project), []).append(project)
+
     lines = [
         "ARTIFACT CHECKLIST",
         "",
         f"  {len(every)} distinct artifacts required by {len(projects)} project(s)",
+        f"  {len([a for a in every if 'plugin' in a.artifact])} of them plugins",
         "",
     ]
     if offline:
         lines += ["  GENERATED OFFLINE — this list is incomplete. Plugins declared but",
                   "  never invoked are absent from any cache, so they are absent here.",
                   ""]
-    failed = [p for p in projects if p.error]
-    if failed:
-        lines += [f"  {len(failed)} project(s) yielded nothing — their artifacts are NOT below:"]
-        lines += [f"      {p.name}: {p.error}" for p in failed]
-        lines += [""]
-    by_tool = {}
-    for project in projects:
-        by_tool.setdefault(project.tool, []).append(project)
-    for tool, group in sorted(by_tool.items()):
-        lines.append(f"  {tool}: {len(group)} project(s), "
-                     f"{len(dedupe([c for p in group for c in p.coordinates]))} artifacts")
+
+    lines += [f"  {len(grouped.get('resolved', [])):>3}  resolved cleanly",
+              f"  {len(grouped.get('partial', [])):>3}  partial — resolved, with at least one module failing",
+              f"  {len(grouped.get('empty', [])):>3}  contributed nothing",
+              f"  {len(grouped.get('excluded', [])):>3}  excluded by request",
+              ""]
+
+    for label, heading in (("partial", "Partial — most of these resolved; one module did not:"),
+                           ("empty", "Contributed NOTHING — their artifacts are absent from the list:"),
+                           ("excluded", "Excluded — not attempted:")):
+        entries = grouped.get(label, [])
+        if not entries:
+            continue
+        lines += [f"  {heading}"]
+        for project in sorted(entries, key=lambda p: p.name):
+            count = f"{len(project.coordinates)} coords" if project.coordinates else "none"
+            lines.append(f"      {project.name[:46]:<48} {count:<12} {(project.error or '')[:60]}")
+        lines.append("")
+
     return "\n".join(lines) + "\n"
 
 
