@@ -682,5 +682,24 @@
       "php"
     ],
     "reason": "Prototype and attribute pollution need a runtime whose object model is mutable at the language level. Compiled and statically-dispatched languages have no equivalent."
+  },
+  "CWE-285": {
+    "name": "improper authorisation",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Not language-specific."
   }
 }

@@ -11,21 +11,26 @@ ground truth, with the same match rules.
 
 | | |
 |---|---|
-| Cases | **305** — 256 tier-1 synthetic, 49 tier-3 real CVEs |
-| False-positive traps | **149 (49%)** |
-| Weaknesses | **33 CWEs — all 25 of the 2025 CWE Top 25** |
+| Cases | **543** — 446 tier-1 synthetic, 97 tier-3 real CVEs |
+| False-positive traps | **244 (45%)** |
+| Weaknesses | **42 CWEs — all 25 of the 2025 CWE Top 25** |
 | OWASP Top 10 (2021) | **10 of 10** categories |
-| Languages | 13, **none below 6 weaknesses** |
-| Detection planes | `vuln` · `secret` · `sca` |
+| Languages | 13, **none below 10 weaknesses** |
+| Detection planes | `vuln` 491 · `secret` 28 · `sca` 24 |
 | Visible to build-required engines | tier-1 Java, plus 28 of 28 CVE projects that compile |
 | Scan-time corpus | 4 real repositories, 15k → 4.6M measured code lines |
 
-**Read the depth table before the totals.** 33 CWEs is a corpus-wide figure, and
-no language carries all of them. The spread runs from Java at 16 weaknesses and
-Python at 15 down to a floor of 6 — every language now clears that floor, which
-is the minimum at which a per-language number means anything, but 6 of 33 is a
-narrow base and a scorecard row built on it should be read as a sample, not a
-verdict. Grid density is 27% of all cells, or **35% of the cells where the
+**Read the depth table before the totals.** 42 CWEs is a corpus-wide figure, and
+no language carries all of them. Every language clears a floor of 10, which is
+where a per-language number starts to mean something, but a row resting near the
+floor is a sample rather than a verdict.
+
+**105 of the cases are hard ones**, and they are the point. Obfuscation —
+aliasing, collections, object fields, callbacks, reflection and strong updates —
+was zero cases before; ineffective sanitizers were four. A direct flow with a
+clean sibling is caught by a regular expression and by a commercial dataflow
+engine alike, so a corpus made only of those cannot rank the tools it exists to
+rank. Grid density is 27% of all cells, or **35% of the cells where the
 weakness can actually arise** — use-after-free in Java and XXE in C are not
 gaps, and `spine/report/applicability.json` says which pairs are real and is
 checked against the answer key in CI. [docs/COVERAGE.md](docs/COVERAGE.md) ranks

@@ -1,0 +1,40 @@
+id: c-06f07b8b
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-863
+variant: unknown
+acceptable_cwes: [CWE-863, CWE-285, CWE-862]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/containerd__containerd@0c314901076a/oci/spec_opts.go
+  start_line: 523
+  end_line: 613
+alt_locations:
+  - file: tier3/patcheval/containerd__containerd@0c314901076a/oci/spec_opts.go
+    start_line: 616
+    end_line: 623
+  - file: tier3/patcheval/containerd__containerd@0c314901076a/oci/spec_opts.go
+    start_line: 629
+    end_line: 678
+  - file: tier3/patcheval/containerd__containerd@0c314901076a/oci/spec_opts.go
+    start_line: 686
+    end_line: 733
+  - file: tier3/patcheval/containerd__containerd@0c314901076a/oci/spec_opts.go
+    start_line: 738
+    end_line: 804
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-25173 in containerd/containerd, at the buggy commit 0c314901076a74a7b797a545d2f462285fdbb8c4. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 5 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2023-25173
+build:
+  required: false
+  recipe: null

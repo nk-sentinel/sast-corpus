@@ -1,0 +1,31 @@
+id: c-e585506e
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-862
+variant: unknown
+acceptable_cwes: [CWE-862, CWE-285, CWE-863]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/unshiftio__url-parse@82c4908/index.js
+  start_line: 236
+  end_line: 389
+alt_locations:
+  - file: tier3/patcheval/unshiftio__url-parse@82c4908/index.js
+    start_line: 402
+    end_line: 488
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-0512 in unshiftio/url-parse, at the buggy commit 82c4908. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2022-0512
+build:
+  required: false
+  recipe: null
