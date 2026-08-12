@@ -3858,6 +3858,22 @@
       "scope": "test"
     },
     {
+      "group": "com.fizzed",
+      "artifact": "rocker-compiler",
+      "version": "0.22.0",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": "test"
+    },
+    {
+      "group": "com.fizzed",
+      "artifact": "rocker-runtime",
+      "version": "0.22.0",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": "compile"
+    },
+    {
       "group": "com.github.albfernandez",
       "artifact": "juniversalchardet",
       "version": "2.5.0",
@@ -5012,6 +5028,14 @@
     {
       "group": "com.google.guava",
       "artifact": "guava",
+      "version": "29.0-jre",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "com.google.guava",
+      "artifact": "guava",
       "version": "31.1-jre",
       "packaging": "jar",
       "classifier": null,
@@ -5604,6 +5628,14 @@
     {
       "group": "com.jcraft",
       "artifact": "jsch",
+      "version": "0.1.42",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "com.jcraft",
+      "artifact": "jsch",
       "version": "0.1.44-1",
       "packaging": "jar",
       "classifier": null,
@@ -6154,6 +6186,14 @@
       "scope": "compile"
     },
     {
+      "group": "com.puppycrawl.tools",
+      "artifact": "checkstyle",
+      "version": "8.33",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
       "group": "com.rometools",
       "artifact": "rome",
       "version": "1.12.0",
@@ -6360,6 +6400,22 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "compile"
+    },
+    {
+      "group": "com.sun",
+      "artifact": "tools",
+      "version": "1.5",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "com.sun",
+      "artifact": "tools",
+      "version": "1.8.0",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "com.sun.activation",
@@ -6693,6 +6749,14 @@
       "group": "com.thoughtworks.xstream",
       "artifact": "xstream",
       "version": "1.4.15",
+      "packaging": "jar",
+      "classifier": "javadoc",
+      "scope": "provided"
+    },
+    {
+      "group": "com.thoughtworks.xstream",
+      "artifact": "xstream",
+      "version": "1.4.15",
       "packaging": "test-jar",
       "classifier": "tests",
       "scope": "test"
@@ -6747,11 +6811,27 @@
     },
     {
       "group": "com.thoughtworks.xstream",
+      "artifact": "xstream-hibernate",
+      "version": "1.4.15",
+      "packaging": "jar",
+      "classifier": "javadoc",
+      "scope": "provided"
+    },
+    {
+      "group": "com.thoughtworks.xstream",
       "artifact": "xstream-jmh",
       "version": "1.4.15",
       "packaging": "jar",
       "classifier": null,
       "scope": "runtime"
+    },
+    {
+      "group": "com.thoughtworks.xstream",
+      "artifact": "xstream-jmh",
+      "version": "1.4.15",
+      "packaging": "jar",
+      "classifier": "javadoc",
+      "scope": "provided"
     },
     {
       "group": "com.trilead",
@@ -9426,6 +9506,22 @@
       "scope": "test"
     },
     {
+      "group": "info.picocli",
+      "artifact": "picocli",
+      "version": "3.9.5",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "info.picocli",
+      "artifact": "picocli",
+      "version": "4.3.1",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
       "group": "io.airlift",
       "artifact": "aircompressor",
       "version": "0.27",
@@ -9986,6 +10082,62 @@
       "scope": "compile"
     },
     {
+      "group": "io.mockk",
+      "artifact": "mockk",
+      "version": "1.10.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.mockk",
+      "artifact": "mockk-agent-api",
+      "version": "1.10.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.mockk",
+      "artifact": "mockk-agent-common",
+      "version": "1.10.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.mockk",
+      "artifact": "mockk-agent-jvm",
+      "version": "1.10.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.mockk",
+      "artifact": "mockk-common",
+      "version": "1.10.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.mockk",
+      "artifact": "mockk-dsl",
+      "version": "1.10.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.mockk",
+      "artifact": "mockk-dsl-jvm",
+      "version": "1.10.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
       "group": "io.netty",
       "artifact": "netty",
       "version": "3.10.6.Final",
@@ -10435,6 +10587,14 @@
     },
     {
       "group": "io.netty",
+      "artifact": "netty-tcnative-boringssl-static",
+      "version": "2.0.7.Final",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": "test"
+    },
+    {
+      "group": "io.netty",
       "artifact": "netty-transport",
       "version": "4.0.47.Final",
       "packaging": "jar",
@@ -10688,6 +10848,38 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "compile"
+    },
+    {
+      "group": "io.spring.javaformat",
+      "artifact": "spring-javaformat-checkstyle",
+      "version": "0.0.15",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.spring.nohttp",
+      "artifact": "nohttp",
+      "version": "0.0.5.RELEASE",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.spring.nohttp",
+      "artifact": "nohttp-checkstyle",
+      "version": "0.0.5.RELEASE",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "io.spring.nohttp",
+      "artifact": "nohttp-cli",
+      "version": "0.0.5.RELEASE",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "io.swagger",
@@ -12236,6 +12428,22 @@
     {
       "group": "net.bytebuddy",
       "artifact": "byte-buddy",
+      "version": "1.10.14",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "net.bytebuddy",
+      "artifact": "byte-buddy",
+      "version": "1.10.5",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "net.bytebuddy",
+      "artifact": "byte-buddy",
       "version": "1.10.8",
       "packaging": "jar",
       "classifier": null,
@@ -12296,6 +12504,22 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "test"
+    },
+    {
+      "group": "net.bytebuddy",
+      "artifact": "byte-buddy-agent",
+      "version": "1.10.14",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "net.bytebuddy",
+      "artifact": "byte-buddy-agent",
+      "version": "1.10.5",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "net.bytebuddy",
@@ -12850,6 +13074,14 @@
       "scope": null
     },
     {
+      "group": "net.sf.saxon",
+      "artifact": "Saxon-HE",
+      "version": "9.9.1-7",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
       "group": "net.sf.trove4j",
       "artifact": "core",
       "version": "3.1.0",
@@ -13188,6 +13420,14 @@
     {
       "group": "org.antlr",
       "artifact": "antlr-runtime",
+      "version": "3.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.antlr",
+      "artifact": "antlr-runtime",
       "version": "3.4",
       "packaging": "jar",
       "classifier": null,
@@ -13261,6 +13501,14 @@
       "group": "org.antlr",
       "artifact": "antlr4-runtime",
       "version": "4.7.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.antlr",
+      "artifact": "antlr4-runtime",
+      "version": "4.8-1",
       "packaging": "jar",
       "classifier": null,
       "scope": null
@@ -13896,6 +14144,14 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "test"
+    },
+    {
+      "group": "org.apache.ant",
+      "artifact": "ant-jsch",
+      "version": "1.8.2",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.apache.ant",
@@ -18060,6 +18316,14 @@
     {
       "group": "org.apache.logging.log4j",
       "artifact": "log4j-api",
+      "version": "2.16.0",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.apache.logging.log4j",
+      "artifact": "log4j-api",
       "version": "2.19.0",
       "packaging": "jar",
       "classifier": null,
@@ -18100,6 +18364,14 @@
     {
       "group": "org.apache.logging.log4j",
       "artifact": "log4j-core",
+      "version": "2.16.0",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.apache.logging.log4j",
+      "artifact": "log4j-core",
       "version": "2.19.0",
       "packaging": "jar",
       "classifier": null,
@@ -18124,10 +18396,26 @@
     {
       "group": "org.apache.logging.log4j",
       "artifact": "log4j-jul",
+      "version": "2.16.0",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.apache.logging.log4j",
+      "artifact": "log4j-jul",
       "version": "2.9.1",
       "packaging": "jar",
       "classifier": null,
       "scope": "test"
+    },
+    {
+      "group": "org.apache.logging.log4j",
+      "artifact": "log4j-slf4j-impl",
+      "version": "2.16.0",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.apache.logging.log4j",
@@ -27207,7 +27495,7 @@
       "version": "1.1.0",
       "packaging": "jar",
       "classifier": null,
-      "scope": "test"
+      "scope": null
     },
     {
       "group": "org.apiguardian",
@@ -27312,6 +27600,14 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "test"
+    },
+    {
+      "group": "org.assertj",
+      "artifact": "assertj-core",
+      "version": "3.18.1",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.assertj",
@@ -28080,6 +28376,14 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "compile"
+    },
+    {
+      "group": "org.checkerframework",
+      "artifact": "checker-qual",
+      "version": "2.11.1",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.checkerframework",
@@ -36543,7 +36847,7 @@
       "version": "13.0",
       "packaging": "jar",
       "classifier": null,
-      "scope": "compile"
+      "scope": null
     },
     {
       "group": "org.jetbrains",
@@ -36554,12 +36858,108 @@
       "scope": "test"
     },
     {
+      "group": "org.jetbrains.dokka",
+      "artifact": "dokka-fatjar",
+      "version": "0.10.1",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.intellij.deps",
+      "artifact": "trove4j",
+      "version": "1.0.20181211",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-compiler-embeddable",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-daemon-embeddable",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-reflect",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-script-runtime",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-scripting-common",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-scripting-compiler-embeddable",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-scripting-compiler-impl-embeddable",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-scripting-jvm",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
       "group": "org.jetbrains.kotlin",
       "artifact": "kotlin-stdlib",
       "version": "1.2.20",
       "packaging": "jar",
       "classifier": null,
       "scope": "compile"
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-stdlib",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.jetbrains.kotlin",
+      "artifact": "kotlin-stdlib-common",
+      "version": "1.3.72",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.jetbrains.kotlin",
@@ -36576,6 +36976,14 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "compile"
+    },
+    {
+      "group": "org.jetbrains.kotlinx",
+      "artifact": "kotlinx-coroutines-core",
+      "version": "1.3.5",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.jfree",
@@ -36900,6 +37308,14 @@
     {
       "group": "org.junit.jupiter",
       "artifact": "junit-jupiter-api",
+      "version": "5.6.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.junit.jupiter",
+      "artifact": "junit-jupiter-api",
       "version": "5.9.1",
       "packaging": "jar",
       "classifier": null,
@@ -36932,6 +37348,14 @@
     {
       "group": "org.junit.jupiter",
       "artifact": "junit-jupiter-engine",
+      "version": "5.6.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.junit.jupiter",
+      "artifact": "junit-jupiter-engine",
       "version": "5.9.1",
       "packaging": "jar",
       "classifier": null,
@@ -36960,6 +37384,14 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "test"
+    },
+    {
+      "group": "org.junit.jupiter",
+      "artifact": "junit-jupiter-params",
+      "version": "5.6.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.junit.jupiter",
@@ -36996,6 +37428,14 @@
     {
       "group": "org.junit.platform",
       "artifact": "junit-platform-commons",
+      "version": "1.6.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.junit.platform",
+      "artifact": "junit-platform-commons",
       "version": "1.9.1",
       "packaging": "jar",
       "classifier": null,
@@ -37028,10 +37468,26 @@
     {
       "group": "org.junit.platform",
       "artifact": "junit-platform-engine",
+      "version": "1.6.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.junit.platform",
+      "artifact": "junit-platform-engine",
       "version": "1.9.1",
       "packaging": "jar",
       "classifier": null,
       "scope": "test"
+    },
+    {
+      "group": "org.junit.platform",
+      "artifact": "junit-platform-launcher",
+      "version": "1.6.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.junit.vintage",
@@ -37859,11 +38315,27 @@
     },
     {
       "group": "org.mockito",
+      "artifact": "mockito-core",
+      "version": "3.3.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.mockito",
       "artifact": "mockito-junit-jupiter",
       "version": "3.1.0",
       "packaging": "jar",
       "classifier": null,
       "scope": "test"
+    },
+    {
+      "group": "org.mockito",
+      "artifact": "mockito-junit-jupiter",
+      "version": "3.3.3",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.mongodb",
@@ -38296,6 +38768,14 @@
       "packaging": "jar",
       "classifier": null,
       "scope": "test"
+    },
+    {
+      "group": "org.objenesis",
+      "artifact": "objenesis",
+      "version": "3.1",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
     },
     {
       "group": "org.opengis",
@@ -40389,6 +40869,14 @@
       "group": "org.slf4j",
       "artifact": "slf4j-api",
       "version": "1.7.16",
+      "packaging": "jar",
+      "classifier": null,
+      "scope": null
+    },
+    {
+      "group": "org.slf4j",
+      "artifact": "slf4j-api",
+      "version": "1.7.19",
       "packaging": "jar",
       "classifier": null,
       "scope": null
@@ -44281,7 +44769,7 @@
       "jdk": "8u202",
       "build_version": "3.5.0",
       "artifacts": 121,
-      "error": "dependencies failed: spring-oauth2-tests-vanilla ........................ FAILURE [  1.627 s]"
+      "error": "dependencies failed: spring-oauth2-tests-vanilla ........................ FAILURE [  1.879 s]"
     },
     {
       "name": "alibaba__one-java-agent_CVE-2022-25842_0.0.1",
@@ -44297,7 +44785,7 @@
       "jdk": "17",
       "build_version": "3.9.8",
       "artifacts": 26934,
-      "error": "dependencies failed: ActiveMQ :: Karaf Integration Tests ................ FAILURE [  2.463 s]"
+      "error": "dependencies failed: ActiveMQ :: Karaf Integration Tests ................ FAILURE [  0.064 s]"
     },
     {
       "name": "apache__camel_CVE-2018-8041_2.20.3",
@@ -44305,7 +44793,7 @@
       "jdk": "17",
       "build_version": "3.9.8",
       "artifacts": 2713,
-      "error": "dependencies failed: 'dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} @; plugins failed: Camel :: JSon Simple Ordered ....................... FAILURE [  1.387 s]"
+      "error": "dependencies failed: 'dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} @; plugins failed: Camel :: JSon Simple Ordered ....................... FAILURE [  0.167 s]"
     },
     {
       "name": "apache__camel_CVE-2019-0194_2.21.4",
@@ -44313,7 +44801,7 @@
       "jdk": "17",
       "build_version": "3.9.8",
       "artifacts": 2834,
-      "error": "dependencies failed: Camel :: Chronicle ................................. FAILURE [  0.007 s]; plugins failed: Camel :: JSon Simple Ordered ....................... FAILURE [  0.140 s]"
+      "error": "dependencies failed: Camel :: Chronicle ................................. FAILURE [  0.010 s]; plugins failed: Camel :: JSon Simple Ordered ....................... FAILURE [  0.138 s]"
     },
     {
       "name": "apache__jspwiki_CVE-2019-10077_2.11.0.M3",
@@ -44368,8 +44856,8 @@
       "tool": "gradlew",
       "jdk": null,
       "build_version": "wrapper",
-      "artifacts": 0,
-      "error": "dependencies failed: FAILURE: Build failed with an exception."
+      "artifacts": 19,
+      "error": null
     },
     {
       "name": "dromara__hutool_CVE-2018-17297_4.1.11",
@@ -44384,7 +44872,7 @@
       "tool": "maven",
       "jdk": "8u202",
       "build_version": "3.5.0",
-      "artifacts": 1539,
+      "artifacts": 1541,
       "error": null
     },
     {
@@ -44392,7 +44880,7 @@
       "tool": "maven",
       "jdk": "8u202",
       "build_version": "3.5.0",
-      "artifacts": 1328,
+      "artifacts": 1334,
       "error": null
     },
     {
@@ -44400,7 +44888,7 @@
       "tool": "maven",
       "jdk": "8u202",
       "build_version": "3.5.0",
-      "artifacts": 1511,
+      "artifacts": 1514,
       "error": null
     },
     {
@@ -44408,7 +44896,7 @@
       "tool": "maven",
       "jdk": "8u202",
       "build_version": "3.5.0",
-      "artifacts": 1201,
+      "artifacts": 1202,
       "error": null
     },
     {
@@ -44432,7 +44920,7 @@
       "tool": "maven",
       "jdk": "8u202",
       "build_version": "3.5.0",
-      "artifacts": 460,
+      "artifacts": 452,
       "error": null
     },
     {
@@ -44440,7 +44928,7 @@
       "tool": "maven",
       "jdk": "8u202",
       "build_version": "3.5.0",
-      "artifacts": 460,
+      "artifacts": 452,
       "error": null
     },
     {
@@ -44448,8 +44936,8 @@
       "tool": "gradlew",
       "jdk": null,
       "build_version": "wrapper",
-      "artifacts": 0,
-      "error": "dependencies failed: FAILURE: Build failed with an exception."
+      "artifacts": 273,
+      "error": null
     },
     {
       "name": "square__retrofit_CVE-2018-1000850_2.4.0",
@@ -44464,7 +44952,7 @@
       "tool": "maven",
       "jdk": "8u202",
       "build_version": "3.5.0",
-      "artifacts": 624,
+      "artifacts": 685,
       "error": null
     },
     {
@@ -44473,14 +44961,14 @@
       "jdk": "17",
       "build_version": "3.9.8",
       "artifacts": 33,
-      "error": "dependencies failed: WildFly: Naming Subsystem .......................... FAILURE [  0.561 s]"
+      "error": "dependencies failed: WildFly: Naming Subsystem .......................... FAILURE [  0.075 s]"
     },
     {
       "name": "x-stream__xstream_CVE-2021-21345_1.4.15",
       "tool": "maven",
       "jdk": "8u202",
       "build_version": "3.5.0",
-      "artifacts": 99,
+      "artifacts": 102,
       "error": null
     },
     {

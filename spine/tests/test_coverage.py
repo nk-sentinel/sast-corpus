@@ -5,7 +5,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from report.coverage import CWE_NAMES, Cell, gaps, matrix, render, summarise
+from report.applicability import density as applicable_density
+from report.applicability import load as load_applicability
+from report.coverage import (CWE_NAMES, Cell, density, gaps, matrix,
+                             render, summarise)
 
 
 def a_row(**overrides):
@@ -242,6 +245,36 @@ class BreadthIsReportedHonestly(unittest.TestCase):
         text = render(self.rows, languages=["java", "swift"], cwes=["CWE-89"])
 
         self.assertIn("depth", text.lower())
+
+
+class DensityAgainstApplicableCells(unittest.TestCase):
+    """Raw density counts cells nobody should fill, so it understates the corpus
+    and the doc had to hand-wave that 'many combinations are meaningless'. The
+    applicability map replaces the hand-wave with a denominator."""
+
+    def rendered(self):
+        root = Path(__file__).resolve().parents[2]
+        with (root / "answers" / "expectedresults-1.0.csv").open() as handle:
+            return render(list(csv.DictReader(handle)))
+
+    def test_the_report_states_density_against_applicable_cells(self):
+        self.assertIn("cells where the weakness can arise", self.rendered())
+
+    def test_it_still_states_the_raw_figure(self):
+        # Both are true and they answer different questions.
+        self.assertIn("Grid density", self.rendered())
+
+    def test_applicable_density_exceeds_raw_density(self):
+        root = Path(__file__).resolve().parents[2]
+        with (root / "answers" / "expectedresults-1.0.csv").open() as handle:
+            rows = [r for r in csv.DictReader(handle) if r["tier"] == "1"]
+        mapping = load_applicability()
+        languages = {r["language"] for r in rows}
+        cwes = {r["primary_cwe"] for r in rows}
+        grid = {(r["language"], r["primary_cwe"]) for r in rows}
+
+        self.assertGreater(applicable_density(grid, mapping, languages, cwes),
+                           density(rows))
 
 
 class EveryWeaknessIsNamed(unittest.TestCase):

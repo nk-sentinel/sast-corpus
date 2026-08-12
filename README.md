@@ -25,7 +25,10 @@ no language carries all of them. The spread runs from Java at 16 weaknesses and
 Python at 15 down to a floor of 6 — every language now clears that floor, which
 is the minimum at which a per-language number means anything, but 6 of 33 is a
 narrow base and a scorecard row built on it should be read as a sample, not a
-verdict. Grid density is 25%. [docs/COVERAGE.md](docs/COVERAGE.md) ranks
+verdict. Grid density is 27% of all cells, or **35% of the cells where the
+weakness can actually arise** — use-after-free in Java and XXE in C are not
+gaps, and `spine/report/applicability.json` says which pairs are real and is
+checked against the answer key in CI. [docs/COVERAGE.md](docs/COVERAGE.md) ranks
 languages thinnest-first for exactly that reason.
 
 Next phase is planned in [docs/ROADMAP.md](docs/ROADMAP.md): the growth goes

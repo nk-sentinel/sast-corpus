@@ -110,7 +110,11 @@ The distinct-CWE total for the corpus says nothing about spread. This is what ea
 | `rust` | 6 | 12 |
 | `swift` | 6 | 12 |
 
-Grid density is **27%** — 111 of the language-by-weakness cells the present material spans are filled. Full density is not the goal, since many combinations are meaningless, but the figure is the honest measure of how far the corpus generalises beyond its deepest languages.
+Grid density is **27%** — 111 of the 416 language-by-weakness cells the present material spans are filled.
+
+That figure counts cells nobody should fill. Use-after-free in Java and XXE in C are not gaps, and measuring against them understates the corpus. Against the 320 cells where the weakness can arise at all — `spine/report/applicability.json`, which is checked against the answer key in CI — density is **35%**.
+
+Neither figure should be read as an ambition to reach 100%. They bound how far a per-language result generalises: a row resting on few cells is a sample, not a verdict.
 
 ## Variants per weakness
 
