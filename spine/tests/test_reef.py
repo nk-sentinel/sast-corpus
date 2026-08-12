@@ -143,3 +143,21 @@ class SizeCapSurvivesRateLimiting(unittest.TestCase):
     def test_the_denylist_names_why_each_entry_is_there(self):
         for repo, reason in ALWAYS_SKIP.items():
             self.assertTrue(reason, f"{repo} is refused with no reason recorded")
+
+
+class SharedGuardCoversBothDerivations(unittest.TestCase):
+    """Both derivations clone real projects and both hit the same monorepos, so
+    the list lives in one place rather than being maintained twice. PatchEval
+    stalled on a multi-gigabyte machine-learning tree that REEF's list would
+    already have refused."""
+
+    def test_patcheval_uses_the_same_list(self):
+        from corpora.repos import worth_fetching
+
+        self.assertFalse(worth_fetching("https://github.com/FederatedAI/FATE",
+                                        ask_api=False))
+
+    def test_an_ordinary_repository_passes_without_asking(self):
+        from corpora.repos import worth_fetching
+
+        self.assertTrue(worth_fetching("https://github.com/gogs/gogs", ask_api=False))

@@ -1,0 +1,28 @@
+id: c-31048461
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-532
+variant: unknown
+acceptable_cwes: [CWE-532]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/project-zot__zot@af4a46b/pkg/api/config/config.go
+  start_line: 327
+  end_line: 359
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2025-48374 in project-zot/zot, at the buggy commit af4a46b. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2025-48374
+build:
+  required: false
+  recipe: null

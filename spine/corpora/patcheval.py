@@ -35,6 +35,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from corpora.repos import worth_fetching
+
 LANGUAGES = {"Go": "go", "JavaScript": "javascript", "Python": "python"}
 
 # Two commits deep: the fix, and the parent that is almost always the commit the
@@ -358,6 +360,10 @@ def derive(dataset, checkouts_root, only=None, progress=True, cases_root=None):
         locations = entry.get("vul_func") or []
         if not language or not cwe or not locations:
             skipped.append((cve, "no language, weakness or location"))
+            continue
+
+        if not worth_fetching(entry["repo"]):
+            skipped.append((cve, "repository too large to be worth fetching"))
             continue
 
         commit = locations[0].get("commit")

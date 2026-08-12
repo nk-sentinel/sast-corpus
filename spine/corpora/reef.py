@@ -37,8 +37,6 @@ from pathlib import Path
 # A repository larger than this is not a scan target anyone wants in a corpus,
 # and obtaining it costs more than the case is worth. torvalds/linux is in this
 # dataset and accounts for a large share of its C entries.
-MAX_REPO_MB = 400
-
 # Two commits deep: the fix, and the parent that is the state being scanned.
 #
 # The first version used a blobless clone and then checked the tree out, which
@@ -48,37 +46,8 @@ MAX_REPO_MB = 400
 # PatchEval's, so a shallow fetch reaches its parent directly.
 FETCH_DEPTH = 2
 
-# Repositories refused without asking the API.
-#
-# The size check needs one API request per repository and GitHub allows 60 an
-# hour unauthenticated, so a run of any size exhausts it partway through — after
-# which every check returns nothing and "unknown size is allowed" turns the cap
-# off exactly when it is still needed. chromium/chromium was admitted that way
-# and began fetching before it was noticed. This list is the part that cannot be
-# rate-limited, and each entry records why it is here.
-ALWAYS_SKIP = {
-    "torvalds/linux": "the kernel; hundreds of REEF's C entries and no one's scan target",
-    "chromium/chromium": "tens of gigabytes, and a monorepo rather than a project",
-    "llvm/llvm-project": "monorepo; a single commit's tree is larger than the cap",
-    "mozilla/gecko-dev": "browser monorepo, mirrored and enormous",
-    "WebKit/WebKit": "browser engine; same shape as the two above",
-    "apple/swift": "compiler monorepo",
-    "openjdk/jdk": "runtime monorepo",
-    "php/php-src": "large and mostly generated C",
-    "ImageMagick/ImageMagick": "very large history dominated by test corpora",
-}
-
-
-def is_permitted_repo(repo):
-    """Is this repository one we will consider at all?
-
-    Matched on the full owner and name, so a project merely named after one of
-    them is unaffected.
-    """
-    parts = repo.rstrip("/").replace(".git", "").split("/")
-    if len(parts) < 2:
-        return True
-    return "{}/{}".format(parts[-2], parts[-1]) not in ALWAYS_SKIP
+from corpora.repos import (ALWAYS_SKIP, MAX_REPO_MB, is_permitted_repo,
+                           repository_metadata, within_size_cap)
 
 
 HUNK_HEADER = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+\d+(?:,\d+)? @@")
@@ -132,37 +101,6 @@ def path_from_raw_url(url, commit):
     if marker not in url:
         return None
     return urllib.parse.unquote(url.split(marker, 1)[1])
-
-
-def within_size_cap(metadata):
-    """Is this repository small enough to be worth obtaining?
-
-    An unknown size is allowed rather than guessed: no answer from the API is
-    not evidence that a repository is huge, and refusing on silence would drop
-    cases for a reason unrelated to them.
-    """
-    if not metadata:
-        return True
-    size_kb = metadata.get("size")
-    if not isinstance(size_kb, int):
-        return True
-    return size_kb <= MAX_REPO_MB * 1024
-
-
-def repository_metadata(repo, timeout=15):
-    """Size and default branch from the GitHub API, or None if unavailable."""
-    import urllib.error
-    import urllib.request
-
-    parts = repo.rstrip("/").split("/")
-    if len(parts) < 2:
-        return None
-    api = "https://api.github.com/repos/{}/{}".format(parts[-2], parts[-1])
-    try:
-        with urllib.request.urlopen(api, timeout=timeout) as response:
-            return json.loads(response.read().decode("utf-8", "replace"))
-    except (urllib.error.URLError, OSError, ValueError):
-        return None
 
 
 def primary_cwe(entry):
