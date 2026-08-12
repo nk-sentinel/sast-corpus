@@ -1,0 +1,31 @@
+id: c-f5e71727
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/csharp/f5e71727/Report.cs
+  start_line: 19
+  end_line: 19
+alt_locations:
+  - file: tier1/csharp/f5e71727/Cli.cs
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: container-field
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is held in a property and the object travels to the reader, so the taint crosses the call as object state
+  cve: null
+build:
+  required: false
+  recipe: null

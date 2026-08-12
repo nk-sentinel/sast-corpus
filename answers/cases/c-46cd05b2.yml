@@ -1,0 +1,31 @@
+id: c-46cd05b2
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/csharp/46cd05b2/Report.cs
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/csharp/46cd05b2/Cli.cs
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value reaches the path unchanged, so dot-dot segments walk out of the base directory. This is the direct half of the pair
+  cve: null
+build:
+  required: false
+  recipe: null

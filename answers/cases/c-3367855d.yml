@@ -1,0 +1,31 @@
+id: c-3367855d
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/3367855d/work.js
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/javascript/3367855d/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: reflection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the sink is reached through a computed property name assembled at runtime, so `execSync` never appears as a call. A tool matching on member access sees an index into a module object
+  cve: null
+build:
+  required: false
+  recipe: null

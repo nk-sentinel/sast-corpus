@@ -1,0 +1,28 @@
+id: c-0db527f2
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/0db527f2/work.js
+  start_line: 3
+  end_line: 3
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: reflection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the same computed-property trick resolves to a string method that starts no process. A tool that flags dynamic member access itself reports this one
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-befc2369
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/javascript/befc2369/work.js
+  start_line: 16
+  end_line: 16
+alt_locations:
+  - file: tier1/javascript/befc2369/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: container-field
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is parked on a property and the object crosses into the reader, so the taint travels as object state rather than as an argument
+  cve: null
+build:
+  required: false
+  recipe: null

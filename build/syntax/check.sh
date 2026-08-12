@@ -128,11 +128,64 @@ check_in_docker() {
     report "${language}" "${checked}"
 }
 
+# C# needs a project to compile against, not a per-file lint, so it gets its own
+# path. Slower than the others — the SDK image is large and each fixture is built
+# as a throwaway console project — but the alternative is shipping C# fixtures
+# nobody has ever compiled.
+check_csharp_in_docker() {
+    local staged="${WORK}/csharp"
+    local checked=0
+    rm -rf "${staged}" && mkdir -p "${staged}"
+    while IFS= read -r directory; do
+        [ -z "${directory}" ] && continue
+        checked=$((checked + 1))
+        mkdir -p "${staged}/$(basename "${directory}")"
+        cp "${directory}"/*.cs "${staged}/$(basename "${directory}")/" 2>/dev/null
+    done < <(find "${ROOT}/tier1/csharp" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort)
+
+    [ "${checked}" -eq 0 ] && { report csharp 0; return; }
+
+    if ! docker run --rm -v "${staged}:/w" -w /w mcr.microsoft.com/dotnet/sdk:8.0 sh -c '
+            status=0
+            for d in */; do
+                n=$(basename "$d")
+                mkdir -p "/tmp/p/$n" && cd "/tmp/p/$n" || continue
+                # classlib, not console: most fixtures are library-style with no
+                # entry point, and a console template fails them on CS5001
+                # rather than on anything wrong with the code.
+                dotnet new classlib -o . --force >/dev/null 2>&1
+                rm -f Class1.cs
+                cp "/w/$d"*.cs . 2>/dev/null
+                # The question is whether the fixture is well-formed C#, not
+                # whether it satisfies current .NET policy. SYSLIB0011 makes any
+                # BinaryFormatter call a build error, and a deserialisation
+                # fixture exists to contain exactly that call.
+                sed -i "s#</PropertyGroup>#<NoWarn>SYSLIB0011;SYSLIB0021</NoWarn></PropertyGroup>#" ./*.csproj
+                grep -ql "Microsoft.Data.SqlClient" ./*.cs 2>/dev/null \
+                    && dotnet add package Microsoft.Data.SqlClient >/dev/null 2>&1
+                dotnet build -v q --nologo >/tmp/out 2>&1 || { echo "FAIL  $n"; status=1; }
+                cd /w || exit 1
+            done
+            exit ${status}' > "${WORK}/out" 2>&1; then
+        grep '^FAIL' "${WORK}/out" >&2 || cat "${WORK}/out" >&2
+        local broken
+        broken=$(grep -c '^FAIL' "${WORK}/out")
+        FAILURES=$((FAILURES + (broken > 0 ? broken : 1)))
+        echo "  csharp: ${checked} project(s) checked, at least one did NOT compile"
+        return
+    fi
+    echo "  csharp: ${checked} project(s) compiled"
+}
+
 DOCKER_LANGUAGES=""
 if [ "${SYNTAX_USE_DOCKER:-0}" = "1" ] && have docker; then
     check_in_docker php "*.php" php:8.3-cli "php -l"
     check_in_docker ruby "*.rb" ruby:3.3-slim "ruby -c"
     DOCKER_LANGUAGES="php ruby"
+    if [ "${SYNTAX_SKIP_CSHARP:-0}" != "1" ]; then
+        check_csharp_in_docker
+        DOCKER_LANGUAGES="${DOCKER_LANGUAGES} csharp"
+    fi
 fi
 
 for language in typescript csharp php ruby kotlin swift; do

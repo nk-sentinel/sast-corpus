@@ -1,0 +1,28 @@
+id: c-9bc1a8ee
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/9bc1a8ee/work.js
+  start_line: 14
+  end_line: 14
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: collection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the Map is a fixed allowlist the caller can only key into, and the call passes an argument vector rather than a shell string
+  cve: null
+build:
+  required: false
+  recipe: null

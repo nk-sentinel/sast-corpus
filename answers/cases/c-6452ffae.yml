@@ -1,0 +1,31 @@
+id: c-6452ffae
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/csharp/6452ffae/Report.cs
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/csharp/6452ffae/Cli.cs
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: aliasing
+evidence:
+  source: hand-authored
+  rationale: >-
+    the list is written through one local and read through another bound to the same instance. Only reference identity connects them
+  cve: null
+build:
+  required: false
+  recipe: null

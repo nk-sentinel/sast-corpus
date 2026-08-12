@@ -1,0 +1,31 @@
+id: c-c4f9e2dd
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/c4f9e2dd/work.js
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/javascript/c4f9e2dd/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: aliasing
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is pushed through one binding and read through another pointing at the same array. Both are const, so neither name is reassigned and only object identity connects them
+  cve: null
+build:
+  required: false
+  recipe: null

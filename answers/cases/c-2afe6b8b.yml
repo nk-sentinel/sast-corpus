@@ -1,0 +1,31 @@
+id: c-2afe6b8b
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/csharp/2afe6b8b/Report.cs
+  start_line: 16
+  end_line: 16
+alt_locations:
+  - file: tier1/csharp/2afe6b8b/Cli.cs
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: collection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value enters a dictionary under one key and leaves under the same key before reaching a shell. Following it needs per-key modelling rather than treating the dictionary as one tainted object
+  cve: null
+build:
+  required: false
+  recipe: null

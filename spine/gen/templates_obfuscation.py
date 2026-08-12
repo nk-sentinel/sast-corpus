@@ -619,3 +619,360 @@ GO = [
 ]
 
 OBFUSCATION_ALL = OBFUSCATION_ALL + GO
+
+
+# --- javascript ---------------------------------------------------------------
+
+JS_ENTRY = {"cli.js": ("const { build } = require('./work');\n\n"
+                       "console.log(build(process.argv[2] || ''));\n")}
+
+JAVASCRIPT = [
+    hard("js-alias@second-reference", "javascript", "js", SQLI, "aliasing", "inter-file",
+         dict(JS_ENTRY, **{"work.js": (
+             "function build(code) {\n"
+             "  const holder = [];\n"
+             "  const same = holder;\n"
+             "  holder.push(code);\n"
+             "  return run(\"SELECT status FROM orders WHERE code = '\" + same[0] + \"'\");\n}\n\n"
+             "function run(statement) {\n  return statement;\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "return run(\"SELECT status FROM orders WHERE code = '\"",
+         "the value is pushed through one binding and read through another pointing at "
+         "the same array. Both are const, so neither name is reassigned and only object "
+         "identity connects them",
+         dict(JS_ENTRY, **{"work.js": (
+             "function build(code) {\n"
+             "  return run('SELECT status FROM orders WHERE code = ?', [code]);\n}\n\n"
+             "function run(statement, params) {\n  return statement + '|' + params.join();\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "return run('SELECT status FROM orders WHERE code = ?'",
+         "the statement carries a placeholder and the value travels in the parameter "
+         "array",
+         entry_file="cli.js", source_file="cli.js", source_match="process.argv[2]"),
+
+    hard("js-collection@map-round-trip", "javascript", "js", CMDI, "collection", "inter-file",
+         dict(JS_ENTRY, **{"work.js": (
+             "const { execSync } = require('child_process');\n\n"
+             "function build(name) {\n"
+             "  const params = new Map();\n"
+             "  params.set('target', name);\n"
+             "  params.set('mode', 'summary');\n"
+             "  return run(params.get('target'));\n}\n\n"
+             "function run(target) {\n"
+             "  execSync('/usr/bin/report ' + target);\n  return target;\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "execSync('/usr/bin/report '",
+         "the value enters a Map under one key and leaves under the same key. A tool "
+         "that taints the whole Map also reports the constant 'mode' entry; one that "
+         "stops at the container reports nothing",
+         dict(JS_ENTRY, **{"work.js": (
+             "const { execFileSync } = require('child_process');\n\n"
+             "const ALLOWED = new Map([['daily', 'daily'], ['weekly', 'weekly']]);\n\n"
+             "function build(name) {\n"
+             "  const target = ALLOWED.get(name);\n"
+             "  if (target === undefined) {\n    return '';\n  }\n"
+             "  return run(target);\n}\n\n"
+             "function run(target) {\n"
+             "  execFileSync('/usr/bin/report', [target]);\n  return target;\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "execFileSync('/usr/bin/report', [target])",
+         "the Map is a fixed allowlist the caller can only key into, and the call passes "
+         "an argument vector rather than a shell string",
+         entry_file="cli.js", source_file="cli.js", source_match="process.argv[2]"),
+
+    hard("js-field@object-carried", "javascript", "js", PATHT, "container-field", "inter-file",
+         dict(JS_ENTRY, **{"work.js": (
+             "const fs = require('fs');\n\n"
+             "class Request {\n  constructor() {\n    this.name = null;\n  }\n}\n\n"
+             "function build(name) {\n"
+             "  const request = new Request();\n"
+             "  request.name = name;\n"
+             "  return read(request);\n}\n\n"
+             "function read(request) {\n"
+             "  return fs.readFileSync('/srv/reports/' + request.name, 'utf8');\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "fs.readFileSync('/srv/reports/'",
+         "the value is parked on a property and the object crosses into the reader, so "
+         "the taint travels as object state rather than as an argument",
+         dict(JS_ENTRY, **{"work.js": (
+             "const fs = require('fs');\nconst path = require('path');\n\n"
+             "const BASE = '/srv/reports';\n\n"
+             "class Request {\n  constructor() {\n    this.name = null;\n  }\n}\n\n"
+             "function build(name) {\n"
+             "  const request = new Request();\n"
+             "  request.name = path.basename(name);\n"
+             "  return read(request);\n}\n\n"
+             "function read(request) {\n"
+             "  const target = path.resolve(BASE, request.name);\n"
+             "  if (!target.startsWith(BASE + path.sep)) {\n    return '';\n  }\n"
+             "  return fs.readFileSync(target, 'utf8');\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "fs.readFileSync(target, 'utf8')",
+         "the property holds a bare filename and the resolved path is confirmed to stay "
+         "under the base directory",
+         entry_file="cli.js", source_file="cli.js", source_match="process.argv[2]"),
+
+    hard("js-callback@closure-boundary", "javascript", "js", SQLI, "callback", "inter-file",
+         dict(JS_ENTRY, **{"work.js": (
+             "function build(code) {\n"
+             "  const compose = (value) =>\n"
+             "    \"SELECT status FROM orders WHERE code = '\" + value + \"'\";\n"
+             "  return apply(compose, code);\n}\n\n"
+             "function apply(step, value) {\n  return run(step(value));\n}\n\n"
+             "function run(statement) {\n  return statement;\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "return run(step(value))",
+         "the concatenation lives in an arrow function passed to another function and "
+         "invoked there, so the sink never names the caller's value",
+         dict(JS_ENTRY, **{"work.js": (
+             "function build(code) {\n"
+             "  const compose = () => 'SELECT status FROM orders WHERE code = ?';\n"
+             "  return apply(compose, code);\n}\n\n"
+             "function apply(step, value) {\n  return run(step(), [value]);\n}\n\n"
+             "function run(statement, params) {\n  return statement + '|' + params.join();\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "return run(step(), [value])",
+         "the closure takes no argument and yields a parameterised statement; the value "
+         "travels separately",
+         entry_file="cli.js", source_file="cli.js", source_match="process.argv[2]"),
+
+    hard("js-reflect@runtime-named-sink", "javascript", "js", CMDI, "reflection", "inter-file",
+         dict(JS_ENTRY, **{"work.js": (
+             "const child = require('child_process');\n\n"
+             "function build(name) {\n"
+             "  const method = 'exec' + 'Sync';\n"
+             "  child[method]('/usr/bin/report ' + name);\n"
+             "  return name;\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "child[method]('/usr/bin/report '",
+         "the sink is reached through a computed property name assembled at runtime, so "
+         "`execSync` never appears as a call. A tool matching on member access sees an "
+         "index into a module object",
+         dict(JS_ENTRY, **{"work.js": (
+             "function build(name) {\n"
+             "  const method = 'to' + 'UpperCase';\n"
+             "  return name[method]();\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "return name[method]()",
+         "the same computed-property trick resolves to a string method that starts no "
+         "process. A tool that flags dynamic member access itself reports this one",
+         entry_file="cli.js", source_file="cli.js", source_match="process.argv[2]"),
+
+    hard("js-strongupdate@overwritten-before-sink", "javascript", "js", PATHT,
+         "none", "inter-file",
+         dict(JS_ENTRY, **{"work.js": (
+             "const fs = require('fs');\n\n"
+             "function build(name) {\n"
+             "  let target = name;\n"
+             "  return fs.readFileSync('/srv/reports/' + target, 'utf8');\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "fs.readFileSync('/srv/reports/'",
+         "the value reaches the path unchanged, so dot-dot segments walk out of the base "
+         "directory. This is the direct half of the pair",
+         dict(JS_ENTRY, **{"work.js": (
+             "const fs = require('fs');\n\n"
+             "function build(name) {\n"
+             "  let target = name;\n"
+             "  target = 'daily-summary.txt';\n"
+             "  return fs.readFileSync('/srv/reports/' + target, 'utf8');\n}\n\n"
+             "module.exports = { build };\n")}),
+         "work.js", "fs.readFileSync('/srv/reports/'",
+         "the caller's value is assigned and then overwritten with a constant before the "
+         "read, so none of it reaches the path. A tool that records the first assignment "
+         "without modelling the overwrite reports a traversal that cannot happen",
+         entry_file="cli.js", source_file="cli.js", source_match="process.argv[2]",
+         safe_obfuscation="strong-update"),
+]
+
+OBFUSCATION_ALL = OBFUSCATION_ALL + JAVASCRIPT
+
+
+# --- csharp -------------------------------------------------------------------
+
+CS_ENTRY = {"Cli.cs": (
+    "using System;\n\n"
+    "public static class Cli\n{\n"
+    "    public static void Main(string[] args)\n    {\n"
+    "        Console.WriteLine(Report.Build(args.Length > 0 ? args[0] : \"\"));\n"
+    "    }\n}\n")}
+
+CSHARP = [
+    hard("cs-alias@second-reference", "csharp", "cs", SQLI, "aliasing", "inter-file",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System.Collections.Generic;\n\n"
+             "public static class Report\n{\n"
+             "    public static string Build(string code)\n    {\n"
+             "        var holder = new List<string>();\n"
+             "        var same = holder;\n"
+             "        holder.Add(code);\n"
+             "        return Run(\"SELECT status FROM orders WHERE code = '\" + same[0] + \"'\");\n"
+             "    }\n\n"
+             "    private static string Run(string statement) => statement;\n}\n")}),
+         "Report.cs", "return Run(\"SELECT status FROM orders WHERE code = '\"",
+         "the list is written through one local and read through another bound to the "
+         "same instance. Only reference identity connects them",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "public static class Report\n{\n"
+             "    public static string Build(string code)\n    {\n"
+             "        return Run(\"SELECT status FROM orders WHERE code = @code\", code);\n"
+             "    }\n\n"
+             "    private static string Run(string statement, string value) =>\n"
+             "        statement + \"|\" + value;\n}\n")}),
+         "Report.cs", "return Run(\"SELECT status FROM orders WHERE code = @code\"",
+         "the statement carries a named parameter and the value is passed beside it",
+         entry_file="Cli.cs", source_file="Cli.cs", source_match="args[0]"),
+
+    hard("cs-collection@dictionary-round-trip", "csharp", "cs", CMDI, "collection",
+         "inter-file",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System.Collections.Generic;\nusing System.Diagnostics;\n\n"
+             "public static class Report\n{\n"
+             "    public static string Build(string name)\n    {\n"
+             "        var parameters = new Dictionary<string, string>();\n"
+             "        parameters[\"target\"] = name;\n"
+             "        parameters[\"mode\"] = \"summary\";\n"
+             "        return Run(parameters[\"target\"]);\n    }\n\n"
+             "    private static string Run(string target)\n    {\n"
+             "        Process.Start(\"/bin/sh\", \"-c \\\"/usr/bin/report \" + target + \"\\\"\");\n"
+             "        return target;\n    }\n}\n")}),
+         "Report.cs", "Process.Start(\"/bin/sh\"",
+         "the value enters a dictionary under one key and leaves under the same key "
+         "before reaching a shell. Following it needs per-key modelling rather than "
+         "treating the dictionary as one tainted object",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System.Collections.Generic;\nusing System.Diagnostics;\n\n"
+             "public static class Report\n{\n"
+             "    private static readonly Dictionary<string, string> Allowed =\n"
+             "        new Dictionary<string, string> { { \"daily\", \"daily\" }, "
+             "{ \"weekly\", \"weekly\" } };\n\n"
+             "    public static string Build(string name)\n    {\n"
+             "        if (!Allowed.TryGetValue(name, out var target))\n        {\n"
+             "            return \"\";\n        }\n"
+             "        return Run(target);\n    }\n\n"
+             "    private static string Run(string target)\n    {\n"
+             "        Process.Start(\"/usr/bin/report\", target);\n"
+             "        return target;\n    }\n}\n")}),
+         "Report.cs", "Process.Start(\"/usr/bin/report\", target)",
+         "the dictionary is a fixed allowlist the caller can only look up in, and the "
+         "process is started directly rather than through a shell",
+         entry_file="Cli.cs", source_file="Cli.cs", source_match="args[0]"),
+
+    hard("cs-field@object-carried", "csharp", "cs", PATHT, "container-field", "inter-file",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System.IO;\n\n"
+             "public static class Report\n{\n"
+             "    private sealed class Request\n    {\n"
+             "        public string Name { get; set; }\n    }\n\n"
+             "    public static string Build(string name)\n    {\n"
+             "        var request = new Request();\n"
+             "        request.Name = name;\n"
+             "        return Read(request);\n    }\n\n"
+             "    private static string Read(Request request)\n    {\n"
+             "        return File.ReadAllText(\"/srv/reports/\" + request.Name);\n"
+             "    }\n}\n")}),
+         "Report.cs", "File.ReadAllText(\"/srv/reports/\"",
+         "the value is held in a property and the object travels to the reader, so the "
+         "taint crosses the call as object state",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System.IO;\n\n"
+             "public static class Report\n{\n"
+             "    private const string Base = \"/srv/reports\";\n\n"
+             "    private sealed class Request\n    {\n"
+             "        public string Name { get; set; }\n    }\n\n"
+             "    public static string Build(string name)\n    {\n"
+             "        var request = new Request();\n"
+             "        request.Name = Path.GetFileName(name);\n"
+             "        return Read(request);\n    }\n\n"
+             "    private static string Read(Request request)\n    {\n"
+             "        var target = Path.GetFullPath(Path.Combine(Base, request.Name));\n"
+             "        if (!target.StartsWith(Base + Path.DirectorySeparatorChar))\n"
+             "        {\n            return \"\";\n        }\n"
+             "        return File.ReadAllText(target);\n    }\n}\n")}),
+         "Report.cs", "return File.ReadAllText(target)",
+         "the property holds a bare filename and the resolved path is confirmed to stay "
+         "under the base directory",
+         entry_file="Cli.cs", source_file="Cli.cs", source_match="args[0]"),
+
+    hard("cs-callback@delegate-boundary", "csharp", "cs", SQLI, "callback", "inter-file",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System;\n\n"
+             "public static class Report\n{\n"
+             "    public static string Build(string code)\n    {\n"
+             "        Func<string, string> compose = value =>\n"
+             "            \"SELECT status FROM orders WHERE code = '\" + value + \"'\";\n"
+             "        return Apply(compose, code);\n    }\n\n"
+             "    private static string Apply(Func<string, string> step, string value) =>\n"
+             "        Run(step(value));\n\n"
+             "    private static string Run(string statement) => statement;\n}\n")}),
+         "Report.cs", "Run(step(value))",
+         "the concatenation happens inside a delegate handed to another method and "
+         "invoked there, so the sink never names the caller's value directly",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System;\n\n"
+             "public static class Report\n{\n"
+             "    public static string Build(string code)\n    {\n"
+             "        Func<string, string> compose = value =>\n"
+             "            \"SELECT status FROM orders WHERE code = @code\";\n"
+             "        return Apply(compose, code);\n    }\n\n"
+             "    private static string Apply(Func<string, string> step, string value) =>\n"
+             "        Run(step(value), value);\n\n"
+             "    private static string Run(string statement, string value) =>\n"
+             "        statement + \"|\" + value;\n}\n")}),
+         "Report.cs", "Run(step(value), value)",
+         "the delegate ignores its argument and returns a parameterised statement; the "
+         "value is passed separately",
+         entry_file="Cli.cs", source_file="Cli.cs", source_match="args[0]"),
+
+    hard("cs-reflect@runtime-named-sink", "csharp", "cs", CMDI, "reflection", "inter-file",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System;\nusing System.Reflection;\n\n"
+             "public static class Report\n{\n"
+             "    public static string Build(string name)\n    {\n"
+             "        var type = Type.GetType(\"System.Diagnostics.Process, System\");\n"
+             "        var start = type.GetMethod(\"Start\", new[] { typeof(string), typeof(string) });\n"
+             "        start.Invoke(null, new object[] { \"/bin/sh\", \"-c \\\"/usr/bin/report \" + name + \"\\\"\" });\n"
+             "        return name;\n    }\n}\n")}),
+         "Report.cs", "start.Invoke(null, new object[]",
+         "the type and the method are both named by strings, so `Process.Start` never "
+         "appears as a call. Reaching it requires resolving the reflective target, and "
+         "a tool matching on call syntax sees only `Invoke`",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System;\nusing System.Reflection;\n\n"
+             "public static class Report\n{\n"
+             "    public static string Build(string name)\n    {\n"
+             "        var type = Type.GetType(\"System.String\");\n"
+             "        var upper = type.GetMethod(\"ToUpperInvariant\", Type.EmptyTypes);\n"
+             "        return (string)upper.Invoke(name, null);\n    }\n}\n")}),
+         "Report.cs", "return (string)upper.Invoke(name, null)",
+         "reflection is used just as heavily and the resolved target is a string method "
+         "that starts no process. A tool flagging reflection rather than what it "
+         "resolves to reports this one",
+         entry_file="Cli.cs", source_file="Cli.cs", source_match="args[0]"),
+
+    hard("cs-strongupdate@overwritten-before-sink", "csharp", "cs", PATHT,
+         "none", "inter-file",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System.IO;\n\n"
+             "public static class Report\n{\n"
+             "    public static string Build(string name)\n    {\n"
+             "        var target = name;\n"
+             "        return File.ReadAllText(\"/srv/reports/\" + target);\n    }\n}\n")}),
+         "Report.cs", "File.ReadAllText(\"/srv/reports/\"",
+         "the value reaches the path unchanged, so dot-dot segments walk out of the base "
+         "directory. This is the direct half of the pair",
+         dict(CS_ENTRY, **{"Report.cs": (
+             "using System.IO;\n\n"
+             "public static class Report\n{\n"
+             "    public static string Build(string name)\n    {\n"
+             "        var target = name;\n"
+             "        target = \"daily-summary.txt\";\n"
+             "        return File.ReadAllText(\"/srv/reports/\" + target);\n    }\n}\n")}),
+         "Report.cs", "File.ReadAllText(\"/srv/reports/\"",
+         "the caller's value is assigned and then overwritten with a constant before the "
+         "read, so none of it reaches the path. A tool that records the first assignment "
+         "without modelling the overwrite reports a traversal that cannot happen",
+         entry_file="Cli.cs", source_file="Cli.cs", source_match="args[0]",
+         safe_obfuscation="strong-update"),
+]
+
+OBFUSCATION_ALL = OBFUSCATION_ALL + CSHARP

@@ -1,0 +1,28 @@
+id: c-418521bb
+label: safe
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/csharp/418521bb/Report.cs
+  start_line: 20
+  end_line: 20
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: collection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the dictionary is a fixed allowlist the caller can only look up in, and the process is started directly rather than through a shell
+  cve: null
+build:
+  required: false
+  recipe: null

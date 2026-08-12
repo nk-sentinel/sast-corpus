@@ -8,8 +8,8 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 339 |
-| False-positive traps | 166 (49%) |
+| Cases | 363 |
+| False-positive traps | 178 (49%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
 | Distinct weaknesses | 33 |
@@ -23,10 +23,10 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 | java | 4/3 | 8/7 | 5/4 | 17/13 | 1/1 | · | 1/1 | 1/1 | 1/4 | 1/1 | · | 1/1 | 4/3 | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | 1/1 | · | 2/2 | 1/1 | 1/1 |
 | kotlin | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | python | 5/5 | 4/4 | 2/1 | 5/4 | 1/1 | 1/1 | 1/1 | 9/9 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 | · | 2/2 | · | 1/1 | · | 1/1 | · | · | · | · |
-| javascript | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
+| javascript | 3/3 | 3/3 | 1/1 | 3/3 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
 | typescript | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | go | 3/3 | 2/2 | 1/1 | 3/3 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| csharp | 1/1 | 1/1 | · | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| csharp | 3/3 | 3/3 | · | 3/3 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | · | 1/1 | · | 1/1 | · | · | · | 1/1 | · | · | · |
 | cpp | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · | 1/1 | · | · | · | · | · | 1/1 | · | 1/1 | · | · | · | 1/1 | · | · | · |
 | swift | 1/1 | 1/1 | · | 1/1 | · | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
@@ -101,12 +101,12 @@ The distinct-CWE total for the corpus says nothing about spread. This is what ea
 | `c` | 11 | 22 |
 | `go` | 9 | 28 |
 | `cpp` | 7 | 14 |
-| `csharp` | 7 | 14 |
+| `csharp` | 7 | 26 |
 | `kotlin` | 7 | 14 |
 | `php` | 7 | 14 |
 | `ruby` | 7 | 14 |
 | `typescript` | 7 | 14 |
-| `javascript` | 6 | 12 |
+| `javascript` | 6 | 24 |
 | `rust` | 6 | 12 |
 | `swift` | 6 | 12 |
 
@@ -123,10 +123,10 @@ Template-generated cases share a shape a tool can **overfit** to, so the hand-au
 | provenance | cases |
 |---|---|
 | `generated` | 250 |
+| `hand-authored` | 64 |
 | `cve` | 49 |
-| `hand-authored` | 40 |
 
-**26% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
+**31% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
 
 ## Variants per weakness
 
@@ -168,7 +168,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-918` | `unvalidated-url` | · |
 | `CWE-1395` | `vulnerable-version` | · |
 
-**34 of 339 cases carry no variant label** and are counted as `(unlabelled)`. Until they are named the mechanism coverage above understates what exists and cannot show what is missing.
+**58 of 363 cases carry no variant label** and are counted as `(unlabelled)`. Until they are named the mechanism coverage above understates what exists and cannot show what is missing.
 
 `unknown` is not the same gap. 49 derived tier-3 cases carry it because the mechanism is not knowable from the CVE metadata — only from reading the code — and guessing would be indistinguishable from a finding in the table above.
 
@@ -176,9 +176,9 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | category | cases |
 |---|---|
-| A01 Broken Access Control | 55 |
+| A01 Broken Access Control | 63 |
 | A02 Cryptographic Failures | 21 |
-| A03 Injection | 122 |
+| A03 Injection | 138 |
 | A04 Insecure Design | 10 |
 | A05 Security Misconfiguration | 6 |
 | A06 Vulnerable Components | 4 |
@@ -191,7 +191,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | plane | cases |
 |---|---|
-| vuln | 321 |
+| vuln | 345 |
 | secret | 14 |
 | sca | 4 |
 | crypto | · |
@@ -202,7 +202,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | tier | cases |
 |---|---|
-| 1 — synthetic fixtures | 290 |
+| 1 — synthetic fixtures | 314 |
 | 2 — real applications | · |
 | 3 — CVE reproductions | 49 |
 
@@ -212,12 +212,12 @@ A cell in the matrix above holding one case proves only that the weakness class 
 |---|---|
 | intra-procedural | 39 |
 | inter-procedural | 2 |
-| inter-file | 241 |
+| inter-file | 265 |
 | framework-mediated | 8 |
 
 | sanitizer | cases |
 |---|---|
-| none | 144 |
+| none | 156 |
 | ineffective | 4 |
-| custom-effective | 135 |
+| custom-effective | 147 |
 | framework-implicit | 28 |

@@ -1,0 +1,28 @@
+id: c-3fd68e37
+label: safe
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/csharp/3fd68e37/Report.cs
+  start_line: 9
+  end_line: 9
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: strong-update
+evidence:
+  source: hand-authored
+  rationale: >-
+    the caller's value is assigned and then overwritten with a constant before the read, so none of it reaches the path. A tool that records the first assignment without modelling the overwrite reports a traversal that cannot happen
+  cve: null
+build:
+  required: false
+  recipe: null

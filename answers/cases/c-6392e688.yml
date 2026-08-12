@@ -1,0 +1,28 @@
+id: c-6392e688
+label: safe
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/csharp/6392e688/Report.cs
+  start_line: 13
+  end_line: 13
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: callback
+evidence:
+  source: hand-authored
+  rationale: >-
+    the delegate ignores its argument and returns a parameterised statement; the value is passed separately
+  cve: null
+build:
+  required: false
+  recipe: null

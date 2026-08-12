@@ -1,0 +1,31 @@
+id: c-8898aa6a
+label: vulnerable
+plane: vuln
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/csharp/8898aa6a/Report.cs
+  start_line: 10
+  end_line: 10
+alt_locations:
+  - file: tier1/csharp/8898aa6a/Cli.cs
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: reflection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the type and the method are both named by strings, so `Process.Start` never appears as a call. Reaching it requires resolving the reflective target, and a tool matching on call syntax sees only `Invoke`
+  cve: null
+build:
+  required: false
+  recipe: null

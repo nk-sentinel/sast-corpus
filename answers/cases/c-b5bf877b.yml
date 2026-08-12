@@ -1,0 +1,31 @@
+id: c-b5bf877b
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/b5bf877b/work.js
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/javascript/b5bf877b/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: callback
+evidence:
+  source: hand-authored
+  rationale: >-
+    the concatenation lives in an arrow function passed to another function and invoked there, so the sink never names the caller's value
+  cve: null
+build:
+  required: false
+  recipe: null

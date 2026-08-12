@@ -1,0 +1,31 @@
+id: c-84a8d97d
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/84a8d97d/work.js
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/javascript/84a8d97d/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: collection
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value enters a Map under one key and leaves under the same key. A tool that taints the whole Map also reports the constant 'mode' entry; one that stops at the container reports nothing
+  cve: null
+build:
+  required: false
+  recipe: null
