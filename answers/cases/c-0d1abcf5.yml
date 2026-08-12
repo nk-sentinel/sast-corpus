@@ -1,0 +1,28 @@
+id: c-0d1abcf5
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/0d1abcf5/Handler.java
+  start_line: 13
+  end_line: 13
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is bound as a parameter and the column name — which cannot be bound — is checked against a fixed list of real columns
+  cve: null
+build:
+  required: false
+  recipe: null

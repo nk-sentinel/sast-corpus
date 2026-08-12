@@ -1,0 +1,28 @@
+id: c-3681084e
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/3681084e/Handler.java
+  start_line: 14
+  end_line: 14
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the path is resolved before the check and the checked path is the one that is opened
+  cve: null
+build:
+  required: false
+  recipe: null

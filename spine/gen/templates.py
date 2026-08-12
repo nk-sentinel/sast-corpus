@@ -613,8 +613,9 @@ from gen.templates_memory import MEMORY_ALL  # noqa: E402
 from gen.templates_authz import AUTHZ_ALL  # noqa: E402
 from gen.templates_remaining import REMAINING_ALL  # noqa: E402
 from gen.templates_obfuscation import OBFUSCATION_ALL
+from gen.templates_sanitizers import SANITIZER_ALL
 from gen.templates_tail import TAIL_COMPILED  # noqa: E402
 
 ALL = (ALL + DEPTH_ALL + MORE_ALL + PLANES_ALL + SECRETS_ALL + MEMORY_ALL
        + AUTHZ_ALL + REMAINING_ALL + TAIL_COMPILED
-       + OBFUSCATION_ALL)
+       + OBFUSCATION_ALL + SANITIZER_ALL)

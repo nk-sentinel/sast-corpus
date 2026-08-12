@@ -1,0 +1,31 @@
+id: c-fda04de6
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/fda04de6/Handler.java
+  start_line: 13
+  end_line: 13
+alt_locations:
+  - file: tier1/java/fda04de6/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the prefix is checked against the unresolved path, which still contains its dot-dot segments and passes, and the resolution that removes them happens afterwards on the way to the read. Checking one form and opening another is the same error as decoding after validating
+  cve: null
+build:
+  required: false
+  recipe: null

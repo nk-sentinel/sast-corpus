@@ -1,0 +1,28 @@
+id: c-e21b17b8
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/e21b17b8/Handler.java
+  start_line: 14
+  end_line: 14
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is reduced to a bare filename and the resolved path is checked to remain under the base, so no amount of nesting changes where the read lands
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-70598e13
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/70598e13/Handler.java
+  start_line: 7
+  end_line: 7
+alt_locations:
+  - file: tier1/java/70598e13/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the pattern is correct, anchored, and applied to a value that never reaches the statement. `raw` is what gets concatenated, and nothing was ever checked about it. A tool that sees a validator on the path and stops looking scores this as safe
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -327,9 +327,21 @@ class TotalsReportBreadthHonestly(unittest.TestCase):
         self.assertIn("| Weaknesses per language |", self.rendered())
 
     def test_the_floor_is_the_minimum_not_the_average(self):
+        # Asserted against the data rather than against remembered numbers: an
+        # earlier version hardcoded java at 16 and broke the moment the corpus
+        # grew, which tests the corpus's size instead of the report's honesty.
+        root = Path(__file__).resolve().parents[2]
+        with (root / "answers" / "expectedresults-1.0.csv").open() as handle:
+            rows = [r for r in csv.DictReader(handle) if r["tier"] == "1"]
+        depth = {}
+        for row in rows:
+            depth.setdefault(row["language"], set()).add(row["primary_cwe"])
+        counts = sorted(len(v) for v in depth.values())
+
         line = [l for l in self.rendered().splitlines()
                 if l.startswith("| Weaknesses per language |")][0]
 
-        # java is the deepest and swift among the thinnest; the row must show
-        # the spread, not a single flattering figure.
-        self.assertRegex(line, r"\b6\b.*\b16\b|\b16\b.*\b6\b")
+        self.assertIn(str(counts[0]), line, "the thinnest language is not stated")
+        self.assertIn(str(counts[-1]), line, "the deepest language is not stated")
+        self.assertNotEqual(counts[0], counts[-1],
+                            "a single figure would not show the spread")

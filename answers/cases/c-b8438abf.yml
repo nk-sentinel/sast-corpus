@@ -1,0 +1,28 @@
+id: c-b8438abf
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-918
+variant: null
+acceptable_cwes: [CWE-918, CWE-441]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/java/b8438abf/Handler.java
+  start_line: 14
+  end_line: 14
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the address is parsed first and the host compared for equality against an allowlist, so nothing about the surrounding string can influence the result
+  cve: null
+build:
+  required: false
+  recipe: null

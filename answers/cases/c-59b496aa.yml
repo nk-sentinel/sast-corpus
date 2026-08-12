@@ -1,0 +1,31 @@
+id: c-59b496aa
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-918
+variant: null
+acceptable_cwes: [CWE-918, CWE-441]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/java/59b496aa/Handler.java
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/java/59b496aa/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the pattern is unanchored and searched rather than matched, so it succeeds anywhere in the string — including in a userinfo section or a query parameter of an address that resolves somewhere else entirely. The unescaped dots match any character as a further courtesy
+  cve: null
+build:
+  required: false
+  recipe: null

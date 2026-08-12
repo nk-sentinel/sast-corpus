@@ -1,0 +1,31 @@
+id: c-e82a9ed4
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-79
+variant: null
+acceptable_cwes: [CWE-79, CWE-80, CWE-83]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/e82a9ed4/Handler.java
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/java/e82a9ed4/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the encoding is correct for markup and the value lands inside a script string, where angle brackets were never the danger. A quote closes the literal and the rest is executed as code — the right encoder applied to the wrong context does nothing at all
+  cve: null
+build:
+  required: false
+  recipe: null

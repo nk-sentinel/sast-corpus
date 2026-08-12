@@ -1,0 +1,28 @@
+id: c-68aa1313
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-79
+variant: null
+acceptable_cwes: [CWE-79, CWE-80, CWE-83]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/68aa1313/Handler.java
+  start_line: 12
+  end_line: 12
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is escaped for the context it actually lands in: quotes, backslashes and anything that could end the script element become unicode escapes
+  cve: null
+build:
+  required: false
+  recipe: null

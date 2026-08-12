@@ -1,0 +1,31 @@
+id: c-f825a25c
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/java/f825a25c/Handler.java
+  start_line: 9
+  end_line: 9
+alt_locations:
+  - file: tier1/java/f825a25c/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    strings are immutable, so the replacement returns a new value and changes nothing about the one that is used. The call is on the right variable with the right argument and its result is dropped on the floor
+  cve: null
+build:
+  required: false
+  recipe: null

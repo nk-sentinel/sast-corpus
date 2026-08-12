@@ -1,0 +1,28 @@
+id: c-8d2935c3
+label: safe
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/8d2935c3/Handler.java
+  start_line: 7
+  end_line: 7
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value that was validated is the value that reaches the statement, and the anchored pattern admits nothing that could close the quote
+  cve: null
+build:
+  required: false
+  recipe: null

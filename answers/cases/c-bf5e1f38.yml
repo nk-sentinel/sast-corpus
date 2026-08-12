@@ -1,0 +1,31 @@
+id: c-bf5e1f38
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/bf5e1f38/Handler.java
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/java/bf5e1f38/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the first fragment is escaped properly and the second is concatenated raw afterwards. Sanitising part of a statement is not sanitising the statement, and the ORDER BY clause takes an identifier that cannot be bound anyway
+  cve: null
+build:
+  required: false
+  recipe: null

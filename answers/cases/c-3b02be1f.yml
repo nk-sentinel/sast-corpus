@@ -1,0 +1,31 @@
+id: c-3b02be1f
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/3b02be1f/Handler.java
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/java/3b02be1f/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the validator is written correctly and called on the right value, and its answer is thrown away. Nothing branches on it, so every input reaches the shell exactly as if the call were not there
+  cve: null
+build:
+  required: false
+  recipe: null

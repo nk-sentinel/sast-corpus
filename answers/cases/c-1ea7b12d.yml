@@ -1,0 +1,31 @@
+id: c-1ea7b12d
+label: vulnerable
+plane: vuln
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-79
+variant: null
+acceptable_cwes: [CWE-79, CWE-80, CWE-83]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/java/1ea7b12d/Handler.java
+  start_line: 4
+  end_line: 4
+alt_locations:
+  - file: tier1/java/1ea7b12d/Cli.java
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the filter removes one tag and nothing else, so an image element carrying an error handler passes through untouched and still runs script. Enumerating what is forbidden means the list is only ever as good as its author's imagination
+  cve: null
+build:
+  required: false
+  recipe: null
