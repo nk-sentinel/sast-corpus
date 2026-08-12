@@ -295,6 +295,19 @@ def slug_for(repo):
     return "{}__{}".format(parts[-2], parts[-1])
 
 
+def checkout_dir(slug, commit):
+    """Where a repository at a particular commit lives.
+
+    Keyed by commit as well as repository. A repository can hold several CVEs at
+    different commits — django has 12 in this dataset — and they cannot share a
+    working tree: each derivation would move the tree away from the last, so
+    every case but the final one would point at line numbers in a tree that had
+    since changed. Two cases reached the answer key that way, both referencing
+    lines past the end of their file.
+    """
+    return "{}@{}".format(slug, str(commit)[:12])
+
+
 def read_sources(root, paths):
     sources = {}
     for path in paths:
@@ -340,9 +353,10 @@ def derive(dataset, checkouts_root, only=None, progress=True, cases_root=None):
 
         commit = locations[0].get("commit")
         slug = slug_for(entry["repo"])
-        destination = checkouts_root / slug
+        directory = checkout_dir(slug, commit)
+        destination = checkouts_root / directory
         if progress:
-            print("  {} {}".format(cve, slug), file=sys.stderr, flush=True)
+            print("  {} {}".format(cve, directory), file=sys.stderr, flush=True)
 
         state = checkout(entry["repo"], commit, destination,
                          fix_commit=fix_commit_of(entry))
@@ -357,7 +371,7 @@ def derive(dataset, checkouts_root, only=None, progress=True, cases_root=None):
             continue
 
         primary = usable[0]
-        relative = "tier3/patcheval/{}".format(slug)
+        relative = "tier3/patcheval/{}".format(directory)
         candidate = {
             "cve": cve, "repo": entry["repo"], "commit": commit,
             "language": language, "cwe": cwe, "acceptable_cwes": acceptable_for(cwe),

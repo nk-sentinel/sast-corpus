@@ -190,6 +190,12 @@ def slug_for(repo_url):
     return "{}__{}".format(parts[-2], parts[-1])
 
 
+def checkout_dir(slug, commit):
+    """Keyed by commit as well as repository, for the same reason as PatchEval:
+    two CVEs in one repository sit at different commits and cannot share a tree."""
+    return "{}@{}".format(slug, str(commit)[:12])
+
+
 def checkout_parent(repo, fix_commit, destination):
     """Check out the commit *before* the fix — the state being scanned.
 
@@ -301,9 +307,10 @@ def derive(chosen, checkouts_root, progress=True):
     candidates, skipped = [], []
     for item in chosen:
         slug = slug_for(item["repo"])
-        destination = checkouts_root / slug
+        directory = checkout_dir(slug, item["fix_commit"])
+        destination = checkouts_root / directory
         if progress:
-            print("  {} {}".format(item["cve"], slug), file=sys.stderr, flush=True)
+            print("  {} {}".format(item["cve"], directory), file=sys.stderr, flush=True)
         if not within_size_cap(repository_metadata(item["repo"])):
             skipped.append((item["cve"], "repository above the {} MB cap"
                             .format(MAX_REPO_MB)))
@@ -328,7 +335,7 @@ def derive(chosen, checkouts_root, progress=True):
             "cve": item["cve"], "repo": item["repo"], "fix_commit": item["fix_commit"],
             "language": item["language"], "cwe": item["cwe"],
             "acceptable_cwes": item["acceptable_cwes"],
-            "file": "tier3/reef/{}/{}".format(slug, item["path"]),
+            "file": "tier3/reef/{}/{}".format(directory, item["path"]),
             "start_line": start, "end_line": end,
         })
     return candidates, skipped

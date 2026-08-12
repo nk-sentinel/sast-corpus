@@ -7,7 +7,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from corpora.patcheval import (FETCH_DEPTH, LANGUAGES, case_id, coerce_span,
                                fix_commit_of, is_recorded_commit, primary_cwe,
-                               render_case, usable_locations, write_case)
+                               checkout_dir, render_case, usable_locations,
+                               write_case)
 
 
 class LineNumberTypes(unittest.TestCase):
@@ -210,6 +211,33 @@ class ProgressIsNotLostOnInterruption(unittest.TestCase):
         second = write_case(candidate, self.root)
 
         self.assertEqual(first, second)
+
+
+class OneCheckoutPerCommit(unittest.TestCase):
+    """A repository can hold several CVEs at different commits — django has 12 —
+    and they cannot share a working tree. Keying the checkout by repository
+    alone means each derivation moves the tree away from the previous one, so
+    every case but the last points at line numbers in a tree that has since
+    changed. Two such cases reached the answer key before this was caught, both
+    referencing lines past the end of their file."""
+
+    def test_the_commit_is_part_of_the_directory(self):
+        first = checkout_dir("django__django", "aaaaaaaaaaaa")
+        second = checkout_dir("django__django", "bbbbbbbbbbbb")
+
+        self.assertNotEqual(first, second)
+
+    def test_the_same_commit_gives_the_same_directory(self):
+        self.assertEqual(checkout_dir("o__r", "abc1234"), checkout_dir("o__r", "abc1234"))
+
+    def test_the_repository_is_still_identifiable(self):
+        self.assertIn("django__django", checkout_dir("django__django", "abc1234"))
+
+    def test_the_directory_is_filesystem_safe(self):
+        directory = checkout_dir("o__r", "abc1234")
+
+        self.assertNotIn("/", directory)
+        self.assertRegex(directory, r"^[A-Za-z0-9_.@-]+$")
 
 if __name__ == "__main__":
     unittest.main()
