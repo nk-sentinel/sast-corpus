@@ -256,8 +256,15 @@ class FastPathFailsFast(unittest.TestCase):
     def test_the_shortcut_timeout_is_measured_in_a_couple_of_minutes(self):
         self.assertLessEqual(FAST_FETCH_TIMEOUT, 180)
 
-    def test_the_fallback_still_has_room_for_a_large_repository(self):
-        self.assertGreaterEqual(FALLBACK_TIMEOUT, 900)
+    def test_the_fallback_gets_meaningfully_longer_than_the_shortcut(self):
+        # Asserted as a relationship rather than a floor. The first version
+        # required at least 900s, which contradicted the later decision to bound
+        # the fallback — a test encoding a number rather than the reason for it.
+        self.assertGreaterEqual(FALLBACK_TIMEOUT, FAST_FETCH_TIMEOUT * 3)
+
+    def test_the_fallback_is_still_bounded(self):
+        # 230 repositories at half an hour each is a run nobody finishes.
+        self.assertLessEqual(FALLBACK_TIMEOUT, 900)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,28 @@
+id: c-30d728d3
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-601
+variant: unknown
+acceptable_cwes: [CWE-601, CWE-1022]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/expressjs__express@567c9c6/lib/response.js
+  start_line: 906
+  end_line: 914
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-29041 in expressjs/express, at the buggy commit 567c9c6. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-29041
+build:
+  required: false
+  recipe: null

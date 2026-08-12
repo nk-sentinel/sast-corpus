@@ -1,0 +1,28 @@
+id: c-a499fdcb
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-20
+variant: unknown
+acceptable_cwes: [CWE-20]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/martinpitt__python-dbusmock@a4bd39f/dbusmock/mockobject.py
+  start_line: 41
+  end_line: 50
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2015-1326 in martinpitt/python-dbusmock, at the buggy commit a4bd39f. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2015-1326
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,28 @@
+id: c-b57ffa32
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-287
+variant: unknown
+acceptable_cwes: [CWE-287]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/hapijs__nes@71e9232/lib/socket.js
+  start_line: 524
+  end_line: 547
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2017-16025 in hapijs/nes, at the buggy commit 71e9232. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2017-16025
+build:
+  required: false
+  recipe: null
