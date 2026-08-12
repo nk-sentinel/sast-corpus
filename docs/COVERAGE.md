@@ -8,31 +8,31 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 495 |
-| False-positive traps | 244 (49%) |
+| Cases | 539 |
+| False-positive traps | 244 (45%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
-| Distinct weaknesses | 33 |
+| Distinct weaknesses | 41 |
 | Weaknesses per language | 10 thinnest (typescript) → 18 deepest (java) |
 | Visible to build-required engines | 37 |
 
 ## Language × weakness
 
-| language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-20 | CWE-77 | CWE-94 | CWE-117 | CWE-120 | CWE-121 | CWE-122 | CWE-125 | CWE-134 | CWE-190 | CWE-200 | CWE-284 | CWE-306 | CWE-416 | CWE-434 | CWE-476 | CWE-532 | CWE-639 | CWE-770 | CWE-787 | CWE-862 | CWE-863 | CWE-1395 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| java | 6/5 | 9/8 | 7/6 | 21/17 | 1/1 | 1/1 | 1/1 | 2/2 | 1/4 | 1/1 | · | 1/1 | 4/3 | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | 1/1 | · | 2/2 | 1/1 | 3/3 |
-| kotlin | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
-| python | 6/6 | 6/6 | 3/2 | 8/7 | 1/1 | 2/2 | 1/1 | 12/12 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 | · | 2/2 | · | 1/1 | · | 1/1 | · | · | · | 2/2 |
-| javascript | 4/4 | 4/4 | 2/2 | 5/5 | · | 2/2 | · | 1/1 | · | · | · | · | 1/1 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | 2/2 |
-| typescript | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
-| go | 3/3 | 2/2 | 1/1 | 3/3 | 1/1 | 1/1 | · | 2/2 | 1/1 | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
-| csharp | 3/3 | 3/3 | · | 3/3 | 1/1 | · | 1/1 | 2/2 | 1/1 | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
-| c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | · | 1/1 | · | 1/1 | · | · | · | 1/1 | · | · | · |
-| cpp | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | 1/1 | · | 1/1 | · | · | · | 1/1 | · | · | · |
-| swift | 1/1 | 1/1 | · | 1/1 | · | 1/1 | · | 1/1 | 1/1 | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
-| php | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | 1/1 | 1/1 | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 |
-| ruby | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | 1/1 | 1/1 | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 |
-| rust | 1/1 | 1/1 | · | 1/1 | · | 1/1 | · | 1/1 | 1/1 | · | · | · | · | 1/1 | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 |
+| language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-20 | CWE-59 | CWE-77 | CWE-94 | CWE-116 | CWE-117 | CWE-120 | CWE-121 | CWE-122 | CWE-125 | CWE-134 | CWE-190 | CWE-200 | CWE-276 | CWE-284 | CWE-287 | CWE-306 | CWE-307 | CWE-416 | CWE-434 | CWE-471 | CWE-476 | CWE-522 | CWE-532 | CWE-601 | CWE-639 | CWE-770 | CWE-787 | CWE-862 | CWE-863 | CWE-1395 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| java | 6/5 | 9/8 | 7/6 | 21/17 | 1/1 | 1/1 | 1/1 | 2/2 | 1/4 | 1/1 | · | · | 1/1 | 4/3 | · | 1/1 | · | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | · | 2/2 | 1/1 | 3/3 |
+| kotlin | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
+| python | 7/6 | 8/6 | 3/2 | 13/7 | 1/1 | 2/2 | 1/1 | 12/12 | 1/1 | · | 2/1 | · | · | · | · | · | · | · | · | · | · | · | 3/1 | · | 1/0 | · | 1/1 | · | · | 2/2 | · | · | · | 1/1 | 3/0 | · | 1/1 | · | · | 1/0 | 2/2 |
+| javascript | 5/4 | 9/4 | 2/2 | 6/5 | · | 3/2 | · | 1/1 | · | · | · | 1/0 | · | 2/1 | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | 1/0 | · | · | · | · | 1/0 | · | · | · | 1/0 | · | · | · | · | · | 2/2 |
+| typescript | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
+| go | 5/3 | 3/2 | 1/1 | 4/3 | 1/1 | 1/1 | · | 2/2 | 1/1 | · | · | · | 1/1 | · | 1/0 | · | · | · | · | · | · | · | 1/0 | 1/0 | · | · | · | 1/0 | · | · | · | · | 1/0 | 1/0 | 1/0 | · | · | · | 3/0 | 1/0 | 1/1 |
+| csharp | 3/3 | 3/3 | · | 3/3 | 1/1 | · | 1/1 | 2/2 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
+| c | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | 1/1 | · | · | · | · | · | 1/1 | · | · | · |
+| cpp | · | 1/1 | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | 1/1 | · | · | · | · | · | 1/1 | · | · | · |
+| swift | 1/1 | 1/1 | · | 1/1 | · | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
+| php | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | 1/1 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 |
+| ruby | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | · | 1/1 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 |
+| rust | 1/1 | 1/1 | · | 1/1 | · | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | 1/1 |
 
 Weakness codes:
 
@@ -47,8 +47,10 @@ Weakness codes:
 - `CWE-327` — broken crypto
 - `CWE-352` — cross-site request forgery
 - `CWE-20` — improper input validation
+- `CWE-59` — link following
 - `CWE-77` — command injection
 - `CWE-94` — code injection
+- `CWE-116` — improper encoding or escaping of output
 - `CWE-117` — improper output neutralisation for logs
 - `CWE-120` — buffer copy without size check
 - `CWE-121` — stack-based buffer overflow
@@ -57,12 +59,18 @@ Weakness codes:
 - `CWE-134` — externally controlled format string
 - `CWE-190` — integer overflow or wraparound
 - `CWE-200` — exposure of sensitive information
+- `CWE-276` — incorrect default permissions
 - `CWE-284` — improper access control
+- `CWE-287` — improper authentication
 - `CWE-306` — missing authentication for critical function
+- `CWE-307` — improper restriction of excessive authentication attempts
 - `CWE-416` — use after free
 - `CWE-434` — unrestricted upload of dangerous file type
+- `CWE-471` — modification of assumed-immutable data
 - `CWE-476` — NULL pointer dereference
+- `CWE-522` — insufficiently protected credentials
 - `CWE-532` — sensitive information in a log file
+- `CWE-601` — open redirect
 - `CWE-639` — authorisation bypass through user-controlled key
 - `CWE-770` — allocation without limits or throttling
 - `CWE-787` — out-of-bounds write
@@ -77,9 +85,7 @@ Weakness codes:
 Weaknesses covered per language, thinnest first:
 
 - `kotlin` — 10
-- `javascript` — 10
 - `typescript` — 10
-- `go` — 10
 - `csharp` — 10
 - `cpp` — 10
 - `swift` — 10
@@ -87,8 +93,10 @@ Weaknesses covered per language, thinnest first:
 - `ruby` — 10
 - `rust` — 10
 - `c` — 11
-- `python` — 16
+- `javascript` — 14
 - `java` — 19
+- `python` — 19
+- `go` — 19
 
 ## Depth per language
 
@@ -124,9 +132,9 @@ Template-generated cases share a shape a tool can **overfit** to, so the hand-au
 |---|---|
 | `generated` | 300 |
 | `hand-authored` | 146 |
-| `cve` | 49 |
+| `cve` | 93 |
 
-**39% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
+**44% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
 
 ## Variants per weakness
 
@@ -134,13 +142,15 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | weakness | mechanisms | context traps |
 |---|---|---|
-| `CWE-20` | `unvalidated-numeric-range` | · |
+| `CWE-20` | `unknown`, `unvalidated-numeric-range` | · |
 | `CWE-22` | `(unlabelled)`, `loop-filter`, `single-pass-filter`, `unknown`, `unvalidated-concat`, `unvalidated-join` | · |
+| `CWE-59` | `unknown` | · |
 | `CWE-77` | `argument-injection` | · |
 | `CWE-78` | `(unlabelled)`, `blocklist-filter`, `shell-string`, `system-call`, `unknown` | · |
 | `CWE-79` | `(unlabelled)`, `tag-filter`, `template-html-optout`, `unescaped-output`, `unknown` | · |
-| `CWE-89` | `(unlabelled)`, `concat-statement`, `dynamic-identifier`, `format-string`, `prepared-but-concatenated` | · |
+| `CWE-89` | `(unlabelled)`, `concat-statement`, `dynamic-identifier`, `format-string`, `prepared-but-concatenated`, `unknown` | · |
 | `CWE-94` | `dynamic-evaluation`, `unknown` | · |
+| `CWE-116` | `unknown` | · |
 | `CWE-117` | `unsanitised-entry`, `unsanitised-log-entry` | · |
 | `CWE-120` | `unbounded-copy` | · |
 | `CWE-121` | `stack-format-copy`, `unbounded-copy` | · |
@@ -148,29 +158,35 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-125` | `unchecked-index-in-unsafe`, `unchecked-index-read` | · |
 | `CWE-134` | `caller-controls-the-template`, `user-controlled-format` | · |
 | `CWE-190` | `allocation-size-overflow`, `unchecked-arithmetic` | · |
-| `CWE-200` | `error-detail-returned`, `stack-returned`, `stack-trace-to-client` | · |
-| `CWE-284` | `client-controlled-role` | · |
+| `CWE-200` | `error-detail-returned`, `stack-returned`, `stack-trace-to-client`, `unknown` | · |
+| `CWE-276` | `unknown` | · |
+| `CWE-284` | `client-controlled-role`, `unknown` | · |
+| `CWE-287` | `unknown` | · |
 | `CWE-306` | `no-authentication` | · |
+| `CWE-307` | `unknown` | · |
 | `CWE-327` | `weak-cipher-mode`, `weak-hash` | `in-comment`, `in-markdown`, `in-test-data` |
 | `CWE-352` | `protection-disabled` | · |
 | `CWE-416` | `dangling-reference`, `use-after-free` | · |
 | `CWE-434` | `blocklist-extension`, `unchecked-upload` | · |
+| `CWE-471` | `unknown` | · |
 | `CWE-476` | `unchecked-allocation` | · |
 | `CWE-502` | `binaryformatter`, `marshal-untrusted`, `objectinputstream`, `pickle-untrusted`, `prototype-pollution`, `unserialize-untrusted`, `yaml-untrusted` | · |
-| `CWE-532` | `credentials-in-log` | · |
+| `CWE-522` | `unknown` | · |
+| `CWE-532` | `credentials-in-log`, `unknown` | · |
+| `CWE-601` | `unknown` | · |
 | `CWE-611` | `default-factory`, `default-resolver`, `entities-enabled` | · |
 | `CWE-639` | `user-controlled-key` | · |
 | `CWE-770` | `unbounded-allocation` | · |
 | `CWE-787` | `unchecked-index-write` | · |
 | `CWE-798` | `(unlabelled)`, `chat-token`, `cloud-key-pair`, `connection-string`, `identifier-not-secret`, `literal-in-source`, `payment-key`, `pem-private-key`, `signing-key-literal`, `vcs-token` | `in-example-config` |
-| `CWE-862` | `intentionally-public`, `missing-annotation`, `no-ownership-check` | · |
-| `CWE-863` | `wrong-role-checked` | · |
-| `CWE-918` | `(unlabelled)`, `unvalidated-url` | · |
+| `CWE-862` | `intentionally-public`, `missing-annotation`, `no-ownership-check`, `unknown` | · |
+| `CWE-863` | `unknown`, `wrong-role-checked` | · |
+| `CWE-918` | `(unlabelled)`, `unknown`, `unvalidated-url` | · |
 | `CWE-1395` | `(unlabelled)`, `vulnerable-version` | · |
 
-**139 of 495 cases carry no variant label** and are counted as `(unlabelled)`. Until they are named the mechanism coverage above understates what exists and cannot show what is missing.
+**139 of 539 cases carry no variant label** and are counted as `(unlabelled)`. Until they are named the mechanism coverage above understates what exists and cannot show what is missing.
 
-`unknown` is not the same gap. 49 derived tier-3 cases carry it because the mechanism is not knowable from the CVE metadata — only from reading the code — and guessing would be indistinguishable from a finding in the table above.
+`unknown` is not the same gap. 93 derived tier-3 cases carry it because the mechanism is not knowable from the CVE metadata — only from reading the code — and guessing would be indistinguishable from a finding in the table above.
 
 ## OWASP Top 10 (2021)
 
@@ -191,7 +207,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | plane | cases |
 |---|---|
-| vuln | 443 |
+| vuln | 487 |
 | secret | 28 |
 | sca | 24 |
 | crypto | · |
@@ -204,7 +220,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 |---|---|
 | 1 — synthetic fixtures | 446 |
 | 2 — real applications | · |
-| 3 — CVE reproductions | 49 |
+| 3 — CVE reproductions | 93 |
 
 ## Difficulty
 

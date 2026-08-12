@@ -85,6 +85,14 @@ CWE_NAMES = {
     "CWE-787": "out-of-bounds write",
     "CWE-862": "missing authorisation",
     "CWE-863": "incorrect authorisation",
+    "CWE-601": "open redirect",
+    "CWE-287": "improper authentication",
+    "CWE-307": "improper restriction of excessive authentication attempts",
+    "CWE-522": "insufficiently protected credentials",
+    "CWE-276": "incorrect default permissions",
+    "CWE-116": "improper encoding or escaping of output",
+    "CWE-59": "link following",
+    "CWE-471": "modification of assumed-immutable data",
 }
 
 OWASP_NAMES = {
