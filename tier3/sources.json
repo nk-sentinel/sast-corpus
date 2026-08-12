@@ -25,6 +25,20 @@
       ],
       "notes": "120 manually vetted CVEs over path traversal, command injection, XSS and code injection. Ships machine-readable metadata, so ground truth can be derived rather than hand-transcribed.",
       "pinned_on": "2026-08-12"
+    },
+    {
+      "name": "patcheval",
+      "repo": "https://github.com/bytedance/PatchEval.git",
+      "sha": "0000000000000000000000000000000000000000",
+      "license": "Apache-2.0",
+      "languages": [
+        "go",
+        "javascript",
+        "python"
+      ],
+      "pinned_on": "2026-08-12",
+      "optional": false,
+      "notes": "Metadata only: the per-CVE repositories are cloned separately by spine/corpora/patcheval.py. Line numbers here anchor to the BUGGY commit, unlike cwe-bench-java \u2014 verified across all 230 entries before use. See docs/TIER3-DATASETS.md."
     }
   ]
 }

@@ -45,3 +45,5 @@ node_modules/
 /tier3/cwe-bench-java/java-env/
 /tier3/cwe-bench-java/build-info/
 /tier3/cwe-bench-java/project-sources
+tier3/patcheval/
+tier3/reef/
