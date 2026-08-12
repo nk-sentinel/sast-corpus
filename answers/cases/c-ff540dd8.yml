@@ -1,0 +1,34 @@
+id: c-ff540dd8
+label: vulnerable
+plane: sca
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-1395
+variant: null
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: medium
+location:
+  file: tier1/javascript/ff540dd8/package.json
+  start_line: 8
+  end_line: 8
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    lodash 4.17.15 is affected by CVE-2020-8203 through prototype pollution. It sits in devDependencies and never ships, which lowers the priority and does not remove the finding: it is installed on every developer machine and in every CI run, both of which are worth compromising. Recorded with a development scope
+  cve: null
+sca:
+  purl: pkg:npm/lodash@4.17.15
+  cve: CVE-2020-8203
+  transitive: false
+  reachable: true
+  scope: dev
+build:
+  required: false
+  recipe: null

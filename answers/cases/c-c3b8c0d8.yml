@@ -1,0 +1,34 @@
+id: c-c3b8c0d8
+label: safe
+plane: sca
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-1395
+variant: null
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: high
+location:
+  file: tier1/python/c3b8c0d8/requirements.txt
+  start_line: 1
+  end_line: 1
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    flask 3.0.3 requires a werkzeug past the advisory, so the transitive component arrives fixed
+  cve: null
+sca:
+  purl: pkg:pypi/werkzeug@3.0.4
+  cve: null
+  transitive: true
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

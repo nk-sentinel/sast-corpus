@@ -1,0 +1,34 @@
+id: c-6330eb34
+label: safe
+plane: sca
+tier: 1
+language: rust
+framework: null
+primary_cwe: CWE-1395
+variant: null
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: high
+location:
+  file: tier1/rust/6330eb34/Cargo.toml
+  start_line: 7
+  end_line: 7
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the same crate at a release past the advisory
+  cve: null
+sca:
+  purl: pkg:cargo/time@0.3.36
+  cve: null
+  transitive: false
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

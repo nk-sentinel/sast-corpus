@@ -1,0 +1,32 @@
+id: c-11745c0b
+label: safe
+plane: secret
+tier: 1
+language: go
+framework: null
+primary_cwe: CWE-798
+variant: null
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: critical
+location:
+  file: tier1/go/11745c0b/deploy.go
+  start_line: 3
+  end_line: 3
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    a PUBLIC key in the same envelope. Public keys are meant to be distributed and pinning a host key in source is good practice; a detector matching BEGIN.*KEY rather than the private variants reports it every time
+  cve: null
+secret:
+  kind: ssh-public-key
+  live_validatable: false
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

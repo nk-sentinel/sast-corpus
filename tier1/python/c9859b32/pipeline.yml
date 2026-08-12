@@ -1,0 +1,13 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  variables:
+    AWS_REGION: eu-west-1
+    AWS_ROLE_ARN: arn:aws:iam::123456789012:role/deploy
+  id_tokens:
+    AWS_ID_TOKEN:
+      aud: sts.amazonaws.com
+  script:
+    - ./deploy.sh

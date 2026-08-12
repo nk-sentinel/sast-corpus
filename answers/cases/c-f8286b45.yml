@@ -1,0 +1,34 @@
+id: c-f8286b45
+label: vulnerable
+plane: sca
+tier: 1
+language: php
+framework: null
+primary_cwe: CWE-1395
+variant: null
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: high
+location:
+  file: tier1/php/f8286b45/composer.json
+  start_line: 5
+  end_line: 5
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    guzzle 6.5.5 is affected by CVE-2022-31090, which forwards curl authorisation headers across a cross-domain redirect, and the client below follows redirects
+  cve: null
+sca:
+  purl: pkg:composer/guzzlehttp/guzzle@6.5.5
+  cve: CVE-2022-31090
+  transitive: false
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

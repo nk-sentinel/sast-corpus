@@ -1,0 +1,10 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  variables:
+    AWS_ACCESS_KEY_ID: AKIA7Q2WZLMNBVCXK394
+    AWS_SECRET_ACCESS_KEY: mQ7xJ4pL9wT6yB3nH5sD1fG0aZcX8eU2iOnQ7kV3
+  script:
+    - ./deploy.sh

@@ -1,0 +1,32 @@
+id: c-c9859b32
+label: safe
+plane: secret
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: null
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: critical
+location:
+  file: tier1/python/c9859b32/pipeline.yml
+  start_line: 8
+  end_line: 8
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the same deployment configured to exchange a short-lived identity token for a role. A role ARN is an identifier, not a credential, and an account number inside it is not a secret — a detector matching on aws plus a long string reports it
+  cve: null
+secret:
+  kind: cloud-identifier
+  live_validatable: false
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

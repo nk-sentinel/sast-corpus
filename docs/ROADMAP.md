@@ -137,7 +137,7 @@ finding*:
 The two in bold are FN tests specifically: a sanitizer call is present and
 irrelevant, and a tool matching on its presence rather than its effect is wrong.
 
-### 3. SCA + secrets — ~60
+### 3. SCA + secrets — ~60 ✅ **done**
 
 Cheap, highly testable, and currently the emptiest plane.
 

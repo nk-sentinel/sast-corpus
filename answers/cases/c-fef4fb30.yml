@@ -1,0 +1,32 @@
+id: c-fef4fb30
+label: vulnerable
+plane: secret
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-798
+variant: null
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: critical
+location:
+  file: tier1/python/fef4fb30/pipeline.yml
+  start_line: 8
+  end_line: 8
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    credentials inlined into pipeline configuration rather than injected as protected variables. CI configuration is committed by definition, so this is a credential in the repository with extra steps
+  cve: null
+secret:
+  kind: cloud-credential
+  live_validatable: true
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

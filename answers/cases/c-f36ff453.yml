@@ -1,0 +1,32 @@
+id: c-f36ff453
+label: vulnerable
+plane: secret
+tier: 1
+language: java
+framework: null
+primary_cwe: CWE-798
+variant: null
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: critical
+location:
+  file: tier1/java/f36ff453/Tokens.java
+  start_line: 2
+  end_line: 2
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the key that signs every session token, committed in source. Anyone holding it mints tokens for any account, and rotating it invalidates every session at once — which is why it is so often left alone after a leak
+  cve: null
+secret:
+  kind: jwt-signing-key
+  live_validatable: false
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

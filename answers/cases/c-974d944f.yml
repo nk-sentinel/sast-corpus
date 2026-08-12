@@ -1,0 +1,32 @@
+id: c-974d944f
+label: safe
+plane: secret
+tier: 1
+language: csharp
+framework: null
+primary_cwe: CWE-798
+variant: null
+acceptable_cwes: [CWE-798, CWE-259, CWE-321]
+owasp_2021: A07
+severity: critical
+location:
+  file: tier1/csharp/974d944f/Storage.cs
+  start_line: 3
+  end_line: 3
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the same account addressed by URI, with credentials supplied by a managed identity at runtime. The account name is not a secret
+  cve: null
+secret:
+  kind: cloud-identifier
+  live_validatable: false
+  in_git_history_only: false
+build:
+  required: false
+  recipe: null

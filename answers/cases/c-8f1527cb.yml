@@ -1,0 +1,34 @@
+id: c-8f1527cb
+label: vulnerable
+plane: sca
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-1395
+variant: null
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: high
+location:
+  file: tier1/python/8f1527cb/requirements.txt
+  start_line: 1
+  end_line: 1
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    flask 2.0.3 depends on werkzeug, and werkzeug below 2.2.3 is affected by CVE-2023-25577 through unbounded multipart parsing. Nothing in this manifest names werkzeug: the vulnerable component arrives underneath a direct dependency, and a scanner reading only what is written here finds nothing to report
+  cve: null
+sca:
+  purl: pkg:pypi/werkzeug@2.0.3
+  cve: CVE-2023-25577
+  transitive: true
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null
