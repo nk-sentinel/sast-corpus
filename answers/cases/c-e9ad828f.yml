@@ -1,0 +1,28 @@
+id: c-e9ad828f
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-22
+variant: unknown
+acceptable_cwes: [CWE-22, CWE-23, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/jmjuanes__stattic/index.js
+  start_line: 31
+  end_line: 106
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-3734 in jmjuanes/stattic, at the buggy commit 952c145. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2018-3734
+build:
+  required: false
+  recipe: null

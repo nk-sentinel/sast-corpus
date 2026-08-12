@@ -1,0 +1,28 @@
+id: c-3bc4afb0
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-22
+variant: unknown
+acceptable_cwes: [CWE-22, CWE-23, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/anchore__stereoscope/pkg/file/tarutil.go
+  start_line: 128
+  end_line: 163
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-24579 in anchore/stereoscope, at the buggy commit eb656fc717935ad5abeb8e1379a5c4e11c957120. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-24579
+build:
+  required: false
+  recipe: null

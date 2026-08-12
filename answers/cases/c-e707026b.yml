@@ -1,0 +1,31 @@
+id: c-e707026b
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-863
+variant: unknown
+acceptable_cwes: [CWE-863, CWE-285, CWE-862]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/thinkst__opencanary/opencanary/config.py
+  start_line: 52
+  end_line: 84
+alt_locations:
+  - file: tier3/patcheval/thinkst__opencanary/opencanary/modules/portscan.py
+    start_line: 70
+    end_line: 71
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-48911 in thinkst/opencanary, at the buggy commit d3956bc. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2024-48911
+build:
+  required: false
+  recipe: null

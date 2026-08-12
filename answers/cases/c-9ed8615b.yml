@@ -1,0 +1,28 @@
+id: c-9ed8615b
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-471
+variant: unknown
+acceptable_cwes: [CWE-471]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/highlightjs__highlight.js/src/highlight.js
+  start_line: 25
+  end_line: 869
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-26237 in highlightjs/highlight.js, at the buggy commit 93fd0d73. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2020-26237
+build:
+  required: false
+  recipe: null

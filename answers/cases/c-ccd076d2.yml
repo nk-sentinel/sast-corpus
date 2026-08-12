@@ -1,0 +1,28 @@
+id: c-ccd076d2
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-78
+variant: unknown
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/skoranga__node-dns-sync/lib/dns-sync.js
+  start_line: 14
+  end_line: 30
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2017-16100 in skoranga/node-dns-sync, at the buggy commit b748fe77a87749d95876028eda8e759109be4c73. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2017-16100
+build:
+  required: false
+  recipe: null

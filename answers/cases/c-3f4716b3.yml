@@ -1,0 +1,28 @@
+id: c-3f4716b3
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-601
+variant: unknown
+acceptable_cwes: [CWE-601, CWE-1022]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/jupyter__notebook/notebook/auth/login.py
+  start_line: 33
+  end_line: 63
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2019-10856 in jupyter/notebook, at the buggy commit 16cf97c. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2019-10856
+build:
+  required: false
+  recipe: null

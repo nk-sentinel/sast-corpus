@@ -1,0 +1,28 @@
+id: c-b02236d2
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-307
+variant: unknown
+acceptable_cwes: [CWE-307]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/authelia__authelia/internal/handlers/handler_firstfactor.go
+  start_line: 14
+  end_line: 159
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2025-24806 in authelia/authelia, at the buggy commit 37cb14fb898b675bd39bbe8776f8cdf54f8272f3. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2025-24806
+build:
+  required: false
+  recipe: null

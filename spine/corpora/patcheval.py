@@ -307,7 +307,22 @@ def read_sources(root, paths):
     return sources
 
 
-def derive(dataset, checkouts_root, only=None, progress=True):
+def write_case(candidate, cases_root):
+    """Write one derived case, returning where it landed.
+
+    Written as each candidate is derived rather than collected and flushed at
+    the end. Deriving 230 CVEs means cloning 230 repositories and takes hours,
+    and a run that is interrupted — a timeout, a killed process, a full disk —
+    otherwise produces nothing at all despite all of it.
+    """
+    cases_root = Path(cases_root)
+    cases_root.mkdir(parents=True, exist_ok=True)
+    path = cases_root / "{}.yml".format(case_id(candidate["cve"], candidate["file"]))
+    path.write_text(render_case(candidate))
+    return path
+
+
+def derive(dataset, checkouts_root, only=None, progress=True, cases_root=None):
     """Walk the dataset and produce one candidate per usable CVE."""
     checkouts_root = Path(checkouts_root)
     candidates, skipped = [], []
@@ -343,7 +358,7 @@ def derive(dataset, checkouts_root, only=None, progress=True):
 
         primary = usable[0]
         relative = "tier3/patcheval/{}".format(slug)
-        candidates.append({
+        candidate = {
             "cve": cve, "repo": entry["repo"], "commit": commit,
             "language": language, "cwe": cwe, "acceptable_cwes": acceptable_for(cwe),
             "slug": slug,
@@ -353,7 +368,10 @@ def derive(dataset, checkouts_root, only=None, progress=True):
                 {"file": "{}/{}".format(relative, other["path"]),
                  "start_line": other["start_line"], "end_line": other["end_line"]}
                 for other in usable[1:]],
-        })
+        }
+        candidates.append(candidate)
+        if cases_root:
+            write_case(candidate, cases_root)
 
     return candidates, skipped
 
@@ -374,8 +392,9 @@ def main(argv=None):
     if args.limit:
         dataset = dataset[:args.limit]
 
-    candidates, skipped = derive(dataset, args.root / "tier3" / "patcheval",
-                                 only=args.only)
+    candidates, skipped = derive(
+        dataset, args.root / "tier3" / "patcheval", only=args.only,
+        cases_root=(args.root / "answers" / "cases") if args.write else None)
 
     print("\nderived {} case(s); {} skipped".format(len(candidates), len(skipped)))
     reasons = {}
@@ -385,12 +404,7 @@ def main(argv=None):
         print("  {:>4}  {}".format(count, reason))
 
     if args.write:
-        cases = args.root / "answers" / "cases"
-        cases.mkdir(parents=True, exist_ok=True)
-        for candidate in candidates:
-            name = case_id(candidate["cve"], candidate["file"])
-            (cases / "{}.yml".format(name)).write_text(render_case(candidate))
-        print("wrote {} case file(s)".format(len(candidates)))
+        print("wrote {} case file(s) as they were derived".format(len(candidates)))
     return 0
 
 

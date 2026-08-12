@@ -1,0 +1,28 @@
+id: c-3c3151f7
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-276
+variant: unknown
+acceptable_cwes: [CWE-276]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/google__exposure-notifications-verification-server/pkg/rbac/rbac.go
+  start_line: 64
+  end_line: 80
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-22538 in google/exposure-notifications-verification-server, at the buggy commit 3d28d0ba00c12a9d54cd7737dd5000d04fbf6e4e. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2021-22538
+build:
+  required: false
+  recipe: null

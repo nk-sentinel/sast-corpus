@@ -1,0 +1,28 @@
+id: c-a9311b9c
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-89
+variant: unknown
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/socketio__socket.io-parser/binary.js
+  start_line: 70
+  end_line: 86
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-2421 in socketio/socket.io-parser, at the buggy commit 6a59237ed03f91e507e954333d63d19f3db534c6. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2022-2421
+build:
+  required: false
+  recipe: null

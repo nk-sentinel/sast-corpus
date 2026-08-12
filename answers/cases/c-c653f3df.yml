@@ -1,0 +1,28 @@
+id: c-c653f3df
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-59
+variant: unknown
+acceptable_cwes: [CWE-59]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/npm__node-tar/lib/parse.js
+  start_line: 140
+  end_line: 285
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-20834 in npm/node-tar, at the buggy commit 9fc84b9. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2018-20834
+build:
+  required: false
+  recipe: null

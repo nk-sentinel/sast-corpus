@@ -1,4 +1,5 @@
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -6,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from corpora.patcheval import (FETCH_DEPTH, LANGUAGES, case_id, coerce_span,
                                fix_commit_of, is_recorded_commit, primary_cwe,
-                               render_case, usable_locations)
+                               render_case, usable_locations, write_case)
 
 
 class LineNumberTypes(unittest.TestCase):
@@ -173,6 +174,42 @@ class FixCommitExtraction(unittest.TestCase):
 
     def test_no_patch_url_yields_nothing(self):
         self.assertIsNone(fix_commit_of({}))
+
+
+class ProgressIsNotLostOnInterruption(unittest.TestCase):
+    """Deriving 230 CVEs means cloning 230 repositories, which takes hours. The
+    first version collected every candidate and wrote them all at the end, so an
+    interrupted run — a timeout, a killed process, a full disk — produced
+    nothing at all despite hours of work.
+
+    Each case is written as it is derived."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        self.addCleanup(self.tmp.cleanup)
+
+    def test_a_candidate_is_written_immediately(self):
+        candidate = {"cve": "CVE-2021-1", "repo": "https://github.com/o/r",
+                     "commit": "abc1234", "language": "python", "cwe": "CWE-89",
+                     "acceptable_cwes": ["CWE-89"], "file": "tier3/patcheval/o__r/a.py",
+                     "start_line": 1, "end_line": 2, "alt_locations": []}
+
+        written = write_case(candidate, self.root)
+
+        self.assertTrue(written.is_file())
+        self.assertIn("CVE-2021-1", written.read_text())
+
+    def test_writing_twice_is_stable(self):
+        candidate = {"cve": "CVE-2021-1", "repo": "https://github.com/o/r",
+                     "commit": "abc1234", "language": "python", "cwe": "CWE-89",
+                     "acceptable_cwes": ["CWE-89"], "file": "tier3/patcheval/o__r/a.py",
+                     "start_line": 1, "end_line": 2, "alt_locations": []}
+
+        first = write_case(candidate, self.root)
+        second = write_case(candidate, self.root)
+
+        self.assertEqual(first, second)
 
 if __name__ == "__main__":
     unittest.main()

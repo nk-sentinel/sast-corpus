@@ -1,0 +1,28 @@
+id: c-4494114d
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-20
+variant: unknown
+acceptable_cwes: [CWE-20]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/manvel-khnkoyan__jpv/index.js
+  start_line: 116
+  end_line: 285
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-17479 in manvel-khnkoyan/jpv, at the buggy commit 8a3cb77. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2020-17479
+build:
+  required: false
+  recipe: null
