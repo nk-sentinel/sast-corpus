@@ -231,6 +231,30 @@ def _reason(result):
     return f"exit {result.returncode}"
 
 
+# Newest provisioned Maven, for projects whose build-info names no version.
+DEFAULT_MAVEN = "3.9.8"
+
+
+def build_plan(info, present_files):
+    """Which tool builds this project, and at what version.
+
+    Decided by the files on disk rather than by build-info alone. In this
+    dataset 5 projects declare a `gradle` key and every one of them contains
+    `pom.xml` and no Gradle file at all, so the key does not mean what its name
+    suggests; 2 others use a separate `gradlew` key and do carry a wrapper.
+    Routing on the metadata sent 7 of 28 projects to a tool they do not use, and
+    each of those contributed nothing to the checklist.
+    """
+    if "pom.xml" in present_files:
+        return "maven", info.get("mvn") or DEFAULT_MAVEN
+    if "gradlew" in present_files:
+        return "gradlew", None
+    return "unknown", None
+
+
+BUILD_FILES = ("pom.xml", "gradlew", "build.gradle", "build.xml")
+
+
 def _run(command, cwd, timeout=900):
     try:
         return subprocess.run(command, cwd=cwd, capture_output=True,
@@ -269,14 +293,14 @@ def collect(root, only=None, offline=True, progress=True, exclude=()):
 
         jdk = info.get("jdk")
         java_home = env / ("jdk-17" if jdk == "17" else "jdk1.8.0_202")
-        environment = {"JAVA_HOME": str(java_home),
-                       "PATH": f"{java_home}/bin:/usr/bin:/bin"}
+        present = {name for name in BUILD_FILES if (source / name).exists()}
+        tool, version = build_plan(info, present)
 
-        if info.get("mvn"):
-            project = Project(name, "maven", jdk, info["mvn"])
-            mvn = env / f"apache-maven-{info['mvn']}" / "bin" / "mvn"
+        if tool == "maven":
+            project = Project(name, "maven", jdk, version)
+            mvn = env / f"apache-maven-{version}" / "bin" / "mvn"
             if not mvn.exists():
-                project.error = f"maven {info['mvn']} not provisioned"
+                project.error = f"maven {version} not provisioned"
             else:
                 flags = ["-o"] if offline else []
                 listing = _run([str(mvn), *flags, "-B", "dependency:list"], source)
@@ -287,21 +311,18 @@ def collect(root, only=None, offline=True, progress=True, exclude=()):
                     "dependencies": (listing.returncode == 0, _reason(listing)),
                     "plugins": (plugins.returncode == 0, _reason(plugins)),
                 })
-        elif info.get("gradle"):
-            project = Project(name, "gradle", jdk, str(info.get("gradle")))
+        elif tool == "gradlew":
+            project = Project(name, "gradlew", jdk, str(info.get("gradle") or "wrapper"))
             wrapper = source / "gradlew"
-            if not wrapper.exists():
-                project.error = "no gradle wrapper; needs a provisioned gradle"
-            else:
-                flags = ["--offline"] if offline else []
-                listing = _run([str(wrapper), *flags, "-q", "dependencies"], source)
-                project.coordinates = parse_gradle_tree(listing.stdout)
-                project.error = describe_failure({
-                    "dependencies": (listing.returncode == 0, _reason(listing)),
-                })
+            flags = ["--offline"] if offline else []
+            listing = _run([str(wrapper), *flags, "-q", "dependencies"], source)
+            project.coordinates = parse_gradle_tree(listing.stdout)
+            project.error = describe_failure({
+                "dependencies": (listing.returncode == 0, _reason(listing)),
+            })
         else:
             project = Project(name, "unknown")
-            project.error = "build-info declares neither mvn nor gradle"
+            project.error = (f"no build file found; looked for {', '.join(BUILD_FILES)}")
 
         if progress:
             outcome = project.error or f"{len(project.coordinates)} coordinates"

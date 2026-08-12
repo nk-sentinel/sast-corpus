@@ -8,7 +8,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from export.deps import (Coordinate, build_parser, collect, dedupe, describe_failure,
+from export.deps import (Coordinate, build_parser, build_plan, collect, dedupe,
+                         describe_failure,
                          parse_gradle_tree, parse_maven_list,
                          parse_maven_plugins, render_text)
 
@@ -121,6 +122,46 @@ class GradleDependencyTree(unittest.TestCase):
         self.assertEqual([(c.artifact, c.version) for c in got], [("bar", "1.0")])
 
 
+class BuildRouting(unittest.TestCase):
+    """Which tool builds a project is decided by the files on disk, not by
+    build-info alone.
+
+    Measured against the dataset: 5 projects declare `{"gradle": ..., "jdk": ...}`
+    and every one of them contains `pom.xml` and no Gradle file whatsoever, so
+    the `gradle` key does not mean "build with Gradle". Two others declare
+    `{"gradlew": 1}` — a different key — and those genuinely do carry a wrapper.
+    Trusting the metadata routed 7 of 28 projects to a tool they do not use, and
+    each one contributed nothing to the checklist."""
+
+    def test_a_pom_means_maven_whatever_build_info_says(self):
+        tool, version = build_plan({"gradle": "8.9", "jdk": "17"}, {"pom.xml"})
+
+        self.assertEqual(tool, "maven")
+
+    def test_the_declared_maven_version_is_used(self):
+        self.assertEqual(build_plan({"jdk": "8u202", "mvn": "3.5.0"}, {"pom.xml"}),
+                         ("maven", "3.5.0"))
+
+    def test_a_pom_with_no_declared_version_falls_back(self):
+        tool, version = build_plan({"gradle": "8.9", "jdk": "17"}, {"pom.xml"})
+
+        self.assertTrue(version, "a maven project needs some version to run")
+
+    def test_a_wrapper_with_no_pom_uses_the_wrapper(self):
+        self.assertEqual(build_plan({"gradlew": 1}, {"gradlew", "build.gradle"}),
+                         ("gradlew", None))
+
+    def test_a_pom_wins_when_both_are_present(self):
+        # A polyglot tree still resolves through maven, which is what the
+        # corpus's own build recipes use.
+        tool, _ = build_plan({"gradlew": 1}, {"pom.xml", "gradlew"})
+
+        self.assertEqual(tool, "maven")
+
+    def test_no_build_file_is_unknown(self):
+        self.assertEqual(build_plan({}, set())[0], "unknown")
+
+
 class EveryProjectIsAccountedFor(unittest.TestCase):
     """A project whose toolchain is missing still has to appear in the progress
     output. Otherwise the log shows `resolving X ...` with no outcome and the
@@ -132,11 +173,14 @@ class EveryProjectIsAccountedFor(unittest.TestCase):
         self.root = Path(self.tmp.name)
         self.addCleanup(self.tmp.cleanup)
 
-    def project(self, name, info):
+    def project(self, name, info, build_file="pom.xml"):
         info_dir = self.root / "tier3" / "cwe-bench-java" / "build-info"
         info_dir.mkdir(parents=True, exist_ok=True)
         (info_dir / f"{name}.json").write_text(json.dumps(info))
-        (self.root / "tier3" / "project-sources" / name).mkdir(parents=True, exist_ok=True)
+        source = self.root / "tier3" / "project-sources" / name
+        source.mkdir(parents=True, exist_ok=True)
+        if build_file:
+            (source / build_file).write_text("")
 
     def collect_output(self):
         stream = io.StringIO()
@@ -152,17 +196,17 @@ class EveryProjectIsAccountedFor(unittest.TestCase):
         self.assertEqual(len(projects), 1)
         self.assertIn("not provisioned", output)
 
-    def test_a_gradle_project_with_no_wrapper_is_reported(self):
-        self.project("y", {"jdk": "17", "gradle": "8.9"})
+    def test_a_project_with_no_build_file_is_reported(self):
+        self.project("y", {"jdk": "17", "gradle": "8.9"}, build_file=None)
 
         projects, output = self.collect_output()
 
         self.assertEqual(len(projects), 1)
-        self.assertIn("gradle", output)
+        self.assertIn("no build file", output)
 
     def test_no_project_starts_without_finishing(self):
         self.project("x", {"jdk": "8u202", "mvn": "9.9.9"})
-        self.project("y", {"jdk": "17", "gradle": "8.9"})
+        self.project("y", {"jdk": "17", "gradle": "8.9"}, build_file=None)
 
         _, output = self.collect_output()
 
