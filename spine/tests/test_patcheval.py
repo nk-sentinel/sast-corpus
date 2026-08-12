@@ -5,7 +5,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from corpora.patcheval import (FETCH_DEPTH, LANGUAGES, case_id, coerce_span,
+from corpora.patcheval import (FALLBACK_TIMEOUT, FAST_FETCH_TIMEOUT, FETCH_DEPTH,
+                               LANGUAGES, case_id, coerce_span,
                                fix_commit_of, is_recorded_commit, primary_cwe,
                                checkout_dir, render_case, usable_locations,
                                write_case)
@@ -238,6 +239,25 @@ class OneCheckoutPerCommit(unittest.TestCase):
 
         self.assertNotIn("/", directory)
         self.assertRegex(directory, r"^[A-Za-z0-9_.@-]+$")
+
+
+class FastPathFailsFast(unittest.TestCase):
+    """The fast path is an optimisation, so it has to give up quickly.
+
+    Fetching a specific SHA works only when the server will serve it, and where
+    it will not the negotiation hangs rather than refusing — with the same
+    timeout as the fallback, each such repository cost fifteen minutes and the
+    run crawled. The fallback is the slow path by definition and keeps a long
+    timeout; the shortcut gets a short one."""
+
+    def test_the_shortcut_gives_up_sooner_than_the_fallback(self):
+        self.assertLess(FAST_FETCH_TIMEOUT, FALLBACK_TIMEOUT)
+
+    def test_the_shortcut_timeout_is_measured_in_a_couple_of_minutes(self):
+        self.assertLessEqual(FAST_FETCH_TIMEOUT, 180)
+
+    def test_the_fallback_still_has_room_for_a_large_repository(self):
+        self.assertGreaterEqual(FALLBACK_TIMEOUT, 900)
 
 if __name__ == "__main__":
     unittest.main()

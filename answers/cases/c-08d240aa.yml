@@ -1,0 +1,28 @@
+id: c-08d240aa
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-862
+variant: unknown
+acceptable_cwes: [CWE-862, CWE-285, CWE-863]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/argoproj__argo-cd@16f2de0/controller/appcontroller.go
+  start_line: 1771
+  end_line: 1791
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-22736 in argoproj/argo-cd, at the buggy commit 16f2de0. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2023-22736
+build:
+  required: false
+  recipe: null

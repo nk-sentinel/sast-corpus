@@ -44,6 +44,14 @@ LANGUAGES = {"Go": "go", "JavaScript": "javascript", "Python": "python"}
 # commit is simply its parent. The other 5 fall back to the full clone.
 FETCH_DEPTH = 2
 
+# The shortcut has to give up quickly. Fetching a specific SHA works only when
+# the server will serve it, and where it will not the negotiation hangs rather
+# than refusing — with the fallback's timeout, each such repository cost fifteen
+# minutes and the run crawled at two CVEs an hour. The fallback is the slow path
+# by definition and keeps its room.
+FAST_FETCH_TIMEOUT = 120
+FALLBACK_TIMEOUT = 1800
+
 # Weaknesses a scanner can match on, in the order we prefer them. A CVE tagged
 # both CWE-284 and CWE-22 is a path traversal; the class is the label a database
 # reaches for when it wants a bucket, and the specific one is what a tool reports.
@@ -269,7 +277,8 @@ def checkout(repo, commit, destination, fix_commit=None):
         _run(["git", "init", "-q", str(destination)])
         _run(["git", "-C", str(destination), "remote", "add", "origin", repo])
         fetched = _run(["git", "-C", str(destination), "fetch", "-q",
-                        "--depth", str(FETCH_DEPTH), "origin", fix_commit])
+                        "--depth", str(FETCH_DEPTH), "origin", fix_commit],
+                       timeout=FAST_FETCH_TIMEOUT)
         if fetched.returncode == 0:
             parent = _run(["git", "-C", str(destination), "rev-parse",
                            "FETCH_HEAD^"]).stdout.strip()
@@ -281,11 +290,11 @@ def checkout(repo, commit, destination, fix_commit=None):
         shutil.rmtree(destination, ignore_errors=True)
 
     cloned = _run(["git", "clone", "-q", "--filter=blob:none", "--no-checkout",
-                   repo, str(destination)], timeout=1800)
+                   repo, str(destination)], timeout=FALLBACK_TIMEOUT)
     if cloned.returncode != 0:
         return "clone-failed"
     if _run(["git", "-C", str(destination), "checkout", "-q", commit],
-            timeout=1800).returncode != 0:
+            timeout=FALLBACK_TIMEOUT).returncode != 0:
         return "commit-missing"
     return "fetched"
 
