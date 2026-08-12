@@ -171,11 +171,18 @@ def parse_gradle_tree(text):
 
 def dedupe(coordinates):
     """One row per artifact the repository has to serve, ordered so the
-    checklist diffs cleanly between corpus versions."""
+    checklist diffs cleanly between corpus versions.
+
+    Sorted through a key that replaces None with the empty string. Classifier
+    and packaging are optional, so a real key tuple holds None in one row and a
+    string in another, and comparing those raises — at the very end of a
+    resolution run, after every project has already been walked.
+    """
     seen = {}
     for coordinate in coordinates:
         seen.setdefault(coordinate.key(), coordinate)
-    return [seen[key] for key in sorted(seen)]
+    return [seen[key] for key in
+            sorted(seen, key=lambda parts: tuple(part or "" for part in parts))]
 
 
 @dataclass
@@ -232,7 +239,7 @@ def _run(command, cwd, timeout=900):
         return subprocess.CompletedProcess(command, 1, "", str(exc))
 
 
-def collect(root, only=None, offline=True, progress=True):
+def collect(root, only=None, offline=True, progress=True, exclude=()):
     """Walk the tier-3 projects and gather what each build resolves.
 
     Progress goes to stderr, unbuffered. Resolution runs a real build tool
@@ -248,6 +255,13 @@ def collect(root, only=None, offline=True, progress=True):
             continue
         source = root / "tier3" / "project-sources" / name
         if not source.is_dir():
+            continue
+        if name in exclude:
+            # Recorded, not dropped: a checklist that quietly omits a project
+            # reads as complete when it is not.
+            projects.append(Project(name, "excluded", error="excluded by request"))
+            if progress:
+                print(f"  skipping {name} (excluded)", file=sys.stderr, flush=True)
             continue
         started = time.monotonic()
         if progress:
@@ -336,6 +350,9 @@ def build_parser():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--root", type=Path, default=root)
     parser.add_argument("--only", default=None, help="one project by name")
+    parser.add_argument("--exclude", action="append", default=[],
+                        help="skip a project by name; reported as skipped, never "
+                             "silently omitted")
     # Online by default. The whole point of the checklist is to enumerate what
     # the FAR side needs, including artifacts this machine has never cached —
     # `dependency:resolve-plugins` resolves plugins that are declared but never
@@ -352,7 +369,8 @@ def build_parser():
 def main(argv=None):
     args = build_parser().parse_args(argv)
 
-    projects = collect(args.root, only=args.only, offline=args.offline)
+    projects = collect(args.root, only=args.only, offline=args.offline,
+                       exclude=set(args.exclude))
     every = dedupe([c for p in projects for c in p.coordinates])
 
     if args.format == "text":

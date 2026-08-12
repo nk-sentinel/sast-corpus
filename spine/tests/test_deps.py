@@ -138,6 +138,27 @@ class Deduplication(unittest.TestCase):
 
         self.assertEqual(len(got), 1)
 
+    def test_a_mix_of_classifiers_and_none_can_be_sorted(self):
+        # Real output mixes both. Ordering by a tuple holding None in one row
+        # and a string in another raises, and it raises at the END of a long
+        # resolution run — after every project has been walked.
+        got = dedupe([Coordinate("g", "a", "1.0", classifier="natives-linux"),
+                      Coordinate("g", "a", "1.0", classifier=None)])
+
+        self.assertEqual(len(got), 2)
+
+    def test_a_mix_of_packagings_and_none_can_be_sorted(self):
+        got = dedupe([Coordinate("g", "a", "1.0", packaging=None),
+                      Coordinate("g", "a", "1.0", packaging="jar")])
+
+        self.assertEqual(len(got), 2)
+
+    def test_classifierless_rows_sort_before_classified_ones(self):
+        got = dedupe([Coordinate("g", "a", "1.0", classifier="x"),
+                      Coordinate("g", "a", "1.0")])
+
+        self.assertIsNone(got[0].classifier)
+
     def test_output_is_ordered_for_a_reviewable_diff(self):
         got = dedupe([Coordinate("z", "a", "1"), Coordinate("a", "b", "1")])
 
