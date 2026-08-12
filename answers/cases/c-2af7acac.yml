@@ -1,0 +1,31 @@
+id: c-2af7acac
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-79
+variant: null
+acceptable_cwes: [CWE-79, CWE-80, CWE-83]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/2af7acac/handler.py
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/python/2af7acac/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    quote=False leaves both quote characters alone, and the value lands in an unquoted attribute where whitespace alone ends it. Angle brackets are encoded and are not what was needed here
+  cve: null
+build:
+  required: false
+  recipe: null

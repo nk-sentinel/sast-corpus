@@ -373,3 +373,329 @@ JAVA = [
 ]
 
 SANITIZER_ALL = JAVA
+
+
+PY_ENTRY = {"cli.py": ("import sys\n\nfrom handler import handle\n\n\n"
+                       "def main():\n"
+                       "    print(handle(sys.argv[1] if len(sys.argv) > 1 else \"\"))\n")}
+
+
+def _python(slug, weakness, vulnerable_body, sink_match, why_vulnerable,
+            safe_body, safe_sink_match, why_safe):
+    return defeated(
+        slug, "python", "py", weakness, "inter-file",
+        dict(PY_ENTRY, **{"handler.py": vulnerable_body}),
+        "handler.py", sink_match, why_vulnerable,
+        dict(PY_ENTRY, **{"handler.py": safe_body}),
+        "handler.py", safe_sink_match, why_safe,
+        entry_file="cli.py", source_file="cli.py", source_match="sys.argv[1]")
+
+
+PYTHON = [
+    _python("py-joinabsolute@base-silently-dropped", PATHT,
+            "import os\n\n\nBASE = \"/srv/reports\"\n\n\n"
+            "def handle(name):\n"
+            "    if \"..\" in name:\n        return \"\"\n"
+            "    target = os.path.join(BASE, name)\n"
+            "    with open(target) as handle_:\n        return handle_.read()\n",
+            "with open(target) as handle_",
+            "the dot-dot check is correct and irrelevant. os.path.join discards every "
+            "component before an absolute one, so a leading slash replaces the base "
+            "directory outright and no traversal sequence is needed to leave it",
+            "import os\n\n\nBASE = \"/srv/reports\"\n\n\n"
+            "def handle(name):\n"
+            "    target = os.path.realpath(os.path.join(BASE, os.path.basename(name)))\n"
+            "    if not target.startswith(BASE + os.sep):\n        return \"\"\n"
+            "    with open(target) as handle_:\n        return handle_.read()\n",
+            "with open(target) as handle_",
+            "basename reduces the value to a single component, so nothing absolute "
+            "survives, and the resolved path is confirmed to stay under the base"),
+
+    _python("py-escapequotes@attribute-context", XSS,
+            "import html\n\n\n"
+            "def handle(name):\n"
+            "    encoded = html.escape(name, quote=False)\n"
+            "    return \"<div title=\" + encoded + \">report</div>\"\n",
+            "return \"<div title=\"",
+            "quote=False leaves both quote characters alone, and the value lands in an "
+            "unquoted attribute where whitespace alone ends it. Angle brackets are "
+            "encoded and are not what was needed here",
+            "import html\n\n\n"
+            "def handle(name):\n"
+            "    encoded = html.escape(name, quote=True)\n"
+            "    return \"<div title=\\\"\" + encoded + \"\\\">report</div>\"\n",
+            "return \"<div title=\\\"\"",
+            "the attribute is quoted and the encoder is told to encode quotes, so the "
+            "value cannot end the attribute or introduce another"),
+
+    _python("py-searchunanchored@matches-anywhere", SSRF,
+            "import re\nimport urllib.request\n\n\n"
+            "ALLOWED = re.compile(r\"api\\.example\\.com\")\n\n\n"
+            "def handle(target):\n"
+            "    if not ALLOWED.search(target):\n        return \"\"\n"
+            "    with urllib.request.urlopen(target) as response:\n"
+            "        return response.read().decode(\"utf-8\", \"replace\")\n",
+            "urllib.request.urlopen(target)",
+            "search succeeds anywhere in the string, so putting the permitted name in "
+            "the userinfo section of an address satisfies it while the request goes "
+            "somewhere else entirely",
+            "import urllib.parse\nimport urllib.request\n\n\n"
+            "ALLOWED = {\"api.example.com\"}\n\n\n"
+            "def handle(target):\n"
+            "    parsed = urllib.parse.urlparse(target)\n"
+            "    if parsed.scheme != \"https\" or parsed.hostname not in ALLOWED:\n"
+            "        return \"\"\n"
+            "    with urllib.request.urlopen(target) as response:\n"
+            "        return response.read().decode(\"utf-8\", \"replace\")\n",
+            "urllib.request.urlopen(target)",
+            "the address is parsed and the host compared for equality, so nothing "
+            "elsewhere in the string can satisfy the check"),
+
+    _python("py-matchprefix@anchored-only-at-the-start", CMDI,
+            "import re\nimport subprocess\n\n\n"
+            "def handle(name):\n"
+            "    if not re.match(r\"[a-z-]+\", name):\n        return \"\"\n"
+            "    subprocess.run(\"/usr/bin/report \" + name, shell=True, check=False)\n"
+            "    return name\n",
+            "subprocess.run(\"/usr/bin/report \"",
+            "re.match anchors at the beginning and says nothing about the end, so a "
+            "permitted prefix followed by a shell separator passes. re.fullmatch is the "
+            "function that means what this check was written to mean",
+            "import re\nimport subprocess\n\n\n"
+            "def handle(name):\n"
+            "    if not re.fullmatch(r\"[a-z-]{1,20}\", name):\n        return \"\"\n"
+            "    subprocess.run([\"/usr/bin/report\", name], check=False)\n"
+            "    return name\n",
+            "subprocess.run([\"/usr/bin/report\", name]",
+            "fullmatch requires the whole value to match, and the command is run as an "
+            "argument vector rather than through a shell"),
+
+    _python("py-wrongvariable@validated-one-used-another", SQLI,
+            "import re\n\n\n"
+            "def handle(raw):\n"
+            "    code = re.sub(r\"[^A-Z0-9]\", \"\", raw)\n"
+            "    if not re.fullmatch(r\"[A-Z0-9]{1,12}\", code):\n        return \"\"\n"
+            "    return run(\"SELECT status FROM orders WHERE code = '\" + raw + \"'\")\n\n\n"
+            "def run(statement):\n    return statement\n",
+            "return run(\"SELECT status FROM orders WHERE code = '\"",
+            "the pattern is anchored and correct and is applied to a value that never "
+            "reaches the statement. Stripping the input to build the value that gets "
+            "checked guarantees the check passes, and the original goes to the sink",
+            "import re\n\n\n"
+            "def handle(raw):\n"
+            "    code = re.sub(r\"[^A-Z0-9]\", \"\", raw)\n"
+            "    if not re.fullmatch(r\"[A-Z0-9]{1,12}\", code):\n        return \"\"\n"
+            "    return run(\"SELECT status FROM orders WHERE code = %s\", (code,))\n\n\n"
+            "def run(statement, params):\n    return statement + \"|\" + str(params)\n",
+            "return run(\"SELECT status FROM orders WHERE code = %s\"",
+            "the checked value is the one that travels, and it travels as a bound "
+            "parameter rather than inside the statement text"),
+
+    _python("py-discarded@result-not-assigned", PATHT,
+            "def handle(name):\n"
+            "    name.replace(\"..\", \"\")\n"
+            "    with open(\"/srv/reports/\" + name) as handle_:\n"
+            "        return handle_.read()\n",
+            "with open(\"/srv/reports/\"",
+            "strings are immutable, so the replacement builds a new value and discards "
+            "it. The call names the right variable and the right argument and has no "
+            "effect on what is opened",
+            "import os\n\n\n"
+            "def handle(name):\n"
+            "    cleaned = os.path.basename(name)\n"
+            "    with open(\"/srv/reports/\" + cleaned) as handle_:\n"
+            "        return handle_.read()\n",
+            "with open(\"/srv/reports/\"",
+            "the reduced value is assigned and the assigned value is what is opened"),
+
+    _python("py-checkignored@validator-return-dropped", CMDI,
+            "import re\nimport subprocess\n\n\n"
+            "def permitted(name):\n"
+            "    return bool(re.fullmatch(r\"[a-z-]{1,20}\", name))\n\n\n"
+            "def handle(name):\n"
+            "    permitted(name)\n"
+            "    subprocess.run(\"/usr/bin/report \" + name, shell=True, check=False)\n"
+            "    return name\n",
+            "subprocess.run(\"/usr/bin/report \"",
+            "the validator is correct and is called on the right value, and its answer "
+            "is discarded. Nothing branches on it, so every input reaches the shell",
+            "import re\nimport subprocess\n\n\n"
+            "def permitted(name):\n"
+            "    return bool(re.fullmatch(r\"[a-z-]{1,20}\", name))\n\n\n"
+            "def handle(name):\n"
+            "    if not permitted(name):\n        return \"\"\n"
+            "    subprocess.run([\"/usr/bin/report\", name], check=False)\n"
+            "    return name\n",
+            "subprocess.run([\"/usr/bin/report\", name]",
+            "the validator's answer decides whether execution continues"),
+
+    _python("py-normafter@check-before-resolving", PATHT,
+            "import os\n\n\nBASE = \"/srv/reports\"\n\n\n"
+            "def handle(name):\n"
+            "    target = BASE + \"/\" + name\n"
+            "    if not target.startswith(BASE):\n        return \"\"\n"
+            "    with open(os.path.normpath(target)) as handle_:\n"
+            "        return handle_.read()\n",
+            "with open(os.path.normpath(target))",
+            "the prefix is checked against the unresolved string, which still carries "
+            "its dot-dot segments and therefore starts with the base. Normalisation "
+            "happens afterwards, on the way to the open, and removes them",
+            "import os\n\n\nBASE = \"/srv/reports\"\n\n\n"
+            "def handle(name):\n"
+            "    target = os.path.normpath(os.path.join(BASE, name))\n"
+            "    if not target.startswith(BASE + os.sep):\n        return \"\"\n"
+            "    with open(target) as handle_:\n        return handle_.read()\n",
+            "with open(target) as handle_",
+            "the path is normalised first and the checked path is the one that is "
+            "opened"),
+]
+
+SANITIZER_ALL = SANITIZER_ALL + PYTHON
+
+
+JS_ENTRY = {"cli.js": ("const { handle } = require('./handler');\n\n"
+                       "console.log(handle(process.argv[2] || ''));\n")}
+
+
+def _javascript(slug, weakness, vulnerable_body, sink_match, why_vulnerable,
+                safe_body, safe_sink_match, why_safe):
+    return defeated(
+        slug, "javascript", "js", weakness, "inter-file",
+        dict(JS_ENTRY, **{"handler.js": vulnerable_body}),
+        "handler.js", sink_match, why_vulnerable,
+        dict(JS_ENTRY, **{"handler.js": safe_body}),
+        "handler.js", safe_sink_match, why_safe,
+        entry_file="cli.js", source_file="cli.js", source_match="process.argv[2]")
+
+
+JAVASCRIPT = [
+    _javascript("js-replacefirst@only-one-occurrence", PATHT,
+                "const fs = require('fs');\n\n"
+                "function handle(name) {\n"
+                "  const cleaned = name.replace('../', '');\n"
+                "  return fs.readFileSync('/srv/reports/' + cleaned, 'utf8');\n}\n\n"
+                "module.exports = { handle };\n",
+                "fs.readFileSync('/srv/reports/'",
+                "a string argument to replace substitutes the first occurrence only — "
+                "the global flag is what makes it replace all of them. A second "
+                "sequence survives untouched, and a nested one is reassembled by the "
+                "single pass that removes its middle",
+                "const fs = require('fs');\nconst path = require('path');\n\n"
+                "const BASE = '/srv/reports';\n\n"
+                "function handle(name) {\n"
+                "  const target = path.resolve(BASE, path.basename(name));\n"
+                "  if (!target.startsWith(BASE + path.sep)) {\n    return '';\n  }\n"
+                "  return fs.readFileSync(target, 'utf8');\n}\n\n"
+                "module.exports = { handle };\n",
+                "fs.readFileSync(target, 'utf8')",
+                "the value is reduced to a single component and the resolved path is "
+                "confirmed to stay under the base, so no repetition changes the result"),
+
+    _javascript("js-wrongencoder@url-escaping-for-markup", XSS,
+                "function handle(name) {\n"
+                "  const encoded = encodeURIComponent(name);\n"
+                "  return '<div onclick=\"show(\\'' + encoded + '\\')\">report</div>';\n}\n\n"
+                "module.exports = { handle };\n",
+                "return '<div onclick=",
+                "percent-encoding is for URL components and the value lands inside an "
+                "event handler attribute, which the browser decodes as markup before "
+                "running it as script. The encoder is real, applied correctly, and "
+                "aimed at the wrong grammar",
+                "function handle(name) {\n"
+                "  const encoded = String(name).replace(/[&<>\"'/]/g,\n"
+                "    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;',\n"
+                "              '\"': '&quot;', \"'\": '&#x27;', '/': '&#x2F;' })[c]);\n"
+                "  return '<div title=\"' + encoded + '\">report</div>';\n}\n\n"
+                "module.exports = { handle };\n",
+                "return '<div title=\"'",
+                "the value is encoded for markup, lands in a quoted plain attribute "
+                "rather than an event handler, and cannot close it"),
+
+    _javascript("js-unanchored@pattern-tests-anywhere", SSRF,
+                "const https = require('https');\n\n"
+                "const ALLOWED = /api\\.example\\.com/;\n\n"
+                "function handle(target) {\n"
+                "  if (!ALLOWED.test(target)) {\n    return '';\n  }\n"
+                "  return fetchIt(target);\n}\n\n"
+                "function fetchIt(target) {\n  return String(target);\n}\n\n"
+                "module.exports = { handle };\n",
+                "return fetchIt(target)",
+                "the pattern is unanchored, so it succeeds anywhere in the string. "
+                "Placing the permitted name in the userinfo section satisfies it while "
+                "the request resolves to a different host entirely",
+                "const ALLOWED = new Set(['api.example.com']);\n\n"
+                "function handle(target) {\n"
+                "  let parsed;\n"
+                "  try {\n    parsed = new URL(target);\n  } catch (e) {\n    return '';\n  }\n"
+                "  if (parsed.protocol !== 'https:' || !ALLOWED.has(parsed.hostname)) {\n"
+                "    return '';\n  }\n"
+                "  return fetchIt(parsed.toString());\n}\n\n"
+                "function fetchIt(target) {\n  return String(target);\n}\n\n"
+                "module.exports = { handle };\n",
+                "return fetchIt(parsed.toString())",
+                "the address is parsed and the hostname compared for equality, so "
+                "nothing elsewhere in the string can satisfy the check"),
+
+    _javascript("js-discarded@result-not-assigned", PATHT,
+                "const fs = require('fs');\n\n"
+                "function handle(name) {\n"
+                "  name.replace(/\\.\\./g, '');\n"
+                "  return fs.readFileSync('/srv/reports/' + name, 'utf8');\n}\n\n"
+                "module.exports = { handle };\n",
+                "fs.readFileSync('/srv/reports/'",
+                "the pattern is right, the global flag is right, and the result is "
+                "thrown away. Strings are immutable, so the value that reaches the read "
+                "is the one that arrived",
+                "const fs = require('fs');\nconst path = require('path');\n\n"
+                "function handle(name) {\n"
+                "  const cleaned = path.basename(name);\n"
+                "  return fs.readFileSync('/srv/reports/' + cleaned, 'utf8');\n}\n\n"
+                "module.exports = { handle };\n",
+                "fs.readFileSync('/srv/reports/'",
+                "the reduced value is assigned and the assigned value is what is read"),
+
+    _javascript("js-wrongvariable@validated-one-used-another", SQLI,
+                "function handle(raw) {\n"
+                "  const code = raw.replace(/[^A-Z0-9]/g, '');\n"
+                "  if (!/^[A-Z0-9]{1,12}$/.test(code)) {\n    return '';\n  }\n"
+                "  return run(\"SELECT status FROM orders WHERE code = '\" + raw + \"'\");\n}\n\n"
+                "function run(statement) {\n  return statement;\n}\n\n"
+                "module.exports = { handle };\n",
+                "return run(\"SELECT status FROM orders WHERE code = '\"",
+                "the pattern is anchored and correct and checks a value built by "
+                "stripping the input, which guarantees it passes. The original string "
+                "is what reaches the statement",
+                "function handle(raw) {\n"
+                "  const code = raw.replace(/[^A-Z0-9]/g, '');\n"
+                "  if (!/^[A-Z0-9]{1,12}$/.test(code)) {\n    return '';\n  }\n"
+                "  return run('SELECT status FROM orders WHERE code = ?', [code]);\n}\n\n"
+                "function run(statement, params) {\n  return statement + '|' + params.join();\n}\n\n"
+                "module.exports = { handle };\n",
+                "return run('SELECT status FROM orders WHERE code = ?'",
+                "the checked value is the one that travels, and it travels as a bound "
+                "parameter"),
+
+    _javascript("js-checkignored@validator-return-dropped", CMDI,
+                "const { execSync } = require('child_process');\n\n"
+                "function permitted(name) {\n  return /^[a-z-]{1,20}$/.test(name);\n}\n\n"
+                "function handle(name) {\n"
+                "  permitted(name);\n"
+                "  execSync('/usr/bin/report ' + name);\n"
+                "  return name;\n}\n\n"
+                "module.exports = { handle };\n",
+                "execSync('/usr/bin/report '",
+                "the validator is correct and called on the right value, and its answer "
+                "is discarded. Nothing branches on it, so every input reaches the shell",
+                "const { execFileSync } = require('child_process');\n\n"
+                "function permitted(name) {\n  return /^[a-z-]{1,20}$/.test(name);\n}\n\n"
+                "function handle(name) {\n"
+                "  if (!permitted(name)) {\n    return '';\n  }\n"
+                "  execFileSync('/usr/bin/report', [name]);\n"
+                "  return name;\n}\n\n"
+                "module.exports = { handle };\n",
+                "execFileSync('/usr/bin/report', [name])",
+                "the validator's answer decides whether execution continues, and the "
+                "command is run as an argument vector"),
+]
+
+SANITIZER_ALL = SANITIZER_ALL + JAVASCRIPT

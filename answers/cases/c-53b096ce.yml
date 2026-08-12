@@ -1,0 +1,31 @@
+id: c-53b096ce
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-918
+variant: null
+acceptable_cwes: [CWE-918, CWE-441]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/python/53b096ce/handler.py
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/python/53b096ce/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    search succeeds anywhere in the string, so putting the permitted name in the userinfo section of an address satisfies it while the request goes somewhere else entirely
+  cve: null
+build:
+  required: false
+  recipe: null

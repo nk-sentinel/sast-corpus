@@ -23,6 +23,9 @@ if [ ! -x "${JAVAC}" ] && ! command -v javac >/dev/null 2>&1; then
     exit 0
 fi
 
+python3 "${ROOT}/build/semantics/sanitizer_claims.py" || exit 1
+echo
+
 echo "sanitizer claims:"
 "${JAVAC}" -d "${WORK}" "${ROOT}/build/semantics/SanitizerClaims.java" || exit 1
 "${JAVA}" -cp "${WORK}" SanitizerClaims

@@ -1,0 +1,31 @@
+id: c-30dd0620
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-79
+variant: null
+acceptable_cwes: [CWE-79, CWE-80, CWE-83]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/30dd0620/handler.js
+  start_line: 3
+  end_line: 3
+alt_locations:
+  - file: tier1/javascript/30dd0620/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    percent-encoding is for URL components and the value lands inside an event handler attribute, which the browser decodes as markup before running it as script. The encoder is real, applied correctly, and aimed at the wrong grammar
+  cve: null
+build:
+  required: false
+  recipe: null

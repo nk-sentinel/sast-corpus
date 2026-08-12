@@ -1,0 +1,28 @@
+id: c-76676cae
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/76676cae/handler.py
+  start_line: 12
+  end_line: 12
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the validator's answer decides whether execution continues
+  cve: null
+build:
+  required: false
+  recipe: null

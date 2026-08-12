@@ -90,7 +90,15 @@ against.
 - **Pin staleness.** Tier-3 and perf pins are full SHAs; add a check that flags
   pins past an age threshold rather than letting them quietly rot.
 
-### 2. Hard cases — ~120
+### 2. Hard cases — ~120 ✅ **done** (105)
+
+Built: `spine/gen/templates_obfuscation.py` (53 cases, 5 languages) and
+`spine/gen/templates_sanitizers.py` (52 cases, 3 languages). The claims are
+executed rather than asserted — `build/semantics/check.sh` runs every defeated
+sanitizer against an attack input and fails if one of them actually holds, which
+caught a mislabelled case before it reached the answer key.
+
+Hand-authored share went from 11% to **27%**.
 
 The highest-value item, and the one that needs hand authoring.
 

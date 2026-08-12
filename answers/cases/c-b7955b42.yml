@@ -1,0 +1,28 @@
+id: c-b7955b42
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/b7955b42/handler.js
+  start_line: 6
+  end_line: 6
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the checked value is the one that travels, and it travels as a bound parameter
+  cve: null
+build:
+  required: false
+  recipe: null

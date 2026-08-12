@@ -1,0 +1,31 @@
+id: c-dbfc2381
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/dbfc2381/handler.py
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/python/dbfc2381/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the pattern is anchored and correct and is applied to a value that never reaches the statement. Stripping the input to build the value that gets checked guarantees the check passes, and the original goes to the sink
+  cve: null
+build:
+  required: false
+  recipe: null

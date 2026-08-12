@@ -1,0 +1,31 @@
+id: c-9a81ad45
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/javascript/9a81ad45/handler.js
+  start_line: 5
+  end_line: 5
+alt_locations:
+  - file: tier1/javascript/9a81ad45/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the pattern is right, the global flag is right, and the result is thrown away. Strings are immutable, so the value that reaches the read is the one that arrived
+  cve: null
+build:
+  required: false
+  recipe: null

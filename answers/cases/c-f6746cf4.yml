@@ -1,0 +1,28 @@
+id: c-f6746cf4
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-918
+variant: null
+acceptable_cwes: [CWE-918, CWE-441]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/javascript/f6746cf4/handler.js
+  start_line: 13
+  end_line: 13
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the address is parsed and the hostname compared for equality, so nothing elsewhere in the string can satisfy the check
+  cve: null
+build:
+  required: false
+  recipe: null

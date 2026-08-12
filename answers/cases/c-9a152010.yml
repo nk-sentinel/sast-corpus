@@ -1,0 +1,28 @@
+id: c-9a152010
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-918
+variant: null
+acceptable_cwes: [CWE-918, CWE-441]
+owasp_2021: A10
+severity: high
+location:
+  file: tier1/python/9a152010/handler.py
+  start_line: 12
+  end_line: 12
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the address is parsed and the host compared for equality, so nothing elsewhere in the string can satisfy the check
+  cve: null
+build:
+  required: false
+  recipe: null

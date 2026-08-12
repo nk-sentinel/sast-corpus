@@ -1,0 +1,28 @@
+id: c-dc3d44eb
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/dc3d44eb/handler.js
+  start_line: 11
+  end_line: 11
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the validator's answer decides whether execution continues, and the command is run as an argument vector
+  cve: null
+build:
+  required: false
+  recipe: null

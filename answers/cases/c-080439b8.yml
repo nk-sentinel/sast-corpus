@@ -1,0 +1,28 @@
+id: c-080439b8
+label: safe
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/080439b8/handler.py
+  start_line: 8
+  end_line: 8
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the checked value is the one that travels, and it travels as a bound parameter rather than inside the statement text
+  cve: null
+build:
+  required: false
+  recipe: null

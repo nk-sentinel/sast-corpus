@@ -1,0 +1,28 @@
+id: c-3e9a68d3
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/javascript/3e9a68d3/handler.js
+  start_line: 6
+  end_line: 6
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the reduced value is assigned and the assigned value is what is read
+  cve: null
+build:
+  required: false
+  recipe: null

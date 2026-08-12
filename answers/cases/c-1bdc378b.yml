@@ -1,0 +1,31 @@
+id: c-1bdc378b
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-22
+variant: null
+acceptable_cwes: [CWE-22, CWE-23, CWE-36]
+owasp_2021: A01
+severity: high
+location:
+  file: tier1/python/1bdc378b/handler.py
+  start_line: 11
+  end_line: 11
+alt_locations:
+  - file: tier1/python/1bdc378b/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the dot-dot check is correct and irrelevant. os.path.join discards every component before an absolute one, so a leading slash replaces the base directory outright and no traversal sequence is needed to leave it
+  cve: null
+build:
+  required: false
+  recipe: null

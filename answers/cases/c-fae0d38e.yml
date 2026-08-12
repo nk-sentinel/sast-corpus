@@ -1,0 +1,28 @@
+id: c-fae0d38e
+label: safe
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-79
+variant: null
+acceptable_cwes: [CWE-79, CWE-80, CWE-83]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/fae0d38e/handler.js
+  start_line: 5
+  end_line: 5
+alt_locations: []
+difficulty:
+  flow: inter-file
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the value is encoded for markup, lands in a quoted plain attribute rather than an event handler, and cannot close it
+  cve: null
+build:
+  required: false
+  recipe: null

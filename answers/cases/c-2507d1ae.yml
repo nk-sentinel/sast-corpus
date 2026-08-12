@@ -1,0 +1,31 @@
+id: c-2507d1ae
+label: vulnerable
+plane: vuln
+tier: 1
+language: python
+framework: null
+primary_cwe: CWE-78
+variant: null
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/python/2507d1ae/handler.py
+  start_line: 8
+  end_line: 8
+alt_locations:
+  - file: tier1/python/2507d1ae/cli.py
+    start_line: 7
+    end_line: 7
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    re.match anchors at the beginning and says nothing about the end, so a permitted prefix followed by a shell separator passes. re.fullmatch is the function that means what this check was written to mean
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-422ab724
+label: vulnerable
+plane: vuln
+tier: 1
+language: javascript
+framework: null
+primary_cwe: CWE-89
+variant: null
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: high
+location:
+  file: tier1/javascript/422ab724/handler.js
+  start_line: 6
+  end_line: 6
+alt_locations:
+  - file: tier1/javascript/422ab724/cli.js
+    start_line: 3
+    end_line: 3
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: hand-authored
+  rationale: >-
+    the pattern is anchored and correct and checks a value built by stripping the input, which guarantees it passes. The original string is what reaches the statement
+  cve: null
+build:
+  required: false
+  recipe: null
