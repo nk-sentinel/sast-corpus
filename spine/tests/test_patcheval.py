@@ -4,7 +4,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from corpora.patcheval import (LANGUAGES, case_id, coerce_span, primary_cwe,
+from corpora.patcheval import (FETCH_DEPTH, LANGUAGES, case_id, coerce_span,
+                               fix_commit_of, is_recorded_commit, primary_cwe,
                                render_case, usable_locations)
 
 
@@ -134,6 +135,44 @@ class Rendering(unittest.TestCase):
     def test_the_languages_are_the_three_patcheval_covers(self):
         self.assertEqual(set(LANGUAGES.values()), {"go", "javascript", "python"})
 
+
+
+class FastPathAndFallback(unittest.TestCase):
+    """The recorded commit is abbreviated and cannot be fetched directly, which
+    is why the first version cloned whole histories. The fix commit URL carries
+    a complete SHA, and for 225 of 230 entries the recorded commit is simply its
+    parent — so a two-deep fetch reaches it. The other 5 still need the slow
+    path, and telling them apart is a prefix comparison."""
+
+    def test_a_parent_matching_the_recorded_prefix_is_the_fast_path(self):
+        self.assertTrue(is_recorded_commit("b7395da1c2e3f4a5b6c7d8e9f0", "b7395da"))
+
+    def test_a_different_parent_is_not(self):
+        self.assertFalse(is_recorded_commit("aaaaaaa1c2e3f4a5", "b7395da"))
+
+    def test_a_full_sha_matches_itself(self):
+        sha = "b7395da1c2e3f4a5b6c7d8e9f011223344556677"
+        self.assertTrue(is_recorded_commit(sha, sha))
+
+    def test_an_empty_parent_never_matches(self):
+        self.assertFalse(is_recorded_commit("", "b7395da"))
+
+    def test_an_empty_record_never_matches(self):
+        # Nothing to compare against is not a match.
+        self.assertFalse(is_recorded_commit("b7395da1c2e3", ""))
+
+    def test_the_fetch_depth_reaches_the_parent(self):
+        self.assertGreaterEqual(FETCH_DEPTH, 2)
+
+
+class FixCommitExtraction(unittest.TestCase):
+    def test_reads_the_sha_from_a_patch_url(self):
+        entry = {"patch_url": ["https://github.com/o/r/commit/" + "a" * 40]}
+
+        self.assertEqual(fix_commit_of(entry), "a" * 40)
+
+    def test_no_patch_url_yields_nothing(self):
+        self.assertIsNone(fix_commit_of({}))
 
 if __name__ == "__main__":
     unittest.main()

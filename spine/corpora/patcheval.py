@@ -37,6 +37,13 @@ from pathlib import Path
 
 LANGUAGES = {"Go": "go", "JavaScript": "javascript", "Python": "python"}
 
+# Two commits deep: the fix, and the parent that is almost always the commit the
+# locations name. The recorded SHA is abbreviated and cannot be fetched
+# directly, which is why the first version cloned whole histories — but the fix
+# commit URL carries a complete one, and for 225 of 230 entries the recorded
+# commit is simply its parent. The other 5 fall back to the full clone.
+FETCH_DEPTH = 2
+
 # Weaknesses a scanner can match on, in the order we prefer them. A CVE tagged
 # both CWE-284 and CWE-22 is a path traversal; the class is the label a database
 # reaches for when it wants a bucket, and the specific one is what a tool reports.
@@ -220,7 +227,25 @@ def _run(command, cwd=None, timeout=900):
         return subprocess.CompletedProcess(command, 1, "", str(exc))
 
 
-def checkout(repo, commit, destination):
+def fix_commit_of(entry):
+    urls = entry.get("patch_url") or []
+    if not urls:
+        return None
+    return urls[0].rstrip("/").split("/")[-1]
+
+
+def is_recorded_commit(candidate, recorded):
+    """Is this full SHA the commit the dataset named?
+
+    The dataset abbreviates, so the comparison is a prefix. Empty on either side
+    is not a match: nothing to compare against is not evidence of agreement.
+    """
+    if not candidate or not recorded:
+        return False
+    return candidate.startswith(recorded)
+
+
+def checkout(repo, commit, destination, fix_commit=None):
     """Blobless full clone, then check out the commit the location names.
 
     Full rather than shallow because the recorded commit is abbreviated and an
@@ -234,6 +259,27 @@ def checkout(repo, commit, destination):
         return "wrong-revision"
 
     destination.parent.mkdir(parents=True, exist_ok=True)
+
+    # Fast path: fetch two commits from the complete fix SHA and use its parent,
+    # but only after confirming the parent really is the commit the locations
+    # name. Where it is not, fall through to the full clone rather than scan the
+    # wrong tree.
+    if fix_commit:
+        destination.mkdir(parents=True, exist_ok=True)
+        _run(["git", "init", "-q", str(destination)])
+        _run(["git", "-C", str(destination), "remote", "add", "origin", repo])
+        fetched = _run(["git", "-C", str(destination), "fetch", "-q",
+                        "--depth", str(FETCH_DEPTH), "origin", fix_commit])
+        if fetched.returncode == 0:
+            parent = _run(["git", "-C", str(destination), "rev-parse",
+                           "FETCH_HEAD^"]).stdout.strip()
+            if is_recorded_commit(parent, commit):
+                if _run(["git", "-C", str(destination), "checkout", "-q",
+                         parent]).returncode == 0:
+                    return "fetched"
+        import shutil
+        shutil.rmtree(destination, ignore_errors=True)
+
     cloned = _run(["git", "clone", "-q", "--filter=blob:none", "--no-checkout",
                    repo, str(destination)], timeout=1800)
     if cloned.returncode != 0:
@@ -283,7 +329,8 @@ def derive(dataset, checkouts_root, only=None, progress=True):
         if progress:
             print("  {} {}".format(cve, slug), file=sys.stderr, flush=True)
 
-        state = checkout(entry["repo"], commit, destination)
+        state = checkout(entry["repo"], commit, destination,
+                         fix_commit=fix_commit_of(entry))
         if state in ("clone-failed", "commit-missing", "wrong-revision"):
             skipped.append((cve, state))
             continue
