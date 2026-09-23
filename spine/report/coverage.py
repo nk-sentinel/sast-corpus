@@ -282,7 +282,7 @@ def render(rows, languages=None, cwes=None):
         # every language sat near it; the floor is what a thin row actually
         # rests on, and it is the figure a per-language score should be read
         # against.
-        "| Weaknesses per language | {} thinnest ({}) → {} deepest ({}) |".format(
+        "| Weaknesses per language | {} thinnest ({}) → {} deepest ({}), tier 1 |".format(
             depth[-1][1], depth[-1][0], depth[0][1], depth[0][0]),
         "| Visible to build-required engines | {} |".format(summary["build_required"]),
         "",
@@ -332,7 +332,9 @@ def render(rows, languages=None, cwes=None):
              if summary["by_language"].get(lang)),
             key=lambda pair: pair[1],
         )
-        out += ["Weaknesses covered per language, thinnest first:", ""]
+        out += ["Weaknesses covered per language across every tier, thinnest "
+                "first. Tier 1 alone is the depth table below, and the two differ "
+                "wherever tier 3 brought weaknesses nobody designed in:", ""]
         out += ["- `{}` — {}".format(lang, count) for lang, count in thin]
         out.append("")
 
@@ -369,7 +371,11 @@ def render(rows, languages=None, cwes=None):
             "what each language is actually tested on, and it is heavily uneven — a "
             "result for a language near the bottom of this table rests on very little.",
             "",
-            "| language | weaknesses | cases |", "|---|---|---|"]
+            "**Tier 1 only.** Tier-3 rows come from whatever CVEs the upstream dataset "
+            "happens to contain, so counting them would credit breadth nobody "
+            "designed; the gaps list above counts every tier.",
+            "",
+            "| language | weaknesses (tier 1) | cases (tier 1) |", "|---|---|---|"]
     for language, count in ranked:
         cases = sum(1 for r in (tier1 or rows) if r["language"] == language)
         out.append("| `{}` | {} | {} |".format(language, count, cases))
@@ -384,7 +390,7 @@ def render(rows, languages=None, cwes=None):
 
     out += ["",
             "Grid density is **{:.0%}** — {} of the {} language-by-weakness cells the "
-            "present material spans are filled."
+            "tier-1 material spans are filled."
             .format(density(scope), len(grid_present),
                     len(languages_present) * len(cwes_present)),
             "",
@@ -450,6 +456,13 @@ def render(rows, languages=None, cwes=None):
     for code in sorted(OWASP_NAMES):
         count = summary["by_owasp"].get(code, 0)
         out.append("| {} {} | {} |".format(code, OWASP_NAMES[code], count or "·"))
+    uncategorised = sum(1 for r in rows if not r.get("owasp_2021"))
+    if uncategorised:
+        # The tier-3 derivations record the CWE and nothing else; mapping it to
+        # a category would be a guess presented as a label.
+        out += ["",
+                "{} cases carry no category — the tier-3 derivations record the CWE "
+                "only — and are not counted above.".format(uncategorised)]
 
     out += ["", "## Detection planes", "", "| plane | cases |", "|---|---|"]
     for plane in ("vuln", "secret", "sca", "crypto"):

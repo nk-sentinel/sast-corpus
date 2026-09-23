@@ -1,0 +1,36 @@
+id: c-e5f6ed03
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-79
+variant: tag-filter
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/pygoat/introduction/templates/Lab/XSS/xss_lab_2.html
+  start_line: 20
+  end_line: 20
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 118
+    end_line: 118
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 109
+    end_line: 112
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    username from the POST (109) has the literal strings <script> and </script> removed at 112
+    and is then rendered with |safe at template line 20. The blocklist misses every other vector
+    - <img src=x onerror=...> passes untouched - so the sanitiser is present and ineffective.
+  cve: null
+build:
+  required: false
+  recipe: null

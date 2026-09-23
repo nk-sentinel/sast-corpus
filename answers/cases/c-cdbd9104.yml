@@ -1,0 +1,29 @@
+id: c-cdbd9104
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328, CWE-916]
+owasp_2021: A02
+severity: medium
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 1026
+  end_line: 1026
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Passwords are hashed with unsalted MD5 at 1026 before the lookup. The app's solution
+    recovers the admin password from the stored hash with a public lookup table.
+  cve: null
+build:
+  required: false
+  recipe: null

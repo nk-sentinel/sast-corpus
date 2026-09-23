@@ -1,0 +1,32 @@
+id: c-3071831a
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: flask
+primary_cwe: CWE-502
+variant: pickle-untrusted
+acceptable_cwes: [CWE-502]
+owasp_2021: A08
+severity: critical
+location:
+  file: tier2/pygoat/dockerized_labs/insec_des_lab/main.py
+  start_line: 34
+  end_line: 36
+alt_locations: 
+  - file: tier2/pygoat/dockerized_labs/insec_des_lab/main.py
+    start_line: 33
+    end_line: 33
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    serialized_data from the Flask form (33) is base64-decoded at 34 and passed to pickle.loads
+    at 36. The isinstance check afterwards runs after the payload has already executed.
+  cve: null
+build:
+  required: false
+  recipe: null

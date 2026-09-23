@@ -1,0 +1,30 @@
+id: c-8c954c10
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-611
+variant: entities-enabled
+acceptable_cwes: [CWE-611, CWE-827, CWE-776]
+owasp_2021: A05
+severity: high
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 258
+  end_line: 260
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    A SAX parser is created at 258, external general entities are explicitly enabled at 259, and
+    the raw request body is parsed at 260. An entity pointing at file:///etc/passwd is expanded
+    into the comment that xxe_see later displays.
+  cve: null
+build:
+  required: false
+  recipe: null

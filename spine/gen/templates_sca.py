@@ -208,7 +208,9 @@ SCA = [
          "      <groupId>com.fasterxml.jackson.core</groupId>\n"
          "      <artifactId>jackson-databind</artifactId>\n"
          "      <version>2.9.10.1</version>\n    </dependency>\n"
-         "  </dependencies>\n</project>\n"),
+         "  </dependencies>\n  <build>\n"
+         "    <sourceDirectory>${project.basedir}</sourceDirectory>\n"
+         "  </build>\n</project>\n"),
         "<version>2.9.10.1</version>",
         "jackson-databind 2.9.10.1 is affected by CVE-2020-8840 through polymorphic "
         "deserialisation, and nothing in this project calls it — the component ships "
@@ -222,7 +224,9 @@ SCA = [
          "      <groupId>com.fasterxml.jackson.core</groupId>\n"
          "      <artifactId>jackson-databind</artifactId>\n"
          "      <version>2.17.2</version>\n    </dependency>\n"
-         "  </dependencies>\n</project>\n"),
+         "  </dependencies>\n  <build>\n"
+         "    <sourceDirectory>${project.basedir}</sourceDirectory>\n"
+         "  </build>\n</project>\n"),
         "<version>2.17.2</version>",
         "the same component at a release past the advisory",
         "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.10.1",

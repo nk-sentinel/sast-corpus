@@ -1,0 +1,32 @@
+id: c-0b5afdd1
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-94
+variant: dynamic-evaluation
+acceptable_cwes: [CWE-94, CWE-95]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 460
+  end_line: 460
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 456
+    end_line: 456
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    val is taken from the POST body at 456 and passed straight to eval() at 460. The app's
+    solution demonstrates os.system("id") through this field.
+  cve: null
+build:
+  required: false
+  recipe: null

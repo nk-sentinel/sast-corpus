@@ -1,0 +1,30 @@
+id: c-5788334b
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-639
+variant: session-bound-lookup
+acceptable_cwes: [CWE-639, CWE-284, CWE-862]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/pygoat/dockerized_labs/sensitive_data_exposure/dataexposure/views.py
+  start_line: 68
+  end_line: 72
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    profile_view is @login_required and fetches UserData by request.user at 72 - the identity
+    comes from the server-side session, not from a client-supplied id. The sibling of the userid
+    cookie lookup in auth_lab_login.
+  cve: null
+build:
+  required: false
+  recipe: null

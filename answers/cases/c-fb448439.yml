@@ -1,0 +1,33 @@
+id: c-fb448439
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 963
+  end_line: 963
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 961
+    end_line: 961
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    url from the POST body (961) is fetched with requests.get at 963 and the body returned to
+    the client. No scheme, host or address restriction; the app's solution reaches the
+    localhost-only ssrf_target page through it.
+  cve: null
+build:
+  required: false
+  recipe: null

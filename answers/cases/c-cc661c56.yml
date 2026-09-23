@@ -1,0 +1,33 @@
+id: c-cc661c56
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-79
+variant: autoescaped-output
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 629
+  end_line: 629
+alt_locations: 
+  - file: tier2/pygoat/introduction/templates/Lab/A10/a10_lab.html
+    start_line: 28
+    end_line: 28
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The submitted username is reflected at 629 through a template that renders {{name}} without
+    |safe (a10_lab.html 28), so Django escapes it. Reflection of request data is not XSS when
+    the framework's autoescaping is left on.
+  cve: null
+build:
+  required: false
+  recipe: null

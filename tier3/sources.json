@@ -1,7 +1,7 @@
 {
   "corpus": "tier3",
   "description": "Real CVEs in real projects, with the fix commit known. The hardest and most representative tier: these are flaws that shipped and were exploited, not flaws written to be found.",
-  "ground_truth_status": "not yet authored \u2014 see docs/EXTERNAL-CORPORA.md",
+  "ground_truth_status": "derived \u2014 97 cases in answers/ (cwe-bench-java 49, PatchEval 48); see docs/EXTERNAL-CORPORA.md",
   "sources": [
     {
       "name": "vul4j",

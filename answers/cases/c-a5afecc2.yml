@@ -1,0 +1,33 @@
+id: c-a5afecc2
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-502
+variant: yaml-untrusted
+acceptable_cwes: [CWE-502, CWE-20]
+owasp_2021: A08
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 560
+  end_line: 560
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 558
+    end_line: 558
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    An uploaded file (558) is parsed with yaml.load using the full Loader at 560, which
+    constructs arbitrary Python objects; the app's solution uses
+    !!python/object/apply:subprocess.check_output. safe_load would be the fix.
+  cve: null
+build:
+  required: false
+  recipe: null

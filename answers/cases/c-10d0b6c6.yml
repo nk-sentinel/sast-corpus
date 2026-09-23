@@ -1,0 +1,34 @@
+id: c-10d0b6c6
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-94
+variant: dynamic-evaluation
+acceptable_cwes: [CWE-94, CWE-95]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 588
+  end_line: 588
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 583
+    end_line: 583
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    function_str is read from the POST body at 583 and handed to PIL's ImageMath.eval at 588,
+    which evaluates it as a Python expression with the image bands in scope (CVE-2022-22817 in
+    Pillow below 9.0.1; the app's solution triggers exec(exit())). Untrusted input to an eval-
+    family API regardless of the library version.
+  cve: null
+build:
+  required: false
+  recipe: null

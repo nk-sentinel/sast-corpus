@@ -1,0 +1,34 @@
+id: c-cb9b4dce
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-78
+variant: shell-string
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 424
+  end_line: 434
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 418
+    end_line: 420
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    domain comes from the POST body (418) and is formatted into a command string (424/426)
+    executed with subprocess.Popen(shell=True) at 430-434. The only sanitiser is the re.sub at
+    420, which strips a leading protocol and www prefix and leaves ; && and | untouched, so
+    google.com; id runs id. A tool that suppresses on the presence of re.sub is wrong.
+  cve: null
+build:
+  required: false
+  recipe: null

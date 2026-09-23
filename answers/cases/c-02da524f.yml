@@ -1,0 +1,29 @@
+id: c-02da524f
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-502
+variant: serialise-not-deserialise
+acceptable_cwes: [CWE-502]
+owasp_2021: A08
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 202
+  end_line: 202
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    pickle.dumps of a server-constructed dataclass at 202 serialises trusted data. The loads
+    eleven lines later is the vulnerability; a report on the dumps call is a false positive.
+  cve: null
+build:
+  required: false
+  recipe: null

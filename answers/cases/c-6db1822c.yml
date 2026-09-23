@@ -1,0 +1,33 @@
+id: c-6db1822c
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/pygoat/introduction/templates/Lab/ssrf/ssrf_lab2.html
+  start_line: 23
+  end_line: 23
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 964
+    end_line: 964
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The body fetched from a user-supplied URL (views.py 963-964) is rendered with |safe at
+    template line 23, so any HTML the remote host returns executes in the victim's browser. A
+    second weakness on the same view as the SSRF, reported at a different file.
+  cve: null
+build:
+  required: false
+  recipe: null

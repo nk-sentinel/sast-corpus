@@ -1,0 +1,30 @@
+id: c-4346315d
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-798
+variant: literal-in-source
+acceptable_cwes: [CWE-798, CWE-259]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 831
+  end_line: 833
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Two username/password pairs, including admin/admin_pass, are compared as literals at 831-833
+    to decide who is admin. Credentials in source, not a placeholder: the app's solution uses
+    them.
+  cve: null
+build:
+  required: false
+  recipe: null

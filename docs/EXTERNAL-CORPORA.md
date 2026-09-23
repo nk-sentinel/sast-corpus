@@ -22,8 +22,8 @@ abbreviated SHA.
 | Corpus | Sources | Fetch | Ground truth |
 |---|---|---|---|
 | `perf` | 4 Java repos, 10k → 500k+ LOC | working | **not needed** — never accuracy-scored |
-| `tier2` | 5 applications, 4 languages | working | **not authored** |
-| `tier3` | 2 CVE datasets, Java | working | **derived, see below** |
+| `tier2` | 5 applications, 4 languages | working | **PyGoat labelled — 46 cases; the other four not yet** |
+| `tier3` | cwe-bench-java (Java), PatchEval (Go, JS, Python); vul4j pinned but unused | working | **derived — 97 cases, see below** |
 
 ## Tier 3 is derived, not hand-transcribed
 
@@ -31,6 +31,9 @@ abbreviated SHA.
 gives 120 manually vetted CVEs in real Java projects, all of which build, with
 the fixing file, class and method recorded per CVE — far more than any other
 source hands you, and the reason tier 3 was reachable at all.
+`spine/corpora/patcheval.py` does the same for PatchEval, which supplies Go,
+JavaScript and Python; its line anchoring differs, and
+[TIER3-DATASETS.md](TIER3-DATASETS.md) records what was verified before use.
 
 **The recorded line numbers cannot be used directly.** They are anchored to the
 *fixed* commit, while the commit that must be scanned is the *buggy* one. The
@@ -93,14 +96,13 @@ since a missing artifact is not a missed detection.
 
 ### What is derived so far
 
-14 CVEs, all resolving to method granularity, each spot-checked by reading the
-code at the derived span.
-
-**They are all CWE-22.** Path traversal is 55 of the dataset's 120 entries and
-the first projects fetched happened to be all of that class, so tier 3 currently
-tests one weakness. Fetching across the other three — XSS, code injection and
-command injection — is the immediate next step, and until it is done a tier-3
-number says something about path traversal and nothing else.
+**97 cases.** From cwe-bench-java, 28 Java CVEs — path traversal 14, XSS 5,
+command injection 5, code injection 4 — every one resolving to method
+granularity and spot-checked by reading the code at the derived span, plus the
+21 traps described below. From PatchEval, 48 CVEs — Go 17, Python 16,
+JavaScript 15 — across twelve weaknesses, command injection and path traversal
+the largest. The roadmap target is ~230, and the derivation resumes where it
+stopped — see [ROADMAP.md](ROADMAP.md) item 5.
 
 ### The tier-3 zero is not a measurement artifact
 
@@ -148,12 +150,40 @@ They are marked `build.required: false`: a single patched file has no
 surrounding project, so it is scannable by source-only tools and invisible to
 build-required ones.
 
-## Tier 2 is still unlabelled
+## Tier 2: PyGoat is labelled, four applications are not
 
-The fetch mechanism, pinning discipline and licence records are done. The
-labelling is not, and **every tier-2 accuracy number is therefore absent rather
-than optimistic** — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md) records
-what a synthetic-heavy result does and does not support.
+**PyGoat carries 46 cases** at the pinned revision — 34 vulnerable across 17
+weaknesses and 12 traps — written by reading the code, with the app's own
+`Solutions/solution.md` as the first check on each label. The second check is
+[RealVuln](https://github.com/kolega-ai/Real-Vuln-Benchmark), an independent
+hand-labelling of 26 Python applications whose 88 PyGoat entries were compared
+one by one; its line numbers match this checkout exactly. Where the two agree on
+the flaw but not the CWE, the case carries this corpus's primary and lists the
+other in `acceptable_cwes` — MD5 password hashing is `CWE-327` here and
+`CWE-328` there, plaintext storage `CWE-522` here and `CWE-256` there.
+
+Left out on purpose, and why:
+
+- flaws whose weakness is outside `spine/report/applicability.json` — `DEBUG =
+  True` (CWE-215), the three-digit OTP and `random`-generated tokens (CWE-330),
+  the reversed-SHA-256 password hash (CWE-916), and the three views that write
+  submitted Python into modules the app later imports (CWE-73 by RealVuln's
+  reading, code injection by any other). Adding a cell to the map is a decision,
+  not a side effect of labelling
+- the `@csrf_exempt` decorators on views that change no state, and the secret
+  page with no admin check: real lessons, but not findings a scanner could
+  reach without knowing the intent
+- traps that sit within ten lines of a vulnerable case carrying the same
+  weakness — `login.objects.filter(user=name)` two lines above the raw query it
+  guards, the autoescaped `{{code}}` three lines above the one inside `<script>`.
+  The scorer widens every range by the line tolerance, so a second finding on
+  the vulnerable sink would claim the trap and charge a false positive the tool
+  never made. See the rule added to the workflow below
+
+**WebGoat, DVJA, NodeGoat and Juice Shop are fetchable and unlabelled**, so a
+tier-2 number currently says something about Django and Flask code and nothing
+about Java or JavaScript — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md)
+records what a synthetic-heavy result does and does not support.
 
 `perf` is complete, because scan time needs no ground truth. `commons-cli` is
 fetched and measured at 15,716 code lines by codeprint at its pinned revision.
@@ -178,12 +208,17 @@ and guarantee it a perfect score.
    [MATCH-POLICY.md](MATCH-POLICY.md).
 4. Add the safe sibling wherever the application contains a comparable pattern
    that is correctly defended. Without it the case measures recall only.
+   **Place it more than the line tolerance (10 lines) away from any vulnerable
+   range carrying an overlapping CWE.** Closer than that, a tool that reports the
+   real flaw twice — two rules on one sink is routine — has its second finding
+   assigned to the trap, and the scorecard charges a false positive for a
+   report the tool never made.
 5. Run `compile_answers.py`; it fails if the file or line no longer exists.
 
 `spine/schema/compile_answers.py` already validates tier-2 and tier-3 cases —
 only the cases themselves are missing.
 
-### Tier 3 can be partly derived
+### Why tier 3 could be derived and tier 2 cannot
 
 `cwe-bench-java` ships machine-readable metadata: 120 vetted CVEs with CWE
 labels and fix commits. The fix commit identifies the changed lines, which is a

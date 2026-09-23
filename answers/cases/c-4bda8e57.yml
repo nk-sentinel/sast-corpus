@@ -1,0 +1,30 @@
+id: c-4bda8e57
+label: safe
+plane: secret
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-798
+variant: test-data-not-secret
+acceptable_cwes: [CWE-798, CWE-312, CWE-359]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/pygoat/dockerized_labs/sensitive_data_exposure/dataexposure/views.py
+  start_line: 56
+  end_line: 57
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    4111111111111111 is the universal Visa test number and 123456789 a dummy SSN, both seeded
+    into demo rows. Neither is a live credential or real PII; reporting them as exposed secrets
+    is a false positive.
+  cve: null
+build:
+  required: false
+  recipe: null

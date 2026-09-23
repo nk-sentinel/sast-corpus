@@ -1,0 +1,31 @@
+id: c-9bb0ae1c
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-78
+variant: argument-vector
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/challenge/views.py
+  start_line: 49
+  end_line: 51
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The docker command at 49 is built from a port chosen by get_free_port and from Challenge
+    rows seeded by a management command, then run at 50 as an argument vector with no shell.
+    Nothing from the request reaches it - the URL parameter is only used as an ORM lookup key at
+    33.
+  cve: null
+build:
+  required: false
+  recipe: null

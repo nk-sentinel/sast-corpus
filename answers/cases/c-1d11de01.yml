@@ -1,0 +1,33 @@
+id: c-1d11de01
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-352
+variant: protection-disabled
+acceptable_cwes: [CWE-352]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/pygoat/introduction/mitre.py
+  start_line: 177
+  end_line: 178
+alt_locations: 
+  - file: tier2/pygoat/introduction/mitre.py
+    start_line: 191
+    end_line: 199
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The transfer dashboard is decorated @csrf_exempt at 177, and the transfer itself at
+    csrf_transfer_monei_api (191-208) moves money on a plain GET with no token. Django's CSRF
+    middleware is deliberately switched off for the state-changing part of the lab.
+  cve: null
+build:
+  required: false
+  recipe: null

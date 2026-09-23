@@ -1,0 +1,33 @@
+id: c-d69aae6d
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-78
+variant: shell-string
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/mitre.py
+  start_line: 233
+  end_line: 233
+alt_locations: 
+  - file: tier2/pygoat/introduction/mitre.py
+    start_line: 240
+    end_line: 242
+difficulty:
+  flow: inter-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    ip is read from the POST body at 240, concatenated into "nmap " + ip at 241 and passed to
+    command_out(), whose Popen(shell=True) at 233 is the sink. The taint crosses a function
+    boundary; a tool that reports at 241-242 or at 233 is credited either way.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,30 @@
+id: c-2770b87b
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-918
+variant: fixed-host-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier2/pygoat/introduction/playground/A6/utility.py
+  start_line: 8
+  end_line: 9
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The URL at 8 has a fixed scheme and host; only the path segments vary, and they come from a
+    module list hard-coded in apis.py 114, not from a request. requests.get at 9 cannot be
+    pointed at another host.
+  cve: null
+build:
+  required: false
+  recipe: null

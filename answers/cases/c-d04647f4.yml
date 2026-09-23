@@ -1,0 +1,33 @@
+id: c-d04647f4
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-502
+variant: pickle-untrusted
+acceptable_cwes: [CWE-502]
+owasp_2021: A08
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 213
+  end_line: 214
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 208
+    end_line: 208
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The token cookie (208) is base64-decoded and passed to pickle.loads at 214. A pickle payload
+    runs arbitrary code on load; the admin flag flip in the app's solution is the benign
+    demonstration of the same primitive.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,7 +1,7 @@
 {
   "corpus": "tier2",
   "description": "Real open-source applications with genuine, exploitable weaknesses. Fetched at a pinned revision rather than vendored: these trees are collectively larger than the whole of this repository, and they are code we did not write and must not edit.",
-  "ground_truth_status": "not yet authored \u2014 see docs/EXTERNAL-CORPORA.md",
+  "ground_truth_status": "pygoat labelled — 46 cases in answers/ (34 vulnerable, 12 traps) at the pinned revision; webgoat, dvja, nodegoat and juice-shop not yet. See docs/EXTERNAL-CORPORA.md",
   "sources": [
     {
       "name": "webgoat",
@@ -45,7 +45,7 @@
       "languages": [
         "python"
       ],
-      "notes": "Django. Cross-checkable against the published RealVuln labelling, which covers PyGoat.",
+      "notes": "Django. Labelled at this revision: 46 cases, read from the code and checked against the app's own Solutions/solution.md, then against RealVuln (github.com/kolega-ai/Real-Vuln-Benchmark), whose 88 PyGoat entries carry the same line numbers as this checkout.",
       "pinned_on": "2026-08-12"
     },
     {

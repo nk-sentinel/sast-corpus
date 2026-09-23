@@ -1,0 +1,38 @@
+id: c-ba4ce42a
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-79
+variant: wrong-context-escaping
+acceptable_cwes: [CWE-79, CWE-116]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/pygoat/introduction/templates/Lab/XSS/xss_lab_3.html
+  start_line: 22
+  end_line: 22
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 129
+    end_line: 131
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 125
+    end_line: 125
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    username from the POST (125) has its alphanumerics stripped at 129 and is rendered twice:
+    inside <p> at template line 19, where autoescaping makes it inert, and inside a <script>
+    block at line 22, where HTML escaping is the wrong encoder - the characters JSFuck needs
+    ([]()!+) are never escaped and the input becomes executable JavaScript. Both defences are
+    real and both are beside the point for this context.
+  cve: null
+build:
+  required: false
+  recipe: null

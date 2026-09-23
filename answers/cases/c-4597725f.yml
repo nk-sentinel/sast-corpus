@@ -1,0 +1,33 @@
+id: c-4597725f
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-522
+variant: plaintext-password-storage
+acceptable_cwes: [CWE-522, CWE-256, CWE-257, CWE-312]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 287
+  end_line: 287
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 286
+    end_line: 286
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The password from the POST (286) is stored verbatim in authLogin.password at 287 and later
+    compared as plaintext at 315. No hashing anywhere on this model; the cookie set at 291 is
+    also sent without Secure, but the storage is the finding recorded here.
+  cve: null
+build:
+  required: false
+  recipe: null

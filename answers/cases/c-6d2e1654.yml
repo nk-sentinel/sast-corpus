@@ -1,0 +1,30 @@
+id: c-6d2e1654
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-327
+variant: strong-hash-verify
+acceptable_cwes: [CWE-327, CWE-328, CWE-916, CWE-287]
+owasp_2021: A02
+severity: medium
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 1136
+  end_line: 1137
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Passwords are verified with argon2's PasswordHasher at 1136-1137, a salted memory-hard hash,
+    and the view locks the account after five failures. The correctly defended sibling of the
+    MD5 lab.
+  cve: null
+build:
+  required: false
+  recipe: null

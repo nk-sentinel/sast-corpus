@@ -1,0 +1,33 @@
+id: c-e80f9edd
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-117
+variant: unsanitised-log-entry
+acceptable_cwes: [CWE-117, CWE-93]
+owasp_2021: A09
+severity: medium
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 666
+  end_line: 672
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 657
+    end_line: 664
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The username from the POST (657) and the first X-Forwarded-For value (659-662) are formatted
+    into logging.warning/info/error calls at 668-672 unchanged. A newline in either forges
+    entries; the app's solution injects a fake ERROR line through the password field.
+  cve: null
+build:
+  required: false
+  recipe: null

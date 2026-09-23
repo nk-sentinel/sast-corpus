@@ -1,0 +1,33 @@
+id: c-3a21f2ce
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/pygoat/introduction/templates/Lab_2021/A8_software_and_data_integrity_failure/lab2.html
+  start_line: 11
+  end_line: 11
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 1223
+    end_line: 1224
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    username from the query string (views.py 1223) is rendered at 1224 into a template that
+    applies |safe at line 11. The lab is framed as a data-integrity lesson, but the mechanism is
+    reflected XSS, and the app's own solution URL carries a script tag in that parameter.
+  cve: null
+build:
+  required: false
+  recipe: null

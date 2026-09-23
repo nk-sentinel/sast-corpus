@@ -1,0 +1,30 @@
+id: c-8f001e84
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-89
+variant: orm-parameterised
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 628
+  end_line: 628
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Request data reaches the database only through login.objects.filter keyword arguments at
+    628, which the ORM binds as parameters. Same shape as the raw-query labs, no injection. The
+    plaintext password comparison is a separate weakness and is not labelled here.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,33 @@
+id: c-88b89b97
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-284
+variant: client-controlled-role
+acceptable_cwes: [CWE-284, CWE-285, CWE-290, CWE-863, CWE-565]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 797
+  end_line: 805
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 791
+    end_line: 791
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The User-Agent header is read at 791 and compared to a fixed string at 797 to decide whether
+    to serve the admin secret. Any client can send that header; there is no session or
+    credential behind the decision.
+  cve: null
+build:
+  required: false
+  recipe: null

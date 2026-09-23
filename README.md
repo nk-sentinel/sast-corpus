@@ -11,12 +11,12 @@ ground truth, with the same match rules.
 
 | | |
 |---|---|
-| Cases | **543** — 446 tier-1 synthetic, 97 tier-3 real CVEs |
-| False-positive traps | **244 (45%)** |
+| Cases | **589** — 446 tier-1 synthetic, 46 tier-2 real-application, 97 tier-3 real CVEs |
+| False-positive traps | **256 (43%)** |
 | Weaknesses | **42 CWEs — all 25 of the 2025 CWE Top 25** |
 | OWASP Top 10 (2021) | **10 of 10** categories |
 | Languages | 13, **none below 10 weaknesses** |
-| Detection planes | `vuln` 491 · `secret` 28 · `sca` 24 |
+| Detection planes | `vuln` 534 · `secret` 31 · `sca` 24 |
 | Visible to build-required engines | tier-1 Java, plus 28 of 28 CVE projects that compile |
 | Scan-time corpus | 4 real repositories, 15k → 4.6M measured code lines |
 
@@ -30,15 +30,16 @@ aliasing, collections, object fields, callbacks, reflection and strong updates �
 was zero cases before; ineffective sanitizers were four. A direct flow with a
 clean sibling is caught by a regular expression and by a commercial dataflow
 engine alike, so a corpus made only of those cannot rank the tools it exists to
-rank. Grid density is 27% of all cells, or **35% of the cells where the
+rank. Grid density is 34% of all cells, or **44% of the cells where the
 weakness can actually arise** — use-after-free in Java and XXE in C are not
 gaps, and `spine/report/applicability.json` says which pairs are real and is
 checked against the answer key in CI. [docs/COVERAGE.md](docs/COVERAGE.md) ranks
 languages thinnest-first for exactly that reason.
 
-Next phase is planned in [docs/ROADMAP.md](docs/ROADMAP.md): the growth goes
-into the axes that separate tools — obfuscation and ineffective sanitizers are
-currently 0 and 4 cases of 256 — rather than into more direct flows.
+Phase 2 in [docs/ROADMAP.md](docs/ROADMAP.md) put the growth into the axes
+that separate tools rather than into more direct flows: obfuscation went from
+0 to 53 cases and ineffective sanitizers from 4 to 28. Four of its five items
+are done; what remains is tier 3 at scale, at 97 of ~230 real-CVE cases.
 
 [docs/COVERAGE.md](docs/COVERAGE.md) holds the language × weakness matrix,
 depth per language, the mechanisms each weakness is tested through, and an
@@ -90,7 +91,7 @@ spine/           machinery — schema, scorer, adapters, lint, timing, generator
 answers/         ground truth: cases/*.yml (authoring) → expectedresults-<version>.csv (scoring)
 tier1/           synthetic micro-fixtures, generated + hand-authored          (committed)
 tier3/           real CVE reproductions, derived from cwe-bench-java          (fetched)
-tier2/           real vulnerable applications — manifest only, unlabelled     (fetched)
+tier2/           real vulnerable applications — PyGoat labelled, 4 more pinned (fetched)
 perf/            repositories for scan-time measurement only                  (fetched)
 build/           build and syntax recipes, pinned toolchains
 docs/            COVERAGE · ROADMAP · TIER3-DATASETS · AIRGAP-EXPORT · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
@@ -118,9 +119,14 @@ this repository and are code we did not write. A manifest whose revision is a
 branch or an abbreviated SHA is rejected, because a corpus fetched from a moving
 branch is not a corpus.
 
-**Tier 3 is derived and usable.** 28 CVEs across path traversal, XSS, command
-injection and code injection, plus 21 traps taken from the fixing commits. **Tier
-2 is fetchable but unlabelled** — see [docs/EXTERNAL-CORPORA.md](docs/EXTERNAL-CORPORA.md).
+**Tier 3 is derived and usable** — 97 cases in four languages: 28 Java CVEs
+from cwe-bench-java across path traversal, XSS, command injection and code
+injection, 21 traps taken from their fixing commits, and 48 CVEs in Go, Python
+and JavaScript from PatchEval. Growing it to ~230 is the open roadmap item.
+**Tier 2 has its first labelled application**: 46 PyGoat cases, hand-labelled
+from the code and cross-checked against RealVuln's independent labelling.
+WebGoat, DVJA, NodeGoat and Juice Shop are pinned but unlabelled — see
+[docs/EXTERNAL-CORPORA.md](docs/EXTERNAL-CORPORA.md).
 
 ## Scoring a tool
 
@@ -192,6 +198,7 @@ because a hosted scanner's queue is not scan speed. The LOC denominator is
 ## Running the gates
 
 ```bash
+pip install pyyaml jsonschema               # authoring side only; score.py needs nothing
 python3 spine/lint/antileak.py              # < 0.1s — must pass
 python3 spine/lint/antileak.py --disclose   # slow; leakage figure for a scorecard
 python3 spine/schema/compile_answers.py     # regenerate the answer key

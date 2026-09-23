@@ -1,0 +1,29 @@
+id: c-97df4566
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-89
+variant: orm-parameterised
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 315
+  end_line: 315
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The POST fields are passed to authLogin.objects.filter as keyword arguments at 315 and bound
+    by the ORM. A SQL-injection report here is a false positive.
+  cve: null
+build:
+  required: false
+  recipe: null

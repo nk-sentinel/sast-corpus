@@ -1,0 +1,30 @@
+id: c-5f5c09d2
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-862
+variant: missing-annotation
+acceptable_cwes: [CWE-862, CWE-284, CWE-285, CWE-200, CWE-306]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/pygoat/dockerized_labs/sensitive_data_exposure/dataexposure/views.py
+  start_line: 112
+  end_line: 132
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Every other data view in this module carries @login_required; this one does not, and it
+    returns every user's card number, SSN and API key at 120-132 to any caller. The missing
+    decorator is visible by comparison with profile_view and api_data_view directly above it.
+  cve: null
+build:
+  required: false
+  recipe: null

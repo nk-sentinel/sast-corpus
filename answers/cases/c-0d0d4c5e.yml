@@ -1,0 +1,33 @@
+id: c-0d0d4c5e
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: flask
+primary_cwe: CWE-287
+variant: unsigned-session-token
+acceptable_cwes: [CWE-287, CWE-565, CWE-384, CWE-345]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/pygoat/dockerized_labs/broken_auth_lab/app.py
+  start_line: 105
+  end_line: 112
+alt_locations: 
+  - file: tier2/pygoat/dockerized_labs/broken_auth_lab/app.py
+    start_line: 45
+    end_line: 51
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The session cookie is built at 45 by base64-encoding username:timestamp and is trusted at
+    105-112 by decoding it and taking the username before the colon. No signature, no server-
+    side session; base64("admin:x") is an admin session.
+  cve: null
+build:
+  required: false
+  recipe: null

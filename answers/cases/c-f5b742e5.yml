@@ -1,0 +1,31 @@
+id: c-f5b742e5
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: flask
+primary_cwe: CWE-798
+variant: signing-key-literal
+acceptable_cwes: [CWE-798, CWE-321, CWE-547]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/pygoat/dockerized_labs/broken_auth_lab/app.py
+  start_line: 8
+  end_line: 8
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Flask's secret_key is set to 'your-secret-key-here' at 8. It looks like a placeholder, which
+    is why it matters: it is the live key the running app signs with, so a tool that dismisses
+    placeholder-shaped strings misses a real hard-coded key. Recorded on the vuln plane because
+    the finding is the use, not the string's shape.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,38 @@
+id: c-8990e6e6
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-94
+variant: template-injection
+acceptable_cwes: [CWE-94, CWE-1336, CWE-79]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 990
+  end_line: 996
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 981
+    end_line: 981
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 1006
+    end_line: 1006
+difficulty:
+  flow: inter-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The blog body from the POST (981) is passed through filter_blog(), which returns its
+    argument unchanged (utility.py 55-56), wrapped in template tags at 990 and written to a file
+    under the templates directory at 995-996; ssti_view_blog renders that file at 1006. User
+    text becomes Django template source, and the app's solution dumps admin usernames and
+    password hashes with {% load log %}. The sanitiser call is present and does nothing.
+  cve: null
+build:
+  required: false
+  recipe: null

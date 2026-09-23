@@ -1,0 +1,33 @@
+id: c-1c72fbd4
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-89
+variant: concat-statement
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/views.py
+  start_line: 864
+  end_line: 878
+alt_locations: 
+  - file: tier2/pygoat/introduction/views.py
+    start_line: 858
+    end_line: 859
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    name and pass from the POST body (858-859) are concatenated into the statement at 864 and
+    run through sql_lab_table.objects.raw() at 878. The rows inserted in between are fixtures,
+    not a defence.
+  cve: null
+build:
+  required: false
+  recipe: null

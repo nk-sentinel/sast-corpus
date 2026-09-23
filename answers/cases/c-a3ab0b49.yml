@@ -1,0 +1,32 @@
+id: c-a3ab0b49
+label: safe
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-79
+variant: autoescaped-output
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/pygoat/introduction/templates/mitre/csrf_dashboard.html
+  start_line: 8
+  end_line: 8
+alt_locations: 
+  - file: tier2/pygoat/introduction/mitre.py
+    start_line: 187
+    end_line: 187
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    balance is an integer from the database rendered with autoescaping on. A tool that follows
+    the JWT username into the ORM and out to the template has traced a real flow to a safe sink.
+  cve: null
+build:
+  required: false
+  recipe: null

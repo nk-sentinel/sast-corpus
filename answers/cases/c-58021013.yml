@@ -1,0 +1,33 @@
+id: c-58021013
+label: vulnerable
+plane: vuln
+tier: 2
+language: python
+framework: django
+primary_cwe: CWE-94
+variant: dynamic-evaluation
+acceptable_cwes: [CWE-94, CWE-95]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/pygoat/introduction/mitre.py
+  start_line: 218
+  end_line: 218
+alt_locations: 
+  - file: tier2/pygoat/introduction/mitre.py
+    start_line: 217
+    end_line: 217
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    expression from the POST body (217) is evaluated with eval() at 218 and the result returned.
+    The authentication decorator on this view is commented out, so the endpoint is also
+    unauthenticated, but the code injection is the finding.
+  cve: null
+build:
+  required: false
+  recipe: null
