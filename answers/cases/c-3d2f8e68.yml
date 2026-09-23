@@ -1,0 +1,44 @@
+id: c-3d2f8e68
+label: vulnerable
+plane: sca
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-1395
+variant: vulnerable-version
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: high
+location:
+  file: tier2/nodegoat/package.json
+  start_line: 17
+  end_line: 17
+alt_locations: 
+  - file: tier2/nodegoat/server.js
+    start_line: 126
+    end_line: 129
+  - file: tier2/nodegoat/app/views/memos.html
+    start_line: 31
+    end_line: 31
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    marked is pinned to exactly 0.3.5, affected by CVE-2017-1000427 (XSS through the data: URI
+    parser, with sanitize enabled) and CVE-2017-16114 (ReDoS). It is reachable: server.js
+    126-129 configures it with sanitize:true and exposes it to templates, and memos.html 31
+    renders every user's memo through it. The sanitize option is the app's stated fix for A9 and
+    is exactly what the advisory bypasses.
+  cve: CVE-2017-1000427
+sca:
+  purl: pkg:npm/marked@0.3.5
+  cve: CVE-2017-1000427
+  transitive: false
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

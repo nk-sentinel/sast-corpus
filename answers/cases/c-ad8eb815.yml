@@ -1,0 +1,34 @@
+id: c-ad8eb815
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-94
+variant: nosql-where-injection
+acceptable_cwes: [CWE-94, CWE-943, CWE-89]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/nodegoat/app/data/allocations-dao.js
+  start_line: 78
+  end_line: 79
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/allocations.js
+    start_line: 19
+    end_line: 23
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    threshold is read from the query string in allocations.js 19-21 and handed to the DAO, which
+    interpolates it into a MongoDB $where clause at 78 - server-side JavaScript evaluated by the
+    database. The commented fix above it shows the parseInt and range check that are missing;
+    0';while(true){}' is the app's own example payload.
+  cve: null
+build:
+  required: false
+  recipe: null

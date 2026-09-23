@@ -1,0 +1,37 @@
+id: c-06ba1999
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-352
+variant: protection-disabled
+acceptable_cwes: [CWE-352]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/nodegoat/app/routes/index.js
+  start_line: 48
+  end_line: 48
+alt_locations: 
+  - file: tier2/nodegoat/server.js
+    start_line: 104
+    end_line: 113
+  - file: tier2/nodegoat/app/routes/index.js
+    start_line: 52
+    end_line: 56
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    csurf is required and installed but the middleware block at server.js 104-113 is commented
+    out, so every state-changing POST - /profile at 48, /contributions, /benefits, /memos -
+    accepts a cross-site form. The templates even render a {{csrftoken}} field that is always
+    empty.
+  cve: null
+build:
+  required: false
+  recipe: null

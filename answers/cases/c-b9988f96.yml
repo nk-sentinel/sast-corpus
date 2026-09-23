@@ -1,0 +1,30 @@
+id: c-b9988f96
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-94
+variant: dynamic-evaluation
+acceptable_cwes: [CWE-94, CWE-95]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/nodegoat/app/routes/contributions.js
+  start_line: 32
+  end_line: 34
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Three POST fields are passed to eval() at 32-34 to turn them into numbers; the parseInt
+    alternative sits commented out directly below. Any JavaScript in preTax runs on the server
+    before the isNaN validation at 47 ever sees a value.
+  cve: null
+build:
+  required: false
+  recipe: null

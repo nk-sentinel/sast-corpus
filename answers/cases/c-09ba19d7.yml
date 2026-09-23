@@ -1,0 +1,30 @@
+id: c-09ba19d7
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-601
+variant: unvalidated-redirect
+acceptable_cwes: [CWE-601]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/nodegoat/app/routes/index.js
+  start_line: 72
+  end_line: 72
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    /learn redirects to whatever the url query parameter holds, with no allowlist or same-origin
+    check; the comment on the line above says so. A link to /learn?url=https://evil leaves the
+    site with the app's credibility attached.
+  cve: null
+build:
+  required: false
+  recipe: null

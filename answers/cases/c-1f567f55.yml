@@ -1,0 +1,33 @@
+id: c-1f567f55
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/nodegoat/app/views/login.html
+  start_line: 110
+  end_line: 110
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/session.js
+    start_line: 82
+    end_line: 89
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    On a failed login session.js 82-89 re-renders the form with the submitted userName, and the
+    template writes it into a value attribute at 110 with swig autoescaping switched off
+    globally (server.js 135-137). A quote closes the attribute and the rest is the attacker's.
+  cve: null
+build:
+  required: false
+  recipe: null

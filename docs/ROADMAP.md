@@ -3,9 +3,9 @@
 Target: **305 → ~775 cases** (revised up from 645 after item 0), with the growth concentrated on the axes that
 separate tools rather than on more of the shape every tool already catches.
 
-**Where it stands: 589 cases.** Items 0–4 are done; item 5 is at 97 of ~230
+**Where it stands: 613 cases.** Items 0–4 are done; item 5 is at 97 of ~230
 and is resumable — see its section for the commands. Tier 2, which this
-roadmap did not schedule, has its first 46 cases from PyGoat.
+roadmap did not schedule, has its first 70 cases, from PyGoat and NodeGoat.
 
 ## Why not simply more breadth
 

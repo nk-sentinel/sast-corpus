@@ -1,0 +1,33 @@
+id: c-6addc98d
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-639
+variant: user-controlled-key
+acceptable_cwes: [CWE-639, CWE-284, CWE-862, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/nodegoat/app/routes/allocations.js
+  start_line: 23
+  end_line: 23
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/allocations.js
+    start_line: 16
+    end_line: 18
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    userId is taken from the URL parameter at 16-18 rather than from the session (the fix at
+    12-15 is commented out) and used at 23 to load allocations, so any logged-in user reads any
+    other user's holdings by changing the number in /allocations/:userId.
+  cve: null
+build:
+  required: false
+  recipe: null

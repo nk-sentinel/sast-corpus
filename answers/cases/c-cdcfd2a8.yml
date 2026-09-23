@@ -1,0 +1,30 @@
+id: c-cdcfd2a8
+label: safe
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-89
+variant: parsed-integer-key
+acceptable_cwes: [CWE-89, CWE-943, CWE-94]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/nodegoat/app/data/user-dao.js
+  start_line: 97
+  end_line: 100
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    getUserById queries by _id after parseInt at 99, so the value is a number by the time it
+    reaches the driver and no operator object or string can be injected. The comment above it
+    calls it the good one for a reason; a NoSQL-injection report here is a false positive.
+  cve: null
+build:
+  required: false
+  recipe: null

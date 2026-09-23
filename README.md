@@ -11,12 +11,12 @@ ground truth, with the same match rules.
 
 | | |
 |---|---|
-| Cases | **589** — 446 tier-1 synthetic, 46 tier-2 real-application, 97 tier-3 real CVEs |
-| False-positive traps | **256 (43%)** |
+| Cases | **613** — 446 tier-1 synthetic, 70 tier-2 real-application, 97 tier-3 real CVEs |
+| False-positive traps | **260 (42%)** |
 | Weaknesses | **42 CWEs — all 25 of the 2025 CWE Top 25** |
 | OWASP Top 10 (2021) | **10 of 10** categories |
 | Languages | 13, **none below 10 weaknesses** |
-| Detection planes | `vuln` 534 · `secret` 31 · `sca` 24 |
+| Detection planes | `vuln` 557 · `secret` 31 · `sca` 25 |
 | Visible to build-required engines | tier-1 Java, plus 28 of 28 CVE projects that compile |
 | Scan-time corpus | 4 real repositories, 15k → 4.6M measured code lines |
 
@@ -91,7 +91,7 @@ spine/           machinery — schema, scorer, adapters, lint, timing, generator
 answers/         ground truth: cases/*.yml (authoring) → expectedresults-<version>.csv (scoring)
 tier1/           synthetic micro-fixtures, generated + hand-authored          (committed)
 tier3/           real CVE reproductions, derived from cwe-bench-java          (fetched)
-tier2/           real vulnerable applications — PyGoat labelled, 4 more pinned (fetched)
+tier2/           real vulnerable applications — PyGoat, NodeGoat labelled; 3 pinned (fetched)
 perf/            repositories for scan-time measurement only                  (fetched)
 build/           build and syntax recipes, pinned toolchains
 docs/            COVERAGE · ROADMAP · TIER3-DATASETS · AIRGAP-EXPORT · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
@@ -123,9 +123,10 @@ branch is not a corpus.
 from cwe-bench-java across path traversal, XSS, command injection and code
 injection, 21 traps taken from their fixing commits, and 48 CVEs in Go, Python
 and JavaScript from PatchEval. Growing it to ~230 is the open roadmap item.
-**Tier 2 has its first labelled application**: 46 PyGoat cases, hand-labelled
-from the code and cross-checked against RealVuln's independent labelling.
-WebGoat, DVJA, NodeGoat and Juice Shop are pinned but unlabelled — see
+**Tier 2 has its first two labelled applications**: 46 PyGoat and 24 NodeGoat
+cases, hand-labelled from the code and cross-checked against RealVuln's
+independent labelling of the same revisions. WebGoat, DVJA and Juice Shop are
+pinned but unlabelled — see
 [docs/EXTERNAL-CORPORA.md](docs/EXTERNAL-CORPORA.md).
 
 ## Scoring a tool

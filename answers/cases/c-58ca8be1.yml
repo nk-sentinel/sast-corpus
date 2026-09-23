@@ -1,0 +1,30 @@
+id: c-58ca8be1
+label: safe
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-601
+variant: fixed-target-redirect
+acceptable_cwes: [CWE-601]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/nodegoat/app/routes/session.js
+  start_line: 117
+  end_line: 117
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The post-login redirect chooses between two string literals at 117. Nothing from the request
+    reaches the target; a tool that flags every res.redirect is matching on the API, not on the
+    data.
+  cve: null
+build:
+  required: false
+  recipe: null

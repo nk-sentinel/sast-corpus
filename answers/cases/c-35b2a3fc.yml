@@ -1,0 +1,30 @@
+id: c-35b2a3fc
+label: safe
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-639
+variant: session-bound-lookup
+acceptable_cwes: [CWE-639, CWE-284, CWE-862]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/nodegoat/app/routes/profile.js
+  start_line: 13
+  end_line: 20
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    displayProfile takes userId from req.session at 14-16 and loads that user's own profile at
+    20. The identity comes from the server-side session, not from the request, which is the
+    sibling of the URL-parameter lookup in allocations.js.
+  cve: null
+build:
+  required: false
+  recipe: null

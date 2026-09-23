@@ -1,0 +1,30 @@
+id: c-7af826b1
+label: safe
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-117
+variant: constant-log-entry
+acceptable_cwes: [CWE-117, CWE-93]
+owasp_2021: A09
+severity: medium
+location:
+  file: tier2/nodegoat/app/routes/session.js
+  start_line: 40
+  end_line: 40
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    A constant string is logged at 40 when an unauthenticated request is redirected. No request
+    data is interpolated; the log-injection sink in this file is the userName at 64, twenty-four
+    lines away.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,34 @@
+id: c-ab6fafe0
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-79
+variant: unescaped-url-attribute
+acceptable_cwes: [CWE-79, CWE-116]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/nodegoat/app/views/profile.html
+  start_line: 78
+  end_line: 78
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/profile.js
+    start_line: 64
+    end_line: 64
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    firstNameSafeString is not safe: profile.js 64 assigns the raw first name to it, and the
+    template uses it as an href at 78. A javascript: URL executes on click even where HTML
+    escaping would have held, which is the point the developer comment at profile.js 24-31 makes
+    about encoding for the wrong context.
+  cve: null
+build:
+  required: false
+  recipe: null

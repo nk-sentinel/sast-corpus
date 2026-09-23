@@ -1,0 +1,33 @@
+id: c-cfa12396
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-522
+variant: plaintext-password-storage
+acceptable_cwes: [CWE-522, CWE-256, CWE-257, CWE-312, CWE-916]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/nodegoat/app/data/user-dao.js
+  start_line: 20
+  end_line: 31
+alt_locations: 
+  - file: tier2/nodegoat/app/data/user-dao.js
+    start_line: 60
+    end_line: 61
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    addUser stores the password exactly as received (25) - the bcrypt line is commented out at
+    29 - and validateLogin compares it with === at 61. bcrypt is imported at line 1 and never
+    called. Every password in the users collection is recoverable by anyone who reads it.
+  cve: null
+build:
+  required: false
+  recipe: null

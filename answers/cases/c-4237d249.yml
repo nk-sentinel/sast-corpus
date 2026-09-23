@@ -1,0 +1,37 @@
+id: c-4237d249
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/nodegoat/app/views/profile.html
+  start_line: 41
+  end_line: 70
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/profile.js
+    start_line: 65
+    end_line: 75
+  - file: tier2/nodegoat/app/routes/profile.js
+    start_line: 100
+    end_line: 103
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Every profile field - first name, last name, SSN, date of birth, bank account, routing
+    number, address, website - is written into an input value at 41-70 with autoescaping off.
+    They arrive from the POST body directly on the validation-error path (profile.js 65-75) and
+    from the database, where the same request stored them, on the success path (100-103).
+  cve: null
+build:
+  required: false
+  recipe: null

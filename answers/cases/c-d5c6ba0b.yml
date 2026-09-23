@@ -1,0 +1,33 @@
+id: c-d5c6ba0b
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-117
+variant: unsanitised-log-entry
+acceptable_cwes: [CWE-117, CWE-93]
+owasp_2021: A09
+severity: medium
+location:
+  file: tier2/nodegoat/app/routes/session.js
+  start_line: 64
+  end_line: 64
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/session.js
+    start_line: 54
+    end_line: 57
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    userName from the POST body (54-57) is written to the log verbatim at 64 when the user does
+    not exist. A CRLF in the name forges log lines; the fifteen commented lines that follow are
+    the app's own explanation of the encoding it does not apply.
+  cve: null
+build:
+  required: false
+  recipe: null

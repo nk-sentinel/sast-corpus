@@ -1,0 +1,31 @@
+id: c-35f8a969
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-798
+variant: literal-in-source
+acceptable_cwes: [CWE-798, CWE-259]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/nodegoat/artifacts/db-reset.js
+  start_line: 12
+  end_line: 37
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The database seed inserts three accounts with plaintext passwords at 18, 27 and 35 -
+    admin/Admin_123 among them - and the README publishes them as the default logins.
+    Credentials in source that ship with every deployment; the bcrypt hashes beside them are
+    commented out.
+  cve: null
+build:
+  required: false
+  recipe: null

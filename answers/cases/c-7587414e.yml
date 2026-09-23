@@ -1,0 +1,33 @@
+id: c-7587414e
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/nodegoat/app/views/allocations.html
+  start_line: 35
+  end_line: 35
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/allocations.js
+    start_line: 25
+    end_line: 29
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    firstName and lastName at 35 come from the users collection, where the profile update stored
+    them without encoding, and are rendered with autoescaping off. Combined with the IDOR on
+    this route, a stored payload is served to any user who browses to the victim's id.
+  cve: null
+build:
+  required: false
+  recipe: null

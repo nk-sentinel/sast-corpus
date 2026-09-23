@@ -1,0 +1,36 @@
+id: c-bbf3aa0b
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/nodegoat/app/views/signup.html
+  start_line: 75
+  end_line: 75
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/session.js
+    start_line: 214
+    end_line: 217
+  - file: tier2/nodegoat/app/routes/session.js
+    start_line: 249
+    end_line: 252
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Signup validation failures re-render the form with the submitted fields (session.js 214-217,
+    249-252); userName lands in a value attribute at 75 unescaped because autoescaping is off.
+    The 20-character limit on the field is not a defence against a payload of that size.
+  cve: null
+build:
+  required: false
+  recipe: null

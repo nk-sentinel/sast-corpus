@@ -1,0 +1,34 @@
+id: c-91e47613
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-798
+variant: signing-key-literal
+acceptable_cwes: [CWE-798, CWE-321, CWE-547]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/nodegoat/config/env/all.js
+  start_line: 8
+  end_line: 8
+alt_locations: 
+  - file: tier2/nodegoat/server.js
+    start_line: 82
+    end_line: 82
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The express-session signing secret is the committed literal at all.js 8, consumed at
+    server.js 82. Placeholder-looking, and live: anyone with the source signs their own session
+    cookies. The cryptoKey on the next line is the same shape but is only used by commented-out
+    code.
+  cve: null
+build:
+  required: false
+  recipe: null

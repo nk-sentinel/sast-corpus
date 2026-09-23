@@ -1,0 +1,34 @@
+id: c-b955d01d
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/nodegoat/app/views/benefits.html
+  start_line: 50
+  end_line: 57
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/benefits.js
+    start_line: 19
+    end_line: 25
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The benefits page lists every non-admin user's first name, last name and benefit start date
+    at 50-57, unescaped. Those fields are set by each user through signup and profile update, so
+    a payload stored by one user runs in the browser of whoever opens /benefits - which, given
+    the missing role check, is anyone.
+  cve: null
+build:
+  required: false
+  recipe: null

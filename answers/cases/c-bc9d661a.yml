@@ -1,0 +1,33 @@
+id: c-bc9d661a
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-79
+variant: unescaped-output
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/nodegoat/app/routes/research.js
+  start_line: 25
+  end_line: 25
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/research.js
+    start_line: 18
+    end_line: 22
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Whatever the fetched host returns is written into a text/html response at 25 without
+    encoding, after the SSRF on the same view. The attacker controls the URL and therefore the
+    body, so this is reflected XSS with an extra hop.
+  cve: null
+build:
+  required: false
+  recipe: null

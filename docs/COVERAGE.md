@@ -8,8 +8,8 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 589 |
-| False-positive traps | 256 (43%) |
+| Cases | 613 |
+| False-positive traps | 260 (42%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
 | Distinct weaknesses | 42 |
@@ -23,7 +23,7 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 | java | 6/5 | 9/8 | 7/6 | 21/17 | 1/1 | 1/1 | 1/1 | 2/2 | 1/4 | 1/1 | · | · | 1/1 | 4/3 | · | 1/1 | · | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | 1/1 | 1/1 | · | 2/2 | 1/1 | 3/3 |
 | kotlin | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
 | python | 9/8 | 10/7 | 8/4 | 14/7 | 4/2 | 3/3 | 2/1 | 17/14 | 2/2 | 1/0 | 2/1 | · | · | 4/0 | · | 1/0 | · | · | · | · | · | · | 3/1 | · | 4/0 | · | 1/0 | 1/1 | · | · | 2/2 | · | · | 1/1 | 1/1 | 3/0 | 1/1 | 1/1 | · | 1/0 | 1/0 | 2/2 |
-| javascript | 5/4 | 9/4 | 2/2 | 6/5 | · | 4/2 | · | 1/1 | · | · | · | 1/0 | · | 2/1 | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | 1/0 | · | · | · | · | 1/0 | · | · | · | 1/0 | · | · | · | 1/0 | · | 2/2 |
+| javascript | 5/5 | 9/4 | 9/2 | 6/5 | · | 5/2 | · | 3/1 | · | 1/0 | · | 1/0 | · | 4/1 | · | 2/2 | · | · | · | · | · | · | 2/1 | · | · | · | 1/0 | · | · | · | · | 1/0 | · | 1/0 | · | 2/1 | 1/1 | · | · | 2/0 | · | 3/2 |
 | typescript | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | 1/1 | · | 1/1 | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
 | go | 5/3 | 3/2 | 1/1 | 4/3 | 1/1 | 1/1 | · | 2/2 | 1/1 | · | · | · | 1/1 | · | 1/0 | · | · | · | · | · | · | · | 1/0 | 1/0 | · | 1/0 | · | · | 1/0 | · | · | · | · | 1/0 | 1/0 | 1/0 | · | · | · | 3/0 | 2/0 | 1/1 |
 | csharp | 3/3 | 3/3 | · | 3/3 | 1/1 | · | 1/1 | 2/2 | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
@@ -81,7 +81,7 @@ Weakness codes:
 
 ## Gaps
 
-**45 of 130 language-by-weakness cells are empty.** Full coverage of the grid is not the goal — CSRF has no meaning in a C program, and SQL injection none in a shell script — but an empty cell still means a tool is never tested on that combination, so it cannot pass or fail it. The languages carrying only one or two weaknesses are the ones where a result rests on the least evidence.
+**44 of 130 language-by-weakness cells are empty.** Full coverage of the grid is not the goal — CSRF has no meaning in a C program, and SQL injection none in a shell script — but an empty cell still means a tool is never tested on that combination, so it cannot pass or fail it. The languages carrying only one or two weaknesses are the ones where a result rests on the least evidence.
 
 Weaknesses covered per language across every tier, thinnest first. Tier 1 alone is the depth table below, and the two differ wherever tier 3 brought weaknesses nobody designed in:
 
@@ -94,7 +94,7 @@ Weaknesses covered per language across every tier, thinnest first. Tier 1 alone 
 - `ruby` — 10
 - `rust` — 10
 - `c` — 11
-- `javascript` — 15
+- `javascript` — 18
 - `java` — 19
 - `go` — 20
 - `python` — 26
@@ -102,6 +102,7 @@ Weaknesses covered per language across every tier, thinnest first. Tier 1 alone 
 **Covered but with no safe sibling** — a false-positive rate cannot be measured for these:
 
 - python / `CWE-352`
+- javascript / `CWE-352`
 
 ## Depth per language
 
@@ -140,9 +141,9 @@ Template-generated cases share a shape a tool can **overfit** to, so the hand-au
 | `generated` | 300 |
 | `hand-authored` | 146 |
 | `cve` | 97 |
-| `walkthrough` | 46 |
+| `walkthrough` | 70 |
 
-**49% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
+**51% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
 
 ## Variants per weakness
 
@@ -155,11 +156,11 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-59` | `unknown` | · |
 | `CWE-77` | `argument-injection` | · |
 | `CWE-78` | `(unlabelled)`, `argument-vector`, `blocklist-filter`, `shell-string`, `system-call`, `unknown` | · |
-| `CWE-79` | `(unlabelled)`, `autoescaped-output`, `tag-filter`, `template-html-optout`, `unescaped-output`, `unknown`, `wrong-context-escaping` | · |
-| `CWE-89` | `(unlabelled)`, `concat-statement`, `dynamic-identifier`, `format-string`, `orm-parameterised`, `prepared-but-concatenated`, `unknown` | · |
-| `CWE-94` | `dynamic-evaluation`, `template-injection`, `unknown` | · |
+| `CWE-79` | `(unlabelled)`, `autoescaped-output`, `tag-filter`, `template-html-optout`, `unescaped-output`, `unescaped-url-attribute`, `unknown`, `wrong-context-escaping` | · |
+| `CWE-89` | `(unlabelled)`, `concat-statement`, `dynamic-identifier`, `format-string`, `orm-parameterised`, `parsed-integer-key`, `prepared-but-concatenated`, `unknown` | · |
+| `CWE-94` | `dynamic-evaluation`, `nosql-where-injection`, `template-injection`, `unknown` | · |
 | `CWE-116` | `unknown` | · |
-| `CWE-117` | `unsanitised-entry`, `unsanitised-log-entry` | · |
+| `CWE-117` | `constant-log-entry`, `unsanitised-entry`, `unsanitised-log-entry` | · |
 | `CWE-120` | `unbounded-copy` | · |
 | `CWE-121` | `stack-format-copy`, `unbounded-copy` | · |
 | `CWE-122` | `off-by-one-allocation` | · |
@@ -182,7 +183,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-502` | `binaryformatter`, `marshal-untrusted`, `objectinputstream`, `pickle-untrusted`, `prototype-pollution`, `serialise-not-deserialise`, `unserialize-untrusted`, `yaml-untrusted` | · |
 | `CWE-522` | `framework-hashed-password`, `plaintext-password-storage`, `unknown` | · |
 | `CWE-532` | `credentials-in-log`, `unknown` | · |
-| `CWE-601` | `unknown` | · |
+| `CWE-601` | `fixed-target-redirect`, `unknown`, `unvalidated-redirect` | · |
 | `CWE-611` | `default-factory`, `default-resolver`, `entities-enabled` | · |
 | `CWE-639` | `session-bound-lookup`, `user-controlled-key` | · |
 | `CWE-770` | `unbounded-allocation` | · |
@@ -193,7 +194,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | `CWE-918` | `(unlabelled)`, `fixed-host-url`, `unknown`, `unvalidated-url` | · |
 | `CWE-1395` | `(unlabelled)`, `vulnerable-version` | · |
 
-**139 of 589 cases carry no variant label** and are counted as `(unlabelled)`. Until they are named the mechanism coverage above understates what exists and cannot show what is missing.
+**139 of 613 cases carry no variant label** and are counted as `(unlabelled)`. Until they are named the mechanism coverage above understates what exists and cannot show what is missing.
 
 `unknown` is not the same gap. 97 derived tier-3 cases carry it because the mechanism is not knowable from the CVE metadata — only from reading the code — and guessing would be indistinguishable from a finding in the table above.
 
@@ -201,16 +202,16 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | category | cases |
 |---|---|
-| A01 Broken Access Control | 111 |
+| A01 Broken Access Control | 118 |
 | A02 Cryptographic Failures | 23 |
-| A03 Injection | 190 |
+| A03 Injection | 200 |
 | A04 Insecure Design | 10 |
 | A05 Security Misconfiguration | 7 |
-| A06 Vulnerable Components | 24 |
-| A07 Identification and Authentication Failures | 62 |
+| A06 Vulnerable Components | 25 |
+| A07 Identification and Authentication Failures | 65 |
 | A08 Software and Data Integrity Failures | 20 |
-| A09 Logging and Monitoring Failures | 23 |
-| A10 Server-Side Request Forgery | 22 |
+| A09 Logging and Monitoring Failures | 25 |
+| A10 Server-Side Request Forgery | 23 |
 
 97 cases carry no category — the tier-3 derivations record the CWE only — and are not counted above.
 
@@ -218,9 +219,9 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | plane | cases |
 |---|---|
-| vuln | 534 |
+| vuln | 557 |
 | secret | 31 |
-| sca | 24 |
+| sca | 25 |
 | crypto | · |
 
 `crypto` is delegated to the `CipherRadarTestProj` submodule and is not counted here.
@@ -230,21 +231,21 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | tier | cases |
 |---|---|
 | 1 — synthetic fixtures | 446 |
-| 2 — real applications | 46 |
+| 2 — real applications | 70 |
 | 3 — CVE reproductions | 97 |
 
 ## Difficulty
 
 | taint path | cases |
 |---|---|
-| intra-procedural | 111 |
+| intra-procedural | 125 |
 | inter-procedural | 4 |
-| inter-file | 369 |
+| inter-file | 379 |
 | framework-mediated | 8 |
 
 | sanitizer | cases |
 |---|---|
-| none | 231 |
-| ineffective | 32 |
-| custom-effective | 214 |
-| framework-implicit | 36 |
+| none | 251 |
+| ineffective | 33 |
+| custom-effective | 216 |
+| framework-implicit | 37 |

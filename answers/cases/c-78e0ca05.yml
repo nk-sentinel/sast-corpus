@@ -1,0 +1,34 @@
+id: c-78e0ca05
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-200
+variant: error-detail-returned
+acceptable_cwes: [CWE-200, CWE-209]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/nodegoat/app/views/error-template.html
+  start_line: 11
+  end_line: 11
+alt_locations: 
+  - file: tier2/nodegoat/app/routes/error.js
+    start_line: 10
+    end_line: 12
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The error middleware (error.js 10-12) hands the raw Error object to a template that prints
+    it at 11. Database and driver messages reach the client - the DAO callbacks return strings
+    such as the missing-allocations error verbatim - and with autoescaping off, anything in them
+    renders as HTML.
+  cve: null
+build:
+  required: false
+  recipe: null

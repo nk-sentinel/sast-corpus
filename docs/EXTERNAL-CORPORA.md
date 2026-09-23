@@ -22,7 +22,7 @@ abbreviated SHA.
 | Corpus | Sources | Fetch | Ground truth |
 |---|---|---|---|
 | `perf` | 4 Java repos, 10k → 500k+ LOC | working | **not needed** — never accuracy-scored |
-| `tier2` | 5 applications, 4 languages | working | **PyGoat labelled — 46 cases; the other four not yet** |
+| `tier2` | 5 applications, 4 languages | working | **PyGoat and NodeGoat labelled — 70 cases; WebGoat, DVJA and Juice Shop not yet** |
 | `tier3` | cwe-bench-java (Java), PatchEval (Go, JS, Python); vul4j pinned but unused | working | **derived — 97 cases, see below** |
 
 ## Tier 3 is derived, not hand-transcribed
@@ -150,7 +150,7 @@ They are marked `build.required: false`: a single patched file has no
 surrounding project, so it is scannable by source-only tools and invisible to
 build-required ones.
 
-## Tier 2: PyGoat is labelled, four applications are not
+## Tier 2: PyGoat and NodeGoat are labelled, three applications are not
 
 **PyGoat carries 46 cases** at the pinned revision — 34 vulnerable across 17
 weaknesses and 12 traps — written by reading the code, with the app's own
@@ -180,9 +180,23 @@ Left out on purpose, and why:
   the vulnerable sink would claim the trap and charge a false positive the tool
   never made. See the rule added to the workflow below
 
-**WebGoat, DVJA, NodeGoat and Juice Shop are fetchable and unlabelled**, so a
-tier-2 number currently says something about Django and Flask code and nothing
-about Java or JavaScript — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md)
+**NodeGoat carries 24 cases** at the pinned revision — 20 vulnerable across 12
+weaknesses, 4 traps — checked the same way. Its fixes ship as comments beside
+each flaw, which makes the app its own answer key and leaves it almost no
+correctly defended code to use as a trap: the four traps are the lookups, the
+redirect and the log line that genuinely take nothing from the request.
+RealVuln labelled the identical commit (28 entries, no traps), and the two agree
+on every flaw inside the applicability map. Outside it, and therefore not
+labelled: session fixation on login (CWE-384), the distinct invalid-username and
+invalid-password messages (CWE-204), the catastrophic-backtracking routing-number
+regex (CWE-1333), the session cookie without HttpOnly or Secure (CWE-614), SSN
+and date of birth stored in the clear (CWE-312), and the plain-HTTP listener
+(CWE-319). `marked` pinned to 0.3.5 is the corpus's first real-application SCA
+case, reachable through the memo renderer.
+
+**WebGoat, DVJA and Juice Shop are fetchable and unlabelled**, so a tier-2
+number currently says something about Django, Flask and Express code and
+nothing about Java or TypeScript — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md)
 records what a synthetic-heavy result does and does not support.
 
 `perf` is complete, because scan time needs no ground truth. `commons-cli` is
