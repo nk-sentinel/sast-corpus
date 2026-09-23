@@ -1,0 +1,33 @@
+id: c-72c95227
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-601
+variant: unvalidated-redirect
+acceptable_cwes: [CWE-601]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/openredirect/OpenRedirectRealRedirect.java
+  start_line: 21
+  end_line: 21
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/openredirect/OpenRedirectRealRedirect.java
+    start_line: 19
+    end_line: 19
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The url request parameter (19) is concatenated into a Spring redirect: view at 21 with no
+    allowlist or host check, so the application redirects to any external site an attacker
+    names.
+  cve: null
+build:
+  required: false
+  recipe: null

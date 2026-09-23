@@ -1,0 +1,29 @@
+id: c-556dffd7
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-89
+variant: orm-parameterised
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/missingac/MissingAccessControlUserRepository.java
+  start_line: 34
+  end_line: 36
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    findByUsername passes the username through a NamedParameterJdbcTemplate :username binding at
+    32-36, so Spring parameterises it. A finding here would be a false positive.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,40 @@
+id: c-4e973459
+label: vulnerable
+plane: sca
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-1395
+variant: vulnerable-version
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104, CWE-502]
+owasp_2021: A06
+severity: high
+location:
+  file: tier2/webgoat/pom.xml
+  start_line: 111
+  end_line: 111
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/vulnerablecomponents/VulnerableComponentsLesson.java
+    start_line: 42
+    end_line: 42
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    xstream is pinned to 1.4.5, affected by CVE-2013-7285 (remote code execution via crafted XML
+    through the default converters). It is reachable: VulnerableComponentsLesson.completed
+    passes the request payload straight to xstream.fromXML at line 42 with no allow-list of
+    types.
+  cve: CVE-2013-7285
+sca:
+  purl: pkg:maven/com.thoughtworks.xstream/xstream@1.4.5
+  cve: CVE-2013-7285
+  transitive: false
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

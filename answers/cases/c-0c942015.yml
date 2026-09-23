@@ -1,0 +1,36 @@
+id: c-0c942015
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-89
+variant: prepared-but-concatenated
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/challenges/challenge5/Assignment5.java
+  start_line: 45
+  end_line: 49
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/challenges/challenge5/Assignment5.java
+    start_line: 50
+    end_line: 50
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/challenges/challenge5/Assignment5.java
+    start_line: 34
+    end_line: 35
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    username_login and password_login (34-35) are concatenated into the SQL text at 45-49 and
+    then handed to prepareStatement, which is executed at 50. Binding is available and unused -
+    the PreparedStatement API is present but the values were already glued into the string.
+  cve: null
+build:
+  required: false
+  recipe: null

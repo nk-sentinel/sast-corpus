@@ -1,0 +1,33 @@
+id: c-e5d53d1d
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-22
+variant: unvalidated-join
+acceptable_cwes: [CWE-22, CWE-23, CWE-73]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileUploadBase.java
+  start_line: 51
+  end_line: 51
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileUpload.java
+    start_line: 40
+    end_line: 43
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    fullName comes from the multipart request (ProfileUpload 40-43) and is joined onto the
+    upload directory at 51 and written at 52-53 with no containment check, so ../ escapes the
+    per-user directory.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,33 @@
+id: c-95b5cff2
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-798
+variant: signing-key-literal
+acceptable_cwes: [CWE-798, CWE-321, CWE-547]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/jwt/JWTRefreshEndpoint.java
+  start_line: 46
+  end_line: 46
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/jwt/JWTRefreshEndpoint.java
+    start_line: 73
+    end_line: 73
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The HS512 signing key for the refresh-token JWT is the string literal at 46, used to sign at
+    73 and verify elsewhere. Committed in source, so anyone with the code forges tokens for any
+    user.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,34 @@
+id: c-5ba0db9a
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: null
+primary_cwe: CWE-78
+variant: deserialized-command
+acceptable_cwes: [CWE-78, CWE-502, CWE-77]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/webgoat/src/main/java/org/dummy/insecure/framework/VulnerableTaskHolder.java
+  start_line: 67
+  end_line: 67
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/dummy/insecure/framework/VulnerableTaskHolder.java
+    start_line: 46
+    end_line: 46
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    VulnerableTaskHolder is Serializable and its readObject (46) runs on deserialization of the
+    token above, reaching Runtime.getRuntime().exec(taskAction) at 67. taskAction is a field of
+    the serialized object, so an attacker who controls the bytes controls the command. The
+    startsWith/length guard limits the demo but not the class of flaw.
+  cve: null
+build:
+  required: false
+  recipe: null

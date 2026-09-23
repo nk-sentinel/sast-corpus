@@ -1,0 +1,30 @@
+id: c-7f87bacd
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-601
+variant: allowlist-redirect
+acceptable_cwes: [CWE-601]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/openredirect/OpenRedirectSecureController.java
+  start_line: 27
+  end_line: 28
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The redirect target is chosen from a fixed map keyed by an integer id at 27-28; the request
+    never supplies the URL, so it cannot be pointed off-site. The correct sibling of the real
+    redirect.
+  cve: null
+build:
+  required: false
+  recipe: null

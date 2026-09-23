@@ -1,0 +1,35 @@
+id: c-5dc2c963
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-89
+variant: concat-statement
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson10.java
+  start_line: 49
+  end_line: 49
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson10.java
+    start_line: 56
+    end_line: 56
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson10.java
+    start_line: 43
+    end_line: 43
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The action request parameter (43) is concatenated into a LIKE clause at 49 and executed at
+    56. Unbound string concatenation into SQL.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,30 @@
+id: c-dc31411e
+label: vulnerable
+plane: secret
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-798
+variant: literal-in-source
+acceptable_cwes: [CWE-798, CWE-259]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/challenges/SolutionConstants.java
+  start_line: 10
+  end_line: 10
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The admin password is a literal in source at 10 (the class's own TODO says it should be
+    randomly generated). A committed credential, not a placeholder - the challenge uses it as
+    the real one.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -24,7 +24,7 @@ Measured, not estimated:
 | `.git` inside vendored trees | 602 MB | **no** — replaced by a pinned-SHA manifest |
 | `~/.m2` | 6.1 GB | **no**, if JFrog resolves — see below |
 | `~/.gradle` | 761 MB | **no**, same condition |
-| `tier2` | manifest only | **no** by default — unlabelled, scores nothing |
+| `tier2` sources for the labelled applications | ~90 MB | **yes**, if tier 2 is in scope — 97 cases score against them |
 
 **88% of the 20 GB is build output.** That is the single fact that makes this
 tractable: a ~2.5 GB transfer, not a 27 GB one.
@@ -103,13 +103,18 @@ side of the airgap**, and the sources themselves fetched from their own upstream
 repositories, which carry real licences. See
 [TIER3-DATASETS.md](TIER3-DATASETS.md).
 
-**`tier2` by default.** It is unlabelled and contributes nothing to a scorecard;
-it is fetchable, not scored. Include it only if someone intends to label it.
+**The unlabelled half of `tier2`.** DVJA and Juice Shop contribute nothing to a
+scorecard yet, so they are fetchable rather than shipped. PyGoat, NodeGoat and
+WebGoat do carry ground truth now and must travel if tier-2 accuracy is in scope;
+all three are source-only for scanning, and WebGoat additionally needs its Maven
+toolchain if a build-required engine is to see it.
 
-Note also that `webgoat` is recorded as `VERIFY-BEFORE-USE` and `vul4j` as
-GPL-3.0 in the source manifests. Internal use is not distribution, but the
-export should carry a generated licence manifest so the question is answerable
-without re-deriving it.
+Note also that `webgoat` is recorded as GPL-2.0-or-later (verified from its
+`LICENSE.txt` and SPDX headers) and `vul4j` as GPL-3.0 in the source manifests.
+Both are copyleft, so an export that carries WebGoat for tier-2 scoring is
+redistribution in a way that fetching it was not: the obligations attach to
+whoever moves the tree. The export should carry a generated licence manifest so
+the question is answerable without re-deriving it.
 
 ## Phase-2 additions
 

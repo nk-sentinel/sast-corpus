@@ -1,0 +1,33 @@
+id: c-ef7183c5
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-287
+variant: unsigned-token
+acceptable_cwes: [CWE-287, CWE-565, CWE-807, CWE-302]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/spoofcookie/SpoofCookieAssignment.java
+  start_line: 90
+  end_line: 90
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/spoofcookie/SpoofCookieAssignment.java
+    start_line: 95
+    end_line: 97
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Authentication is decided by decoding the spoof_auth cookie at 90 and trusting the username
+    inside it (95-97). EncDec is a reversible base64/hex/reverse scheme with no signature, so an
+    attacker encodes their own 'tom' cookie and is logged in - the lesson's intended solution.
+  cve: null
+build:
+  required: false
+  recipe: null

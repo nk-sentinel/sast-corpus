@@ -1,0 +1,29 @@
+id: c-31771d11
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-352
+variant: protection-disabled
+acceptable_cwes: [CWE-352]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/container/WebSecurityConfig.java
+  start_line: 67
+  end_line: 67
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Spring Security's CSRF protection is switched off application-wide at 67, so every state-
+    changing POST across the app accepts a cross-site request.
+  cve: null
+build:
+  required: false
+  recipe: null

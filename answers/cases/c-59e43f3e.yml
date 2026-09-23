@@ -1,0 +1,29 @@
+id: c-59e43f3e
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-22
+variant: input-rejected
+acceptable_cwes: [CWE-22, CWE-23]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileUploadRetrieval.java
+  start_line: 94
+  end_line: 96
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    getProfilePicture rejects the request at 94-96 when the query string contains .. or /,
+    before any file is opened. The defended sibling of the upload path-traversal cases.
+  cve: null
+build:
+  required: false
+  recipe: null

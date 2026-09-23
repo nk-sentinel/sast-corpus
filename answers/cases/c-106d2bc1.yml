@@ -1,0 +1,29 @@
+id: c-106d2bc1
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-639
+variant: session-bound-lookup
+acceptable_cwes: [CWE-639, CWE-284, CWE-862]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/idor/IDORViewOwnProfile.java
+  start_line: 32
+  end_line: 40
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    This endpoint builds the profile from the session-authenticated id (32-40), never from a
+    request parameter. The defended sibling of IDOREditOtherProfile's path-variable lookup.
+  cve: null
+build:
+  required: false
+  recipe: null

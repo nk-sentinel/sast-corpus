@@ -1,0 +1,37 @@
+id: c-342b05a2
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-89
+variant: dynamic-identifier
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/mitigation/Servers.java
+  start_line: 52
+  end_line: 53
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/mitigation/Servers.java
+    start_line: 54
+    end_line: 54
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/mitigation/Servers.java
+    start_line: 45
+    end_line: 45
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The column request parameter (45) is concatenated after ORDER BY at 52-53 inside a
+    PreparedStatement and executed at 54. An identifier cannot be bound with a placeholder, so
+    the PreparedStatement gives no protection here; the correct fix is an allowlist of column
+    names.
+  cve: null
+build:
+  required: false
+  recipe: null

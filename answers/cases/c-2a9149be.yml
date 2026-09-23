@@ -1,0 +1,31 @@
+id: c-2a9149be
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-918
+variant: fixed-host-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/ssrf/SSRFTask2.java
+  start_line: 34
+  end_line: 36
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    new URL(url).openStream at 36 is reached only when url exactly matches http://ifconfig.pro
+    (34), so the host is effectively constant and the request cannot be redirected to an
+    internal target. A tool that flags the openStream without reading the guard raises a false
+    positive.
+  cve: null
+build:
+  required: false
+  recipe: null

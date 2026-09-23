@@ -1,0 +1,35 @@
+id: c-1ee0bc48
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-89
+variant: concat-statement
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson8.java
+  start_line: 50
+  end_line: 54
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson8.java
+    start_line: 62
+    end_line: 62
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson8.java
+    start_line: 43
+    end_line: 43
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The name and auth_tan request parameters (line 43) are concatenated into the query at 50-54
+    and run through Statement.executeQuery at 62 with no binding. Classic string-built SQL.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,29 @@
+id: c-e6e089db
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328]
+owasp_2021: A02
+severity: medium
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/cryptography/HashingAssignment.java
+  start_line: 39
+  end_line: 39
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Secrets are hashed with MD5 at 39, a broken hash whose preimages for short inputs are
+    recoverable from public rainbow tables - which is exactly the lesson's own solution.
+  cve: null
+build:
+  required: false
+  recipe: null

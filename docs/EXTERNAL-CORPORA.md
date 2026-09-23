@@ -22,7 +22,7 @@ abbreviated SHA.
 | Corpus | Sources | Fetch | Ground truth |
 |---|---|---|---|
 | `perf` | 4 Java repos, 10k → 500k+ LOC | working | **not needed** — never accuracy-scored |
-| `tier2` | 5 applications, 4 languages | working | **PyGoat and NodeGoat labelled — 70 cases; WebGoat, DVJA and Juice Shop not yet** |
+| `tier2` | 5 applications, 4 languages | working | **PyGoat, NodeGoat and WebGoat labelled — 97 cases; DVJA and Juice Shop not yet** |
 | `tier3` | cwe-bench-java (Java), PatchEval (Go, JS, Python); vul4j pinned but unused | working | **derived — 97 cases, see below** |
 
 ## Tier 3 is derived, not hand-transcribed
@@ -150,7 +150,7 @@ They are marked `build.required: false`: a single patched file has no
 surrounding project, so it is scannable by source-only tools and invisible to
 build-required ones.
 
-## Tier 2: PyGoat and NodeGoat are labelled, three applications are not
+## Tier 2: three applications are labelled, two are not
 
 **PyGoat carries 46 cases** at the pinned revision — 34 vulnerable across 17
 weaknesses and 12 traps — written by reading the code, with the app's own
@@ -194,10 +194,32 @@ and date of birth stored in the clear (CWE-312), and the plain-HTTP listener
 (CWE-319). `marked` pinned to 0.3.5 is the corpus's first real-application SCA
 case, reachable through the memo renderer.
 
-**WebGoat, DVJA and Juice Shop are fetchable and unlabelled**, so a tier-2
-number currently says something about Django, Flask and Express code and
-nothing about Java or TypeScript — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md)
-records what a synthetic-heavy result does and does not support.
+**WebGoat carries 27 cases** — 20 vulnerable across 15 weaknesses, 7 traps. It is
+the only labelled application with no independent cross-check: RealVuln covers no
+Java goat app, so these labels rest on reading each lesson against the fix it
+ships commented out beside itself. It is also the richest of the three, because
+the lessons are organised by mechanism rather than by weakness: four SQL-injection
+cases that differ in *how* the query is built — plain concatenation, a LIKE
+clause, an ORDER BY identifier that cannot be bound at all, and a
+`PreparedStatement` whose text was concatenated before preparing — and three
+path-traversal cases covering an unvalidated join, Zip Slip, and a single-pass
+`replace("../", "")` that `....//` walks straight through. Its deserialization
+chain is recorded as two cases, the `ObjectInputStream.readObject` on a request
+token and the `Runtime.exec` in the gadget's `readObject` that it reaches, so a
+tool is credited for finding either end.
+
+Not labelled: the XSS lessons. WebGoat returns lesson output as an HTML string
+inside a JSON `AttackResult` that client-side JavaScript injects into the DOM, so
+the sink is neither a server-side template nor a response body, and labelling the
+Java side would assert a flow the Java code does not contain. Also left out are
+the weaknesses outside the applicability map — the predictable session id
+(CWE-330), the security-question logic bug (CWE-287 by a different reading), and
+the deliberately short salt in `DisplayUser`.
+
+**DVJA and Juice Shop are fetchable and unlabelled**, so a tier-2 number currently
+says something about Django, Flask, Express and Spring code and nothing about
+TypeScript — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md) records what a
+synthetic-heavy result does and does not support.
 
 `perf` is complete, because scan time needs no ground truth. `commons-cli` is
 fetched and measured at 15,716 code lines by codeprint at its pinned revision.
@@ -258,10 +280,13 @@ Recorded per source in each `sources.json`, because the obligations differ and
 some are copyleft. Nothing here is redistributed — the manifests hold URLs and
 revisions, not code — but anyone publishing derived material needs to check.
 
-**WebGoat is recorded as `VERIFY-BEFORE-USE`.** GitHub reports `NOASSERTION`,
-meaning its licence could not be classified automatically. Read `LICENSE.txt` in
-the checkout and record the finding before any use that redistributes or
-publishes from it.
+**WebGoat was recorded as `VERIFY-BEFORE-USE` and is now settled: GPL-2.0-or-later.**
+GitHub reports `NOASSERTION` because `LICENSE.txt` is not the verbatim GPL text,
+but its line 3 carries `SPDX-License-Identifier: GPL-2.0-or-later` and every
+source file repeats it in an SPDX header. That puts it in the same position as
+`vul4j`: fetched at a pinned SHA, never vendored and never bundled by the export,
+so nothing here redistributes it. Anyone who does redistribute a derived tree
+takes on the GPL's obligations.
 
 ## Perf sources
 

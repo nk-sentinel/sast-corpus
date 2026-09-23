@@ -1,0 +1,33 @@
+id: c-2033c4e2
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-862
+variant: missing-annotation
+acceptable_cwes: [CWE-862, CWE-285, CWE-284, CWE-200]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/missingac/MissingFunctionACUsers.java
+  start_line: 54
+  end_line: 58
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/missingac/MissingFunctionACUsers.java
+    start_line: 56
+    end_line: 56
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The GET access-control/users JSON endpoint (54-58) returns every user, including the
+    password-derived hash, with no role check. The sibling users-admin-fix endpoint lower in the
+    same file gates on isAdmin, which is exactly the check missing here.
+  cve: null
+build:
+  required: false
+  recipe: null

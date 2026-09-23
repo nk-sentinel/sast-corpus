@@ -1,0 +1,35 @@
+id: c-235ad438
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-117
+variant: unsanitised-log-entry
+acceptable_cwes: [CWE-117, CWE-93]
+owasp_2021: A09
+severity: medium
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/xxe/Ping.java
+  start_line: 31
+  end_line: 31
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/xxe/Ping.java
+    start_line: 30
+    end_line: 30
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/xxe/Ping.java
+    start_line: 27
+    end_line: 28
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The User-Agent header and text parameter (27-28) are formatted into logLine at 30 and
+    written to the logger at 31 unchanged, so CRLF in either forges or splits log records.
+  cve: null
+build:
+  required: false
+  recipe: null

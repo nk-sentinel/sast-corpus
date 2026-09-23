@@ -1,0 +1,37 @@
+id: c-a34a2a05
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-611
+variant: entities-enabled
+acceptable_cwes: [CWE-611, CWE-827, CWE-776]
+owasp_2021: A05
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/xxe/CommentsCache.java
+  start_line: 79
+  end_line: 79
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/xxe/SimpleXXE.java
+    start_line: 54
+    end_line: 54
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/xxe/CommentsCache.java
+    start_line: 74
+    end_line: 77
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    parseXml builds an XMLInputFactory and only disables external entities when securityEnabled
+    is true (74-77); every caller passes false, so the reader created at 79 resolves external
+    entities from attacker-supplied XML. SimpleXXE.createNewComment (54) feeds the raw request
+    body straight in.
+  cve: null
+build:
+  required: false
+  recipe: null

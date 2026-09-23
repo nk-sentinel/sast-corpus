@@ -1,0 +1,31 @@
+id: c-c22de34a
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-22
+variant: single-pass-filter
+acceptable_cwes: [CWE-22, CWE-23]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileUploadFix.java
+  start_line: 43
+  end_line: 43
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The 'fix' strips ../ once with String.replace at 43 before calling the same vulnerable
+    execute(). A single non-recursive pass is defeated by ....// , which becomes ../ after the
+    one replacement. The sanitizer is present and ineffective - a tool that suppresses on its
+    presence is wrong.
+  cve: null
+build:
+  required: false
+  recipe: null

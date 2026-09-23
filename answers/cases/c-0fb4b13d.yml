@@ -1,0 +1,33 @@
+id: c-0fb4b13d
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: spring
+primary_cwe: CWE-22
+variant: zip-slip
+acceptable_cwes: [CWE-22, CWE-23]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileZipSlip.java
+  start_line: 79
+  end_line: 81
+alt_locations: 
+  - file: tier2/webgoat/src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileZipSlip.java
+    start_line: 76
+    end_line: 78
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Each ZipEntry name from the uploaded archive (76-78) is resolved against the temp directory
+    at 79 and the entry copied to it at 81 without checking that the resolved path stays inside
+    - the Zip Slip pattern, where an entry named ../../x writes outside the extraction root.
+  cve: null
+build:
+  required: false
+  recipe: null
