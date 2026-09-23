@@ -1,0 +1,35 @@
+id: c-01f730ec
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-471
+variant: mass-assignment
+acceptable_cwes: [CWE-471, CWE-915, CWE-639]
+owasp_2021: A08
+severity: medium
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/ProductAction.java
+  start_line: 86
+  end_line: 86
+alt_locations: 
+  - file: tier2/dvja/src/main/webapp/WEB-INF/dvja/ProductEdit.jsp
+    start_line: 26
+    end_line: 26
+difficulty:
+  flow: framework-mediated
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    ProductAction exposes a whole Product entity as an action property, so Struts' parameter
+    interceptor binds any product.* request parameter onto it, including product.id, and the
+    object is persisted wholesale at 86. The form declares the id as a hidden field
+    (ProductEdit.jsp 26), so the client chooses which row it overwrites; nothing checks which
+    product was actually being edited.
+  cve: null
+build:
+  required: false
+  recipe: null

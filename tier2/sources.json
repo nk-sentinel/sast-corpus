@@ -1,7 +1,7 @@
 {
   "corpus": "tier2",
   "description": "Real open-source applications with genuine, exploitable weaknesses. Fetched at a pinned revision rather than vendored: these trees are collectively larger than the whole of this repository, and they are code we did not write and must not edit.",
-  "ground_truth_status": "pygoat, nodegoat and webgoat labelled — 97 cases in answers/ (74 vulnerable, 23 traps) at the pinned revisions; dvja and juice-shop not yet. See docs/EXTERNAL-CORPORA.md",
+  "ground_truth_status": "pygoat, nodegoat, webgoat and dvja labelled — 114 cases in answers/ (87 vulnerable, 27 traps) at the pinned revisions; juice-shop not yet. See docs/EXTERNAL-CORPORA.md",
   "sources": [
     {
       "name": "webgoat",
@@ -23,7 +23,7 @@
       "languages": [
         "java"
       ],
-      "notes": "Smaller Java target than WebGoat; useful as a second Java opinion.",
+      "notes": "Struts 2 with JSP views and Hibernate/JPA. Labelled at this revision: 17 cases. The only tier-2 application with server-rendered HTML, so it carries the JSP scriptlet and s:property escape=\"false\" XSS mechanisms, and a strong-update trap that looks exactly like an IDOR.",
       "pinned_on": "2026-08-12"
     },
     {

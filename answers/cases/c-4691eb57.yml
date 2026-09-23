@@ -1,0 +1,37 @@
+id: c-4691eb57
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-639
+variant: strong-update
+acceptable_cwes: [CWE-639, CWE-284, CWE-862, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/UserAction.java
+  start_line: 73
+  end_line: 88
+alt_locations: 
+  - file: tier2/dvja/src/main/webapp/WEB-INF/dvja/UserEdit.jsp
+    start_line: 22
+    end_line: 22
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: strong-update
+evidence:
+  source: walkthrough
+  rationale: >-
+    This looks like the textbook IDOR and is not one. userId is a request-bound action property
+    - UserEdit.jsp submits it as a hidden field (22) - so a tainted value does reach the field.
+    But the first thing edit() does is overwrite it from the session at 76, before the lookup at
+    88, and the action is behind the authentication interceptor in struts.xml, so the session
+    user is always present. The attacker-supplied id is dead by the time it is used. A tool that
+    follows the parameter into userService.find without modelling the overwrite reports a false
+    positive.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-b93f843a
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-79
+variant: scriptlet-raw-output
+acceptable_cwes: [CWE-79, CWE-116]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/dvja/src/main/webapp/WEB-INF/dvja/ProductList.jsp
+  start_line: 23
+  end_line: 23
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The searchQuery parameter is read straight from the request inside a JSP scriptlet
+    expression at 23 and written into the page with no encoding at all. Reflected XSS with no
+    framework escaping in the path - the tag library used everywhere else in this file is
+    bypassed.
+  cve: null
+build:
+  required: false
+  recipe: null

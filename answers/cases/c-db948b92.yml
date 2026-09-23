@@ -1,0 +1,33 @@
+id: c-db948b92
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-200
+variant: unauthenticated-lookup
+acceptable_cwes: [CWE-200, CWE-359, CWE-203]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/ApiAction.java
+  start_line: 75
+  end_line: 79
+alt_locations: 
+  - file: tier2/dvja/src/main/resources/struts.xml
+    start_line: 157
+    end_line: 157
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The api ping action looks up any account by login and returns its email address (75-79) with
+    no authentication - its package in struts.xml (157) has no interceptor stack. It doubles as
+    a username oracle: a login that exists returns an email, one that does not throws.
+  cve: null
+build:
+  required: false
+  recipe: null

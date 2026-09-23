@@ -1,0 +1,33 @@
+id: c-61dfac5a
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-79
+variant: autoescaped-output
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/dvja/src/main/webapp/WEB-INF/dvja/UserSearch.jsp
+  start_line: 30
+  end_line: 30
+alt_locations: 
+  - file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/UserAction.java
+    start_line: 104
+    end_line: 112
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The search term is reflected back at 30 through s:property, which HTML-escapes by default.
+    Same shape as the ProductList reflection - a request value echoed into the page - but the
+    escaping was left on, so it is not XSS. The defended sibling of the escape="false" case.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,33 @@
+id: c-c972942d
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-89
+variant: jpql-like-concat
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/services/ProductService.java
+  start_line: 48
+  end_line: 48
+alt_locations: 
+  - file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/ProductAction.java
+    start_line: 62
+    end_line: 67
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The searchQuery parameter reaches findContainingName through ProductAction.list (62-67) and
+    is concatenated into a JPQL LIKE clause at 48. A quote in the search box closes the literal
+    and the rest of the query is attacker-written.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,34 @@
+id: c-09d623eb
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-89
+variant: jpql-concat
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/services/UserService.java
+  start_line: 75
+  end_line: 75
+alt_locations: 
+  - file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/UserAction.java
+    start_line: 108
+    end_line: 112
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    UserAction.search (108-112) passes the login request parameter to findByLoginUnsafe, which
+    concatenates it into a JPQL string at 75 and executes it. The ORM does not make this safe -
+    JPQL is parsed and injectable in the same way SQL is. findByLogin twelve lines above does
+    the same lookup with setParameter, which is the defended form.
+  cve: null
+build:
+  required: false
+  recipe: null

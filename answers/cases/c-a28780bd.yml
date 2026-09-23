@@ -1,0 +1,34 @@
+id: c-a28780bd
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-79
+variant: autoescaped-command-output
+acceptable_cwes: [CWE-79]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/dvja/src/main/webapp/WEB-INF/dvja/Ping.jsp
+  start_line: 37
+  end_line: 37
+alt_locations: 
+  - file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/PingAction.java
+    start_line: 62
+    end_line: 62
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The captured command output is rendered at 37 with s:property's default escaping. The data
+    is attacker-influenced - it is the result of the injectable ping - so a taint tracker will
+    reach this sink, but the sink encodes, and the flaw on that path is the command injection,
+    not this.
+  cve: null
+build:
+  required: false
+  recipe: null

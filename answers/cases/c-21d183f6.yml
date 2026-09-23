@@ -1,0 +1,36 @@
+id: c-21d183f6
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328, CWE-916]
+owasp_2021: A02
+severity: medium
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/services/UserService.java
+  start_line: 109
+  end_line: 109
+alt_locations: 
+  - file: tier2/dvja/src/main/java/com/appsecco/dvja/services/UserService.java
+    start_line: 31
+    end_line: 32
+  - file: tier2/dvja/src/main/java/com/appsecco/dvja/services/UserService.java
+    start_line: 52
+    end_line: 52
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Passwords are stored and compared as unsalted MD5 (109, reached from save at 31-32 and
+    checkPassword at 52). MD5 is broken for this purpose and the absence of a salt means
+    identical passwords produce identical digests and fall to a public rainbow table.
+  cve: null
+build:
+  required: false
+  recipe: null

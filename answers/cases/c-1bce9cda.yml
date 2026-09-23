@@ -1,0 +1,30 @@
+id: c-1bce9cda
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-532
+variant: credentials-in-log
+acceptable_cwes: [CWE-532, CWE-200, CWE-312, CWE-117]
+owasp_2021: A09
+severity: medium
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/services/UserService.java
+  start_line: 93
+  end_line: 94
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The new plaintext password is written to the application log at 93-94 during a reset. Anyone
+    who can read the log - operators, log shipping, a backup - reads every password set this
+    way.
+  cve: null
+build:
+  required: false
+  recipe: null

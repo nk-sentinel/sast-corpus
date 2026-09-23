@@ -1,0 +1,35 @@
+id: c-cd26d3b1
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-284
+variant: client-controlled-role
+acceptable_cwes: [CWE-284, CWE-639, CWE-285, CWE-863, CWE-565]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/ApiAction.java
+  start_line: 39
+  end_line: 46
+alt_locations: 
+  - file: tier2/dvja/src/main/resources/struts.xml
+    start_line: 158
+    end_line: 158
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    adminShowUsers decides administrator status by reading a cookie named admin and comparing it
+    to "1" (39-46), then returns every user's id, login, email and role. The cookie is set by
+    nobody and trusted by the server, so sending admin=1 is the whole attack. The action sits in
+    the api package (struts.xml 158), which carries no authentication interceptor, so no login
+    is needed either.
+  cve: null
+build:
+  required: false
+  recipe: null

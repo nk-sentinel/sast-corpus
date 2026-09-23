@@ -1,0 +1,41 @@
+id: c-b841cc63
+label: vulnerable
+plane: sca
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-1395
+variant: vulnerable-version
+acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
+owasp_2021: A06
+severity: high
+location:
+  file: tier2/dvja/pom.xml
+  start_line: 12
+  end_line: 12
+alt_locations: 
+  - file: tier2/dvja/src/main/webapp/WEB-INF/web.xml
+    start_line: 15
+    end_line: 15
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    struts2-core is pinned to 2.3.30, inside the range affected by CVE-2017-5638 - the Jakarta
+    Multipart parser flaw that executes OGNL from a crafted Content-Type header, and the one
+    used in the Equifax breach. Reachability needs no application code at all: web.xml maps
+    StrutsPrepareAndExecuteFilter across /* (15), so every request passes through the vulnerable
+    parser. 2.3.30 is also inside the ranges for S2-057 and the other 2.3.x OGNL advisories.
+  cve: CVE-2017-5638
+sca:
+  purl: pkg:maven/org.apache.struts/struts2-core@2.3.30
+  cve: CVE-2017-5638
+  transitive: false
+  reachable: true
+  scope: runtime
+build:
+  required: false
+  recipe: null

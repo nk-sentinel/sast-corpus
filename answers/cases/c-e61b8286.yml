@@ -1,0 +1,31 @@
+id: c-e61b8286
+label: safe
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-89
+variant: typed-primary-key
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/services/UserService.java
+  start_line: 42
+  end_line: 43
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    find takes an int and goes through EntityManager.find, which builds the lookup by primary
+    key through the ORM rather than from a query string. No text is concatenated and no request
+    value can change the shape of the query; a SQL or JPQL injection report here is a false
+    positive.
+  cve: null
+build:
+  required: false
+  recipe: null

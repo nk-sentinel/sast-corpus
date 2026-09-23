@@ -1,0 +1,34 @@
+id: c-d8283ade
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-79
+variant: template-html-optout
+acceptable_cwes: [CWE-79, CWE-116]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/dvja/src/main/webapp/WEB-INF/dvja/ProductList.jsp
+  start_line: 42
+  end_line: 42
+alt_locations: 
+  - file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/ProductAction.java
+    start_line: 86
+    end_line: 86
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The product name is rendered with escape="false" at 42, switching off the escaping that
+    s:property applies by default - every other column in the same table keeps it. The name is
+    stored by ProductAction (86) from a form field, so this is stored XSS: one user's payload
+    runs in the browser of everyone who lists products.
+  cve: null
+build:
+  required: false
+  recipe: null

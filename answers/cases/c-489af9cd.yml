@@ -1,0 +1,33 @@
+id: c-489af9cd
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-601
+variant: unvalidated-redirect
+acceptable_cwes: [CWE-601]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/RedirectAction.java
+  start_line: 18
+  end_line: 19
+alt_locations: 
+  - file: tier2/dvja/src/main/resources/struts.xml
+    start_line: 101
+    end_line: 101
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The url request parameter is checked only for emptiness at 18 before the action returns the
+    redirect result, which struts.xml resolves to a redirect to ${url} (101). No scheme, host or
+    allowlist check anywhere, and the action has no authentication interceptor.
+  cve: null
+build:
+  required: false
+  recipe: null

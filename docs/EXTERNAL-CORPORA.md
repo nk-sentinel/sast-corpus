@@ -22,7 +22,7 @@ abbreviated SHA.
 | Corpus | Sources | Fetch | Ground truth |
 |---|---|---|---|
 | `perf` | 4 Java repos, 10k → 500k+ LOC | working | **not needed** — never accuracy-scored |
-| `tier2` | 5 applications, 4 languages | working | **PyGoat, NodeGoat and WebGoat labelled — 97 cases; DVJA and Juice Shop not yet** |
+| `tier2` | 5 applications, 4 languages | working | **4 of 5 labelled — 114 cases; Juice Shop not yet** |
 | `tier3` | cwe-bench-java (Java), PatchEval (Go, JS, Python); vul4j pinned but unused | working | **derived — 97 cases, see below** |
 
 ## Tier 3 is derived, not hand-transcribed
@@ -150,7 +150,7 @@ They are marked `build.required: false`: a single patched file has no
 surrounding project, so it is scannable by source-only tools and invisible to
 build-required ones.
 
-## Tier 2: three applications are labelled, two are not
+## Tier 2: four applications are labelled, one is not
 
 **PyGoat carries 46 cases** at the pinned revision — 34 vulnerable across 17
 weaknesses and 12 traps — written by reading the code, with the app's own
@@ -216,8 +216,40 @@ the weaknesses outside the applicability map — the predictable session id
 (CWE-330), the security-question logic bug (CWE-287 by a different reading), and
 the deliberately short salt in `DisplayUser`.
 
-**DVJA and Juice Shop are fetchable and unlabelled**, so a tier-2 number currently
-says something about Django, Flask, Express and Spring code and nothing about
+**DVJA carries 17 cases** — 13 vulnerable across 12 weaknesses, 4 traps. It is the
+smallest application in the tier and the most productive per line, because it is
+Struts 2 with JSP views: the first tier-2 application whose HTML is rendered
+server-side. That closes a gap WebGoat could not. Two XSS cases sit in one JSP
+and differ only in mechanism — a raw `<%= request.getParameter(...) %>` scriptlet,
+and an `s:property` with `escape="false"` on stored data — against two traps where
+the same tag keeps its default escaping.
+
+Two of its cases exist because the naive reading is wrong, in opposite directions:
+
+- The command injection builds a **`String[]` argument vector**, which is normally
+  the safe form. It is not safe here: the vector is `{"/bin/bash", "-c", "ping … "
+  + address}`, so the interpreter being invoked is a shell and the concatenation
+  lands inside the script it parses. A tool keying on argv-versus-string calls this
+  clean.
+- `UserAction.edit` is the **textbook IDOR that isn't one**, and is labelled a trap.
+  `userId` is a request-bound Struts property submitted as a hidden field, so a
+  tainted value genuinely reaches it — but the method overwrites it from the session
+  before the lookup, and the action sits behind the authentication interceptor, so
+  the session user is always present. It is recorded with `obfuscation:
+  strong-update`: the corpus's only real-world instance of a kill that a tool must
+  model to avoid a false positive.
+
+Not labelled: CSRF. Struts 2 ships no token by default and DVJA adds none, but the
+flaw is the absence of an interceptor rather than a line of code, and a location a
+scanner could report does not exist. Log4Shell was checked and rejected too — the
+pom pins log4j2 2.3, which is in range, but the code logs through the log4j 1.x
+API behind an slf4j bridge, so reachability could not be established without
+running it, and an SCA case that asserts reachability it has not shown is worse
+than no case. Struts 2.3.30 is recorded instead: CVE-2017-5638 needs no
+application code at all, since `web.xml` maps the vulnerable filter across `/*`.
+
+**Juice Shop is fetchable and unlabelled**, so a tier-2 number currently says
+something about Django, Flask, Express, Spring and Struts code and nothing about
 TypeScript — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md) records what a
 synthetic-heavy result does and does not support.
 

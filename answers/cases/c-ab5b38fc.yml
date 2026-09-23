@@ -1,0 +1,36 @@
+id: c-ab5b38fc
+label: vulnerable
+plane: vuln
+tier: 2
+language: java
+framework: struts2
+primary_cwe: CWE-78
+variant: shell-c-argument
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/PingAction.java
+  start_line: 45
+  end_line: 46
+alt_locations: 
+  - file: tier2/dvja/src/main/java/com/appsecco/dvja/controllers/PingAction.java
+    start_line: 31
+    end_line: 35
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The address request parameter reaches doExecCommand and is concatenated into the third
+    element of the command array at 45, which is then run at 46. The array form is what makes
+    this worth a case: the arguments are a vector, so the usual 'passes an argv, therefore safe'
+    heuristic says clean - but element [1] is -c and element [2] is a shell script, so /bin/bash
+    parses the concatenated value and 1.2.3.4; id runs id. Argument-vector form is not a defence
+    when the interpreter being invoked is a shell.
+  cve: null
+build:
+  required: false
+  recipe: null
