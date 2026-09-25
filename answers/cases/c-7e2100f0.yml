@@ -1,0 +1,31 @@
+id: c-7e2100f0
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-89
+variant: concat-statement
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/juice-shop/routes/login.ts
+  start_line: 34
+  end_line: 34
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The login email is interpolated straight into the query at 34, so ' OR 1=1-- returns the
+    first user and authenticates as them. Note the asymmetry: the password on the same line is
+    passed through security.hash first, so a tool that stops at "one of the two is hashed"
+    misses it.
+  cve: null
+build:
+  required: false
+  recipe: null

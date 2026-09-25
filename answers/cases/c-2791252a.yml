@@ -1,0 +1,33 @@
+id: c-2791252a
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-918
+variant: unvalidated-url
+acceptable_cwes: [CWE-918]
+owasp_2021: A10
+severity: high
+location:
+  file: tier2/juice-shop/routes/profileImageUrlUpload.ts
+  start_line: 24
+  end_line: 24
+alt_locations: 
+  - file: tier2/juice-shop/routes/profileImageUrlUpload.ts
+    start_line: 18
+    end_line: 19
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The imageUrl field from the request body (18-19) is fetched server-side at 24 with no
+    scheme, host or address restriction, and the response body is written to disk. Internal
+    services and cloud metadata endpoints are reachable through it.
+  cve: null
+build:
+  required: false
+  recipe: null

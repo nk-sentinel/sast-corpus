@@ -1,0 +1,33 @@
+id: c-4c1d43a2
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-89
+variant: concat-statement
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/juice-shop/routes/search.ts
+  start_line: 23
+  end_line: 23
+alt_locations: 
+  - file: tier2/juice-shop/routes/search.ts
+    start_line: 21
+    end_line: 22
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The q query parameter is interpolated into a raw sequelize.query at 23. The only treatment
+    it gets is a 200-character truncation at 22, which bounds the payload's length and nothing
+    else - a UNION SELECT fits comfortably. Template-literal interpolation into SQL.
+  cve: null
+build:
+  required: false
+  recipe: null

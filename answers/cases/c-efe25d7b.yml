@@ -1,0 +1,34 @@
+id: c-efe25d7b
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-611
+variant: entities-enabled
+acceptable_cwes: [CWE-611, CWE-827, CWE-776]
+owasp_2021: A05
+severity: high
+location:
+  file: tier2/juice-shop/lib/xml.ts
+  start_line: 35
+  end_line: 38
+alt_locations: 
+  - file: tier2/juice-shop/routes/fileUpload.ts
+    start_line: 76
+    end_line: 76
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The parser is configured at 35 with entity substitution and DTD loading on, and the loader
+    registers filesystem input providers so file:// entities resolve. Uploaded XML reaches it
+    through fileUpload (76). The vm timeout bounds an expansion bomb; it does nothing about
+    disclosure.
+  cve: null
+build:
+  required: false
+  recipe: null

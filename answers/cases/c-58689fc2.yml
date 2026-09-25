@@ -1,0 +1,31 @@
+id: c-58689fc2
+label: safe
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-89
+variant: orm-parameterised
+acceptable_cwes: [CWE-89, CWE-943]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/juice-shop/routes/coupon.ts
+  start_line: 18
+  end_line: 18
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: framework-implicit
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The basket id reaches the database through Sequelize's findByPk, which binds it as a
+    parameter rather than splicing it into SQL. Same request-to-database shape as the raw query
+    in search.ts, with the ORM doing the escaping; a SQL-injection report here is a false
+    positive.
+  cve: null
+build:
+  required: false
+  recipe: null

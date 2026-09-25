@@ -1,0 +1,34 @@
+id: c-3cbeae97
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-639
+variant: user-controlled-key
+acceptable_cwes: [CWE-639, CWE-284, CWE-862, CWE-863]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/juice-shop/routes/basket.ts
+  start_line: 18
+  end_line: 19
+alt_locations: 
+  - file: tier2/juice-shop/routes/basket.ts
+    start_line: 22
+    end_line: 23
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The basket is loaded by the id path parameter at 18-19 and returned with no check that it
+    belongs to the caller. The lines just below do compare the id against the session basket,
+    but only to award a challenge - the comparison feeds a scoring callback, never an
+    authorisation decision, which is why reading the surrounding lines matters here.
+  cve: null
+build:
+  required: false
+  recipe: null

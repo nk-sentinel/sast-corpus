@@ -1,0 +1,35 @@
+id: c-695fa048
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-79
+variant: ineffective-tag-filter
+acceptable_cwes: [CWE-79, CWE-116, CWE-80]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/juice-shop/lib/insecurity.ts
+  start_line: 59
+  end_line: 59
+alt_locations: 
+  - file: tier2/juice-shop/models/user.ts
+    start_line: 48
+    end_line: 49
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    sanitizeLegacy strips tags with a single regex pass at 59 and is applied to usernames by the
+    User model (48-49). A regex that removes one tag shape leaves every other: it does not re-
+    scan its own output, so nested constructs survive, and it never touches attributes or
+    entities. Its counterpart two lines below re-applies the real sanitiser until the output
+    stops changing.
+  cve: null
+build:
+  required: false
+  recipe: null

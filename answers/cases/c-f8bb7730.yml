@@ -1,0 +1,35 @@
+id: c-f8bb7730
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-601
+variant: substring-allowlist
+acceptable_cwes: [CWE-601]
+owasp_2021: A01
+severity: medium
+location:
+  file: tier2/juice-shop/routes/redirect.ts
+  start_line: 19
+  end_line: 19
+alt_locations: 
+  - file: tier2/juice-shop/lib/insecurity.ts
+    start_line: 133
+    end_line: 139
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The to parameter is redirected to at 19 behind isRedirectAllowed, which decides with
+    url.includes(allowedUrl) (insecurity.ts 133-139). Substring containment is not an origin
+    check: http://evil.example/?x=https://github.com/juice-shop/juice-shop contains an
+    allowlisted entry and passes. The allowlist exists, is consulted, and does not constrain the
+    destination.
+  cve: null
+build:
+  required: false
+  recipe: null

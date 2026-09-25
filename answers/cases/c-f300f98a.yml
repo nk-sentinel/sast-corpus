@@ -1,0 +1,35 @@
+id: c-f300f98a
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-94
+variant: sandbox-evaluation
+acceptable_cwes: [CWE-94, CWE-95]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/juice-shop/routes/b2bOrder.ts
+  start_line: 23
+  end_line: 23
+alt_locations: 
+  - file: tier2/juice-shop/routes/b2bOrder.ts
+    start_line: 19
+    end_line: 21
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The orderLinesData request field (19) is evaluated at 23. Two layers are meant to contain it
+    - notevil's safeEval and a vm context with a 2000ms timeout - and both are mitigations
+    rather than boundaries: the timeout turns an infinite loop into a denial of service that the
+    code itself scores as a solved challenge, and notevil has a history of escapes. Untrusted
+    input reaches an evaluator.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,33 @@
+id: c-33a31bae
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-94
+variant: nosql-where-injection
+acceptable_cwes: [CWE-94, CWE-943, CWE-89]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/juice-shop/routes/showProductReviews.ts
+  start_line: 36
+  end_line: 36
+alt_locations: 
+  - file: tier2/juice-shop/routes/showProductReviews.ts
+    start_line: 31
+    end_line: 31
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The product id is concatenated into a $where clause at 36. As in trackOrder the guard at 31
+    is conditional: Number() coercion would make it safe, but when the challenge flag is set the
+    code takes a 40-character truncation instead, leaving arbitrary JavaScript in the query.
+  cve: null
+build:
+  required: false
+  recipe: null

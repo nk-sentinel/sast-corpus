@@ -1,0 +1,30 @@
+id: c-0d8dada1
+label: safe
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-639
+variant: ownership-checked
+acceptable_cwes: [CWE-639, CWE-284, CWE-862]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/juice-shop/routes/basketItems.ts
+  start_line: 37
+  end_line: 37
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Before writing, this compares the submitted BasketId against the basket bound to the session
+    token and rejects a mismatch with a 401. The same object-reference shape as the basket
+    retrieval case, with the ownership check actually present and acted on.
+  cve: null
+build:
+  required: false
+  recipe: null

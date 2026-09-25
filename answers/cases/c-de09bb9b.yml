@@ -1,0 +1,37 @@
+id: c-de09bb9b
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-22
+variant: null-byte-filter-bypass
+acceptable_cwes: [CWE-22, CWE-158, CWE-23]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/juice-shop/routes/fileServer.ts
+  start_line: 28
+  end_line: 28
+alt_locations: 
+  - file: tier2/juice-shop/routes/fileServer.ts
+    start_line: 27
+    end_line: 27
+  - file: tier2/juice-shop/routes/fileServer.ts
+    start_line: 33
+    end_line: 33
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The extension allowlist at 27 accepts only .md and .pdf, and then line 28 truncates the name
+    at a %00 before it is served at 33. The order is the flaw: coupons_2013.md.bak%00.md passes
+    the allowlist as a .md and reaches the filesystem as the .bak. The check and the
+    transformation are individually reasonable and wrong in this sequence.
+  cve: null
+build:
+  required: false
+  recipe: null

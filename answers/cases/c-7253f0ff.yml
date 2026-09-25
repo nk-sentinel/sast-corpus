@@ -1,0 +1,34 @@
+id: c-7253f0ff
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-306
+variant: no-authentication
+acceptable_cwes: [CWE-306, CWE-862, CWE-200, CWE-522]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/juice-shop/routes/keyServer.ts
+  start_line: 14
+  end_line: 14
+alt_locations: 
+  - file: tier2/juice-shop/server.ts
+    start_line: 278
+    end_line: 278
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    This handler serves files out of the encryptionkeys directory, and server.ts mounts it at
+    278 with no security.isAuthorized() - twenty-three other routes in the same file carry that
+    guard. Anyone who can reach the application can fetch the application's key material; the
+    only check is that the name contains no slash.
+  cve: null
+build:
+  required: false
+  recipe: null

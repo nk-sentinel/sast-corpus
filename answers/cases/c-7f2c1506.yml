@@ -1,0 +1,30 @@
+id: c-7f2c1506
+label: safe
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-22
+variant: fixed-path
+acceptable_cwes: [CWE-22, CWE-23]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/juice-shop/routes/privacyPolicyProof.ts
+  start_line: 14
+  end_line: 14
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The served path is a string literal; no part of the request reaches it. A tool that flags
+    res.sendFile(path.resolve(...)) on the API rather than on the data raises a false positive
+    here, which is the point of keeping it beside three real file-access findings.
+  cve: null
+build:
+  required: false
+  recipe: null

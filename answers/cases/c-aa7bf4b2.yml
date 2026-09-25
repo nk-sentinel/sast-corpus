@@ -1,0 +1,34 @@
+id: c-aa7bf4b2
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-22
+variant: denylist-filter
+acceptable_cwes: [CWE-22, CWE-73, CWE-98]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/juice-shop/routes/dataErasure.ts
+  start_line: 104
+  end_line: 104
+alt_locations: 
+  - file: tier2/juice-shop/routes/dataErasure.ts
+    start_line: 105
+    end_line: 107
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The layout field from the request body is resolved at 104 and rendered as a template at 107,
+    so the response contains the file's contents. The guard at 105 is a denylist of three
+    strings - ftp, ctf.key, encryptionkeys - which says nothing about the rest of the
+    filesystem.
+  cve: null
+build:
+  required: false
+  recipe: null

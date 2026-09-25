@@ -22,7 +22,7 @@ abbreviated SHA.
 | Corpus | Sources | Fetch | Ground truth |
 |---|---|---|---|
 | `perf` | 4 Java repos, 10k → 500k+ LOC | working | **not needed** — never accuracy-scored |
-| `tier2` | 5 applications, 4 languages | working | **4 of 5 labelled — 114 cases; Juice Shop not yet** |
+| `tier2` | 5 applications, 4 languages | working | **all 5 labelled — 137 cases** |
 | `tier3` | cwe-bench-java (Java), PatchEval (Go, JS, Python); vul4j pinned but unused | working | **derived — 97 cases, see below** |
 
 ## Tier 3 is derived, not hand-transcribed
@@ -150,7 +150,7 @@ They are marked `build.required: false`: a single patched file has no
 surrounding project, so it is scannable by source-only tools and invisible to
 build-required ones.
 
-## Tier 2: four applications are labelled, one is not
+## Tier 2: all five applications are labelled
 
 **PyGoat carries 46 cases** at the pinned revision — 34 vulnerable across 17
 weaknesses and 12 traps — written by reading the code, with the app's own
@@ -248,10 +248,50 @@ running it, and an SCA case that asserts reachability it has not shown is worse
 than no case. Struts 2.3.30 is recorded instead: CVE-2017-5638 needs no
 application code at all, since `web.xml` maps the vulnerable filter across `/*`.
 
-**Juice Shop is fetchable and unlabelled**, so a tier-2 number currently says
-something about Django, Flask, Express, Spring and Struts code and nothing about
-TypeScript — [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md) records what a
-synthetic-heavy result does and does not support.
+**Juice Shop carries 23 cases** — 19 vulnerable across 12 weaknesses, 4 traps —
+and it is the one that closes TypeScript, which until now had 20 synthetic cases
+and no real-application coverage at all.
+
+Its cross-check needed more care than the others. RealVuln covers Juice Shop, but
+it labelled commit `3b178fd0` while this corpus pins `a520e158`, and the drift is
+real: its `userProfile.ts:62` is line 61 here, its `insecurity.ts:23` is line 21.
+So it was used as a pointer to files and mechanisms only, and every line was
+verified against our own checkout. Its 145 entries also include no traps and lean
+heavily on whole-file credential sweeps — 40 entries for one seed file — which is
+a different labelling goal from this corpus's.
+
+What makes it worth the size is that nearly every defence present is *almost*
+right, which is exactly what separates tools:
+
+- the redirect allowlist is consulted and decides with `url.includes(...)`, so
+  `http://evil.example/?x=<allowlisted-url>` passes an allowlist that exists
+- the Zip Slip check asks whether the resolved path *contains* the application
+  root, which every path inside the project satisfies, including `../../ftp/`
+- the file server applies an extension allowlist and *then* truncates at `%00`,
+  so `x.md.bak%00.md` passes as Markdown and is served as the backup
+- the current-password check is guarded by the presence of that same parameter,
+  so omitting it skips verification altogether
+- two `$where` NoSQL sinks are guarded conditionally: a `Number()` coercion that
+  would be sound is swapped for a length truncation when a challenge flag is set
+
+It also supplies the corpus's sharpest sanitiser pair, in one file: `sanitizeLegacy`
+strips tags with a single regex pass, while `sanitizeSecure` two lines below
+re-applies a real sanitiser until its output stops changing. The vulnerable case is
+anchored on the weak function and the trap on the strong one's call site, in a
+different file, so the line tolerance cannot make one claim the other.
+
+Not labelled: the Angular frontend. RealVuln records XSS in seven components under
+`frontend/src/app/`, and those are genuine, but they are client-side sinks in a
+separately built application — the same reason WebGoat's XSS went unlabelled. Also
+out: the `data/static/users.yml` seed credentials, which are documented default
+logins rather than a leak, and the CWEs outside the applicability map (`CWE-1004`
+and `CWE-614` cookie flags, `CWE-209` error detail, `CWE-330` predictable tokens,
+`CWE-602` client-side-only validation).
+
+With all five applications labelled, a tier-2 number now covers Django, Flask,
+Express, Spring, Struts and Angular-served TypeScript —
+[THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md) records what a synthetic-heavy
+result does and does not support.
 
 `perf` is complete, because scan time needs no ground truth. `commons-cli` is
 fetched and measured at 15,716 code lines by codeprint at its pinned revision.

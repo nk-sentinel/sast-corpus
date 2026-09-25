@@ -3,9 +3,10 @@
 Target: **305 → ~775 cases** (revised up from 645 after item 0), with the growth concentrated on the axes that
 separate tools rather than on more of the shape every tool already catches.
 
-**Where it stands: 657 cases.** Items 0–4 are done; item 5 is at 97 of ~230
+**Where it stands: 680 cases.** Items 0–4 are done; item 5 is at 97 of ~230
 and is resumable — see its section for the commands. Tier 2, which this
-roadmap did not schedule, has 114 cases across four applications.
+roadmap did not schedule at all, is now complete: 137 cases across all five
+pinned applications.
 
 ## Why not simply more breadth
 

@@ -1,0 +1,31 @@
+id: c-301ff9b8
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-22
+variant: zip-slip
+acceptable_cwes: [CWE-22, CWE-23]
+owasp_2021: A01
+severity: high
+location:
+  file: tier2/juice-shop/routes/fileUpload.ts
+  start_line: 31
+  end_line: 34
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    Each archive entry name is resolved against the upload directory at 31 and written at 34.
+    The containment check at 33 asks whether the resolved path contains the application root,
+    which every path inside the project satisfies - including ../../ftp/legal.md. It needed to
+    assert the path starts with the upload directory; containment of an ancestor is not that.
+  cve: null
+build:
+  required: false
+  recipe: null

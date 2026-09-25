@@ -1,0 +1,33 @@
+id: c-513b4ee7
+label: safe
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-79
+variant: recursive-sanitiser
+acceptable_cwes: [CWE-79, CWE-116]
+owasp_2021: A03
+severity: medium
+location:
+  file: tier2/juice-shop/models/user.ts
+  start_line: 51
+  end_line: 51
+alt_locations: 
+  - file: tier2/juice-shop/lib/insecurity.ts
+    start_line: 61
+    end_line: 68
+difficulty:
+  flow: intra-procedural
+  sanitizer: custom-effective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    This is the branch that applies sanitizeSecure, which runs sanitize-html repeatedly until
+    the output stops changing (insecurity.ts 61-68), closing the nested-payload hole that its
+    legacy sibling leaves open. The defended half of the pair - a tool must tell the two apart.
+  cve: null
+build:
+  required: false
+  recipe: null

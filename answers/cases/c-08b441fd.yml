@@ -1,0 +1,35 @@
+id: c-08b441fd
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-94
+variant: nosql-where-injection
+acceptable_cwes: [CWE-94, CWE-943, CWE-89]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/juice-shop/routes/trackOrder.ts
+  start_line: 18
+  end_line: 18
+alt_locations: 
+  - file: tier2/juice-shop/routes/trackOrder.ts
+    start_line: 15
+    end_line: 15
+difficulty:
+  flow: intra-procedural
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The order id is interpolated into a MongoDB $where clause at 18 - server-side JavaScript
+    evaluated by the database engine. The guard at 15 is conditional on a challenge flag: when
+    the reflected-XSS challenge is enabled it only truncates to 60 characters instead of
+    stripping non-word characters, so the sanitiser is present and, in that configuration,
+    useless.
+  cve: null
+build:
+  required: false
+  recipe: null

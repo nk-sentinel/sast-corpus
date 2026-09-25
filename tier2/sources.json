@@ -1,7 +1,7 @@
 {
   "corpus": "tier2",
   "description": "Real open-source applications with genuine, exploitable weaknesses. Fetched at a pinned revision rather than vendored: these trees are collectively larger than the whole of this repository, and they are code we did not write and must not edit.",
-  "ground_truth_status": "pygoat, nodegoat, webgoat and dvja labelled — 114 cases in answers/ (87 vulnerable, 27 traps) at the pinned revisions; juice-shop not yet. See docs/EXTERNAL-CORPORA.md",
+  "ground_truth_status": "all five applications labelled — 137 cases in answers/ (106 vulnerable, 31 traps) at the pinned revisions. See docs/EXTERNAL-CORPORA.md",
   "sources": [
     {
       "name": "webgoat",
@@ -57,7 +57,7 @@
         "typescript",
         "javascript"
       ],
-      "notes": "TypeScript and Angular; the only realistic TypeScript target in this set.",
+      "notes": "TypeScript and Angular; the only realistic TypeScript target in this set. Labelled at this revision: 23 cases from the Express server side (routes, lib, models). RealVuln covers this application but labelled a different commit, so it was used as a mechanism pointer only and every line was verified here. The Angular frontend is deliberately not labelled — client-side sinks in a separately built app.",
       "pinned_on": "2026-08-12"
     }
   ]

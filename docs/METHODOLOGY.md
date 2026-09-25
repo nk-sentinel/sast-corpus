@@ -47,7 +47,7 @@ wherever a plausible-but-safe variant exists. A corpus without traps cannot
 measure a false-positive rate at all, and the false-positive rate is the number
 that decides whether developers trust the tool.
 
-The corpus currently sits at **41% traps**, well above the ~15% published
+The corpus currently sits at **40% traps**, well above the ~15% published
 real-world benchmarks use. That is a consequence of how cases are built rather
 than a target: generated templates emit a safe sibling for every vulnerable one,
 and tier 3 takes its traps from the commits that fixed each CVE. A high ratio

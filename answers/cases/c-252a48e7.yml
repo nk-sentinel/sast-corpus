@@ -1,0 +1,33 @@
+id: c-252a48e7
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-327
+variant: weak-hash
+acceptable_cwes: [CWE-327, CWE-328, CWE-916]
+owasp_2021: A02
+severity: medium
+location:
+  file: tier2/juice-shop/lib/insecurity.ts
+  start_line: 41
+  end_line: 41
+alt_locations: 
+  - file: tier2/juice-shop/models/user.ts
+    start_line: 76
+    end_line: 76
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    hash() is unsalted MD5 at 41, and the User model's password setter routes every password
+    through it (models/user.ts 76). Broken for password storage twice over: MD5 itself, and the
+    absence of a salt or any work factor.
+  cve: null
+build:
+  required: false
+  recipe: null

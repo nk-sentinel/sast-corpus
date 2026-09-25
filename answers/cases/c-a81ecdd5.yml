@@ -1,0 +1,31 @@
+id: c-a81ecdd5
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-287
+variant: optional-current-password
+acceptable_cwes: [CWE-287, CWE-620, CWE-640]
+owasp_2021: A07
+severity: high
+location:
+  file: tier2/juice-shop/routes/changePassword.ts
+  start_line: 39
+  end_line: 51
+alt_locations: []
+difficulty:
+  flow: intra-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The current-password check at 39 is guarded by the presence of that very parameter, so
+    omitting it skips verification entirely and the update at 51 proceeds. A stolen or fixated
+    token is enough to take the account over permanently; the code's own challenge at 52-55
+    scores exactly that.
+  cve: null
+build:
+  required: false
+  recipe: null

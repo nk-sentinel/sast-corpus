@@ -11,12 +11,12 @@ ground truth, with the same match rules.
 
 | | |
 |---|---|
-| Cases | **657** — 446 tier-1 synthetic, 114 tier-2 real-application, 97 tier-3 real CVEs |
-| False-positive traps | **271 (41%)** |
+| Cases | **680** — 446 tier-1 synthetic, 137 tier-2 real-application, 97 tier-3 real CVEs |
+| False-positive traps | **275 (40%)** |
 | Weaknesses | **42 CWEs — all 25 of the 2025 CWE Top 25** |
 | OWASP Top 10 (2021) | **10 of 10** categories |
 | Languages | 13, **none below 10 weaknesses** |
-| Detection planes | `vuln` 598 · `secret` 32 · `sca` 27 |
+| Detection planes | `vuln` 620 · `secret` 33 · `sca` 27 |
 | Visible to build-required engines | tier-1 Java, plus 28 of 28 CVE projects that compile |
 | Scan-time corpus | 4 real repositories, 15k → 4.6M measured code lines |
 
@@ -91,7 +91,7 @@ spine/           machinery — schema, scorer, adapters, lint, timing, generator
 answers/         ground truth: cases/*.yml (authoring) → expectedresults-<version>.csv (scoring)
 tier1/           synthetic micro-fixtures, generated + hand-authored          (committed)
 tier3/           real CVE reproductions, derived from cwe-bench-java          (fetched)
-tier2/           real vulnerable applications — 4 of 5 labelled                 (fetched)
+tier2/           real vulnerable applications — all 5 labelled                  (fetched)
 perf/            repositories for scan-time measurement only                  (fetched)
 build/           build and syntax recipes, pinned toolchains
 docs/            COVERAGE · ROADMAP · TIER3-DATASETS · AIRGAP-EXPORT · MATCH-POLICY · METHODOLOGY · EXTERNAL-CORPORA · THREATS-TO-VALIDITY · VALIDATION
@@ -123,10 +123,10 @@ branch is not a corpus.
 from cwe-bench-java across path traversal, XSS, command injection and code
 injection, 21 traps taken from their fixing commits, and 48 CVEs in Go, Python
 and JavaScript from PatchEval. Growing it to ~230 is the open roadmap item.
-**Tier 2 covers four applications**: 46 PyGoat (Django), 24 NodeGoat (Express),
-27 WebGoat (Spring) and 17 DVJA (Struts 2) cases, hand-labelled from the code.
-Juice Shop is pinned but unlabelled — see
-[docs/EXTERNAL-CORPORA.md](docs/EXTERNAL-CORPORA.md).
+**Tier 2 covers all five applications**: 46 PyGoat (Django), 24 NodeGoat
+(Express), 27 WebGoat (Spring), 17 DVJA (Struts 2) and 23 Juice Shop
+(TypeScript/Express) cases, hand-labelled from the code — five frameworks and
+four languages. See [docs/EXTERNAL-CORPORA.md](docs/EXTERNAL-CORPORA.md).
 
 ## Scoring a tool
 

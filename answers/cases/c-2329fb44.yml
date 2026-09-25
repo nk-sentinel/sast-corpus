@@ -1,0 +1,33 @@
+id: c-2329fb44
+label: vulnerable
+plane: vuln
+tier: 2
+language: typescript
+framework: express
+primary_cwe: CWE-94
+variant: dynamic-evaluation
+acceptable_cwes: [CWE-94, CWE-95, CWE-1336]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/juice-shop/routes/userProfile.ts
+  start_line: 61
+  end_line: 61
+alt_locations: 
+  - file: tier2/juice-shop/routes/userProfile.ts
+    start_line: 52
+    end_line: 56
+difficulty:
+  flow: inter-procedural
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    The stored username is matched against #{...} at 54 and whatever sits inside the braces is
+    passed to eval at 61. The value comes from the user's own profile, so this is stored code
+    injection: the payload is written once and executed server-side on every profile render.
+  cve: null
+build:
+  required: false
+  recipe: null
