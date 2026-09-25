@@ -141,6 +141,11 @@ check_csharp_in_docker() {
         checked=$((checked + 1))
         mkdir -p "${staged}/$(basename "${directory}")"
         cp "${directory}"/*.cs "${staged}/$(basename "${directory}")/" 2>/dev/null
+        # The fixture's own project file travels too, but only so its
+        # PackageReference entries can be read below. It is deliberately not
+        # built: a generated classlib project is, and two .csproj in one
+        # directory fail the build for a reason having nothing to do with C#.
+        cp "${directory}"/*.csproj "${staged}/$(basename "${directory}")/" 2>/dev/null
     done < <(find "${ROOT}/tier1/csharp" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort)
 
     [ "${checked}" -eq 0 ] && { report csharp 0; return; }
@@ -161,7 +166,27 @@ check_csharp_in_docker() {
                 # BinaryFormatter call a build error, and a deserialisation
                 # fixture exists to contain exactly that call.
                 sed -i "s#</PropertyGroup>#<NoWarn>SYSLIB0011;SYSLIB0021</NoWarn></PropertyGroup>#" ./*.csproj
+                # Restore what the fixture itself declares, at the version it
+                # pins. An SCA fixture exists to state a version - the pair on
+                # Newtonsoft.Json is 12.0.3 against 13.0.3 - so resolving to
+                # whatever NuGet serves today would build something other than
+                # the case the answer key describes.
+                for proj in "/w/$d"*.csproj; do
+                    [ -f "$proj" ] || continue
+                    grep -o "<PackageReference[^>]*>" "$proj" 2>/dev/null | while read -r ref; do
+                        pkg=$(printf "%s" "$ref" | sed -n "s/.*Include=\"\([^\"]*\)\".*/\1/p")
+                        ver=$(printf "%s" "$ref" | sed -n "s/.*Version=\"\([^\"]*\)\".*/\1/p")
+                        # Allowlisted shapes only. These values reach a command
+                        # line, and a project file is still a file on disk.
+                        case "$pkg" in ""|*[!A-Za-z0-9._-]*) continue ;; esac
+                        case "$ver" in ""|*[!A-Za-z0-9.+-]*) continue ;; esac
+                        dotnet add package "$pkg" --version "$ver" >/dev/null 2>&1
+                    done
+                done
+                # Fixtures that use SqlClient without declaring it stay on the
+                # older fallback; nothing pins a version for them to keep.
                 grep -ql "Microsoft.Data.SqlClient" ./*.cs 2>/dev/null \
+                    && ! grep -qs "Microsoft.Data.SqlClient" "/w/$d"*.csproj \
                     && dotnet add package Microsoft.Data.SqlClient >/dev/null 2>&1
                 dotnet build -v q --nologo >/tmp/out 2>&1 || { echo "FAIL  $n"; status=1; }
                 cd /w || exit 1
