@@ -31,6 +31,9 @@ node_modules/
 .idea/
 .vscode/
 
+# Claude Code hook transcripts. Local tooling output, not corpus material.
+/.hooks-lab/
+
 # External corpora are fetched at pinned revisions, never vendored.
 # spine/corpora/fetch.py <corpus> clones them.
 /tier2/*/
