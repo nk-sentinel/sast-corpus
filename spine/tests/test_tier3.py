@@ -60,9 +60,19 @@ class AcceptableFor(unittest.TestCase):
     def test_path_traversal_admits_its_siblings(self):
         self.assertIn("CWE-23", acceptable_for("CWE-22"))
 
-    def test_command_injection_admits_code_injection(self):
-        """The same collision that made PHP and Ruby look uncovered."""
-        self.assertIn("CWE-94", acceptable_for("CWE-78"))
+    def test_command_injection_does_not_admit_code_injection(self):
+        """CWE-78 descends from CWE-77 and CWE-74, never from CWE-94.
+
+        This assertion used to run the other way. Command-injection cases were
+        widened to accept CWE-94 because one scanner tags its rules that way and
+        its findings were landing in `unmatched`; that is taxonomy preference
+        rather than defensibility, and it lifted that scanner's measured recall
+        by construction. Reversed, and asserted here so re-widening fails loudly
+        rather than arriving quietly through a template. See MATCH-POLICY.md and
+        the candidate rule in THREATS-TO-VALIDITY.md.
+        """
+        self.assertNotIn("CWE-94", acceptable_for("CWE-78"))
+        self.assertIn("CWE-77", acceptable_for("CWE-78"))
 
     def test_an_unlisted_weakness_still_yields_itself(self):
         self.assertEqual(acceptable_for("CWE-1234"), ["CWE-1234"])

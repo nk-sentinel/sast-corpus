@@ -17,7 +17,7 @@ generator emits exactly what these strings hold, so anti-leakage is structural.
 from gen.generate import Template, Variant
 
 SQLI = ("CWE-89", ["CWE-89", "CWE-943", "CWE-564"], "A03")
-CMDI = ("CWE-78", ["CWE-78", "CWE-77", "CWE-88", "CWE-94"], "A03")
+CMDI = ("CWE-78", ["CWE-78", "CWE-77", "CWE-88"], "A03")
 PATHT = ("CWE-22", ["CWE-22", "CWE-23", "CWE-35", "CWE-36"], "A01")
 SSRF = ("CWE-918", ["CWE-918"], "A10")
 DESER = ("CWE-502", ["CWE-502"], "A08")

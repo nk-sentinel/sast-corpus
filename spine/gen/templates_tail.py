@@ -16,7 +16,7 @@ these cases are for.
 from gen.templates import template
 
 SQLI = ("CWE-89", ["CWE-89", "CWE-943", "CWE-564"], "A03")
-CMDI = ("CWE-78", ["CWE-78", "CWE-77", "CWE-88", "CWE-94"], "A03")
+CMDI = ("CWE-78", ["CWE-78", "CWE-77", "CWE-88"], "A03")
 PATHT = ("CWE-22", ["CWE-22", "CWE-23", "CWE-35", "CWE-36"], "A01")
 XSS = ("CWE-79", ["CWE-79", "CWE-80", "CWE-116"], "A03")
 SSRF = ("CWE-918", ["CWE-918"], "A10")

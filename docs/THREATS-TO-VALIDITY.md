@@ -36,6 +36,47 @@ its full ruleset looks sensitive and noisy.
 **Consequence:** declare per tool which was used. Where effort allows, measure
 both — the delta is often more useful than either number.
 
+## The instrument must not be a candidate
+
+A scanner run during development shapes the corpus: its findings are what expose
+wrong line numbers, wrong labels and wrong `acceptable_cwes`. That is the point of
+running one. It also means the corpus quietly acquires the shape of whatever tool
+was used — and if that tool is later a subject, the evaluation is measuring a
+corpus built around it.
+
+**Tools under evaluation here: Semgrep, Endor Labs, Aikido, and SonarQube** (the
+incumbent being replaced). The standing rule:
+
+- **No candidate's output may change the answer key.** Not a label, not a line
+  range, not an `acceptable_cwes` entry. A candidate's `unmatched` findings may be
+  read as a hint to re-examine a case; the case is then decided from the code and
+  the CWE definitions, and the reasoning recorded.
+- **Instrument runs use a non-candidate**: CodeQL, or single-purpose OSS linters
+  (bandit, gosec, njsscan, brakeman, gitleaks), or the vendor-free probe described
+  below.
+- **OpenGrep does not count as independent.** It is a Semgrep fork sharing the
+  engine and the community rule taxonomy, so it carries the same CWE tagging and
+  the same blind spots.
+
+One breach of this rule is already recorded: command-injection cases were widened
+to accept CWE-94 because Semgrep tags its rules that way, which raised its
+measured recall from 0.478 to 0.609. Reversed on 2026-09-25 and applied uniformly
+to all 76 cases — see [MATCH-POLICY.md](MATCH-POLICY.md).
+
+Not affected: the differential scorer check in [VALIDATION.md](VALIDATION.md) also
+used Semgrep, but against OWASP Benchmark's ground truth rather than this
+corpus's, so nothing here was tuned by it. Likewise the captured SonarQube and
+Semgrep SARIF in `spine/tests/data/` — those fix *adapter* behaviour, and no
+answer-key commit derives from them.
+
+**The pipeline can be exercised with no vendor at all.** SARIF generated directly
+from the answer key — one result per vulnerable case, then one per trap — must
+score exactly `N` true positives with zero false alarms, and then zero true
+positives with every trap tripped. That validates path resolution, line matching,
+CWE matching and assignment without any scanner's opinion entering the corpus. It
+does not establish that cases are *detectable*, which is a separate question and
+not one a candidate should answer either.
+
 ## An adapter can be wrong in a way that looks like a bad tool
 
 Every engine that cannot emit SARIF reaches the scorer through an adapter, and an
@@ -73,6 +114,19 @@ records low recall, and that measures the edition rather than the product.
 **Consequence:** record the exact edition and licence tier beside the version. A
 result against a community or trial build says nothing about the commercial one,
 and quoting it as though it did would be straightforwardly misleading.
+
+## The SCA and secret planes are not sized to discriminate
+
+This corpus is aimed at SAST. The `sca` plane is 27 cases and the `secret` plane
+33, most of them tier-1 synthetic manifests, and they exist so that a tool
+claiming those planes is not scored against nothing — not to rank tools that
+specialise in them. Software composition analysis turns on a reachability and
+advisory-database question this corpus does not pose, and it deserves its own
+evaluation with its own corpus.
+
+**Consequence:** do not rank an SCA-first product on these numbers. Report the
+`sca` and `secret` planes separately if at all, and treat a strong or weak result
+there as indicative only.
 
 ## Coverage is not quality
 

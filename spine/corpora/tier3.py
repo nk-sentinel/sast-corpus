@@ -36,7 +36,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # reads as missing tool coverage — see the incident in docs/MATCH-POLICY.md.
 SIBLINGS = {
     "CWE-22": ["CWE-22", "CWE-23", "CWE-35", "CWE-36", "CWE-73"],
-    "CWE-78": ["CWE-78", "CWE-77", "CWE-88", "CWE-94"],
+    "CWE-78": ["CWE-78", "CWE-77", "CWE-88"],
     "CWE-79": ["CWE-79", "CWE-80", "CWE-83", "CWE-116"],
     "CWE-94": ["CWE-94", "CWE-95", "CWE-96", "CWE-78", "CWE-470"],
 }

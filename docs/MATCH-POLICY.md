@@ -111,6 +111,26 @@ Adding CWE-94 to the class moved overall recall from 0.478 to 0.609 and Youden's
 J from 0.391 to 0.478. Nothing but the `unmatched` count would have revealed it:
 every other number looked entirely plausible.
 
+**That fix was wrong, and has been reversed.** It is kept here because the way it
+was wrong is the more useful lesson. CWE-78 descends from CWE-77 and CWE-74, not
+from CWE-94: injecting a shell metacharacter into a command string is not
+injecting code into a language runtime. The widening was adopted because a
+specific scanner tags its rules that way, which is taxonomy preference, not
+defensibility — precisely what `acceptable_cwes` is supposed to exclude.
+
+It was also applied unevenly. The change went into the generator template, so all
+28 generated cases inherited it while 26 hand-authored ones never did. A tool
+tagging CWE-94 therefore scored a true positive on some command-injection cases
+and landed in `unmatched` on others — the same weakness, the same tool, the
+outcome decided by which case it happened to reach. All 76 now carry
+`[CWE-78, CWE-77, CWE-88]`, bar one that legitimately also accepts CWE-502.
+
+So the rule the incident actually supports is narrower than it first looked: an
+`unmatched` finding means *go read the code and the CWE definitions*. It does not
+mean adopt the tool's taxonomy. Widening a class until a scanner's findings land
+raises that scanner's score by construction, and [THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md)
+now forbids doing it from a candidate's output.
+
 So when a tool scores unexpectedly badly on a language, read the unmatched
 findings before believing the result.
 
