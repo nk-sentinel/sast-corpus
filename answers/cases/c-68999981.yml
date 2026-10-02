@@ -1,0 +1,31 @@
+id: c-68999981
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-327
+variant: unknown
+acceptable_cwes: [CWE-327]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/jpadilla__pyjwt@24b29ad/jwt/algorithms.py
+  start_line: 183
+  end_line: 199
+alt_locations:
+  - file: tier3/patcheval/jpadilla__pyjwt@24b29ad/jwt/algorithms.py
+    start_line: 553
+    end_line: 573
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-29217 in jpadilla/pyjwt, at the buggy commit 24b29ad. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2022-29217
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-e9d1e8e1
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-74
+variant: unknown
+acceptable_cwes: [CWE-74]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/zopefoundation__RestrictedPython@41a183d/src/RestrictedPython/Guards.py
+  start_line: 242
+  end_line: 257
+alt_locations:
+  - file: tier3/patcheval/zopefoundation__RestrictedPython@41a183d/src/RestrictedPython/Utilities.py
+    start_line: 21
+    end_line: 21
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-41039 in zopefoundation/RestrictedPython, at the buggy commit 41a183d. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2023-41039
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,28 @@
+id: c-32ace0a4
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-863
+variant: unknown
+acceptable_cwes: [CWE-863, CWE-285, CWE-862]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/nodejs__undici@ee5f892f3955/lib/handler/redirect-handler.js
+  start_line: 197
+  end_line: 209
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-30260 in nodejs/undici, at the buggy commit ee5f892f3955eaca37730ed30349153ba203e9cd. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-30260
+build:
+  required: false
+  recipe: null

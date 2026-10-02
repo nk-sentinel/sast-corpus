@@ -1,0 +1,34 @@
+id: c-a3e0ca3d
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-20
+variant: unknown
+acceptable_cwes: [CWE-20]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/MechanicalSoup__MechanicalSoup@b9c8a0c/mechanicalsoup/browser.py
+  start_line: 187
+  end_line: 293
+alt_locations:
+  - file: tier3/patcheval/MechanicalSoup__MechanicalSoup@b9c8a0c/mechanicalsoup/form.py
+    start_line: 242
+    end_line: 281
+  - file: tier3/patcheval/MechanicalSoup__MechanicalSoup@b9c8a0c/mechanicalsoup/form.py
+    start_line: 283
+    end_line: 304
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-34457 in MechanicalSoup/MechanicalSoup, at the buggy commit b9c8a0c. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 3 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2023-34457
+build:
+  required: false
+  recipe: null

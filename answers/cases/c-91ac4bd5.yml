@@ -5,7 +5,7 @@ tier: 1
 language: java
 framework: null
 primary_cwe: CWE-79
-variant: null
+variant: misses-a-variant
 acceptable_cwes: [CWE-79, CWE-80, CWE-83]
 owasp_2021: A03
 severity: high

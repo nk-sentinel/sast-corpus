@@ -1,0 +1,28 @@
+id: c-ecede45a
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-74
+variant: unknown
+acceptable_cwes: [CWE-74]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/ewen-lbh__ffcss@5e1ea8f/catalog.go
+  start_line: 44
+  end_line: 46
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-52081 in ewen-lbh/ffcss, at the buggy commit 5e1ea8f. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2023-52081
+build:
+  required: false
+  recipe: null

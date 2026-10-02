@@ -1,0 +1,28 @@
+id: c-bcb35a77
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-22
+variant: unknown
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/gitpython-developers__GitPython@1774f1e/git/refs/symbolic.py
+  start_line: 165
+  end_line: 205
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-41040 in gitpython-developers/GitPython, at the buggy commit 1774f1e. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2023-41040
+build:
+  required: false
+  recipe: null

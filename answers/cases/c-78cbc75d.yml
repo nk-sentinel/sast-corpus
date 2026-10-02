@@ -1,0 +1,31 @@
+id: c-78cbc75d
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-863
+variant: unknown
+acceptable_cwes: [CWE-863, CWE-285, CWE-862]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/scrapy__scrapy@aa0306a/scrapy/downloadermiddlewares/redirect.py
+  start_line: 49
+  end_line: 53
+alt_locations:
+  - file: tier3/patcheval/scrapy__scrapy@aa0306a/scrapy/downloadermiddlewares/redirect.py
+    start_line: 62
+    end_line: 87
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-0577 in scrapy/scrapy, at the buggy commit aa0306a. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2022-0577
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,28 @@
+id: c-de8259b9
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-532
+variant: unknown
+acceptable_cwes: [CWE-532]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/snowflakedb__snowflake-connector-python@7ddbf3175f05/src/snowflake/connector/secret_detector.py
+  start_line: 22
+  end_line: 53
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-49750 in snowflakedb/snowflake-connector-python, at the buggy commit 7ddbf3175f05e0ec1410487938d6eed2f73539a8. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-49750
+build:
+  required: false
+  recipe: null

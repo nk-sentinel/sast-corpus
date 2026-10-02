@@ -5,7 +5,7 @@ tier: 1
 language: python
 framework: null
 primary_cwe: CWE-918
-variant: null
+variant: matches-anywhere
 acceptable_cwes: [CWE-918, CWE-441]
 owasp_2021: A10
 severity: high

@@ -1,0 +1,28 @@
+id: c-88554f45
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-79
+variant: unknown
+acceptable_cwes: [CWE-79, CWE-80, CWE-83, CWE-116]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/kiwitcms__Kiwi@ce5b83e/tcms/kiwi_attachments/validators.py
+  start_line: 5
+  end_line: 9
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-33977 in kiwitcms/Kiwi, at the buggy commit ce5b83e. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2023-33977
+build:
+  required: false
+  recipe: null

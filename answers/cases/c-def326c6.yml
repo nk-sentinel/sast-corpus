@@ -1,0 +1,28 @@
+id: c-def326c6
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-269
+variant: unknown
+acceptable_cwes: [CWE-269]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/jupyter__jupyter_core@d3f61f3/jupyter_core/application.py
+  start_line: 88
+  end_line: 93
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-39286 in jupyter/jupyter_core, at the buggy commit d3f61f3. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2022-39286
+build:
+  required: false
+  recipe: null

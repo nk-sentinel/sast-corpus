@@ -3,10 +3,15 @@
 Target: **305 → ~775 cases** (revised up from 645 after item 0), with the growth concentrated on the axes that
 separate tools rather than on more of the shape every tool already catches.
 
-**Where it stands: 680 cases.** Items 0–4 are done; item 5 is at 97 of ~230
-and is resumable — see its section for the commands. Tier 2, which this
-roadmap did not schedule at all, is now complete: 137 cases across all five
-pinned applications.
+**Where it stands: 849 cases. Every item is done.** Item 5 landed at 266 tier-3
+cases against a target of ~230, and tier 2 — which this roadmap never scheduled
+— added 137 across all five pinned applications.
+
+What phase 2 did *not* establish is that any of it is detectable. A
+non-candidate instrument run after the expansion found 3 of 223 tier-1 cases;
+see the issues raised against the fixtures, and
+[THREATS-TO-VALIDITY.md](THREATS-TO-VALIDITY.md) on why the instrument may not
+be a tool under evaluation.
 
 ## Why not simply more breadth
 
@@ -170,7 +175,7 @@ Mechanical and low-risk, so it goes last. Seven thinnest languages, roughly four
 weaknesses each, chosen against the applicability matrix from item 1 so the new
 cells are ones that should exist.
 
-### 5. Tier-3 at scale — ~230 (revised up from 100) ◐ **partly done: 97 of ~230**
+### 5. Tier-3 at scale — ~230 (revised up from 100) ✅ **done (266)**
 
 Gated on item 0, now complete — see [TIER3-DATASETS.md](TIER3-DATASETS.md) for
 the measurements and the three derivation rules that cases turn on.

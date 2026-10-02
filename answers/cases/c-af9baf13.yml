@@ -1,0 +1,28 @@
+id: c-af9baf13
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-89
+variant: unknown
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/django__django@523da87/django/db/models/sql/query.py
+  start_line: 2442
+  end_line: 2502
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-42005 in django/django, at the buggy commit 523da87. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-42005
+build:
+  required: false
+  recipe: null

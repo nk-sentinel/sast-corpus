@@ -5,7 +5,7 @@ tier: 1
 language: go
 framework: null
 primary_cwe: CWE-78
-variant: null
+variant: map-round-trip
 acceptable_cwes: [CWE-78, CWE-77, CWE-88]
 owasp_2021: A03
 severity: high

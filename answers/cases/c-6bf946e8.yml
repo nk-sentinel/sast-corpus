@@ -1,0 +1,28 @@
+id: c-6bf946e8
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-20
+variant: unknown
+acceptable_cwes: [CWE-20]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/fastify__fastify-reply-from@20d0795/lib/utils.js
+  start_line: 58
+  end_line: 67
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-21321 in fastify/fastify-reply-from, at the buggy commit 20d0795. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2021-21321
+build:
+  required: false
+  recipe: null

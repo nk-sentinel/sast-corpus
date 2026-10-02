@@ -1,0 +1,31 @@
+id: c-db93d4bb
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-444
+variant: unknown
+acceptable_cwes: [CWE-444]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/python-hyper__h11@114803a29ce5/h11/_readers.py
+  start_line: 149
+  end_line: 154
+alt_locations:
+  - file: tier3/patcheval/python-hyper__h11@114803a29ce5/h11/_readers.py
+    start_line: 156
+    end_line: 204
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2025-43859 in python-hyper/h11, at the buggy commit 114803a29ce50116dc47951c690ad4892b1a36ed. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2025-43859
+build:
+  required: false
+  recipe: null

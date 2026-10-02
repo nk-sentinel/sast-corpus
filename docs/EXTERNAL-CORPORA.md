@@ -94,15 +94,24 @@ unfinished. That is a limit of the harness, not a defect in those projects, so
 excluded from a build-required engine's scorecard rather than counted as a miss,
 since a missing artifact is not a missed detection.
 
-### What is derived so far
+### What is derived
 
-**97 cases.** From cwe-bench-java, 28 Java CVEs — path traversal 14, XSS 5,
-command injection 5, code injection 4 — every one resolving to method
-granularity and spot-checked by reading the code at the derived span, plus the
-21 traps described below. From PatchEval, 48 CVEs — Go 17, Python 16,
-JavaScript 15 — across twelve weaknesses, command injection and path traversal
-the largest. The roadmap target is ~230, and the derivation resumes where it
-stopped — see [ROADMAP.md](ROADMAP.md) item 5.
+**266 cases**, past the roadmap's ~230 target. From cwe-bench-java: 49 Java
+cases, every one resolving to method granularity, including the 21 traps
+described below. From PatchEval: Go 80, JavaScript 73, Python 64, derived from
+216 of its 230 entries — 8 repositories were skipped as too large to be worth
+fetching, 3 would not clone, and 3 had no location that matched the checkout.
+
+Both derivations now share one acceptable-CWE map
+(`spine/corpora/cwe_families.py`). They used to carry a copy each and the copies
+had drifted on three weaknesses, so a Java path-traversal case accepted a CWE
+that a Go one did not — the same defect as the CWE-94 widening on tier 1, with
+provenance rather than the weakness deciding the score.
+
+Every one of the 266 files is present on disk and no case's line range runs past
+the end of its file, which `spine/validate/selftest.py` checks. That had never
+been verified before: the ground truth was derived on another machine and its
+line numbers had not been compared against the checkouts since.
 
 ### The tier-3 zero is not a measurement artifact
 

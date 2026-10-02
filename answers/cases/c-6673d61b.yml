@@ -1,0 +1,28 @@
+id: c-6673d61b
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-78
+variant: unknown
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/iximiuz__node-diskusage-ng@53c505506553/lib/posix.js
+  start_line: 6
+  end_line: 22
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-7631 in iximiuz/node-diskusage-ng, at the buggy commit 53c505506553c83861d1bd67823d6a382d3a5a43. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2020-7631
+build:
+  required: false
+  recipe: null

@@ -5,7 +5,7 @@ tier: 1
 language: javascript
 framework: null
 primary_cwe: CWE-89
-variant: null
+variant: second-reference
 acceptable_cwes: [CWE-89, CWE-943, CWE-564]
 owasp_2021: A03
 severity: high

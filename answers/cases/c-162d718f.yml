@@ -1,0 +1,31 @@
+id: c-162d718f
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-601
+variant: unknown
+acceptable_cwes: [CWE-601, CWE-1022]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/ory__fosite@eb87048/authorize_helper.go
+  start_line: 114
+  end_line: 126
+alt_locations:
+  - file: tier3/patcheval/ory__fosite@eb87048/authorize_helper.go
+    start_line: 128
+    end_line: 143
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-15233 in ory/fosite, at the buggy commit eb87048. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2020-15233
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,28 @@
+id: c-023626b6
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-78
+variant: unknown
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/go-vela__compiler@adf85cc6f434/template/native/render.go
+  start_line: 16
+  end_line: 51
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-26294 in go-vela/compiler, at the buggy commit adf85cc6f434c069476eb3401cb9d9c1ea854585. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2020-26294
+build:
+  required: false
+  recipe: null

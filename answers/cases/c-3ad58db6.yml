@@ -1,0 +1,31 @@
+id: c-3ad58db6
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-352
+variant: unknown
+acceptable_cwes: [CWE-352]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/gofiber__fiber@d736d3a64433/middleware/csrf/csrf.go
+  start_line: 26
+  end_line: 138
+alt_locations:
+  - file: tier3/patcheval/gofiber__fiber@d736d3a64433/middleware/csrf/csrf.go
+    start_line: 142
+    end_line: 147
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-45128 in gofiber/fiber, at the buggy commit d736d3a64433385b0fc0189e16a36a2f4facb67d. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2023-45128
+build:
+  required: false
+  recipe: null

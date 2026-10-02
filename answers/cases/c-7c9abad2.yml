@@ -1,0 +1,31 @@
+id: c-7c9abad2
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-522
+variant: unknown
+acceptable_cwes: [CWE-522]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/patrickfuller__camp@bbd53a2/server.py
+  start_line: 43
+  end_line: 50
+alt_locations:
+  - file: tier3/patcheval/patrickfuller__camp@bbd53a2/server.py
+    start_line: 129
+    end_line: 133
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-37109 in patrickfuller/camp, at the buggy commit bbd53a2. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2022-37109
+build:
+  required: false
+  recipe: null

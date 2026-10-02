@@ -5,7 +5,7 @@ tier: 1
 language: python
 framework: null
 primary_cwe: CWE-79
-variant: null
+variant: attribute-context
 acceptable_cwes: [CWE-79, CWE-80, CWE-83]
 owasp_2021: A03
 severity: high

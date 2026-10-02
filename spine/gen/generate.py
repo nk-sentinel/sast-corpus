@@ -109,6 +109,23 @@ def emit(template, root):
     ]
 
 
+def mechanism_from_slug(slug):
+    """The mechanism a slug names, or None if it names none.
+
+    Slugs are written `family@mechanism` — `sca-maven@present-but-never-called`,
+    `js-replacefirst@only-one-occurrence` — so the mechanism is already stated
+    at the point a template is authored. Reading it back makes that convention
+    load-bearing instead of decorative: a template that sets no `variant_name`
+    still produces a labelled case, and `docs/COVERAGE.md` stops reporting
+    mechanisms the corpus does in fact distinguish as `(unlabelled)`.
+
+    An explicit `variant` on the variant, or `variant_name` on the template,
+    still wins — this is the floor, not an override.
+    """
+    _, _, mechanism = slug.partition("@")
+    return mechanism or None
+
+
 def _emit_variant(template, name, variant, root):
     identifier = case_id(template.slug, name)
     directory = "tier1/{}/{}".format(template.language, identifier[2:])
@@ -140,7 +157,7 @@ def _emit_variant(template, name, variant, root):
         "language": template.language,
         "framework": template.framework,
         "primary_cwe": template.primary_cwe,
-        "variant": variant.variant or template.variant_name,
+        "variant": variant.variant or template.variant_name or mechanism_from_slug(template.slug),
         "acceptable_cwes": list(template.acceptable_cwes),
         "owasp_2021": template.owasp_2021,
         "severity": template.severity,

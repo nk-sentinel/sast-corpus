@@ -1,0 +1,28 @@
+id: c-62ea698b
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-276
+variant: unknown
+acceptable_cwes: [CWE-276]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/spotipy-dev__spotipy@668158f/spotipy/cache_handler.py
+  start_line: 93
+  end_line: 98
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2025-27154 in spotipy-dev/spotipy, at the buggy commit 668158f. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2025-27154
+build:
+  required: false
+  recipe: null

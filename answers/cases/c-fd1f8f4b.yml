@@ -1,0 +1,28 @@
+id: c-fd1f8f4b
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-78
+variant: unknown
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/drakkan__sftpgo@4611d05/internal/sftpd/ssh_cmd.go
+  start_line: 386
+  end_line: 455
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2025-24366 in drakkan/sftpgo, at the buggy commit 4611d05. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2025-24366
+build:
+  required: false
+  recipe: null

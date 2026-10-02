@@ -1,7 +1,7 @@
 {
   "corpus": "tier3",
   "description": "Real CVEs in real projects, with the fix commit known. The hardest and most representative tier: these are flaws that shipped and were exploited, not flaws written to be found.",
-  "ground_truth_status": "derived \u2014 97 cases in answers/ (cwe-bench-java 49, PatchEval 48); see docs/EXTERNAL-CORPORA.md",
+  "ground_truth_status": "derived — 97 cases in answers/ (cwe-bench-java 49, PatchEval 48); see docs/EXTERNAL-CORPORA.md",
   "sources": [
     {
       "name": "vul4j",
@@ -11,7 +11,7 @@
       "languages": [
         "java"
       ],
-      "notes": "Declared but unused: no case in the answer key derives from it \u2014 cwe-bench-java covered the same ground first. Kept as a pinned candidate for a later phase rather than silently dropped. Not carried by the export bundle, and its absence does not fail an offline check.",
+      "notes": "Declared but unused: no case in the answer key derives from it — cwe-bench-java covered the same ground first. Kept as a pinned candidate for a later phase rather than silently dropped. Not carried by the export bundle, and its absence does not fail an offline check.",
       "optional": true,
       "pinned_on": "2026-08-12"
     },
@@ -37,8 +37,8 @@
         "python"
       ],
       "pinned_on": "2026-08-12",
-      "optional": false,
-      "notes": "Metadata only: the per-CVE repositories are cloned separately by spine/corpora/patcheval.py. Line numbers here anchor to the BUGGY commit, unlike cwe-bench-java \u2014 verified across all 230 entries before use. See docs/TIER3-DATASETS.md."
+      "optional": true,
+      "notes": "Metadata only, and deliberately not cloneable: the sha is all zeros because there is nothing here to check out. The per-CVE repositories are fetched by spine/corpora/patcheval.py, which takes the dataset (patcheval_verified.json, from huggingface.co/datasets/ByteDance/PatchEval) and clones each repository at the commit its locations name. Marked optional so a tier-3 fetch does not report a failure it can never avoid. Line numbers here anchor to the BUGGY commit, unlike cwe-bench-java — verified across all 230 entries before use. See docs/TIER3-DATASETS.md."
     }
   ]
 }

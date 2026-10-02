@@ -1,0 +1,28 @@
+id: c-294e7c10
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-22
+variant: unknown
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/isaacs__node-tar@d56f790bda9f/lib/path-reservations.js
+  start_line: 13
+  end_line: 128
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-37712 in isaacs/node-tar, at the buggy commit d56f790bda9fea807dd80c5083f24771dbdd6eb1. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2021-37712
+build:
+  required: false
+  recipe: null

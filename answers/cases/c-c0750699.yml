@@ -1,0 +1,28 @@
+id: c-c0750699
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-116
+variant: unknown
+acceptable_cwes: [CWE-116]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/xmldom__xmldom@9b92ff4/lib/dom.js
+  start_line: 1133
+  end_line: 1310
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-32796 in xmldom/xmldom, at the buggy commit 9b92ff4. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2021-32796
+build:
+  required: false
+  recipe: null

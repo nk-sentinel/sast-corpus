@@ -1,0 +1,31 @@
+id: c-f8eb2cd9
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-732
+variant: unknown
+acceptable_cwes: [CWE-732]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/planetlabs__planet-client-python@9783607/planet/auth.py
+  start_line: 229
+  end_line: 230
+alt_locations:
+  - file: tier3/patcheval/planetlabs__planet-client-python@9783607/planet/auth.py
+    start_line: 241
+    end_line: 244
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-32303 in planetlabs/planet-client-python, at the buggy commit 9783607. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2023-32303
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-a4d553cc
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-89
+variant: unknown
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/Automattic__mongoose@b34aba6/lib/helpers/populate/getModelsMapForPopulate.js
+  start_line: 21
+  end_line: 351
+alt_locations:
+  - file: tier3/patcheval/Automattic__mongoose@b34aba6/lib/helpers/populate/getModelsMapForPopulate.js
+    start_line: 357
+    end_line: 461
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-53900 in Automattic/mongoose, at the buggy commit b34aba6. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2024-53900
+build:
+  required: false
+  recipe: null

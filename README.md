@@ -11,12 +11,12 @@ ground truth, with the same match rules.
 
 | | |
 |---|---|
-| Cases | **680** — 446 tier-1 synthetic, 137 tier-2 real-application, 97 tier-3 real CVEs |
-| False-positive traps | **275 (40%)** |
+| Cases | **849** — 446 tier-1 synthetic, 137 tier-2 real-application, 266 tier-3 real CVEs |
+| False-positive traps | **275 (32%)** |
 | Weaknesses | **42 CWEs — all 25 of the 2025 CWE Top 25** |
 | OWASP Top 10 (2021) | **10 of 10** categories |
 | Languages | 13, **none below 10 weaknesses** |
-| Detection planes | `vuln` 620 · `secret` 33 · `sca` 27 |
+| Detection planes | `vuln` 789 · `secret` 33 · `sca` 27 |
 | Visible to build-required engines | tier-1 Java, plus 28 of 28 CVE projects that compile |
 | Scan-time corpus | 4 real repositories, 15k → 4.6M measured code lines |
 
@@ -119,10 +119,10 @@ this repository and are code we did not write. A manifest whose revision is a
 branch or an abbreviated SHA is rejected, because a corpus fetched from a moving
 branch is not a corpus.
 
-**Tier 3 is derived and usable** — 97 cases in four languages: 28 Java CVEs
-from cwe-bench-java across path traversal, XSS, command injection and code
-injection, 21 traps taken from their fixing commits, and 48 CVEs in Go, Python
-and JavaScript from PatchEval. Growing it to ~230 is the open roadmap item.
+**Tier 3 is derived and usable** — 266 cases in four languages: Java 49 from
+cwe-bench-java (including 21 traps taken from their fixing commits), and Go 80,
+JavaScript 73 and Python 64 from PatchEval. Every case's file and line range is
+checked against the buggy checkout it was derived from.
 **Tier 2 covers all five applications**: 46 PyGoat (Django), 24 NodeGoat
 (Express), 27 WebGoat (Spring), 17 DVJA (Struts 2) and 23 Juice Shop
 (TypeScript/Express) cases, hand-labelled from the code — five frameworks and
@@ -199,6 +199,7 @@ because a hosted scanner's queue is not scan speed. The LOC denominator is
 
 ```bash
 pip install pyyaml jsonschema               # authoring side only; score.py needs nothing
+python3 spine/validate/selftest.py          # scorer vs the key, no scanner involved
 python3 spine/lint/antileak.py              # < 0.1s — must pass
 python3 spine/lint/antileak.py --disclose   # slow; leakage figure for a scorecard
 python3 spine/schema/compile_answers.py     # regenerate the answer key

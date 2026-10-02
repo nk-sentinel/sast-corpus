@@ -1,0 +1,28 @@
+id: c-d1117882
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-601
+variant: unknown
+acceptable_cwes: [CWE-601, CWE-1022]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/oauth2-proxy__oauth2-proxy@1b6c54c/oauthproxy.go
+  start_line: 60
+  end_line: 67
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-4037 in oauth2-proxy/oauth2-proxy, at the buggy commit 1b6c54c. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2020-4037
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,28 @@
+id: c-5bab9608
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-77
+variant: unknown
+acceptable_cwes: [CWE-77, CWE-78, CWE-88]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/skoranga__node-connection-tester@7d7b7112d4bf/index.js
+  start_line: 78
+  end_line: 95
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-7781 in skoranga/node-connection-tester, at the buggy commit 7d7b7112d4bfe5a711b292fa046edd57e9da9266. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2020-7781
+build:
+  required: false
+  recipe: null

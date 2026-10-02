@@ -1,0 +1,28 @@
+id: c-3a9398d8
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-918
+variant: unknown
+acceptable_cwes: [CWE-918, CWE-441]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/dahlia__fedify@c505eb8/src/webfinger/lookup.ts
+  start_line: 14
+  end_line: 106
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2025-23221 in dahlia/fedify, at the buggy commit c505eb8. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2025-23221
+build:
+  required: false
+  recipe: null

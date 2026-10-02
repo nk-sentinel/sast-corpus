@@ -1,0 +1,28 @@
+id: c-b2e63fb7
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-20
+variant: unknown
+acceptable_cwes: [CWE-20]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/josdejong__mathjs@8d2d48d81/lib/expression/node/ObjectNode.js
+  start_line: 55
+  end_line: 71
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2017-1001003 in josdejong/mathjs, at the buggy commit 8d2d48d81. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2017-1001003
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-f0e61419
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-20
+variant: unknown
+acceptable_cwes: [CWE-20]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/mozilla__bleach@e7f83b8/bleach/sanitizer.py
+  start_line: 441
+  end_line: 489
+alt_locations:
+  - file: tier3/patcheval/mozilla__bleach@e7f83b8/bleach/sanitizer.py
+    start_line: 491
+    end_line: 556
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2018-7753 in mozilla/bleach, at the buggy commit e7f83b8. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2018-7753
+build:
+  required: false
+  recipe: null

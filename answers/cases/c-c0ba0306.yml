@@ -1,0 +1,28 @@
+id: c-c0ba0306
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-863
+variant: unknown
+acceptable_cwes: [CWE-863, CWE-285, CWE-862]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/Cog-Creators__Red-DiscordBot@21f9a6f/redbot/cogs/mod/kickban.py
+  start_line: 369
+  end_line: 514
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-15278 in Cog-Creators/Red-DiscordBot, at the buggy commit 21f9a6f. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2020-15278
+build:
+  required: false
+  recipe: null

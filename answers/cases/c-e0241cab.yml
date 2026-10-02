@@ -1,0 +1,28 @@
+id: c-e0241cab
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-287
+variant: unknown
+acceptable_cwes: [CWE-287]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/tharsis__evmos@a5a1221/x/claims/keeper/ibc_callbacks.go
+  start_line: 17
+  end_line: 105
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-24738 in tharsis/evmos, at the buggy commit a5a1221. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2022-24738
+build:
+  required: false
+  recipe: null

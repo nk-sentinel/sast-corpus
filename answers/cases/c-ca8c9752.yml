@@ -1,0 +1,28 @@
+id: c-ca8c9752
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-863
+variant: unknown
+acceptable_cwes: [CWE-863, CWE-285, CWE-862]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/matrix-org__synapse@52c7a51/synapse/groups/groups_server.py
+  start_line: 321
+  end_line: 357
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-39163 in matrix-org/synapse, at the buggy commit 52c7a51. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2021-39163
+build:
+  required: false
+  recipe: null

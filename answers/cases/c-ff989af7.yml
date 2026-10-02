@@ -1,0 +1,28 @@
+id: c-ff989af7
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-59
+variant: unknown
+acceptable_cwes: [CWE-59]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/pterodactyl__wings@020abec6f2b4/server/filesystem/filesystem.go
+  start_line: 389
+  end_line: 431
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-25168 in pterodactyl/wings, at the buggy commit 020abec6f2b4aef70c50a99570de30bb87f0bf67. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2023-25168
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,28 @@
+id: c-b6acb277
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-89
+variant: unknown
+acceptable_cwes: [CWE-89, CWE-943, CWE-564]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/jackc__pgx@826a892/internal/sanitize/sanitize.go
+  start_line: 27
+  end_line: 83
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-27289 in jackc/pgx, at the buggy commit 826a892. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-27289
+build:
+  required: false
+  recipe: null

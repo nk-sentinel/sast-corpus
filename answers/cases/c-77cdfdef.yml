@@ -1,0 +1,37 @@
+id: c-77cdfdef
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-22
+variant: unknown
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/django__django@c9f648c/django/core/files/storage.py
+  start_line: 40
+  end_line: 54
+alt_locations:
+  - file: tier3/patcheval/django__django@c9f648c/django/core/files/storage.py
+    start_line: 65
+    end_line: 97
+  - file: tier3/patcheval/django__django@c9f648c/django/core/files/storage.py
+    start_line: 99
+    end_line: 108
+  - file: tier3/patcheval/django__django@c9f648c/django/core/files/storage.py
+    start_line: 233
+    end_line: 300
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-45452 in django/django, at the buggy commit c9f648c. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 4 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2021-45452
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,28 @@
+id: c-aa28fa37
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-200
+variant: unknown
+acceptable_cwes: [CWE-200]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/django__django@710e11d/django/utils/formats.py
+  start_line: 85
+  end_line: 120
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2015-8213 in django/django, at the buggy commit 710e11d. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2015-8213
+build:
+  required: false
+  recipe: null

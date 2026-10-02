@@ -1,0 +1,28 @@
+id: c-da60fdaa
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-94
+variant: unknown
+acceptable_cwes: [CWE-94, CWE-95, CWE-96]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/adriano-di-giovanni__node-df@c0b554a/lib/index.js
+  start_line: 41
+  end_line: 55
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2019-15597 in adriano-di-giovanni/node-df, at the buggy commit c0b554a. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2019-15597
+build:
+  required: false
+  recipe: null

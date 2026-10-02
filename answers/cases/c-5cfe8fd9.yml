@@ -1,0 +1,28 @@
+id: c-5cfe8fd9
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-78
+variant: unknown
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/gventuri__pandas-ai@b452b3b/pandasai/__init__.py
+  start_line: 589
+  end_line: 616
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-39660 in gventuri/pandas-ai, at the buggy commit b452b3b. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2023-39660
+build:
+  required: false
+  recipe: null

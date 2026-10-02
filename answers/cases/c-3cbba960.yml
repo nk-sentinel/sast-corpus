@@ -1,0 +1,28 @@
+id: c-3cbba960
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-284
+variant: unknown
+acceptable_cwes: [CWE-284]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/markdown-it__markdown-it@f7976b2/lib/index.js
+  start_line: 24
+  end_line: 35
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2015-3295 in markdown-it/markdown-it, at the buggy commit f7976b2. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2015-3295
+build:
+  required: false
+  recipe: null

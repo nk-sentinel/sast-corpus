@@ -1,0 +1,28 @@
+id: c-a3b08c59
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-312
+variant: unknown
+acceptable_cwes: [CWE-312]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/navidrome__navidrome@177a1f853f1e/core/auth/auth.go
+  start_line: 24
+  end_line: 35
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-56362 in navidrome/navidrome, at the buggy commit 177a1f853f1e1fe55f2b951873a12c634fa851ce. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-56362
+build:
+  required: false
+  recipe: null

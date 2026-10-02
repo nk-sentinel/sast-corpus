@@ -1,0 +1,28 @@
+id: c-42883b74
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-94
+variant: unknown
+acceptable_cwes: [CWE-94, CWE-95, CWE-96]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/MoOx__reduce-css-calc@da7bce7d90af/index.js
+  start_line: 40
+  end_line: 96
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2016-10548 in MoOx/reduce-css-calc, at the buggy commit da7bce7d90af3ebde50295f291fa445c7b56460e. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2016-10548
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,37 @@
+id: c-0b322336
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-863
+variant: unknown
+acceptable_cwes: [CWE-863, CWE-285, CWE-862]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/ory__oathkeeper@64ac756/pipeline/authn/authenticator_oauth2_introspection.go
+  start_line: 97
+  end_line: 115
+alt_locations:
+  - file: tier3/patcheval/ory__oathkeeper@64ac756/pipeline/authn/authenticator_oauth2_introspection.go
+    start_line: 117
+    end_line: 127
+  - file: tier3/patcheval/ory__oathkeeper@64ac756/pipeline/authn/authenticator_oauth2_introspection.go
+    start_line: 152
+    end_line: 250
+  - file: tier3/patcheval/ory__oathkeeper@64ac756/pipeline/authn/authenticator_oauth2_introspection.go
+    start_line: 261
+    end_line: 341
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2021-32701 in ory/oathkeeper, at the buggy commit 64ac756. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 4 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2021-32701
+build:
+  required: false
+  recipe: null

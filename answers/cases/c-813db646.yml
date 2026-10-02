@@ -1,0 +1,28 @@
+id: c-813db646
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-269
+variant: unknown
+acceptable_cwes: [CWE-269]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/tryton__trytond@5d7c4fa/trytond/tools/misc.py
+  start_line: 31
+  end_line: 37
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2017-0360 in tryton/trytond, at the buggy commit 5d7c4fa. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2017-0360
+build:
+  required: false
+  recipe: null

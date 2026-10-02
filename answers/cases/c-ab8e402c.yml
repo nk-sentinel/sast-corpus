@@ -1,0 +1,28 @@
+id: c-ab8e402c
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-918
+variant: unknown
+acceptable_cwes: [CWE-918, CWE-441]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/frenchbread__private-ip@ce3d745/src/index.js
+  start_line: 1
+  end_line: 11
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-28360 in frenchbread/private-ip, at the buggy commit ce3d745. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2020-28360
+build:
+  required: false
+  recipe: null

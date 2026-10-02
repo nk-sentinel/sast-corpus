@@ -1,0 +1,31 @@
+id: c-72ca9ae7
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-94
+variant: unknown
+acceptable_cwes: [CWE-94, CWE-95, CWE-96]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/mooz__node-pdf-image@5803471/index.js
+  start_line: 25
+  end_line: 30
+alt_locations:
+  - file: tier3/patcheval/mooz__node-pdf-image@5803471/index.js
+    start_line: 40
+    end_line: 57
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2020-8132 in mooz/node-pdf-image, at the buggy commit 5803471. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2020-8132
+build:
+  required: false
+  recipe: null

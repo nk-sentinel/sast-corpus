@@ -1,0 +1,28 @@
+id: c-883cf374
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-200
+variant: unknown
+acceptable_cwes: [CWE-200]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/ionicabizau__parse-url@fa488b2f2671/lib/index.js
+  start_line: 35
+  end_line: 49
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-0722 in ionicabizau/parse-url, at the buggy commit fa488b2f26715995251c30825398e6aa96a0aadf. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2022-0722
+build:
+  required: false
+  recipe: null

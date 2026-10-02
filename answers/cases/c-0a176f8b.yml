@@ -1,0 +1,28 @@
+id: c-0a176f8b
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-285
+variant: unknown
+acceptable_cwes: [CWE-285]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/kyverno__kyverno@5f42a0b/pkg/cosign/cosign.go
+  start_line: 536
+  end_line: 566
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2025-29778 in kyverno/kyverno, at the buggy commit 5f42a0b. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2025-29778
+build:
+  required: false
+  recipe: null

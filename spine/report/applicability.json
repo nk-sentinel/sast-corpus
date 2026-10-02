@@ -7,7 +7,7 @@
     "",
     "Each entry lists the languages where the weakness is reachable and",
     "idiomatic. `reason` explains the exclusions and is required whenever any",
-    "language is left out \u2014 an exclusion nobody can check is an assertion, not",
+    "language is left out — an exclusion nobody can check is an assertion, not",
     "a fact. The map is validated against the answer key in CI: a tier-1 case",
     "existing for a pair listed as inapplicable fails the build, because one of",
     "the two is wrong and silently trusting either is worse.",
@@ -15,8 +15,8 @@
     "Language set: java kotlin python javascript typescript go csharp c cpp",
     "rust php ruby swift"
   ],
-  "CWE-89": {
-    "name": "SQL injection",
+  "CWE-20": {
+    "name": "improper input validation",
     "applies_to": [
       "java",
       "kotlin",
@@ -32,45 +32,7 @@
       "ruby",
       "swift"
     ],
-    "reason": "Anything with a database driver can build a statement by concatenation."
-  },
-  "CWE-78": {
-    "name": "OS command injection",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Every language here can start a process."
-  },
-  "CWE-77": {
-    "name": "command injection",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "As CWE-78; the distinction is the layer, not the language."
+    "reason": "Not language-specific."
   },
   "CWE-22": {
     "name": "path traversal",
@@ -91,6 +53,82 @@
     ],
     "reason": "Every language here opens files by path."
   },
+  "CWE-59": {
+    "name": "link following",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Requires resolving a filesystem path that may be a symbolic link; every language here opens files by path."
+  },
+  "CWE-74": {
+    "name": "injection",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "The injection parent class. Any language that passes data into an interpreter can be reported at this level when a tool declines to commit to a child."
+  },
+  "CWE-77": {
+    "name": "command injection",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "As CWE-78; the distinction is the layer, not the language."
+  },
+  "CWE-78": {
+    "name": "OS command injection",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Every language here can start a process."
+  },
   "CWE-79": {
     "name": "cross-site scripting",
     "applies_to": [
@@ -108,8 +146,8 @@
     ],
     "reason": "Requires emitting markup to a browser. C and C++ do not serve HTML in any idiom this corpus would be testing."
   },
-  "CWE-352": {
-    "name": "cross-site request forgery",
+  "CWE-88": {
+    "name": "argument injection",
     "applies_to": [
       "java",
       "kotlin",
@@ -118,78 +156,33 @@
       "typescript",
       "go",
       "csharp",
+      "c",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "Any language that builds a command line can put an attacker-controlled value where the callee expects a flag."
+  },
+  "CWE-89": {
+    "name": "SQL injection",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
       "rust",
       "php",
       "ruby",
       "swift"
     ],
-    "reason": "A property of web frameworks handling state-changing requests; not reachable in C or C++ as used here."
-  },
-  "CWE-434": {
-    "name": "unrestricted upload of dangerous file type",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Requires an HTTP upload handler; excluded for C and C++ for the same reason as XSS."
-  },
-  "CWE-918": {
-    "name": "server-side request forgery",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Needs an HTTP client taking a caller-supplied URL. C and C++ can do this via libcurl but it is not where this weakness is tested."
-  },
-  "CWE-611": {
-    "name": "XML external entity",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Requires an XML parser that resolves external entities by default. Rust's parsers do not; C and C++ reach it only through libxml2, which is out of scope here."
-  },
-  "CWE-502": {
-    "name": "unsafe deserialisation",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Requires a deserialiser that reconstructs arbitrary objects and invokes their hooks. C, C++ and Rust have no such facility in the standard library."
+    "reason": "Anything with a database driver can build a statement by concatenation."
   },
   "CWE-94": {
     "name": "code injection",
@@ -205,103 +198,8 @@
     ],
     "reason": "Requires runtime evaluation of source. Go, Rust, C, C++ and Swift compile ahead of time with no eval."
   },
-  "CWE-1395": {
-    "name": "dependency on a vulnerable component",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Every language here has a package manager and a manifest."
-  },
-  "CWE-798": {
-    "name": "hard-coded credentials",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "A literal in source is possible in every language."
-  },
-  "CWE-327": {
-    "name": "broken crypto",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Every language here can reach a weak digest or cipher."
-  },
-  "CWE-20": {
-    "name": "improper input validation",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Not language-specific."
-  },
-  "CWE-200": {
-    "name": "exposure of sensitive information",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Not language-specific."
-  },
-  "CWE-532": {
-    "name": "sensitive information in a log file",
+  "CWE-116": {
+    "name": "improper encoding or escaping of output",
     "applies_to": [
       "java",
       "kotlin",
@@ -338,8 +236,66 @@
     ],
     "reason": "Not language-specific."
   },
-  "CWE-770": {
-    "name": "allocation without limits or throttling",
+  "CWE-120": {
+    "name": "buffer copy without size check",
+    "applies_to": [
+      "c",
+      "cpp",
+      "rust"
+    ],
+    "reason": "Requires an unchecked copy into a fixed buffer; managed languages have no such primitive."
+  },
+  "CWE-121": {
+    "name": "stack-based buffer overflow",
+    "applies_to": [
+      "c",
+      "cpp",
+      "rust"
+    ],
+    "reason": "Requires stack-allocated buffers under manual control."
+  },
+  "CWE-122": {
+    "name": "heap-based buffer overflow",
+    "applies_to": [
+      "c",
+      "cpp",
+      "rust"
+    ],
+    "reason": "Requires manual heap allocation sizing."
+  },
+  "CWE-125": {
+    "name": "out-of-bounds read",
+    "applies_to": [
+      "c",
+      "cpp",
+      "rust"
+    ],
+    "reason": "Requires reading past an allocation without a runtime bound check. Managed languages raise instead; Rust reaches it only inside `unsafe`."
+  },
+  "CWE-134": {
+    "name": "externally controlled format string",
+    "applies_to": [
+      "c",
+      "cpp"
+    ],
+    "reason": "Requires a variadic format function that reads the format at runtime. Rust's format strings are compile-time checked; managed languages do not expose %n-style writes."
+  },
+  "CWE-190": {
+    "name": "integer overflow or wraparound",
+    "applies_to": [
+      "c",
+      "cpp",
+      "go",
+      "java",
+      "kotlin",
+      "csharp",
+      "rust",
+      "swift"
+    ],
+    "reason": "Requires fixed-width integers that wrap. Python integers are arbitrary-precision, and JavaScript, TypeScript, PHP and Ruby promote or use doubles rather than wrapping."
+  },
+  "CWE-200": {
+    "name": "exposure of sensitive information",
     "applies_to": [
       "java",
       "kotlin",
@@ -357,8 +313,84 @@
     ],
     "reason": "Not language-specific."
   },
+  "CWE-269": {
+    "name": "improper privilege management",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "Privilege is an application concept, not a language feature."
+  },
+  "CWE-276": {
+    "name": "incorrect default permissions",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Every language here creates files."
+  },
   "CWE-284": {
     "name": "improper access control",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Not language-specific."
+  },
+  "CWE-285": {
+    "name": "improper authorisation",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Not language-specific."
+  },
+  "CWE-287": {
+    "name": "improper authentication",
     "applies_to": [
       "java",
       "kotlin",
@@ -394,6 +426,410 @@
       "swift"
     ],
     "reason": "Not language-specific."
+  },
+  "CWE-307": {
+    "name": "improper restriction of excessive authentication attempts",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Not language-specific."
+  },
+  "CWE-312": {
+    "name": "cleartext storage of sensitive information",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "Any language can write a secret to disk or a database without encrypting it."
+  },
+  "CWE-327": {
+    "name": "broken crypto",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Every language here can reach a weak digest or cipher."
+  },
+  "CWE-345": {
+    "name": "insufficient verification of data authenticity",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "Any language can accept data without checking the signature or provenance it claims."
+  },
+  "CWE-352": {
+    "name": "cross-site request forgery",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "A property of web frameworks handling state-changing requests; not reachable in C or C++ as used here."
+  },
+  "CWE-384": {
+    "name": "session fixation",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "Needs a session the caller can influence before authenticating, so it follows the web frameworks rather than the language. C and C++ host web servers but not idiomatically in this corpus."
+  },
+  "CWE-416": {
+    "name": "use after free",
+    "applies_to": [
+      "c",
+      "cpp",
+      "rust"
+    ],
+    "reason": "Requires manual lifetime management. Garbage-collected and reference-counted languages cannot reach a freed object; Rust reaches it only inside `unsafe`."
+  },
+  "CWE-434": {
+    "name": "unrestricted upload of dangerous file type",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Requires an HTTP upload handler; excluded for C and C++ for the same reason as XSS."
+  },
+  "CWE-444": {
+    "name": "inconsistent interpretation of HTTP requests",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "Request smuggling needs an HTTP parser in front of or inside the application; the same reasoning as session fixation."
+  },
+  "CWE-471": {
+    "name": "modification of assumed-immutable data",
+    "applies_to": [
+      "javascript",
+      "typescript",
+      "python",
+      "ruby",
+      "php"
+    ],
+    "reason": "Prototype and attribute pollution need a runtime whose object model is mutable at the language level. Compiled and statically-dispatched languages have no equivalent."
+  },
+  "CWE-476": {
+    "name": "NULL pointer dereference",
+    "applies_to": [
+      "c",
+      "cpp",
+      "go",
+      "java",
+      "kotlin",
+      "csharp",
+      "swift"
+    ],
+    "reason": "Needs a null-valued reference that is dereferenced. Included for managed languages where it is a real defect class (NullPointerException, NullReferenceException, nil map/pointer). Excluded for Python, Ruby, PHP and JavaScript, where the analogous error is an attribute error on None/nil rather than a null dereference, and for Rust, whose Option type makes it unrepresentable in safe code."
+  },
+  "CWE-502": {
+    "name": "unsafe deserialisation",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Requires a deserialiser that reconstructs arbitrary objects and invokes their hooks. C, C++ and Rust have no such facility in the standard library."
+  },
+  "CWE-522": {
+    "name": "insufficiently protected credentials",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Not language-specific."
+  },
+  "CWE-532": {
+    "name": "sensitive information in a log file",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Not language-specific."
+  },
+  "CWE-601": {
+    "name": "open redirect",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Requires an HTTP redirect built from a caller-supplied target; not reachable in C or C++ as used here."
+  },
+  "CWE-610": {
+    "name": "externally controlled reference to a resource in another sphere",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "The parent of SSRF and several file-reference weaknesses, reachable in any language."
+  },
+  "CWE-611": {
+    "name": "XML external entity",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Requires an XML parser that resolves external entities by default. Rust's parsers do not; C and C++ reach it only through libxml2, which is out of scope here."
+  },
+  "CWE-613": {
+    "name": "insufficient session expiration",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "A session that outlives its welcome is a web-session property, so it follows the frameworks."
+  },
+  "CWE-639": {
+    "name": "authorisation bypass through user-controlled key",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Not language-specific."
+  },
+  "CWE-668": {
+    "name": "exposure of resource to wrong sphere",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "A broad parent class covering files, sockets and memory handed to the wrong caller."
+  },
+  "CWE-732": {
+    "name": "incorrect permission assignment for critical resource",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "rust"
+    ],
+    "reason": "Any language that creates a file or directory can create it world-writable."
+  },
+  "CWE-770": {
+    "name": "allocation without limits or throttling",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Not language-specific."
+  },
+  "CWE-787": {
+    "name": "out-of-bounds write",
+    "applies_to": [
+      "c",
+      "cpp",
+      "rust"
+    ],
+    "reason": "As CWE-125, in the write direction."
+  },
+  "CWE-798": {
+    "name": "hard-coded credentials",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "c",
+      "cpp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "A literal in source is possible in every language."
   },
   "CWE-862": {
     "name": "missing authorisation",
@@ -433,8 +869,25 @@
     ],
     "reason": "Not language-specific."
   },
-  "CWE-639": {
-    "name": "authorisation bypass through user-controlled key",
+  "CWE-918": {
+    "name": "server-side request forgery",
+    "applies_to": [
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "go",
+      "csharp",
+      "rust",
+      "php",
+      "ruby",
+      "swift"
+    ],
+    "reason": "Needs an HTTP client taking a caller-supplied URL. C and C++ can do this via libcurl but it is not where this weakness is tested."
+  },
+  "CWE-1395": {
+    "name": "dependency on a vulnerable component",
     "applies_to": [
       "java",
       "kotlin",
@@ -450,256 +903,6 @@
       "ruby",
       "swift"
     ],
-    "reason": "Not language-specific."
-  },
-  "CWE-125": {
-    "name": "out-of-bounds read",
-    "applies_to": [
-      "c",
-      "cpp",
-      "rust"
-    ],
-    "reason": "Requires reading past an allocation without a runtime bound check. Managed languages raise instead; Rust reaches it only inside `unsafe`."
-  },
-  "CWE-787": {
-    "name": "out-of-bounds write",
-    "applies_to": [
-      "c",
-      "cpp",
-      "rust"
-    ],
-    "reason": "As CWE-125, in the write direction."
-  },
-  "CWE-120": {
-    "name": "buffer copy without size check",
-    "applies_to": [
-      "c",
-      "cpp",
-      "rust"
-    ],
-    "reason": "Requires an unchecked copy into a fixed buffer; managed languages have no such primitive."
-  },
-  "CWE-121": {
-    "name": "stack-based buffer overflow",
-    "applies_to": [
-      "c",
-      "cpp",
-      "rust"
-    ],
-    "reason": "Requires stack-allocated buffers under manual control."
-  },
-  "CWE-122": {
-    "name": "heap-based buffer overflow",
-    "applies_to": [
-      "c",
-      "cpp",
-      "rust"
-    ],
-    "reason": "Requires manual heap allocation sizing."
-  },
-  "CWE-416": {
-    "name": "use after free",
-    "applies_to": [
-      "c",
-      "cpp",
-      "rust"
-    ],
-    "reason": "Requires manual lifetime management. Garbage-collected and reference-counted languages cannot reach a freed object; Rust reaches it only inside `unsafe`."
-  },
-  "CWE-134": {
-    "name": "externally controlled format string",
-    "applies_to": [
-      "c",
-      "cpp"
-    ],
-    "reason": "Requires a variadic format function that reads the format at runtime. Rust's format strings are compile-time checked; managed languages do not expose %n-style writes."
-  },
-  "CWE-476": {
-    "name": "NULL pointer dereference",
-    "applies_to": [
-      "c",
-      "cpp",
-      "go",
-      "java",
-      "kotlin",
-      "csharp",
-      "swift"
-    ],
-    "reason": "Needs a null-valued reference that is dereferenced. Included for managed languages where it is a real defect class (NullPointerException, NullReferenceException, nil map/pointer). Excluded for Python, Ruby, PHP and JavaScript, where the analogous error is an attribute error on None/nil rather than a null dereference, and for Rust, whose Option type makes it unrepresentable in safe code."
-  },
-  "CWE-190": {
-    "name": "integer overflow or wraparound",
-    "applies_to": [
-      "c",
-      "cpp",
-      "go",
-      "java",
-      "kotlin",
-      "csharp",
-      "rust",
-      "swift"
-    ],
-    "reason": "Requires fixed-width integers that wrap. Python integers are arbitrary-precision, and JavaScript, TypeScript, PHP and Ruby promote or use doubles rather than wrapping."
-  },
-  "CWE-601": {
-    "name": "open redirect",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Requires an HTTP redirect built from a caller-supplied target; not reachable in C or C++ as used here."
-  },
-  "CWE-287": {
-    "name": "improper authentication",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Not language-specific."
-  },
-  "CWE-307": {
-    "name": "improper restriction of excessive authentication attempts",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Not language-specific."
-  },
-  "CWE-522": {
-    "name": "insufficiently protected credentials",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Not language-specific."
-  },
-  "CWE-276": {
-    "name": "incorrect default permissions",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Every language here creates files."
-  },
-  "CWE-116": {
-    "name": "improper encoding or escaping of output",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Not language-specific."
-  },
-  "CWE-59": {
-    "name": "link following",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Requires resolving a filesystem path that may be a symbolic link; every language here opens files by path."
-  },
-  "CWE-471": {
-    "name": "modification of assumed-immutable data",
-    "applies_to": [
-      "javascript",
-      "typescript",
-      "python",
-      "ruby",
-      "php"
-    ],
-    "reason": "Prototype and attribute pollution need a runtime whose object model is mutable at the language level. Compiled and statically-dispatched languages have no equivalent."
-  },
-  "CWE-285": {
-    "name": "improper authorisation",
-    "applies_to": [
-      "java",
-      "kotlin",
-      "python",
-      "javascript",
-      "typescript",
-      "go",
-      "csharp",
-      "c",
-      "cpp",
-      "rust",
-      "php",
-      "ruby",
-      "swift"
-    ],
-    "reason": "Not language-specific."
+    "reason": "Every language here has a package manager and a manifest."
   }
 }

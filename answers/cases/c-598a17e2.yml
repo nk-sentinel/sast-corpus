@@ -1,0 +1,28 @@
+id: c-598a17e2
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-78
+variant: unknown
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/tobychui__zoraxy@e79a70b/src/mod/sshprox/sshprox.go
+  start_line: 165
+  end_line: 203
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-52010 in tobychui/zoraxy, at the buggy commit e79a70b. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-52010
+build:
+  required: false
+  recipe: null

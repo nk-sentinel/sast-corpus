@@ -1,0 +1,28 @@
+id: c-1ffa0d3c
+label: vulnerable
+plane: vuln
+tier: 3
+language: go
+framework: null
+primary_cwe: CWE-522
+variant: unknown
+acceptable_cwes: [CWE-522]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/grafana__grafana@f68f621342cc/pkg/util/proxyutil/reverse_proxy.go
+  start_line: 67
+  end_line: 76
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2022-31130 in grafana/grafana, at the buggy commit f68f621342ccd005bd2d8eb6ae234af3b0ef64ae. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2022-31130
+build:
+  required: false
+  recipe: null

@@ -1,0 +1,31 @@
+id: c-7c6b04fa
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-22
+variant: unknown
+acceptable_cwes: [CWE-22, CWE-23, CWE-35, CWE-36, CWE-73]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/langchain-ai__langchain@501cc83/libs/langchain/langchain/storage/file_system.py
+  start_line: 38
+  end_line: 45
+alt_locations:
+  - file: tier3/patcheval/langchain-ai__langchain@501cc83/libs/langchain/langchain/storage/file_system.py
+    start_line: 47
+    end_line: 58
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-3571 in langchain-ai/langchain, at the buggy commit 501cc83. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines. Ground truth spans the 2 location(s) the fix touched, and a hit at any of them counts, because a fix commit routinely edits more than the flaw.
+  cve: CVE-2024-3571
+build:
+  required: false
+  recipe: null

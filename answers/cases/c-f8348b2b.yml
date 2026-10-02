@@ -1,0 +1,28 @@
+id: c-f8348b2b
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-532
+variant: unknown
+acceptable_cwes: [CWE-532]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/wagtail__wagtail@190af78/wagtail/users/views/bulk_actions/user_bulk_action.py
+  start_line: 6
+  end_line: 8
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-45809 in wagtail/wagtail, at the buggy commit 190af78. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2023-45809
+build:
+  required: false
+  recipe: null

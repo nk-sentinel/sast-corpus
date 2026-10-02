@@ -1,0 +1,28 @@
+id: c-d8c9f2fb
+label: vulnerable
+plane: vuln
+tier: 3
+language: javascript
+framework: null
+primary_cwe: CWE-20
+variant: unknown
+acceptable_cwes: [CWE-20]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/salesforce__tough-cookie@ce76918/lib/cookie.js
+  start_line: 324
+  end_line: 478
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2016-1000232 in salesforce/tough-cookie, at the buggy commit ce76918. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2016-1000232
+build:
+  required: false
+  recipe: null

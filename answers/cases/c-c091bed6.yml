@@ -1,0 +1,28 @@
+id: c-c091bed6
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-78
+variant: unknown
+acceptable_cwes: [CWE-78, CWE-77, CWE-88]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/gitpython-developers__GitPython@c09a71e2caef/git/repo/base.py
+  start_line: 1172
+  end_line: 1255
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2023-40267 in gitpython-developers/GitPython, at the buggy commit c09a71e2caefd5c25195b0b2decc8177d658216a. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2023-40267
+build:
+  required: false
+  recipe: null

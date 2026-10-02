@@ -39,6 +39,7 @@ from pathlib import Path
 # script run from the repository root, where sys.path[0] is spine/corpora.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from corpora.cwe_families import acceptable_for  # noqa: F401  (re-exported)
 from corpora.repos import worth_fetching
 
 LANGUAGES = {"Go": "go", "JavaScript": "javascript", "Python": "python"}
@@ -72,23 +73,6 @@ PREFERRED = [
     "CWE-269", "CWE-250", "CWE-285", "CWE-284", "CWE-20", "CWE-400", "CWE-770",
 ]
 
-ACCEPTABLE = {
-    "CWE-89": ["CWE-89", "CWE-943", "CWE-564"],
-    "CWE-78": ["CWE-78", "CWE-77", "CWE-88"],
-    "CWE-77": ["CWE-77", "CWE-78", "CWE-88"],
-    "CWE-79": ["CWE-79", "CWE-80", "CWE-83"],
-    "CWE-22": ["CWE-22", "CWE-23", "CWE-36", "CWE-73"],
-    "CWE-23": ["CWE-23", "CWE-22", "CWE-36"],
-    "CWE-73": ["CWE-73", "CWE-22", "CWE-23"],
-    "CWE-94": ["CWE-94", "CWE-95", "CWE-96"],
-    "CWE-95": ["CWE-95", "CWE-94"],
-    "CWE-502": ["CWE-502", "CWE-915"],
-    "CWE-611": ["CWE-611", "CWE-827", "CWE-776"],
-    "CWE-918": ["CWE-918", "CWE-441"],
-    "CWE-601": ["CWE-601", "CWE-1022"],
-    "CWE-862": ["CWE-862", "CWE-285", "CWE-863"],
-    "CWE-863": ["CWE-863", "CWE-285", "CWE-862"],
-}
 
 CWE_SHAPE = re.compile(r"^CWE-\d+$")
 
@@ -107,10 +91,6 @@ def primary_cwe(cwe_info):
         if preferred in candidates:
             return preferred
     return sorted(candidates, key=lambda c: int(c.split("-")[1]))[0]
-
-
-def acceptable_for(cwe):
-    return ACCEPTABLE.get(cwe, [cwe])
 
 
 def coerce_span(location):

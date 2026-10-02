@@ -5,7 +5,7 @@ tier: 1
 language: csharp
 framework: null
 primary_cwe: CWE-798
-variant: null
+variant: cloud-storage
 acceptable_cwes: [CWE-798, CWE-259, CWE-321]
 owasp_2021: A07
 severity: critical

@@ -5,7 +5,7 @@ tier: 1
 language: python
 framework: null
 primary_cwe: CWE-1395
-variant: null
+variant: transitive-only
 acceptable_cwes: [CWE-1395, CWE-937, CWE-1104]
 owasp_2021: A06
 severity: high

@@ -1,0 +1,28 @@
+id: c-a18e3bd2
+label: vulnerable
+plane: vuln
+tier: 3
+language: python
+framework: null
+primary_cwe: CWE-918
+variant: unknown
+acceptable_cwes: [CWE-918, CWE-441]
+owasp_2021: null
+severity: high
+location:
+  file: tier3/patcheval/langchain-ai__langchain@817b84d/libs/core/langchain_core/utils/html.py
+  start_line: 47
+  end_line: 89
+alt_locations: []
+difficulty:
+  flow: unknown
+  sanitizer: unknown
+  obfuscation: unknown
+evidence:
+  source: cve
+  rationale: >-
+    CVE-2024-0243 in langchain-ai/langchain, at the buggy commit 817b84d. The line range is the one PatchEval records for the vulnerable function, confirmed against the bytes in that checkout rather than trusted — the recorded snippet appears exactly at these lines.
+  cve: CVE-2024-0243
+build:
+  required: false
+  recipe: null
