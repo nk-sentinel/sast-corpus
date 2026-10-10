@@ -1,5 +1,7 @@
 require_relative 'runner'
 
-def show(name)
-  archive(name)
+class ReportsController < ActionController::Base
+  def show
+    render plain: archive(params[:name].to_s)
+  end
 end

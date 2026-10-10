@@ -3,7 +3,9 @@ function build(code) {
 }
 
 function run(statement, params) {
-  return statement + '|' + params.join();
+  const mysql = require('mysql');
+  const link = mysql.createConnection({ database: 'app' });
+  return link.query(statement, params);
 }
 
 module.exports = { build };

@@ -1,5 +1,10 @@
+from flask import Flask, request
+
 from audit import record
 
+app = Flask(__name__)
 
-def show(user, password):
-    return record(user, password)
+
+@app.route("/show")
+def show():
+    return record(request.args.get("user", ""), request.args.get("password", ""))

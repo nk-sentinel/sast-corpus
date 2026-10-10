@@ -92,7 +92,10 @@ JAVA = [
              "        return run(\"SELECT status FROM orders WHERE code = '\"\n"
              "                   + same.get(0) + \"'\");\n    }\n\n"
              "    private static String run(String statement) {\n"
-             "        return statement;\n    }\n}\n")}),
+             "        try (java.sql.Connection link = java.sql.DriverManager.getConnection(\"jdbc:sqlite:app.db\");\n"
+             "             java.sql.Statement handle = link.createStatement()) {\n"
+             "            return handle.executeQuery(statement).getString(1);\n"
+             "        } catch (java.sql.SQLException failure) {\n            return \"\";\n        }\n    }\n}\n")}),
          "Report.java", "return run(\"SELECT status FROM orders WHERE code = '\"",
          "the value is added through one reference and read back through another that "
          "points at the same list. A tool that does not resolve the two names to one "
@@ -103,7 +106,11 @@ JAVA = [
              "        return run(\"SELECT status FROM orders WHERE code = ?\", code);\n"
              "    }\n\n"
              "    private static String run(String statement, String value) {\n"
-             "        return statement + \"|\" + value;\n    }\n}\n")}),
+             "        try (java.sql.Connection link = java.sql.DriverManager.getConnection(\"jdbc:sqlite:app.db\");\n"
+             "             java.sql.PreparedStatement handle = link.prepareStatement(statement)) {\n"
+             "            handle.setString(1, value);\n"
+             "            return handle.executeQuery().getString(1);\n"
+             "        } catch (java.sql.SQLException failure) {\n            return \"\";\n        }\n    }\n}\n")}),
          "Report.java", "return run(\"SELECT status FROM orders WHERE code = ?\"",
          "the statement carries a placeholder and the value is bound beside it, so "
          "aliasing changes nothing",
@@ -210,7 +217,10 @@ JAVA = [
              "    private static String apply(Function<String, String> step, String value) {\n"
              "        return run(step.apply(value));\n    }\n\n"
              "    private static String run(String statement) {\n"
-             "        return statement;\n    }\n}\n")}),
+             "        try (java.sql.Connection link = java.sql.DriverManager.getConnection(\"jdbc:sqlite:app.db\");\n"
+             "             java.sql.Statement handle = link.createStatement()) {\n"
+             "            return handle.executeQuery(statement).getString(1);\n"
+             "        } catch (java.sql.SQLException failure) {\n            return \"\";\n        }\n    }\n}\n")}),
          "Report.java", "return run(step.apply(value))",
          "the concatenation happens inside a lambda that is passed to another method "
          "and invoked there. The sink never names the caller's value directly, and "
@@ -225,7 +235,11 @@ JAVA = [
              "    private static String apply(Function<String, String> step, String value) {\n"
              "        return run(step.apply(value), value);\n    }\n\n"
              "    private static String run(String statement, String value) {\n"
-             "        return statement + \"|\" + value;\n    }\n}\n")}),
+             "        try (java.sql.Connection link = java.sql.DriverManager.getConnection(\"jdbc:sqlite:app.db\");\n"
+             "             java.sql.PreparedStatement handle = link.prepareStatement(statement)) {\n"
+             "            handle.setString(1, value);\n"
+             "            return handle.executeQuery().getString(1);\n"
+             "        } catch (java.sql.SQLException failure) {\n            return \"\";\n        }\n    }\n}\n")}),
          "Report.java", "return run(step.apply(value), value)",
          "the lambda ignores its argument and returns a fixed parameterised statement; "
          "the value is bound separately",
@@ -320,7 +334,10 @@ PYTHON = [
              "    same = holder\n"
              "    holder.append(code)\n"
              "    return run(\"SELECT status FROM orders WHERE code = '\" + same[0] + \"'\")\n\n\n"
-             "def run(statement):\n    return statement\n")}),
+             "def run(statement):\n"
+             "    import sqlite3\n\n"
+             "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
+             "    return cursor.execute(statement).fetchone()\n")}),
          "work.py", "return run(\"SELECT status FROM orders WHERE code = '\"",
          "the value is appended through one name and read back through another bound to "
          "the same list. Python rebinding makes the two names indistinguishable at "
@@ -328,7 +345,10 @@ PYTHON = [
          dict(PY_ENTRY, **{"work.py": (
              "def build(code):\n"
              "    return run(\"SELECT status FROM orders WHERE code = %s\", (code,))\n\n\n"
-             "def run(statement, params):\n    return statement + \"|\" + str(params)\n")}),
+             "def run(statement, params):\n"
+             "    import sqlite3\n\n"
+             "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
+             "    return cursor.execute(statement, params).fetchone()\n")}),
          "work.py", "return run(\"SELECT status FROM orders WHERE code = %s\"",
          "the statement carries a placeholder and the value travels as a bound "
          "parameter, so aliasing changes nothing",
@@ -402,7 +422,10 @@ PYTHON = [
              "    return apply(compose, code)\n\n\n"
              "def apply(step, value):\n"
              "    return run(step(value))\n\n\n"
-             "def run(statement):\n    return statement\n")}),
+             "def run(statement):\n"
+             "    import sqlite3\n\n"
+             "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
+             "    return cursor.execute(statement).fetchone()\n")}),
          "work.py", "return run(step(value))",
          "the concatenation happens inside a lambda handed to another function and "
          "called there. The sink never names the caller's value, so reaching it means "
@@ -413,7 +436,10 @@ PYTHON = [
              "    return apply(compose, code)\n\n\n"
              "def apply(step, value):\n"
              "    return run(step(value), (value,))\n\n\n"
-             "def run(statement, params):\n    return statement + \"|\" + str(params)\n")}),
+             "def run(statement, params):\n"
+             "    import sqlite3\n\n"
+             "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
+             "    return cursor.execute(statement, params).fetchone()\n")}),
          "work.py", "return run(step(value), (value,))",
          "the lambda ignores its argument and yields a parameterised statement; the "
          "value is bound separately",
@@ -481,22 +507,33 @@ GO = [
     hard("go-alias@second-reference", "go", "go", SQLI, "aliasing", "inter-file",
          dict(GO_ENTRY, **{"work.go": (
              "package main\n\n"
+             "import \"database/sql\"\n\n"
              "func build(code string) string {\n"
              "\tholder := []string{}\n"
              "\tsame := &holder\n"
              "\tholder = append(holder, code)\n"
              "\treturn run(\"SELECT status FROM orders WHERE code = '\" + (*same)[0] + \"'\")\n}\n\n"
-             "func run(statement string) string {\n\treturn statement\n}\n")}),
+             "func run(statement string) string {\n"
+             "\tdb, err := sql.Open(\"sqlite3\", \"app.db\")\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\trows, err := db.Query(statement)\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\tdefer rows.Close()\n\treturn statement\n}\n")}),
          "work.go", "return run(\"SELECT status FROM orders WHERE code = '\"",
          "the slice is written through the value and read back through a pointer to it. "
          "Resolving that the two reach the same backing array is pointer analysis, not "
          "name matching",
          dict(GO_ENTRY, **{"work.go": (
              "package main\n\n"
+             "import \"database/sql\"\n\n"
              "func build(code string) string {\n"
              "\treturn run(\"SELECT status FROM orders WHERE code = $1\", code)\n}\n\n"
              "func run(statement string, value string) string {\n"
-             "\treturn statement + \"|\" + value\n}\n")}),
+             "\tdb, err := sql.Open(\"sqlite3\", \"app.db\")\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\trows, err := db.Query(statement, value)\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\tdefer rows.Close()\n\treturn statement\n}\n")}),
          "work.go", "return run(\"SELECT status FROM orders WHERE code = $1\"",
          "the statement carries a placeholder and the value is passed beside it",
          entry_file="main.go", source_file="main.go", source_match="os.Args[1]"),
@@ -565,18 +602,25 @@ GO = [
     hard("go-callback@closure-boundary", "go", "go", SQLI, "callback", "inter-file",
          dict(GO_ENTRY, **{"work.go": (
              "package main\n\n"
+             "import \"database/sql\"\n\n"
              "func build(code string) string {\n"
              "\tcompose := func(value string) string {\n"
              "\t\treturn \"SELECT status FROM orders WHERE code = '\" + value + \"'\"\n\t}\n"
              "\treturn apply(compose, code)\n}\n\n"
              "func apply(step func(string) string, value string) string {\n"
              "\treturn run(step(value))\n}\n\n"
-             "func run(statement string) string {\n\treturn statement\n}\n")}),
+             "func run(statement string) string {\n"
+             "\tdb, err := sql.Open(\"sqlite3\", \"app.db\")\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\trows, err := db.Query(statement)\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\tdefer rows.Close()\n\treturn statement\n}\n")}),
          "work.go", "return run(step(value))",
          "the concatenation lives in a closure passed to another function and invoked "
          "there, so the sink never names the caller's value directly",
          dict(GO_ENTRY, **{"work.go": (
              "package main\n\n"
+             "import \"database/sql\"\n\n"
              "func build(code string) string {\n"
              "\tcompose := func(value string) string {\n"
              "\t\treturn \"SELECT status FROM orders WHERE code = $1\"\n\t}\n"
@@ -584,7 +628,11 @@ GO = [
              "func apply(step func(string) string, value string) string {\n"
              "\treturn run(step(value), value)\n}\n\n"
              "func run(statement string, value string) string {\n"
-             "\treturn statement + \"|\" + value\n}\n")}),
+             "\tdb, err := sql.Open(\"sqlite3\", \"app.db\")\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\trows, err := db.Query(statement, value)\n"
+             "\tif err != nil {\n\t\treturn \"\"\n\t}\n"
+             "\tdefer rows.Close()\n\treturn statement\n}\n")}),
          "work.go", "return run(step(value), value)",
          "the closure ignores its argument and returns a parameterised statement; the "
          "value travels separately",
@@ -634,7 +682,10 @@ JAVASCRIPT = [
              "  const same = holder;\n"
              "  holder.push(code);\n"
              "  return run(\"SELECT status FROM orders WHERE code = '\" + same[0] + \"'\");\n}\n\n"
-             "function run(statement) {\n  return statement;\n}\n\n"
+             "function run(statement) {\n"
+             "  const mysql = require('mysql');\n"
+             "  const link = mysql.createConnection({ database: 'app' });\n"
+             "  return link.query(statement);\n}\n\n"
              "module.exports = { build };\n")}),
          "work.js", "return run(\"SELECT status FROM orders WHERE code = '\"",
          "the value is pushed through one binding and read through another pointing at "
@@ -643,7 +694,10 @@ JAVASCRIPT = [
          dict(JS_ENTRY, **{"work.js": (
              "function build(code) {\n"
              "  return run('SELECT status FROM orders WHERE code = ?', [code]);\n}\n\n"
-             "function run(statement, params) {\n  return statement + '|' + params.join();\n}\n\n"
+             "function run(statement, params) {\n"
+             "  const mysql = require('mysql');\n"
+             "  const link = mysql.createConnection({ database: 'app' });\n"
+             "  return link.query(statement, params);\n}\n\n"
              "module.exports = { build };\n")}),
          "work.js", "return run('SELECT status FROM orders WHERE code = ?'",
          "the statement carries a placeholder and the value travels in the parameter "
@@ -719,7 +773,10 @@ JAVASCRIPT = [
              "    \"SELECT status FROM orders WHERE code = '\" + value + \"'\";\n"
              "  return apply(compose, code);\n}\n\n"
              "function apply(step, value) {\n  return run(step(value));\n}\n\n"
-             "function run(statement) {\n  return statement;\n}\n\n"
+             "function run(statement) {\n"
+             "  const mysql = require('mysql');\n"
+             "  const link = mysql.createConnection({ database: 'app' });\n"
+             "  return link.query(statement);\n}\n\n"
              "module.exports = { build };\n")}),
          "work.js", "return run(step(value))",
          "the concatenation lives in an arrow function passed to another function and "
@@ -729,7 +786,10 @@ JAVASCRIPT = [
              "  const compose = () => 'SELECT status FROM orders WHERE code = ?';\n"
              "  return apply(compose, code);\n}\n\n"
              "function apply(step, value) {\n  return run(step(), [value]);\n}\n\n"
-             "function run(statement, params) {\n  return statement + '|' + params.join();\n}\n\n"
+             "function run(statement, params) {\n"
+             "  const mysql = require('mysql');\n"
+             "  const link = mysql.createConnection({ database: 'app' });\n"
+             "  return link.query(statement, params);\n}\n\n"
              "module.exports = { build };\n")}),
          "work.js", "return run(step(), [value])",
          "the closure takes no argument and yields a parameterised statement; the value "
@@ -807,7 +867,10 @@ CSHARP = [
              "        holder.Add(code);\n"
              "        return Run(\"SELECT status FROM orders WHERE code = '\" + same[0] + \"'\");\n"
              "    }\n\n"
-             "    private static string Run(string statement) => statement;\n}\n")}),
+             "    private static string Run(string statement)\n    {\n"
+             "        using var link = new Microsoft.Data.SqlClient.SqlConnection(\"Server=.;Database=app\");\n"
+             "        using var command = new Microsoft.Data.SqlClient.SqlCommand(statement, link);\n"
+             "        return command.ExecuteScalar()?.ToString() ?? \"\";\n    }\n}\n")}),
          "Report.cs", "return Run(\"SELECT status FROM orders WHERE code = '\"",
          "the list is written through one local and read through another bound to the "
          "same instance. Only reference identity connects them",
@@ -816,8 +879,11 @@ CSHARP = [
              "    public static string Build(string code)\n    {\n"
              "        return Run(\"SELECT status FROM orders WHERE code = @code\", code);\n"
              "    }\n\n"
-             "    private static string Run(string statement, string value) =>\n"
-             "        statement + \"|\" + value;\n}\n")}),
+             "    private static string Run(string statement, string value)\n    {\n"
+             "        using var link = new Microsoft.Data.SqlClient.SqlConnection(\"Server=.;Database=app\");\n"
+             "        using var command = new Microsoft.Data.SqlClient.SqlCommand(statement, link);\n"
+             "        command.Parameters.AddWithValue(\"@code\", value);\n"
+             "        return command.ExecuteScalar()?.ToString() ?? \"\";\n    }\n}\n")}),
          "Report.cs", "return Run(\"SELECT status FROM orders WHERE code = @code\"",
          "the statement carries a named parameter and the value is passed beside it",
          entry_file="Cli.cs", source_file="Cli.cs", source_match="args[0]"),
@@ -903,7 +969,10 @@ CSHARP = [
              "        return Apply(compose, code);\n    }\n\n"
              "    private static string Apply(Func<string, string> step, string value) =>\n"
              "        Run(step(value));\n\n"
-             "    private static string Run(string statement) => statement;\n}\n")}),
+             "    private static string Run(string statement)\n    {\n"
+             "        using var link = new Microsoft.Data.SqlClient.SqlConnection(\"Server=.;Database=app\");\n"
+             "        using var command = new Microsoft.Data.SqlClient.SqlCommand(statement, link);\n"
+             "        return command.ExecuteScalar()?.ToString() ?? \"\";\n    }\n}\n")}),
          "Report.cs", "Run(step(value))",
          "the concatenation happens inside a delegate handed to another method and "
          "invoked there, so the sink never names the caller's value directly",
@@ -916,8 +985,11 @@ CSHARP = [
              "        return Apply(compose, code);\n    }\n\n"
              "    private static string Apply(Func<string, string> step, string value) =>\n"
              "        Run(step(value), value);\n\n"
-             "    private static string Run(string statement, string value) =>\n"
-             "        statement + \"|\" + value;\n}\n")}),
+             "    private static string Run(string statement, string value)\n    {\n"
+             "        using var link = new Microsoft.Data.SqlClient.SqlConnection(\"Server=.;Database=app\");\n"
+             "        using var command = new Microsoft.Data.SqlClient.SqlCommand(statement, link);\n"
+             "        command.Parameters.AddWithValue(\"@code\", value);\n"
+             "        return command.ExecuteScalar()?.ToString() ?? \"\";\n    }\n}\n")}),
          "Report.cs", "Run(step(value), value)",
          "the delegate ignores its argument and returns a parameterised statement; the "
          "value is passed separately",

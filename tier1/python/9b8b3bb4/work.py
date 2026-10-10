@@ -8,4 +8,7 @@ def apply(step, value):
 
 
 def run(statement):
-    return statement
+    import sqlite3
+
+    cursor = sqlite3.connect("app.db").cursor()
+    return cursor.execute(statement).fetchone()

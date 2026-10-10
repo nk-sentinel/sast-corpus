@@ -10,5 +10,10 @@ public static class Report
         return Run("SELECT status FROM orders WHERE code = '" + same[0] + "'");
     }
 
-    private static string Run(string statement) => statement;
+    private static string Run(string statement)
+    {
+        using var link = new Microsoft.Data.SqlClient.SqlConnection("Server=.;Database=app");
+        using var command = new Microsoft.Data.SqlClient.SqlCommand(statement, link);
+        return command.ExecuteScalar()?.ToString() ?? "";
+    }
 }

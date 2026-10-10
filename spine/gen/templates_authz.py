@@ -288,10 +288,13 @@ AUTHZ = [
         "inter-file",
         {"handler.py": (
             "import traceback\n\n"
-            "from store import lookup\n\n\n"
-            "def show(code):\n"
+            "from flask import Flask, request\n\n"
+            "from store import lookup\n\n"
+            "app = Flask(__name__)\n\n\n"
+            "@app.route(\"/show\")\n"
+            "def show():\n"
             "    try:\n"
-            "        return lookup(code)\n"
+            "        return lookup(request.args.get(\"code\", \"\"))\n"
             "    except Exception:\n"
             "        return traceback.format_exc()\n"),
          "store.py": (
@@ -303,11 +306,14 @@ AUTHZ = [
         "of the deployment handed to whoever triggered the error",
         {"handler.py": (
             "import logging\n\n"
+            "from flask import Flask, request\n\n"
             "from store import lookup\n\n"
+            "app = Flask(__name__)\n"
             "logger = logging.getLogger(__name__)\n\n\n"
-            "def show(code):\n"
+            "@app.route(\"/show\")\n"
+            "def show():\n"
             "    try:\n"
-            "        return lookup(code)\n"
+            "        return lookup(request.args.get(\"code\", \"\"))\n"
             "    except Exception:\n"
             "        logger.exception(\"lookup failed\")\n"
             "        return \"lookup failed\"\n"),

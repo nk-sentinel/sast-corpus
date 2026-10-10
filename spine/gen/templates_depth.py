@@ -25,16 +25,24 @@ PY_DEPTH = [
     template(
         "py-sqli-local@concat-statement", "python", "py", SQLI, "flask", "intra-procedural",
         {"view.py": (
-            "import sqlite3\n\n\n"
-            "def show(code):\n"
+            "import sqlite3\n\n"
+            "from flask import Flask, request\n\n"
+            "app = Flask(__name__)\n\n\n"
+            "@app.route(\"/show\")\n"
+            "def show():\n"
+            "    code = request.args.get(\"code\", \"\")\n"
             "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
             "    statement = \"SELECT status FROM orders WHERE code = '\" + code + \"'\"\n"
             "    return cursor.execute(statement).fetchone()\n")},
         "view.py", "cursor.execute(statement)",
         "source and sink sit in one function, so no dataflow analysis beyond the statement is needed",
         {"view.py": (
-            "import sqlite3\n\n\n"
-            "def show(code):\n"
+            "import sqlite3\n\n"
+            "from flask import Flask, request\n\n"
+            "app = Flask(__name__)\n\n\n"
+            "@app.route(\"/show\")\n"
+            "def show():\n"
+            "    code = request.args.get(\"code\", \"\")\n"
             "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
             "    statement = \"SELECT status FROM orders WHERE code = ?\"\n"
             "    return cursor.execute(statement, (code,)).fetchone()\n")},
@@ -45,20 +53,28 @@ PY_DEPTH = [
     template(
         "py-sqli-crossfn@concat-statement", "python", "py", SQLI, "flask", "inter-procedural",
         {"view.py": (
-            "import sqlite3\n\n\n"
+            "import sqlite3\n\n"
+            "from flask import Flask, request\n\n"
+            "app = Flask(__name__)\n\n\n"
             "def _run(statement):\n"
             "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
             "    return cursor.execute(statement).fetchone()\n\n\n"
-            "def show(code):\n"
+            "@app.route(\"/show\")\n"
+            "def show():\n"
+            "    code = request.args.get(\"code\", \"\")\n"
             "    return _run(\"SELECT status FROM orders WHERE code = '\" + code + \"'\")\n")},
         "view.py", "cursor.execute(statement)",
         "the assembled text crosses a function boundary inside one file before reaching the sink",
         {"view.py": (
-            "import sqlite3\n\n\n"
+            "import sqlite3\n\n"
+            "from flask import Flask, request\n\n"
+            "app = Flask(__name__)\n\n\n"
             "def _run(statement, code):\n"
             "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
             "    return cursor.execute(statement, (code,)).fetchone()\n\n\n"
-            "def show(code):\n"
+            "@app.route(\"/show\")\n"
+            "def show():\n"
+            "    code = request.args.get(\"code\", \"\")\n"
             "    return _run(\"SELECT status FROM orders WHERE code = ?\", code)\n")},
         "view.py", "cursor.execute(statement", "framework-implicit",
         "the same call structure, but the value is bound instead of concatenated",
@@ -71,7 +87,12 @@ PY_DEPTH = [
 WEAK = [
     template(
         "py-path-filter@single-pass-filter", "python", "py", PATHT, "flask", "inter-file",
-        {"handler.py": "from reader import contents\n\n\ndef show(name):\n    return contents(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from reader import contents\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return contents(request.args.get(\"name\", \"\"))\n",
          "reader.py": (
              "import os\n\n"
              "BASE = \"/srv/reports\"\n\n\n"
@@ -81,7 +102,12 @@ WEAK = [
              "        return handle.read()\n")},
         "reader.py", "with open(os.path.join",
         "the filter runs once, so ....// collapses to ../ after the replacement and the read still escapes the base",
-        {"handler.py": "from reader import contents\n\n\ndef show(name):\n    return contents(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from reader import contents\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return contents(request.args.get(\"name\", \"\"))\n",
          "reader.py": (
              "import os\n\n"
              "BASE = \"/srv/reports\"\n\n\n"
@@ -97,7 +123,12 @@ WEAK = [
         extra={
             "vulnerable-loop-filter": Variant(
                 files={
-                    "handler.py": "from reader import contents\n\n\ndef show(name):\n    return contents(name)\n",
+                    "handler.py": "from flask import Flask, request\n\n"
+                                  "from reader import contents\n\n"
+                                  "app = Flask(__name__)\n\n\n"
+                                  "@app.route(\"/show\")\n"
+                                  "def show():\n"
+                                  "    return contents(request.args.get(\"name\", \"\"))\n",
                     "reader.py": (
                         "import os\n\n"
                         "BASE = \"/srv/reports\"\n\n\n"
@@ -119,7 +150,12 @@ WEAK = [
     ),
     template(
         "py-cmdi-filter@blocklist-filter", "python", "py", CMDI, "flask", "inter-file",
-        {"handler.py": "from runner import archive\n\n\ndef show(name):\n    return archive(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from runner import archive\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return archive(request.args.get(\"name\", \"\"))\n",
          "runner.py": (
              "import subprocess\n\n\n"
              "def archive(name):\n"
@@ -127,7 +163,12 @@ WEAK = [
              "    return subprocess.run(\"tar -cf backup.tar \" + cleaned, shell=True).returncode\n")},
         "runner.py", "subprocess.run(\"tar",
         "only the semicolon is removed, so a pipe, an ampersand pair, a backtick or $() still starts a second command",
-        {"handler.py": "from runner import archive\n\n\ndef show(name):\n    return archive(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from runner import archive\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return archive(request.args.get(\"name\", \"\"))\n",
          "runner.py": (
              "import subprocess\n\n\n"
              "def archive(name):\n"
@@ -143,13 +184,23 @@ WEAK = [
 MARKUP = [
     template(
         "py-markup@unescaped-output", "python", "py", XSS, "flask", "inter-file",
-        {"handler.py": "from page import render_row\n\n\ndef show(name):\n    return render_row(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from page import render_row\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return render_row(request.args.get(\"name\", \"\"))\n",
          "page.py": (
              "def render_row(name):\n"
              "    return \"<div class='row'>\" + name + \"</div>\"\n")},
         "page.py", "return \"<div class='row'>\"",
         "the request value is placed straight into markup, so any tag it contains is parsed as markup by the browser",
-        {"handler.py": "from page import render_row\n\n\ndef show(name):\n    return render_row(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from page import render_row\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return render_row(request.args.get(\"name\", \"\"))\n",
          "page.py": (
              "import html\n\n\n"
              "def render_row(name):\n"
@@ -160,7 +211,12 @@ MARKUP = [
         extra={
             "vulnerable-tag-filter": Variant(
                 files={
-                    "handler.py": "from page import render_row\n\n\ndef show(name):\n    return render_row(name)\n",
+                    "handler.py": "from flask import Flask, request\n\n"
+                                  "from page import render_row\n\n"
+                                  "app = Flask(__name__)\n\n\n"
+                                  "@app.route(\"/show\")\n"
+                                  "def show():\n"
+                                  "    return render_row(request.args.get(\"name\", \"\"))\n",
                     "page.py": (
                         "def render_row(name):\n"
                         "    cleaned = name.replace(\"<script>\", \"\")\n"

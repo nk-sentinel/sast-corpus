@@ -81,9 +81,171 @@ def local(files, sink_file, sink_match, sanitizer, rationale, label="vulnerable"
     )
 
 
+# --- framework entry points ------------------------------------------------
+#
+# The answer key records a `framework` for these cases, and a fixture that names
+# a framework it never touches cannot measure whether a tool understands that
+# framework's request binding — the binding is the thing being tested. Each
+# entry point below is the idiomatic shape for its framework: a registered
+# net/http handler, an MVC controller action, a Laravel route closure, a Rails
+# controller, a NestJS controller. See docs/THREATS-TO-VALIDITY.md.
+
+GO_ENTRY_ARCHIVE = """package app
+
+import (
+	"net/http"
+)
+
+func init() {
+	http.HandleFunc("/show", Show)
+}
+
+func Show(w http.ResponseWriter, r *http.Request) {
+	out, err := Archive(r.URL.Query().Get("name"))
+	if err != nil {
+		http.Error(w, "archive failed", http.StatusInternalServerError)
+		return
+	}
+	w.Write(out)
+}
+"""
+
+GO_ENTRY_CONTENTS = """package app
+
+import (
+	"net/http"
+)
+
+func init() {
+	http.HandleFunc("/show", Show)
+}
+
+func Show(w http.ResponseWriter, r *http.Request) {
+	body, err := Contents(r.URL.Query().Get("name"))
+	if err != nil {
+		http.Error(w, "read failed", http.StatusInternalServerError)
+		return
+	}
+	w.Write(body)
+}
+"""
+
+# The project file travels with the C# fixtures so the syntax gate can resolve
+# Microsoft.AspNetCore.Mvc from the shared framework rather than from NuGet.
+CS_PROJ = (
+    "<Project Sdk=\"Microsoft.NET.Sdk\">\n"
+    "  <PropertyGroup>\n"
+    "    <TargetFramework>net8.0</TargetFramework>\n"
+    "  </PropertyGroup>\n"
+    "  <ItemGroup>\n"
+    "    <FrameworkReference Include=\"Microsoft.AspNetCore.App\" />\n"
+    "  </ItemGroup>\n"
+    "</Project>\n"
+)
+
+CS_ENTRY_STORE = (
+    "using Microsoft.AspNetCore.Mvc;\n\n"
+    "namespace App;\n\n"
+    "[ApiController]\n"
+    "[Route(\"show\")]\n"
+    "public class ReportController : ControllerBase\n"
+    "{\n"
+    "    [HttpGet]\n"
+    "    public object Show([FromQuery] string code) => Store.Lookup(code);\n"
+    "}\n"
+)
+
+CS_ENTRY_RUNNER = (
+    "using Microsoft.AspNetCore.Mvc;\n\n"
+    "namespace App;\n\n"
+    "[ApiController]\n"
+    "[Route(\"show\")]\n"
+    "public class ReportController : ControllerBase\n"
+    "{\n"
+    "    [HttpGet]\n"
+    "    public void Show([FromQuery] string name) => Runner.Archive(name);\n"
+    "}\n"
+)
+
+PHP_ENTRY_STORE = (
+    "<?php\n\n"
+    "use Illuminate\\Http\\Request;\n"
+    "use Illuminate\\Support\\Facades\\Route;\n\n"
+    "require_once __DIR__ . '/store.php';\n\n"
+    "Route::get('/show', function (Request $request) {\n"
+    "    return show($request->query('code', ''));\n"
+    "});\n\n"
+    "function show($code) {\n"
+    "    return lookup($code);\n"
+    "}\n"
+)
+
+PHP_ENTRY_RUNNER = (
+    "<?php\n\n"
+    "use Illuminate\\Http\\Request;\n"
+    "use Illuminate\\Support\\Facades\\Route;\n\n"
+    "require_once __DIR__ . '/runner.php';\n\n"
+    "Route::get('/show', function (Request $request) {\n"
+    "    return show($request->query('name', ''));\n"
+    "});\n\n"
+    "function show($name) {\n"
+    "    return archive($name);\n"
+    "}\n"
+)
+
+RB_ENTRY_STORE = (
+    "require_relative 'store'\n\n"
+    "class ReportsController < ActionController::Base\n"
+    "  def show\n"
+    "    render plain: lookup(params[:code].to_s)\n"
+    "  end\n"
+    "end\n"
+)
+
+RB_ENTRY_RUNNER = (
+    "require_relative 'runner'\n\n"
+    "class ReportsController < ActionController::Base\n"
+    "  def show\n"
+    "    render plain: archive(params[:name].to_s)\n"
+    "  end\n"
+    "end\n"
+)
+
+TS_ENTRY_STORE = (
+    "import { Controller, Get, Query } from '@nestjs/common';\n\n"
+    "import { lookup } from './store';\n\n"
+    "@Controller('reports')\n"
+    "export class ReportsController {\n"
+    "  @Get()\n"
+    "  show(@Query('code') code: string): unknown {\n"
+    "    return lookup(code);\n"
+    "  }\n"
+    "}\n"
+)
+
+TS_ENTRY_RUNNER = (
+    "import { Controller, Get, Query } from '@nestjs/common';\n\n"
+    "import { archive } from './runner';\n\n"
+    "@Controller('reports')\n"
+    "export class ReportsController {\n"
+    "  @Get()\n"
+    "  show(@Query('name') name: string): unknown {\n"
+    "    return archive(name);\n"
+    "  }\n"
+    "}\n"
+)
+
+
 # --- python ----------------------------------------------------------------
 
-PY_ENTRY = "from store import lookup\n\n\ndef show(code):\n    return lookup(code)\n"
+PY_ENTRY = (
+    "from flask import Flask, request\n\n"
+    "from store import lookup\n\n"
+    "app = Flask(__name__)\n\n\n"
+    "@app.route(\"/show\")\n"
+    "def show():\n"
+    "    return lookup(request.args.get(\"code\", \"\"))\n"
+)
 
 PYTHON = [
     template(
@@ -110,7 +272,12 @@ PYTHON = [
     ),
     template(
         "py-cmdi@shell-string", "python", "py", CMDI, "flask", "inter-file",
-        {"handler.py": "from runner import archive\n\n\ndef show(name):\n    return archive(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from runner import archive\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return archive(request.args.get(\"name\", \"\"))\n",
          "runner.py": (
              "import subprocess\n\n\n"
              "def archive(name):\n"
@@ -118,7 +285,12 @@ PYTHON = [
              "    return subprocess.run(line, shell=True, capture_output=True).stdout\n")},
         "runner.py", "subprocess.run(line",
         "the request value is spliced into a string handed to a shell, so a semicolon starts a second command",
-        {"handler.py": "from runner import archive\n\n\ndef show(name):\n    return archive(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from runner import archive\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return archive(request.args.get(\"name\", \"\"))\n",
          "runner.py": (
              "import subprocess\n\n\n"
              "def archive(name):\n"
@@ -130,7 +302,12 @@ PYTHON = [
     ),
     template(
         "py-path@unvalidated-join", "python", "py", PATHT, "flask", "inter-file",
-        {"handler.py": "from reader import contents\n\n\ndef show(name):\n    return contents(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from reader import contents\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return contents(request.args.get(\"name\", \"\"))\n",
          "reader.py": (
              "import os\n\n"
              "BASE = \"/srv/reports\"\n\n\n"
@@ -140,7 +317,12 @@ PYTHON = [
              "        return handle.read()\n")},
         "reader.py", "with open(target)",
         "os.path.join discards the base whenever the request value is absolute, and honours .. segments otherwise",
-        {"handler.py": "from reader import contents\n\n\ndef show(name):\n    return contents(name)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from reader import contents\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return contents(request.args.get(\"name\", \"\"))\n",
          "reader.py": (
              "import os\n\n"
              "BASE = \"/srv/reports\"\n\n\n"
@@ -156,7 +338,12 @@ PYTHON = [
     ),
     template(
         "py-ssrf@unvalidated-url", "python", "py", SSRF, "flask", "inter-file",
-        {"handler.py": "from fetcher import body\n\n\ndef show(target):\n    return body(target)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from fetcher import body\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return body(request.args.get(\"target\", \"\"))\n",
          "fetcher.py": (
              "import requests\n\n\n"
              "def body(target):\n"
@@ -164,7 +351,12 @@ PYTHON = [
              "    return response.text\n")},
         "fetcher.py", "requests.get(target",
         "the request value becomes the whole URL, so the server can be aimed at internal addresses",
-        {"handler.py": "from fetcher import body\n\n\ndef show(target):\n    return body(target)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from fetcher import body\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return body(request.args.get(\"target\", \"\"))\n",
          "fetcher.py": (
              "from urllib.parse import urlparse\n\n"
              "import requests\n\n"
@@ -181,14 +373,24 @@ PYTHON = [
     ),
     template(
         "py-deser@pickle-untrusted", "python", "py", DESER, "flask", "inter-file",
-        {"handler.py": "from loader import restore\n\n\ndef show(blob):\n    return restore(blob)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from loader import restore\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return restore(request.args.get(\"blob\", \"\"))\n",
          "loader.py": (
              "import pickle\n\n\n"
              "def restore(blob):\n"
              "    return pickle.loads(blob)\n")},
         "loader.py", "pickle.loads(blob)",
         "pickle reconstructs arbitrary objects and runs their reduce hooks, so decoding request bytes executes them",
-        {"handler.py": "from loader import restore\n\n\ndef show(blob):\n    return restore(blob)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from loader import restore\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return restore(request.args.get(\"blob\", \"\"))\n",
          "loader.py": (
              "import json\n\n\n"
              "def restore(blob):\n"
@@ -315,7 +517,7 @@ JS = [
 TYPESCRIPT = [
     template(
         "ts-sqli@concat-statement", "typescript", "ts", SQLI, "nestjs", "inter-file",
-        {"route.ts": "import { lookup } from './store';\n\nexport function show(code: string): unknown {\n  return lookup(code);\n}\n",
+        {"route.ts": TS_ENTRY_STORE,
          "store.ts": (
              "import { pool } from './db';\n\n"
              "export function lookup(code: string): unknown {\n"
@@ -325,7 +527,7 @@ TYPESCRIPT = [
          "db.ts": "export const pool = {\n  query(text: string, values?: unknown[]): unknown {\n    return { text, values };\n  },\n};\n"},
         "store.ts", "pool.query(statement)",
         "the handler argument is concatenated into the statement text, which the driver then parses as code",
-        {"route.ts": "import { lookup } from './store';\n\nexport function show(code: string): unknown {\n  return lookup(code);\n}\n",
+        {"route.ts": TS_ENTRY_STORE,
          "store.ts": (
              "import { pool } from './db';\n\n"
              "export function lookup(code: string): unknown {\n"
@@ -335,11 +537,11 @@ TYPESCRIPT = [
          "db.ts": "export const pool = {\n  query(text: string, values?: unknown[]): unknown {\n    return { text, values };\n  },\n};\n"},
         "store.ts", "pool.query(statement", "framework-implicit",
         "the value is passed in the parameter array, so the statement text never contains it",
-        "route.ts", "export function show",
+        "route.ts", "show(@Query('code') code: string)",
     ),
     template(
         "ts-cmdi@shell-string", "typescript", "ts", CMDI, "nestjs", "inter-file",
-        {"route.ts": "import { archive } from './runner';\n\nexport function show(name: string): unknown {\n  return archive(name);\n}\n",
+        {"route.ts": TS_ENTRY_RUNNER,
          "runner.ts": (
              "import { execSync } from 'child_process';\n\n"
              "export function archive(name: string): Buffer {\n"
@@ -348,7 +550,7 @@ TYPESCRIPT = [
              "}\n")},
         "runner.ts", "execSync(line)",
         "execSync hands the assembled string to a shell, so a semicolon in the argument starts a second command",
-        {"route.ts": "import { archive } from './runner';\n\nexport function show(name: string): unknown {\n  return archive(name);\n}\n",
+        {"route.ts": TS_ENTRY_RUNNER,
          "runner.ts": (
              "import { execFileSync } from 'child_process';\n\n"
              "export function archive(name: string): Buffer {\n"
@@ -357,7 +559,7 @@ TYPESCRIPT = [
              "}\n")},
         "runner.ts", "execFileSync('tar'", "framework-implicit",
         "execFileSync spawns the binary directly with an argument vector and never involves a shell",
-        "route.ts", "export function show",
+        "route.ts", "show(@Query('name') name: string)",
     ),
 ]
 
@@ -368,8 +570,21 @@ ALL = PYTHON + JS + TYPESCRIPT
 
 GO_ENTRY = """package app
 
-func Show(code string) (string, error) {
-	return Lookup(code)
+import (
+	"net/http"
+)
+
+func init() {
+	http.HandleFunc("/show", Show)
+}
+
+func Show(w http.ResponseWriter, r *http.Request) {
+	status, err := Lookup(r.URL.Query().Get("code"))
+	if err != nil {
+		http.Error(w, "lookup failed", http.StatusInternalServerError)
+		return
+	}
+	w.Write([]byte(status))
 }
 """
 
@@ -404,7 +619,7 @@ GO = [
     ),
     template(
         "go-cmdi@shell-string", "go", "go", CMDI, "net/http", "inter-file",
-        {"handler.go": "package app\n\nfunc Show(name string) ([]byte, error) {\n\treturn Archive(name)\n}\n",
+        {"handler.go": GO_ENTRY_ARCHIVE,
          "runner.go": (
              "package app\n\n"
              "import (\n\t\"os/exec\"\n)\n\n"
@@ -413,7 +628,7 @@ GO = [
              "\treturn exec.Command(\"sh\", \"-c\", line).Output()\n}\n")},
         "runner.go", "exec.Command(\"sh\"",
         "the assembled string is handed to a shell, so a semicolon in the request value starts a second command",
-        {"handler.go": "package app\n\nfunc Show(name string) ([]byte, error) {\n\treturn Archive(name)\n}\n",
+        {"handler.go": GO_ENTRY_ARCHIVE,
          "runner.go": (
              "package app\n\n"
              "import (\n\t\"os/exec\"\n)\n\n"
@@ -425,7 +640,7 @@ GO = [
     ),
     template(
         "go-path@unvalidated-join", "go", "go", PATHT, "net/http", "inter-file",
-        {"handler.go": "package app\n\nfunc Show(name string) ([]byte, error) {\n\treturn Contents(name)\n}\n",
+        {"handler.go": GO_ENTRY_CONTENTS,
          "reader.go": (
              "package app\n\n"
              "import (\n\t\"os\"\n\t\"path/filepath\"\n)\n\n"
@@ -435,7 +650,7 @@ GO = [
              "\treturn os.ReadFile(target)\n}\n")},
         "reader.go", "os.ReadFile(target)",
         "filepath.Join resolves .. segments in the request value, so the read escapes the base directory",
-        {"handler.go": "package app\n\nfunc Show(name string) ([]byte, error) {\n\treturn Contents(name)\n}\n",
+        {"handler.go": GO_ENTRY_CONTENTS,
          "reader.go": (
              "package app\n\n"
              "import (\n\t\"errors\"\n\t\"os\"\n\t\"path/filepath\"\n\t\"strings\"\n)\n\n"
@@ -456,7 +671,7 @@ GO = [
 CSHARP = [
     template(
         "cs-sqli@concat-statement", "csharp", "cs", SQLI, "aspnet", "inter-file",
-        {"Controller.cs": "namespace App;\n\npublic class Controller\n{\n    public object Show(string code) => Store.Lookup(code);\n}\n",
+        {"Controller.cs": CS_ENTRY_STORE, "Report.csproj": CS_PROJ,
          "Store.cs": (
              "using Microsoft.Data.SqlClient;\n\n"
              "namespace App;\n\n"
@@ -467,7 +682,7 @@ CSHARP = [
              "        return command.ExecuteScalar();\n    }\n}\n")},
         "Store.cs", "command.ExecuteScalar()",
         "the request value is concatenated into the command text, which the server then parses as code",
-        {"Controller.cs": "namespace App;\n\npublic class Controller\n{\n    public object Show(string code) => Store.Lookup(code);\n}\n",
+        {"Controller.cs": CS_ENTRY_STORE, "Report.csproj": CS_PROJ,
          "Store.cs": (
              "using Microsoft.Data.SqlClient;\n\n"
              "namespace App;\n\n"
@@ -483,7 +698,7 @@ CSHARP = [
     ),
     template(
         "cs-cmdi@shell-string", "csharp", "cs", CMDI, "aspnet", "inter-file",
-        {"Controller.cs": "namespace App;\n\npublic class Controller\n{\n    public void Show(string name) => Runner.Archive(name);\n}\n",
+        {"Controller.cs": CS_ENTRY_RUNNER, "Report.csproj": CS_PROJ,
          "Runner.cs": (
              "using System.Diagnostics;\n\n"
              "namespace App;\n\n"
@@ -493,7 +708,7 @@ CSHARP = [
              "        Process.Start(\"/bin/sh\", line);\n    }\n}\n")},
         "Runner.cs", "Process.Start(\"/bin/sh\"",
         "the assembled argument string is handed to a shell, so a semicolon in the request value starts a second command",
-        {"Controller.cs": "namespace App;\n\npublic class Controller\n{\n    public void Show(string name) => Runner.Archive(name);\n}\n",
+        {"Controller.cs": CS_ENTRY_RUNNER, "Report.csproj": CS_PROJ,
          "Runner.cs": (
              "using System.Diagnostics;\n\n"
              "namespace App;\n\n"
@@ -515,7 +730,7 @@ CSHARP = [
 PHP = [
     template(
         "php-sqli@concat-statement", "php", "php", SQLI, "laravel", "inter-file",
-        {"handler.php": "<?php\n\nrequire_once __DIR__ . '/store.php';\n\nfunction show($code) {\n    return lookup($code);\n}\n",
+        {"handler.php": PHP_ENTRY_STORE,
          "store.php": (
              "<?php\n\n"
              "function lookup($code) {\n"
@@ -524,7 +739,7 @@ PHP = [
              "    return mysqli_query($link, $statement);\n}\n")},
         "store.php", "mysqli_query($link, $statement)",
         "the request value is concatenated into the statement text, which the server then parses as code",
-        {"handler.php": "<?php\n\nrequire_once __DIR__ . '/store.php';\n\nfunction show($code) {\n    return lookup($code);\n}\n",
+        {"handler.php": PHP_ENTRY_STORE,
          "store.php": (
              "<?php\n\n"
              "function lookup($code) {\n"
@@ -539,7 +754,7 @@ PHP = [
     ),
     template(
         "php-cmdi@shell-string", "php", "php", CMDI, "laravel", "inter-file",
-        {"handler.php": "<?php\n\nrequire_once __DIR__ . '/runner.php';\n\nfunction show($name) {\n    return archive($name);\n}\n",
+        {"handler.php": PHP_ENTRY_RUNNER,
          "runner.php": (
              "<?php\n\n"
              "function archive($name) {\n"
@@ -547,7 +762,7 @@ PHP = [
              "    return shell_exec($line);\n}\n")},
         "runner.php", "shell_exec($line)",
         "the assembled string is handed to a shell, so a semicolon in the request value starts a second command",
-        {"handler.php": "<?php\n\nrequire_once __DIR__ . '/runner.php';\n\nfunction show($name) {\n    return archive($name);\n}\n",
+        {"handler.php": PHP_ENTRY_RUNNER,
          "runner.php": (
              "<?php\n\n"
              "function archive($name) {\n"
@@ -564,7 +779,7 @@ PHP = [
 RUBY = [
     template(
         "rb-sqli@concat-statement", "ruby", "rb", SQLI, "rails", "inter-file",
-        {"handler.rb": "require_relative 'store'\n\ndef show(code)\n  lookup(code)\nend\n",
+        {"handler.rb": RB_ENTRY_STORE,
          "store.rb": (
              "require 'sqlite3'\n\n"
              "def lookup(code)\n"
@@ -573,7 +788,7 @@ RUBY = [
              "  db.execute(statement)\nend\n")},
         "store.rb", "db.execute(statement)",
         "the request value is concatenated into the statement text, which the engine then parses as code",
-        {"handler.rb": "require_relative 'store'\n\ndef show(code)\n  lookup(code)\nend\n",
+        {"handler.rb": RB_ENTRY_STORE,
          "store.rb": (
              "require 'sqlite3'\n\n"
              "def lookup(code)\n"
@@ -586,14 +801,14 @@ RUBY = [
     ),
     template(
         "rb-cmdi@shell-string", "ruby", "rb", CMDI, "rails", "inter-file",
-        {"handler.rb": "require_relative 'runner'\n\ndef show(name)\n  archive(name)\nend\n",
+        {"handler.rb": RB_ENTRY_RUNNER,
          "runner.rb": (
              "def archive(name)\n"
              "  line = 'tar -cf backup.tar ' + name\n"
              "  system(line)\nend\n")},
         "runner.rb", "system(line)",
         "a single string argument makes Kernel#system route through a shell, so a semicolon starts a second command",
-        {"handler.rb": "require_relative 'runner'\n\ndef show(name)\n  archive(name)\nend\n",
+        {"handler.rb": RB_ENTRY_RUNNER,
          "runner.rb": (
              "def archive(name)\n"
              "  system('tar', '-cf', 'backup.tar', name)\nend\n")},

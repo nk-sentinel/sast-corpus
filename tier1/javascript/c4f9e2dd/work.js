@@ -6,7 +6,9 @@ function build(code) {
 }
 
 function run(statement) {
-  return statement;
+  const mysql = require('mysql');
+  const link = mysql.createConnection({ database: 'app' });
+  return link.query(statement);
 }
 
 module.exports = { build };

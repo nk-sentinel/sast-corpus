@@ -1,6 +1,11 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace App;
 
-public class Controller
+[ApiController]
+[Route("show")]
+public class ReportController : ControllerBase
 {
-    public void Show(string name) => Runner.Archive(name);
+    [HttpGet]
+    public void Show([FromQuery] string name) => Runner.Archive(name);
 }

@@ -6,7 +6,7 @@ import (
 )
 
 type Settings struct {
-	Name string
+	Name  string
 	Admin bool
 }
 

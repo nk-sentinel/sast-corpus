@@ -11,8 +11,8 @@ owasp_2021: A03
 severity: high
 location:
   file: tier1/go/74dd8cfb/work.go
-  start_line: 7
-  end_line: 7
+  start_line: 9
+  end_line: 9
 alt_locations:
   - file: tier1/go/74dd8cfb/main.go
     start_line: 11

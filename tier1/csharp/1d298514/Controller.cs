@@ -1,6 +1,11 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace App;
 
-public class Controller
+[ApiController]
+[Route("show")]
+public class ReportController : ControllerBase
 {
-    public object Show(string code) => Store.Lookup(code);
+    [HttpGet]
+    public object Show([FromQuery] string code) => Store.Lookup(code);
 }

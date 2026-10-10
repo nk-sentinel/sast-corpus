@@ -77,6 +77,25 @@ CWE matching and assignment without any scanner's opinion entering the corpus. I
 does not establish that cases are *detectable*, which is a separate question and
 not one a candidate should answer either.
 
+## An extractor can rewrite the corpus it reads
+
+The rule above is about a tool's *findings* shaping the answer key. There is a
+second, quieter route: a tool's *extractor* editing the fixtures.
+
+Building a CodeQL Go database over `tier1/` runs the Go toolchain, which tidies
+every module it finds. On `tier1/go/37daeac0` and `tier1/go/ccd179c7` that removed
+`github.com/google/uuid v1.6.0` from `go.mod` and wrote a `go.sum`. That
+dependency is ground truth: it is declared and never imported, because the case
+exists to ask whether a tool reports a vulnerability in a package no code reaches.
+`go mod tidy` deletes exactly the line the case is about. Nothing warned, and
+`git status` without `-uall` does not show the new `go.sum`.
+
+**Consequence:** run every instrument against a throwaway copy, or mount the tree
+read-only as `build/syntax/check.sh` already does for php and ruby. Assert
+`git diff --exit-code tier1/` after any instrument run — a mutating extractor must
+fail on the spot rather than be noticed by chance. This applies to any
+build-driving engine, not only CodeQL and not only Go. Tracked as #14.
+
 ## An adapter can be wrong in a way that looks like a bad tool
 
 Every engine that cannot emit SARIF reaches the scorer through an adapter, and an

@@ -183,6 +183,20 @@ check_csharp_in_docker() {
                         dotnet add package "$pkg" --version "$ver" >/dev/null 2>&1
                     done
                 done
+                # A framework reference is not a package: it resolves from the
+                # targeting pack already in the SDK image, so it is injected into
+                # the generated project rather than restored. The aspnet fixtures
+                # need it — an MVC controller action is the request binding those
+                # cases exist to test, and without this they would not compile.
+                for proj in "/w/$d"*.csproj; do
+                    [ -f "$proj" ] || continue
+                    grep -o "<FrameworkReference[^>]*>" "$proj" 2>/dev/null | while read -r ref; do
+                        fw=$(printf "%s" "$ref" | sed -n "s/.*Include=\"\([^\"]*\)\".*/\1/p")
+                        # Allowlisted shape only; this value reaches a sed script.
+                        case "$fw" in ""|*[!A-Za-z0-9._-]*) continue ;; esac
+                        sed -i "s#</Project>#  <ItemGroup><FrameworkReference Include=\"$fw\" /></ItemGroup>\n</Project>#" ./*.csproj
+                    done
+                done
                 # Fixtures that use SqlClient without declaring it stay on the
                 # older fallback; nothing pins a version for them to keep.
                 grep -ql "Microsoft.Data.SqlClient" ./*.cs 2>/dev/null \

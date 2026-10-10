@@ -95,7 +95,12 @@ REMAINING = [
     ),
     template(
         "py-upload@unchecked-upload", "python", "py", FILE_UPLOAD, "flask", "inter-file",
-        {"handler.py": "from storage import save\n\n\ndef show(filename, payload):\n    return save(filename, payload)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from storage import save\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return save(request.args.get(\"filename\", \"\"), request.args.get(\"payload\", \"\"))\n",
          "storage.py": (
              "import os\n\n"
              "UPLOADS = \"/srv/uploads\"\n\n\n"
@@ -107,7 +112,12 @@ REMAINING = [
         "storage.py", "with open(target, \"wb\")",
         "the client chooses both the name and the extension, so a .jsp or .php lands in a "
         "directory the server may execute from, and the name may traverse out of it as well",
-        {"handler.py": "from storage import save\n\n\ndef show(filename, payload):\n    return save(filename, payload)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from storage import save\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return save(request.args.get(\"filename\", \"\"), request.args.get(\"payload\", \"\"))\n",
          "storage.py": (
              "import os\n"
              "import uuid\n\n"
@@ -130,7 +140,12 @@ REMAINING = [
     template(
         "py-upload-blocklist@blocklist-extension", "python", "py", FILE_UPLOAD, "flask",
         "inter-file",
-        {"handler.py": "from storage import save\n\n\ndef show(filename, payload):\n    return save(filename, payload)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from storage import save\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return save(request.args.get(\"filename\", \"\"), request.args.get(\"payload\", \"\"))\n",
          "storage.py": (
              "import os\n\n"
              "UPLOADS = \"/srv/uploads\"\n"
@@ -147,7 +162,12 @@ REMAINING = [
         "a blocklist of three extensions. It misses .phtml, .php5, .jspx, .aspx, a trailing dot "
         "or space on some filesystems, and every extension nobody thought of — and the stored "
         "name is still the client's, so the path is not constrained either",
-        {"handler.py": "from storage import save\n\n\ndef show(filename, payload):\n    return save(filename, payload)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from storage import save\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return save(request.args.get(\"filename\", \"\"), request.args.get(\"payload\", \"\"))\n",
          "storage.py": (
              "import os\n"
              "import uuid\n\n"
@@ -208,7 +228,12 @@ REMAINING = [
     template(
         "py-quantity@unvalidated-numeric-range", "python", "py", INPUT_VALIDATION, "flask",
         "inter-file",
-        {"handler.py": "from ledger import total\n\n\ndef show(quantity):\n    return total(int(quantity))\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from ledger import total\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return total(int(request.args.get(\"quantity\", \"0\")))\n",
          "ledger.py": (
              "UNIT_PRICE = 1250\n\n\n"
              "def total(quantity):\n"
@@ -217,7 +242,12 @@ REMAINING = [
         "the quantity is parsed and used with no range check. A negative value produces a "
         "negative total, which downstream becomes a credit rather than a charge — the parse "
         "succeeded, the arithmetic is correct, and nothing in either file is malformed",
-        {"handler.py": "from ledger import total\n\n\ndef show(quantity):\n    return total(int(quantity))\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from ledger import total\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return total(int(request.args.get(\"quantity\", \"0\")))\n",
          "ledger.py": (
              "UNIT_PRICE = 1250\n"
              "MAX_QUANTITY = 100\n\n\n"
@@ -232,7 +262,12 @@ REMAINING = [
     template(
         "py-unbounded-read@unbounded-allocation", "python", "py", RESOURCE_LIMIT, "flask",
         "inter-file",
-        {"handler.py": "from intake import receive\n\n\ndef show(stream):\n    return receive(stream)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from intake import receive\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return receive(request.args.get(\"stream\", \"\"))\n",
          "intake.py": (
              "def receive(stream):\n"
              "    payload = stream.read()\n"
@@ -241,7 +276,12 @@ REMAINING = [
         "the whole request body is read into memory with no cap, so the peak allocation is "
         "whatever the caller chooses to send and a handful of concurrent requests exhausts the "
         "process",
-        {"handler.py": "from intake import receive\n\n\ndef show(stream):\n    return receive(stream)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from intake import receive\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return receive(request.args.get(\"stream\", \"\"))\n",
          "intake.py": (
              "MAX_BYTES = 1048576\n\n\n"
              "def receive(stream):\n"
@@ -299,7 +339,12 @@ LOG_INJECTION = ("CWE-117", ["CWE-117", "CWE-93", "CWE-116"], "A09")
 LOGGING = [
     template(
         "py-log-secrets@credentials-in-log", "python", "py", LOG_EXPOSURE, None, "inter-file",
-        {"handler.py": "from audit import record\n\n\ndef show(user, password):\n    return record(user, password)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from audit import record\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return record(request.args.get(\"user\", \"\"), request.args.get(\"password\", \"\"))\n",
          "audit.py": (
              "import logging\n\n"
              "logger = logging.getLogger(__name__)\n\n\n"
@@ -310,7 +355,12 @@ LOGGING = [
         "the credential is written to the log, where it outlives the request, travels to "
         "whatever aggregator ships the logs, and is readable by everyone with operational "
         "access rather than only by the authentication path",
-        {"handler.py": "from audit import record\n\n\ndef show(user, password):\n    return record(user, password)\n",
+        {"handler.py": "from flask import Flask, request\n\n"
+                       "from audit import record\n\n"
+                       "app = Flask(__name__)\n\n\n"
+                       "@app.route(\"/show\")\n"
+                       "def show():\n"
+                       "    return record(request.args.get(\"user\", \"\"), request.args.get(\"password\", \"\"))\n",
          "audit.py": (
              "import logging\n\n"
              "logger = logging.getLogger(__name__)\n\n\n"

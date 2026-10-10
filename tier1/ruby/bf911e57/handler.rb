@@ -1,5 +1,7 @@
 require_relative 'store'
 
-def show(code)
-  lookup(code)
+class ReportsController < ActionController::Base
+  def show
+    render plain: lookup(params[:code].to_s)
+  end
 end

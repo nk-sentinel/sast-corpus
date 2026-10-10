@@ -11,12 +11,12 @@ owasp_2021: A01
 severity: high
 location:
   file: tier1/python/179e04f8/handler.py
-  start_line: 13
-  end_line: 13
+  start_line: 17
+  end_line: 17
 alt_locations:
   - file: tier1/python/179e04f8/handler.py
-    start_line: 8
-    end_line: 8
+    start_line: 12
+    end_line: 12
 difficulty:
   flow: inter-file
   sanitizer: custom-effective

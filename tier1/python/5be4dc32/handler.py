@@ -1,5 +1,10 @@
+from flask import Flask, request
+
 from store import lookup
 
+app = Flask(__name__)
 
-def show(code):
-    return lookup(code)
+
+@app.route("/show")
+def show():
+    return lookup(request.args.get("code", ""))

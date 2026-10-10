@@ -11,8 +11,8 @@ owasp_2021: A03
 severity: high
 location:
   file: tier1/python/d4542bf9/view.py
-  start_line: 7
-  end_line: 7
+  start_line: 13
+  end_line: 13
 alt_locations: []
 difficulty:
   flow: intra-procedural

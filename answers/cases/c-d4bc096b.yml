@@ -15,8 +15,8 @@ location:
   end_line: 5
 alt_locations:
   - file: tier1/php/d4bc096b/handler.php
-    start_line: 5
-    end_line: 5
+    start_line: 12
+    end_line: 12
 difficulty:
   flow: inter-file
   sanitizer: none

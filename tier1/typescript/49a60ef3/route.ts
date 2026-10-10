@@ -1,5 +1,11 @@
+import { Controller, Get, Query } from '@nestjs/common';
+
 import { archive } from './runner';
 
-export function show(name: string): unknown {
-  return archive(name);
+@Controller('reports')
+export class ReportsController {
+  @Get()
+  show(@Query('name') name: string): unknown {
+    return archive(name);
+  }
 }

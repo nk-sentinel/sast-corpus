@@ -207,7 +207,11 @@ JAVA = [
           "            return \"\";\n        }\n"
           "        return run(\"SELECT status FROM orders WHERE code = '\" + raw + \"'\");\n"
           "    }\n\n"
-          "    private static String run(String statement) {\n        return statement;\n    }\n}\n",
+          "    private static String run(String statement) {\n"
+          "        try (java.sql.Connection link = java.sql.DriverManager.getConnection(\"jdbc:sqlite:app.db\");\n"
+          "             java.sql.Statement handle = link.createStatement()) {\n"
+          "            return handle.executeQuery(statement).getString(1);\n"
+          "        } catch (java.sql.SQLException failure) {\n            return \"\";\n        }\n    }\n}\n",
           "return run(\"SELECT status FROM orders WHERE code = '\"",
           "the pattern is correct, anchored, and applied to a value that never reaches "
           "the statement. `raw` is what gets concatenated, and nothing was ever checked "
@@ -220,7 +224,11 @@ JAVA = [
           "            return \"\";\n        }\n"
           "        return run(\"SELECT status FROM orders WHERE code = '\" + code + \"'\");\n"
           "    }\n\n"
-          "    private static String run(String statement) {\n        return statement;\n    }\n}\n",
+          "    private static String run(String statement) {\n"
+          "        try (java.sql.Connection link = java.sql.DriverManager.getConnection(\"jdbc:sqlite:app.db\");\n"
+          "             java.sql.Statement handle = link.createStatement()) {\n"
+          "            return handle.executeQuery(statement).getString(1);\n"
+          "        } catch (java.sql.SQLException failure) {\n            return \"\";\n        }\n    }\n}\n",
           "return run(\"SELECT status FROM orders WHERE code = '\"",
           "the value that was validated is the value that reaches the statement, and the "
           "anchored pattern admits nothing that could close the quote"),
@@ -263,7 +271,11 @@ JAVA = [
           "        String order = parts.length > 1 ? parts[1] : \"code\";\n"
           "        return run(\"SELECT status FROM orders WHERE code = '\" + code\n"
           "                   + \"' ORDER BY \" + order);\n    }\n\n"
-          "    private static String run(String statement) {\n        return statement;\n    }\n}\n",
+          "    private static String run(String statement) {\n"
+          "        try (java.sql.Connection link = java.sql.DriverManager.getConnection(\"jdbc:sqlite:app.db\");\n"
+          "             java.sql.Statement handle = link.createStatement()) {\n"
+          "            return handle.executeQuery(statement).getString(1);\n"
+          "        } catch (java.sql.SQLException failure) {\n            return \"\";\n        }\n    }\n}\n",
           "return run(\"SELECT status FROM orders WHERE code = '\"",
           "the first fragment is escaped properly and the second is concatenated raw "
           "afterwards. Sanitising part of a statement is not sanitising the statement, "
@@ -278,7 +290,11 @@ JAVA = [
           "        return run(\"SELECT status FROM orders WHERE code = ? ORDER BY \" + order,\n"
           "                   parts[0]);\n    }\n\n"
           "    private static String run(String statement, String value) {\n"
-          "        return statement + \"|\" + value;\n    }\n}\n",
+          "        try (java.sql.Connection link = java.sql.DriverManager.getConnection(\"jdbc:sqlite:app.db\");\n"
+          "             java.sql.PreparedStatement handle = link.prepareStatement(statement)) {\n"
+          "            handle.setString(1, value);\n"
+          "            return handle.executeQuery().getString(1);\n"
+          "        } catch (java.sql.SQLException failure) {\n            return \"\";\n        }\n    }\n}\n",
           "return run(\"SELECT status FROM orders WHERE code = ? ORDER BY \" + order",
           "the value is bound as a parameter and the column name — which cannot be bound "
           "— is checked against a fixed list of real columns"),
@@ -476,7 +492,10 @@ PYTHON = [
             "    code = re.sub(r\"[^A-Z0-9]\", \"\", raw)\n"
             "    if not re.fullmatch(r\"[A-Z0-9]{1,12}\", code):\n        return \"\"\n"
             "    return run(\"SELECT status FROM orders WHERE code = '\" + raw + \"'\")\n\n\n"
-            "def run(statement):\n    return statement\n",
+            "def run(statement):\n"
+            "    import sqlite3\n\n"
+            "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
+            "    return cursor.execute(statement).fetchone()\n",
             "return run(\"SELECT status FROM orders WHERE code = '\"",
             "the pattern is anchored and correct and is applied to a value that never "
             "reaches the statement. Stripping the input to build the value that gets "
@@ -486,7 +505,10 @@ PYTHON = [
             "    code = re.sub(r\"[^A-Z0-9]\", \"\", raw)\n"
             "    if not re.fullmatch(r\"[A-Z0-9]{1,12}\", code):\n        return \"\"\n"
             "    return run(\"SELECT status FROM orders WHERE code = %s\", (code,))\n\n\n"
-            "def run(statement, params):\n    return statement + \"|\" + str(params)\n",
+            "def run(statement, params):\n"
+            "    import sqlite3\n\n"
+            "    cursor = sqlite3.connect(\"app.db\").cursor()\n"
+            "    return cursor.execute(statement, params).fetchone()\n",
             "return run(\"SELECT status FROM orders WHERE code = %s\"",
             "the checked value is the one that travels, and it travels as a bound "
             "parameter rather than inside the statement text"),
@@ -659,7 +681,10 @@ JAVASCRIPT = [
                 "  const code = raw.replace(/[^A-Z0-9]/g, '');\n"
                 "  if (!/^[A-Z0-9]{1,12}$/.test(code)) {\n    return '';\n  }\n"
                 "  return run(\"SELECT status FROM orders WHERE code = '\" + raw + \"'\");\n}\n\n"
-                "function run(statement) {\n  return statement;\n}\n\n"
+                "function run(statement) {\n"
+                "  const mysql = require('mysql');\n"
+                "  const link = mysql.createConnection({ database: 'app' });\n"
+                "  return link.query(statement);\n}\n\n"
                 "module.exports = { handle };\n",
                 "return run(\"SELECT status FROM orders WHERE code = '\"",
                 "the pattern is anchored and correct and checks a value built by "
@@ -669,7 +694,10 @@ JAVASCRIPT = [
                 "  const code = raw.replace(/[^A-Z0-9]/g, '');\n"
                 "  if (!/^[A-Z0-9]{1,12}$/.test(code)) {\n    return '';\n  }\n"
                 "  return run('SELECT status FROM orders WHERE code = ?', [code]);\n}\n\n"
-                "function run(statement, params) {\n  return statement + '|' + params.join();\n}\n\n"
+                "function run(statement, params) {\n"
+                "  const mysql = require('mysql');\n"
+                "  const link = mysql.createConnection({ database: 'app' });\n"
+                "  return link.query(statement, params);\n}\n\n"
                 "module.exports = { handle };\n",
                 "return run('SELECT status FROM orders WHERE code = ?'",
                 "the checked value is the one that travels, and it travels as a bound "

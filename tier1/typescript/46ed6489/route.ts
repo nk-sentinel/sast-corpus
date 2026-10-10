@@ -1,5 +1,11 @@
+import { Controller, Get, Query } from '@nestjs/common';
+
 import { lookup } from './store';
 
-export function show(code: string): unknown {
-  return lookup(code);
+@Controller('reports')
+export class ReportsController {
+  @Get()
+  show(@Query('code') code: string): unknown {
+    return lookup(code);
+  }
 }

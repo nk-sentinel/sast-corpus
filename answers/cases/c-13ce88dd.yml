@@ -15,8 +15,8 @@ location:
   end_line: 12
 alt_locations:
   - file: tier1/go/13ce88dd/handler.go
-    start_line: 3
-    end_line: 3
+    start_line: 11
+    end_line: 11
 difficulty:
   flow: inter-file
   sanitizer: framework-implicit

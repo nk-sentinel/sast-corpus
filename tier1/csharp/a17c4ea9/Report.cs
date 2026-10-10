@@ -12,5 +12,10 @@ public static class Report
     private static string Apply(Func<string, string> step, string value) =>
         Run(step(value));
 
-    private static string Run(string statement) => statement;
+    private static string Run(string statement)
+    {
+        using var link = new Microsoft.Data.SqlClient.SqlConnection("Server=.;Database=app");
+        using var command = new Microsoft.Data.SqlClient.SqlCommand(statement, link);
+        return command.ExecuteScalar()?.ToString() ?? "";
+    }
 }

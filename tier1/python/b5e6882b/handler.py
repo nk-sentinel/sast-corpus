@@ -1,5 +1,10 @@
+from flask import Flask, request
+
 from loader import restore
 
+app = Flask(__name__)
 
-def show(blob):
-    return restore(blob)
+
+@app.route("/show")
+def show():
+    return restore(request.args.get("blob", ""))

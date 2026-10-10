@@ -132,7 +132,7 @@ GO = [
          GO_ENTRY, "func Show", "load.go",
          {"load.go": ("package app\n\n"
                       "import (\n\t\"bytes\"\n\t\"encoding/gob\"\n)\n\n"
-                      "type Settings struct {\n\tName string\n\tAdmin bool\n}\n\n"
+                      "type Settings struct {\n\tName  string\n\tAdmin bool\n}\n\n"
                       "func Render(blob string) string {\n"
                       "\tvar settings Settings\n"
                       "\tgob.NewDecoder(bytes.NewBufferString(blob)).Decode(&settings)\n"
@@ -763,20 +763,28 @@ SW_ENTRY = {"main.swift": ("import Foundation\n\n"
 SWIFT = [
     pair("sw-sqli@concat-statement", "swift", "swift", SQLI,
          SW_ENTRY, "print(render(value))", "Work.swift",
-         {"Work.swift": ("import Foundation\n\n"
+         {"Work.swift": ("import Foundation\nimport SQLite3\n\n"
                          "func render(_ code: String) -> String {\n"
                          "    let statement = \"SELECT status FROM orders WHERE code = '\" + code + \"'\"\n"
                          "    return execute(statement)\n}\n\n"
                          "func execute(_ statement: String) -> String {\n"
-                         "    return statement\n}\n")},
+                         "    var handle: OpaquePointer?\n"
+                         "    sqlite3_open(\"app.db\", &handle)\n"
+                         "    sqlite3_exec(handle, statement, nil, nil, nil)\n"
+                         "    sqlite3_close(handle)\n    return statement\n}\n")},
          "let statement = \"SELECT status FROM orders WHERE code = '\"",
          "the value is concatenated into the statement text, which the driver parses as code",
-         {"Work.swift": ("import Foundation\n\n"
+         {"Work.swift": ("import Foundation\nimport SQLite3\n\n"
                          "func render(_ code: String) -> String {\n"
                          "    let statement = \"SELECT status FROM orders WHERE code = ?\"\n"
                          "    return execute(statement, code)\n}\n\n"
                          "func execute(_ statement: String, _ value: String) -> String {\n"
-                         "    return statement + \"|\" + value\n}\n")},
+                         "    var handle: OpaquePointer?\n"
+                         "    sqlite3_open(\"app.db\", &handle)\n"
+                         "    var stmt: OpaquePointer?\n"
+                         "    sqlite3_prepare_v2(handle, statement, -1, &stmt, nil)\n"
+                         "    sqlite3_bind_text(stmt, 1, value, -1, nil)\n"
+                         "    sqlite3_step(stmt)\n    sqlite3_close(handle)\n    return statement\n}\n")},
          "let statement = \"SELECT status FROM orders WHERE code = ?\"",
          "the statement carries a placeholder and the value is bound beside it"),
     pair("sw-path@unvalidated-join", "swift", "swift", PATHT,

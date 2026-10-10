@@ -12,6 +12,11 @@ public final class Report {
     }
 
     private static String run(String statement) {
-        return statement;
+        try (java.sql.Connection link = java.sql.DriverManager.getConnection("jdbc:sqlite:app.db");
+             java.sql.Statement handle = link.createStatement()) {
+            return handle.executeQuery(statement).getString(1);
+        } catch (java.sql.SQLException failure) {
+            return "";
+        }
     }
 }
