@@ -114,6 +114,24 @@ export from the tool it claims to convert, and the regression fixture must be
 that captured output rather than one written by hand. The tests built from a
 hand-written fixture all passed.
 
+## Some fixtures carry a second, unlabelled weakness
+
+A fixture written to demonstrate one weakness can contain another. The python
+handlers that return the request value have a reflected XSS alongside the SSRF or
+deserialisation flaw they were written for; the credential-logging cases have log
+injection at the same call.
+
+The match policy handles this correctly — a finding naming the second weakness
+matches nothing, and `unmatched` is charged neither as a hit nor as a false alarm.
+But it has two consequences worth stating.
+
+**Consequence:** a tool with broader coverage accumulates `unmatched` findings
+that are real and get no credit, so a high `unmatched` count is not evidence of
+noise. And the *right place, other weakness* count is not a pure measure of
+taxonomy disagreement — 14 of 16 in the reference run were second weaknesses, not
+renamings. Read the rule ids before drawing a conclusion from either number. See
+[MATCH-POLICY.md](MATCH-POLICY.md).
+
 ## Location-only matches rest on weaker evidence
 
 A tool that emits no CWE is matched on position alone, so it is neither unfairly

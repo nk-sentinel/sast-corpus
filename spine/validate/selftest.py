@@ -71,6 +71,33 @@ def ranges_past_eof(rows):
     return out
 
 
+def orphan_directories(rows):
+    """Tier-1 fixture directories on disk that no case in the key references.
+
+    `missing_files` walks the key and asks whether the file exists. This walks
+    the other direction, which is the one that catches abandonment: case ids are
+    `sha256(slug::label)[:8]`, so renaming a template's slug moves the case to a
+    new directory and leaves the old one behind. Nothing deletes it and nothing
+    complains, so it stays committed and scannable.
+
+    The cost is not a wrong score — a finding in an abandoned fixture lands in
+    `unmatched`, counted neither way. The cost is that `unmatched` stops being
+    the ground-truth smoke alarm docs/MATCH-POLICY.md relies on, because it
+    rises for reasons nobody can act on. Seven such directories were found this
+    way after a CodeQL run reported SQL injection in two of them.
+    """
+    referenced = {"/".join(row["file"].split("/")[:3]) for row in rows}
+    root = ROOT / "tier1"
+    if not root.is_dir():
+        return []
+    on_disk = {
+        "tier1/{}/{}".format(language.name, case.name)
+        for language in root.iterdir() if language.is_dir()
+        for case in language.iterdir() if case.is_dir()
+    }
+    return sorted(on_disk - referenced)
+
+
 def _sarif(rows, name):
     cwes = sorted({r["primary_cwe"] for r in rows})
     rule_of = {cwe: "rule-{}".format(i) for i, cwe in enumerate(cwes)}
@@ -136,6 +163,14 @@ def main(argv=None):
             failures.append("tier-1 cases reference missing files; tier 1 is committed, so the key is broken")
     else:
         print("  every referenced file is present")
+
+    orphans = orphan_directories(rows)
+    if orphans:
+        failures.append("{} tier-1 directory/ies have no case in the key".format(len(orphans)))
+        for path in orphans[:7]:
+            print("  ORPHAN {} is committed but no case references it".format(path))
+    else:
+        print("  every tier-1 fixture directory has a case")
 
     past = ranges_past_eof(rows)
     if past:

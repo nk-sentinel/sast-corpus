@@ -244,7 +244,22 @@ class Planes(unittest.TestCase):
         self.assertNotIn("sca", case)
 
 
-class ProvenanceIsDeclarable(unittest.TestCase):
+class EmitsToADisposableRoot(unittest.TestCase):
+    """`emit` writes files, so a test must give it somewhere to write.
+
+    Four tests here passed the literal "tier1", which — relative to the
+    repository root the suite runs from — created `tier1/tier1/java/<id>/A.java`
+    on every run. It was committed, had no case in the answer key, and was
+    scannable: issue #13's `tier1/tier1` orphan. A test that writes into the
+    corpus it is testing will eventually be mistaken for the corpus.
+    """
+
+    def setUp(self):
+        self.root = Path(tempfile.mkdtemp(prefix="gen-test-"))
+        self.addCleanup(shutil.rmtree, self.root, True)
+
+
+class ProvenanceIsDeclarable(EmitsToADisposableRoot):
     """Hand-authored cases must not be recorded as generator output. The
     monoculture ratio is the number that says how much of the corpus a tool
     could overfit to, and it is worthless if everything claims one provenance."""
@@ -252,17 +267,17 @@ class ProvenanceIsDeclarable(unittest.TestCase):
     def test_a_template_defaults_to_generated(self):
         template = _minimal()
 
-        self.assertEqual(emit(template, "tier1")[0]["evidence"]["source"], "generated")
+        self.assertEqual(emit(template, self.root)[0]["evidence"]["source"], "generated")
 
     def test_a_template_can_declare_itself_hand_authored(self):
         template = _minimal()
         template.source = "hand-authored"
 
-        self.assertEqual(emit(template, "tier1")[0]["evidence"]["source"],
+        self.assertEqual(emit(template, self.root)[0]["evidence"]["source"],
                          "hand-authored")
 
 
-class HardObfuscationValues(unittest.TestCase):
+class HardObfuscationValues(EmitsToADisposableRoot):
     """`strong-update` and `container-field` are the two mechanisms the original
     enum did not anticipate. Both are needed before any case can use them."""
 
@@ -270,14 +285,14 @@ class HardObfuscationValues(unittest.TestCase):
         template = _minimal()
         template.obfuscation = "strong-update"
 
-        self.assertEqual(emit(template, "tier1")[0]["difficulty"]["obfuscation"],
+        self.assertEqual(emit(template, self.root)[0]["difficulty"]["obfuscation"],
                          "strong-update")
 
     def test_container_field_is_accepted(self):
         template = _minimal()
         template.obfuscation = "container-field"
 
-        self.assertEqual(emit(template, "tier1")[0]["difficulty"]["obfuscation"],
+        self.assertEqual(emit(template, self.root)[0]["difficulty"]["obfuscation"],
                          "container-field")
 
     def test_the_schema_admits_both(self):

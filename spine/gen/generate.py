@@ -137,6 +137,18 @@ def _emit_variant(template, name, variant, root):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content)
 
+    # Go needs a module, not merely well-formed files. `gofmt` parses a bare
+    # .go file happily, which is why the syntax gate never noticed, but
+    # `go list ./...` — which every Go extractor, linter and commercial engine
+    # drives — finds nothing outside a module. A fixture without one is
+    # invisible to the entire Go toolchain: CodeQL read 3 of 60 source files.
+    # Emitted here rather than in the templates so it cannot be forgotten on a
+    # new Go template, and skipped where a manifest is ground truth — the SCA
+    # fixtures declare their own dependencies and versions.
+    if template.language == "go" and "go.mod" not in variant.files:
+        (target / "go.mod").write_text(
+            "module example.com/{}\n\ngo 1.22\n".format(identifier[2:]))
+
     sink_text = variant.files[variant.sink_file]
     start, end = locate(sink_text, variant.sink_match)
 

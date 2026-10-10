@@ -241,5 +241,89 @@ class LocationOnlyMatches(unittest.TestCase):
         self.assertFalse(outcome_for(report, "c-a7f3e91b").location_only)
 
 
+class RightPlaceOtherWeakness(unittest.TestCase):
+    """`renamed` separates "found it, called it something else" from noise.
+
+    Both land in `unmatched` and neither is charged, so without the split a
+    scorecard cannot tell a taxonomy disagreement from a rule firing on code
+    the corpus never scored. docs/MATCH-POLICY.md relies on the distinction to
+    decide whether a class should be widened.
+    """
+
+    def test_a_finding_on_a_case_with_an_unacceptable_cwe_is_renamed(self):
+        report = match_findings([a_finding(cwes=("CWE-79",))], [a_case()])
+
+        self.assertEqual(len(report.unmatched), 1)
+        self.assertEqual(len(report.renamed), 1)
+
+    def test_a_finding_nowhere_near_a_case_is_not_renamed(self):
+        report = match_findings([a_finding(file="tier1/java/other/X.java")], [a_case()])
+
+        self.assertEqual(len(report.unmatched), 1)
+        self.assertEqual(report.renamed, [])
+
+    def test_the_line_tolerance_is_the_same_as_the_match_rule(self):
+        """Outside tolerance it is not "the right place", so it is not renamed."""
+        inside = match_findings([a_finding(line=57, cwes=("CWE-79",))], [a_case()])
+        outside = match_findings([a_finding(line=58, cwes=("CWE-79",))], [a_case()])
+
+        self.assertEqual(len(inside.renamed), 1)
+        self.assertEqual(outside.renamed, [])
+
+    def test_a_finding_with_no_cwe_is_never_renamed(self):
+        """It would have matched on location alone, so there is no disagreement."""
+        report = match_findings([a_finding(cwes=())], [a_case()])
+
+        self.assertEqual(report.renamed, [])
+
+    def test_a_matched_finding_is_not_renamed(self):
+        report = match_findings([a_finding()], [a_case()])
+
+        self.assertEqual(report.renamed, [])
+
+    def test_renamed_findings_are_not_charged_as_false_alarms(self):
+        report = match_findings([a_finding(cwes=("CWE-79",))], [a_case(label="safe")])
+
+        self.assertEqual(report.counts()["fp"], 0)
+        self.assertEqual(report.counts()["tn"], 1)
+        self.assertEqual(len(report.renamed), 1)
+
+
+class RefusedWidenings(unittest.TestCase):
+    """CWE-20 and CWE-116 were decided against on 2026-10-10.
+
+    Both were proposed because real CodeQL findings on sanitizer-defect cases
+    were landing in `unmatched`. The decision was taken from the CWE
+    definitions, and these assert it so a future widening has to argue with a
+    failing test rather than slip in through a template edit — which is how the
+    CWE-94 widening reached 28 cases and not the other 26.
+    """
+
+    def test_cwe_20_does_not_satisfy_a_path_traversal_case(self):
+        case = a_case(primary_cwe="CWE-22",
+                      acceptable_cwes=frozenset({"CWE-22", "CWE-23", "CWE-35", "CWE-36"}))
+
+        report = match_findings([a_finding(cwes=("CWE-20",))], [case])
+
+        self.assertEqual(report.counts()["tp"], 0)
+        self.assertEqual(len(report.renamed), 1)
+
+    def test_cwe_116_does_not_satisfy_a_path_traversal_case(self):
+        """CWE-116 is about encoding output; a path given to open() is not that."""
+        case = a_case(primary_cwe="CWE-22",
+                      acceptable_cwes=frozenset({"CWE-22", "CWE-23", "CWE-35", "CWE-36"}))
+
+        report = match_findings([a_finding(cwes=("CWE-116",))], [case])
+
+        self.assertEqual(report.counts()["tp"], 0)
+
+    def test_cwe_20_does_not_satisfy_an_ssrf_case(self):
+        case = a_case(primary_cwe="CWE-918", acceptable_cwes=frozenset({"CWE-918", "CWE-441"}))
+
+        report = match_findings([a_finding(cwes=("CWE-20",))], [case])
+
+        self.assertEqual(report.counts()["tp"], 0)
+
+
 if __name__ == "__main__":
     unittest.main()

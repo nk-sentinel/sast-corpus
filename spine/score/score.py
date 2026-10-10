@@ -80,6 +80,11 @@ class MatchReport:
     outcomes: list
     unmatched: list
     surplus: list
+    # Unmatched findings that sat on a known case's location but named a CWE the
+    # case does not accept. Split out because "found it and called it something
+    # else" and "reported somewhere the corpus knows nothing about" are
+    # different verdicts, and pooling them hides the first inside the second.
+    renamed: list = field(default_factory=list)
 
     def counts(self):
         tally = {"tp": 0, "fp": 0, "fn": 0, "tn": 0}
@@ -140,7 +145,22 @@ def match_findings(findings, cases, tolerance=10):
         if f.result_key in contested_results and f.result_key not in claimed_results
     ]
 
-    return MatchReport(outcomes=outcomes, unmatched=unmatched, surplus=surplus)
+    # An unmatched finding is never charged as a false positive, so a tool that
+    # names a weakness differently is not penalised. It is also not credited,
+    # and with nothing distinguishing it the scorecard reads the same as if the
+    # tool had reported nothing. Recording the overlap keeps the taxonomy
+    # disagreement visible without widening acceptable_cwes to absorb it —
+    # which is how a scorecard starts flattering whichever tool prompted the
+    # change. See docs/MATCH-POLICY.md.
+    renamed = [
+        finding for finding in unmatched
+        if finding.cwes
+        and any(_location_distance(case, finding, tolerance) is not None for case in cases)
+    ]
+
+    return MatchReport(
+        outcomes=outcomes, unmatched=unmatched, surplus=surplus, renamed=renamed,
+    )
 
 
 def load_answer_key(path):
@@ -210,6 +230,7 @@ def scorecard(report, tolerance=DEFAULT_TOLERANCE, include_flow_locations=False)
         "narrative": narrative(report),
         "location_only_matches": sum(1 for o in report.outcomes if o.location_only),
         "unmatched_findings": len(report.unmatched),
+        "renamed_findings": len(report.renamed),
         "surplus_findings": len(report.surplus),
         "match_policy": {
             "line_tolerance": tolerance,
@@ -296,6 +317,21 @@ def _candidate_quality(case, finding, tolerance):
     if finding.cwes and not cwe_overlap:
         return None
 
+    best = _location_distance(case, finding, tolerance)
+    if best is None:
+        return None
+
+    return (0 if cwe_overlap else 1, best)
+
+
+def _location_distance(case, finding, tolerance):
+    """Best line distance from `finding` to any location of `case`, or None.
+
+    This is the location half of the match rule, factored out because two
+    callers need it and they must not drift: `renamed` means "would have
+    matched but for the CWE", which stops being true the moment one of them
+    applies a different range rule.
+    """
     best = None
     for path, start, end in case.locations():
         if not paths_match(finding.file, path):
@@ -304,11 +340,7 @@ def _candidate_quality(case, finding, tolerance):
             continue
         distance = min(abs(finding.start_line - start), abs(finding.start_line - end))
         best = distance if best is None else min(best, distance)
-
-    if best is None:
-        return None
-
-    return (0 if cwe_overlap else 1, best)
+    return best
 
 
 def paths_match(reported, expected):
@@ -494,6 +526,7 @@ def narrative(report):
         "false_alarms": counts["fp"],
         "traps_avoided": counts["tn"],
         "not_judged": len(report.unmatched),
+        "right_place_other_weakness": len(report.renamed),
         "duplicate_reports": len(report.surplus),
     }
 
@@ -521,6 +554,11 @@ def render_text(card, timing=None):
             n["false_alarms"], _plural(n["false_alarms"], "alarm")),
         "  {:>6}  reported outside the answer key — not judged either way".format(n["not_judged"]),
     ]
+
+    if n["right_place_other_weakness"]:
+        lines.append(
+            "  {:>6}  of those sat on a known case but named a weakness it does not accept".format(
+                n["right_place_other_weakness"]))
 
     if n["duplicate_reports"]:
         lines.append("  {:>6}  extra {} on issues already counted".format(

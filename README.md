@@ -195,6 +195,12 @@ Build time, analysis time, and upload/queue-wait are recorded as separate phases
 because a hosted scanner's queue is not scan speed. The LOC denominator is
 *scanned* lines — source only, excluding vendored, generated and binary files.
 
+## Running an evaluation
+
+[docs/RUNBOOK.md](docs/RUNBOOK.md) is the ordered procedure: prove the corpus,
+fetch the tiers, fix the denominators, scan a copy, score, time, and write up.
+Read it before the first vendor run rather than after.
+
 ## Running the gates
 
 ```bash
@@ -213,11 +219,15 @@ Enforcement and disclosure are deliberately separate. The gate covers fixtures w
 authored and runs on every push; walking the vendored tiers reads whole real
 repositories and is only wanted when writing a scorecard.
 
-**8 of 13 languages are parse-verified**: Python, JavaScript, Go, C, C++ and Rust
-from local toolchains, plus PHP and Ruby via `SYNTAX_USE_DOCKER=1` (on in CI).
-TypeScript, C#, Kotlin and Swift have no toolchain here and are reported as
-*skipped*, never as passed — a fixture that does not parse yields nothing from
-any tool, which in a scorecard is indistinguishable from every tool missing it.
+**9 of 13 languages are verified**: Python, JavaScript, Go, C, C++ and Rust parse
+from local toolchains; PHP and Ruby parse and C# *compiles* via
+`SYNTAX_USE_DOCKER=1` (on in CI). C# gets a real `dotnet build` rather than a
+per-file lint, honouring each fixture's own `PackageReference` versions and
+`FrameworkReference` entries, because a C# fixture nobody has compiled is a C#
+fixture nobody has checked. TypeScript, Kotlin and Swift have no toolchain here
+and are reported as *skipped*, never as passed — a fixture that does not parse
+yields nothing from any tool, which in a scorecard is indistinguishable from
+every tool missing it.
 
 ## Reporting
 

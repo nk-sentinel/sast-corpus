@@ -134,6 +134,59 @@ now forbids doing it from a candidate's output.
 So when a tool scores unexpectedly badly on a language, read the unmatched
 findings before believing the result.
 
+### Right place, other weakness — reported, never credited
+
+`unmatched` pools two different things: a finding on code the corpus knows
+nothing about, and a finding sitting squarely on a scored case under a name the
+case does not accept. The scorer now splits the second out and reports it as
+*right place, other weakness*. It still counts neither way.
+
+That number is the one to read before anyone proposes widening a class. A run of
+CodeQL `security-extended` over tier 1 produced 18 unmatched findings, **16** of
+them on a known case's location:
+
+| rule | reported | case | what it actually is |
+|---|---|---|---|
+| `py/reflective-xss` ×8 | CWE-79, CWE-116 | CWE-434, CWE-502, CWE-918 | a **real second weakness** — the handler echoes the value back |
+| `py/log-injection` ×3 | CWE-117 | CWE-532 | a real second weakness at the same log call |
+| `java/xss` ×2 | CWE-79 | CWE-862, CWE-863 | a real second weakness in an authz fixture |
+| `rb/csrf-protection-not-enabled` | CWE-352 | CWE-78 | unrelated |
+| `js/incomplete-sanitization` | CWE-116, CWE-20, CWE-80 | CWE-22 `only-one-occurrence` | genuine taxonomy disagreement |
+| `js/regex/missing-regexp-anchor` | CWE-20 | CWE-918 `pattern-tests-anywhere` | genuine taxonomy disagreement |
+
+So **14 of 16 are a different weakness, not a different name for the same one.**
+Widening `acceptable_cwes` to absorb them would credit an SSRF case because a
+tool found a cross-site scripting flaw three lines away. That is the CWE-94
+failure mode again, in a form that looks more reasonable because the finding is
+real.
+
+### The CWE-20 and CWE-116 decision
+
+Resolved 2026-10-10 from the CWE definitions, against widening. Both refused:
+
+- **`CWE-20` is refused everywhere.** It is too broad to carry information, and
+  it already exists as a `primary_cwe` in this corpus for cases that genuinely
+  are nothing but a missing check. Accepting it elsewhere would make a precise
+  case and a vague one indistinguishable in the scorecard.
+- **`CWE-116` is refused outside the output-encoding classes.** It stays in the
+  CWE-79 family, where improper escaping of output *is* the weakness. It is not
+  added to CWE-22: CWE-116 is about encoding output for a downstream
+  interpreter, and a filesystem path handed to `open()` is not that. The
+  canonical answers for a path-traversal filter defect are CWE-22's own children
+  and CWE-180/181 (validate-before-canonicalise), not CWE-116.
+
+The cost of refusing is two findings that are correct about the mechanism and
+land in `unmatched`. That costs the tool nothing — `unmatched` is charged neither
+way — and the *right place, other weakness* count now makes the disagreement
+visible without converting it into credit.
+
+**A caveat this surfaced.** Several tier-1 fixtures carry an incidental second
+weakness: the python handlers that return the request value also have a reflected
+XSS, and the credential-logging cases also have log injection. The policy handles
+it correctly — no credit, no penalty — but it means *right place, other weakness*
+is not a pure taxonomy-disagreement signal. Read the rules before concluding
+anything from the count.
+
 ## 8. Missing runs
 
 `--strict` treats an absent results file as zero findings, so every vulnerable
