@@ -1,0 +1,38 @@
+id: c-8dfc7634
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-89
+variant: unvalidated-operator-object
+acceptable_cwes: [CWE-89, CWE-943, CWE-94]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/nodegoat/app/data/user-dao.js
+  start_line: 91
+  end_line: 93
+alt_locations:
+  - file: tier2/nodegoat/app/routes/session.js
+    start_line: 58
+    end_line: 58
+difficulty:
+  flow: inter-file
+  sanitizer: none
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    slug nodegoat-login-lookup@unvalidated-operator-object. validateLogin passes userName
+    into findOne at 91-93 with no validation anywhere on the path:
+    handleLoginRequest destructures it straight from req.body at session.js:53-58. A
+    submitted object such as {"$gt": ""} is stored as a query operator rather than
+    compared as a value, which matches the first user and bypasses authentication. This is
+    the sink the lesson is built around and the third in this file; only the parseInt trap
+    at 97-100 had been labelled, so correct reports on this one were charged against that
+    trap. Found by the positive control, decided from the route and the driver semantics.
+  cve: null
+build:
+  required: false
+  recipe: null

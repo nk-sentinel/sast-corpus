@@ -98,6 +98,42 @@ def orphan_directories(rows):
     return sorted(on_disk - referenced)
 
 
+def fragile_traps(rows, tolerance=10):
+    """Traps whose widened window reaches a same-family vulnerable case.
+
+    The scorer widens a ground-truth range by +/-`tolerance`, so a trap sitting
+    close to a real flaw of the same CWE family can be claimed by a finding that
+    actually belongs to the flaw. Greedy assignment normally resolves it — the
+    nearer case wins — so this is a warning rather than a failure. It stops being
+    resolvable if a tool reports the adjacent flaw more than once, because then
+    the spare report is free to claim the trap.
+
+    This is reported, not enforced, because the version of the problem that
+    actually bit could not be detected here at all. Two tier-2 false alarms
+    turned out to be traps sitting beside real sinks that were **never
+    labelled**: NodeGoat's user-dao.js has three NoSQL sinks and only the safe
+    one had a case. A key-only check cannot see a weakness nobody wrote down —
+    only running a scanner can. See docs/VALIDATION.md.
+    """
+    by_file = {}
+    for row in rows:
+        by_file.setdefault(row["file"], []).append(row)
+
+    out = []
+    for path, group in by_file.items():
+        traps = [r for r in group if r["label"] == "safe"]
+        flaws = [r for r in group if r["label"] == "vulnerable"]
+        for trap in traps:
+            family = set(trap["acceptable_cwes"].split(";"))
+            for flaw in flaws:
+                if not family & set(flaw["acceptable_cwes"].split(";")):
+                    continue
+                if (int(flaw["start_line"]) <= int(trap["end_line"]) + tolerance
+                        and int(flaw["end_line"]) >= int(trap["start_line"]) - tolerance):
+                    out.append((trap["id"], flaw["id"], path))
+    return out
+
+
 def _sarif(rows, name):
     cwes = sorted({r["primary_cwe"] for r in rows})
     rule_of = {cwe: "rule-{}".format(i) for i, cwe in enumerate(cwes)}
@@ -179,6 +215,16 @@ def main(argv=None):
             print("  RANGE {} {} ends at {} but the file has {} lines".format(identifier, path, end, total))
     else:
         print("  no case ends past the end of its file")
+
+    fragile = fragile_traps(rows)
+    if fragile:
+        print("  {} trap(s) sit within the line tolerance of a same-family flaw:".format(
+            len(fragile)))
+        for trap, flaw, path in fragile[:5]:
+            print("      {} beside {} in {}".format(trap, flaw, path))
+        print("      resolvable by assignment today; see fragile_traps() for when it is not")
+    else:
+        print("  no trap sits within the line tolerance of a same-family flaw")
 
     holder = args.keep or Path(tempfile.mkdtemp(prefix="selftest-"))
     holder.mkdir(parents=True, exist_ok=True)

@@ -15,6 +15,7 @@ WORK="$(mktemp -d)"
 trap 'rm -rf "${WORK}"' EXIT
 
 FAILURES=0
+UNAVAILABLE=0
 declare -a SKIPPED=()
 
 have() { command -v "$1" >/dev/null 2>&1; }
@@ -114,7 +115,14 @@ check_in_docker() {
             find tier1/${language} -name '${pattern}' -type f | sort | while IFS= read -r f; do
                 ${command} \"\$f\" >/dev/null 2>&1 || echo \"FAIL  \$f\"
             done" > "${WORK}/out" 2>&1; then
-        echo "FAIL  ${language}: ${image} did not run" >> "${WORK}/out"
+        # The image not running is not a broken fixture, and reporting it as one
+        # sends whoever reads the gate to go and debug correct code. It is still
+        # a failure — an unavailable toolchain means these fixtures are
+        # unchecked, which must not look like checked-and-fine.
+        echo "  ${language}: ${image} did not run — fixtures UNCHECKED" >&2
+        sed 's/^/      /' "${WORK}/out" | head -3 >&2
+        UNAVAILABLE=$((UNAVAILABLE + 1))
+        return
     fi
 
     local broken
@@ -206,11 +214,19 @@ check_csharp_in_docker() {
                 cd /w || exit 1
             done
             exit ${status}' > "${WORK}/out" 2>&1; then
-        grep '^FAIL' "${WORK}/out" >&2 || cat "${WORK}/out" >&2
         local broken
         broken=$(grep -c '^FAIL' "${WORK}/out")
-        FAILURES=$((FAILURES + (broken > 0 ? broken : 1)))
-        echo "  csharp: ${checked} project(s) checked, at least one did NOT compile"
+        if [ "${broken}" -eq 0 ]; then
+            # No per-project FAIL line means the container never got as far as
+            # building anything — the daemon is down, or the image is missing.
+            echo "  csharp: dotnet sdk image did not run — projects UNCHECKED" >&2
+            sed 's/^/      /' "${WORK}/out" | head -3 >&2
+            UNAVAILABLE=$((UNAVAILABLE + 1))
+            return
+        fi
+        grep '^FAIL' "${WORK}/out" >&2
+        FAILURES=$((FAILURES + broken))
+        echo "  csharp: ${checked} project(s) checked, ${broken} did NOT compile"
         return
     fi
     echo "  csharp: ${checked} project(s) compiled"
@@ -243,6 +259,13 @@ fi
 if [ "${FAILURES}" -gt 0 ]; then
     echo >&2
     echo "${FAILURES} fixture(s) do not parse; they would score as a miss for every tool." >&2
+    exit 1
+fi
+
+if [ "${UNAVAILABLE}" -gt 0 ]; then
+    echo >&2
+    echo "${UNAVAILABLE} toolchain(s) were unavailable, so those fixtures are unchecked." >&2
+    echo "Nothing here says they are broken. Start Docker and re-run before trusting a scan." >&2
     exit 1
 fi
 

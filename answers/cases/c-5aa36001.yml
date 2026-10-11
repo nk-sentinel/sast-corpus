@@ -1,0 +1,39 @@
+id: c-5aa36001
+label: vulnerable
+plane: vuln
+tier: 2
+language: javascript
+framework: express
+primary_cwe: CWE-89
+variant: regex-test-coerces-object
+acceptable_cwes: [CWE-89, CWE-943, CWE-94]
+owasp_2021: A03
+severity: critical
+location:
+  file: tier2/nodegoat/app/data/user-dao.js
+  start_line: 104
+  end_line: 106
+alt_locations:
+  - file: tier2/nodegoat/app/routes/session.js
+    start_line: 208
+    end_line: 208
+difficulty:
+  flow: inter-file
+  sanitizer: ineffective
+  obfuscation: none
+evidence:
+  source: walkthrough
+  rationale: >-
+    slug nodegoat-signup-lookup@regex-test-coerces-object. getUserByUserName passes
+    userName straight into findOne at 104-106; it arrives from req.body through the
+    signup route at session.js:208. The guard is USER_RE.test(userName) with
+    USER_RE = /^.{1,20}$/, and RegExp.prototype.test coerces its argument, so a
+    submitted object stringifies to "[object Object]" at 15 characters and passes while
+    the object itself continues untouched to the driver. A length regex cannot establish
+    that a value is a string. This is the function the comment above the c-cdcfd2a8 trap
+    points at as the bad one; it was never labelled, so a correct report on it fell in
+    that trap's tolerance window and was charged as a false alarm.
+  cve: null
+build:
+  required: false
+  recipe: null

@@ -91,10 +91,15 @@ exists to ask whether a tool reports a vulnerability in a package no code reache
 `git status` without `-uall` does not show the new `go.sum`.
 
 **Consequence:** run every instrument against a throwaway copy, or mount the tree
-read-only as `build/syntax/check.sh` already does for php and ruby. Assert
-`git diff --exit-code tier1/` after any instrument run — a mutating extractor must
-fail on the spot rather than be noticed by chance. This applies to any
-build-driving engine, not only CodeQL and not only Go. Tracked as #14.
+read-only as `build/syntax/check.sh` already does for php and ruby. Bracket any
+in-place run with `spine/validate/corpus_unchanged.py` so a mutating extractor
+fails on the spot rather than being noticed by chance. This applies to any
+build-driving engine, not only CodeQL and not only Go.
+
+A trap inside the trap: tiers 2 and 3 are gitignored, so `git diff` is blind to
+them and a git-only check reports them unchanged while they are rewritten. The
+guard takes a file manifest for those, and refuses to report success on an
+untracked tree it has no snapshot of.
 
 ## An adapter can be wrong in a way that looks like a bad tool
 

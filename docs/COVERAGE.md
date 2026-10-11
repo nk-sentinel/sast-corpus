@@ -8,8 +8,8 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | | |
 |---|---|
-| Cases | 849 |
-| False-positive traps | 275 (32%) |
+| Cases | 851 |
+| False-positive traps | 274 (32%) |
 | Languages covered | 13 of 13 |
 | Target weaknesses covered | 10 of 10 |
 | Distinct weaknesses | 53 |
@@ -20,10 +20,10 @@ A cell reads `v/s`: vulnerable cases and safe siblings. A weakness with no safe 
 
 | language | CWE-89 | CWE-78 | CWE-79 | CWE-22 | CWE-502 | CWE-918 | CWE-611 | CWE-798 | CWE-327 | CWE-352 | CWE-20 | CWE-59 | CWE-74 | CWE-77 | CWE-88 | CWE-94 | CWE-116 | CWE-117 | CWE-120 | CWE-121 | CWE-122 | CWE-125 | CWE-134 | CWE-190 | CWE-200 | CWE-269 | CWE-276 | CWE-284 | CWE-285 | CWE-287 | CWE-306 | CWE-307 | CWE-312 | CWE-345 | CWE-384 | CWE-416 | CWE-434 | CWE-444 | CWE-471 | CWE-476 | CWE-522 | CWE-532 | CWE-601 | CWE-610 | CWE-613 | CWE-639 | CWE-668 | CWE-732 | CWE-770 | CWE-787 | CWE-862 | CWE-863 | CWE-1395 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| java | 12/9 | 11/8 | 9/8 | 24/18 | 2/1 | 1/2 | 2/1 | 4/2 | 3/4 | 2/1 | · | · | · | 1/1 | · | 4/3 | · | 2/1 | · | · | · | · | · | · | 1/0 | · | · | 2/1 | · | 2/0 | · | · | · | · | · | · | · | · | 1/0 | · | · | 1/0 | 2/1 | · | · | 2/3 | · | · | 1/1 | · | 3/2 | 1/1 | 5/3 |
+| java | 12/9 | 11/8 | 9/8 | 25/17 | 2/1 | 1/2 | 2/1 | 4/2 | 3/4 | 2/1 | · | · | · | 1/1 | · | 4/3 | · | 2/1 | · | · | · | · | · | · | 1/0 | · | · | 2/1 | · | 2/0 | · | · | · | · | · | · | · | · | 1/0 | · | · | 1/0 | 2/1 | · | · | 2/3 | · | · | 1/1 | · | 3/2 | 1/1 | 5/3 |
 | kotlin | 1/1 | 1/1 | · | 1/1 | 1/1 | 1/1 | · | 1/1 | 1/1 | · | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 | · | · |
 | python | 13/8 | 17/7 | 9/4 | 23/7 | 4/2 | 4/3 | 2/1 | 17/14 | 3/2 | 1/0 | 4/1 | · | 1/0 | · | · | 4/0 | · | 1/0 | · | · | · | · | · | · | 5/1 | 4/0 | 1/0 | 4/0 | · | 1/0 | 1/1 | · | · | · | · | · | 2/2 | 2/0 | · | · | 3/1 | 3/1 | 6/0 | · | · | 1/1 | · | 1/0 | 2/1 | · | 2/0 | 4/0 | 2/2 |
-| javascript | 7/5 | 15/4 | 9/2 | 16/5 | 1/0 | 8/2 | · | 3/1 | · | 1/0 | 6/0 | 2/0 | 2/0 | 2/0 | 1/0 | 9/1 | 2/0 | 2/2 | · | · | · | · | · | · | 3/1 | 1/0 | · | 1/0 | · | 1/0 | · | · | · | · | 1/0 | · | · | 1/0 | 1/0 | · | 2/0 | · | 7/1 | · | · | 1/1 | · | · | · | · | 5/0 | 3/0 | 3/2 |
+| javascript | 9/5 | 15/4 | 9/2 | 16/5 | 1/0 | 8/2 | · | 3/1 | · | 1/0 | 6/0 | 2/0 | 2/0 | 2/0 | 1/0 | 9/1 | 2/0 | 2/2 | · | · | · | · | · | · | 3/1 | 1/0 | · | 1/0 | · | 1/0 | · | · | · | · | 1/0 | · | · | 1/0 | 1/0 | · | 2/0 | · | 7/1 | · | · | 1/1 | · | · | · | · | 5/0 | 3/0 | 3/2 |
 | typescript | 3/2 | 1/1 | 2/2 | 4/2 | 1/1 | 2/1 | 1/0 | 3/1 | 1/0 | · | · | · | · | · | · | 4/0 | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | 1/0 | 1/0 | · | · | · | · | · | · | · | · | · | · | · | 1/0 | · | · | 1/1 | · | · | · | · | 1/1 | · | · |
 | go | 10/3 | 10/2 | 1/1 | 15/3 | 1/1 | 5/1 | · | 2/2 | 1/1 | 1/0 | 1/0 | 1/0 | 1/0 | 1/1 | · | · | 1/0 | · | · | · | · | · | · | · | 1/0 | 4/0 | 2/0 | 1/0 | 2/0 | 2/0 | · | 1/0 | 1/0 | 1/0 | · | · | · | · | · | · | 2/0 | 2/0 | 4/0 | 1/0 | 2/0 | 1/0 | 1/0 | 1/0 | · | · | 7/0 | 8/0 | 1/1 |
 | csharp | 3/3 | 3/3 | · | 3/3 | 1/1 | · | 1/1 | 2/2 | 1/1 | · | · | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | 1/1 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | 1/1 |
@@ -156,7 +156,7 @@ Template-generated cases share a shape a tool can **overfit** to, so the hand-au
 | `generated` | 300 |
 | `cve` | 266 |
 | `hand-authored` | 146 |
-| `walkthrough` | 137 |
+| `walkthrough` | 139 |
 
 **65% of cases are hand-authored or CVE-derived** — everything not produced by the generator. A corpus dominated by one generator measures how well a tool handles that generator.
 
@@ -167,14 +167,14 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | weakness | mechanisms | context traps |
 |---|---|---|
 | `CWE-20` | `unknown`, `unvalidated-numeric-range` | · |
-| `CWE-22` | `base-silently-dropped`, `canonicalise-after-check`, `check-before-resolving`, `check-then-undo-it`, `denylist-filter`, `fixed-path`, `input-rejected`, `loop-filter`, `nesting-restores-it`, `null-byte-filter-bypass`, `object-carried`, `only-one-occurrence`, `overwritten-before-sink`, `result-not-assigned`, `single-pass-filter`, `struct-carried`, `unknown`, `unvalidated-concat`, `unvalidated-join`, `zip-slip` | · |
+| `CWE-22` | `base-silently-dropped`, `canonicalise-after-check`, `check-before-resolving`, `check-then-undo-it`, `decode-after-check`, `denylist-filter`, `fixed-path`, `loop-filter`, `nesting-restores-it`, `null-byte-filter-bypass`, `object-carried`, `only-one-occurrence`, `overwritten-before-sink`, `result-not-assigned`, `single-pass-filter`, `struct-carried`, `unknown`, `unvalidated-concat`, `unvalidated-join`, `zip-slip` | · |
 | `CWE-59` | `unknown` | · |
 | `CWE-74` | `unknown` | · |
 | `CWE-77` | `argument-injection`, `unknown` | · |
 | `CWE-78` | `anchored-only-at-the-start`, `argument-vector`, `blocklist-filter`, `check-runs-nothing-acts`, `deserialized-command`, `dict-round-trip`, `dictionary-round-trip`, `map-round-trip`, `runtime-named-sink`, `shell-c-argument`, `shell-string`, `system-call`, `unknown`, `validator-return-dropped` | · |
 | `CWE-79` | `attribute-context`, `autoescaped-command-output`, `autoescaped-output`, `encoder-for-another-place`, `ineffective-tag-filter`, `misses-a-variant`, `recursive-sanitiser`, `scriptlet-raw-output`, `tag-filter`, `template-html-optout`, `unescaped-output`, `unescaped-url-attribute`, `unknown`, `url-escaping-for-markup`, `wrong-context-escaping` | · |
 | `CWE-88` | `unknown` | · |
-| `CWE-89` | `closure-boundary`, `concat-statement`, `delegate-boundary`, `dynamic-identifier`, `format-string`, `jpql-concat`, `jpql-like-concat`, `lambda-boundary`, `orm-parameterised`, `parsed-integer-key`, `prepared-but-concatenated`, `prepared-parameterised`, `sanitised-then-appended`, `second-reference`, `typed-primary-key`, `unknown`, `validated-one-used-another` | · |
+| `CWE-89` | `closure-boundary`, `concat-statement`, `delegate-boundary`, `dynamic-identifier`, `format-string`, `jpql-concat`, `jpql-like-concat`, `lambda-boundary`, `orm-parameterised`, `parsed-integer-key`, `prepared-but-concatenated`, `prepared-parameterised`, `regex-test-coerces-object`, `sanitised-then-appended`, `second-reference`, `typed-primary-key`, `unknown`, `unvalidated-operator-object`, `validated-one-used-another` | · |
 | `CWE-94` | `dynamic-evaluation`, `nosql-where-injection`, `sandbox-evaluation`, `template-injection`, `unknown` | · |
 | `CWE-116` | `unknown` | · |
 | `CWE-117` | `constant-log-entry`, `unsanitised-entry`, `unsanitised-log-entry` | · |
@@ -228,7 +228,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 |---|---|
 | A01 Broken Access Control | 139 |
 | A02 Cryptographic Failures | 26 |
-| A03 Injection | 225 |
+| A03 Injection | 227 |
 | A04 Insecure Design | 10 |
 | A05 Security Misconfiguration | 9 |
 | A06 Vulnerable Components | 27 |
@@ -243,7 +243,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 
 | plane | cases |
 |---|---|
-| vuln | 789 |
+| vuln | 791 |
 | secret | 33 |
 | sca | 27 |
 | crypto | · |
@@ -255,7 +255,7 @@ A cell in the matrix above holding one case proves only that the weakness class 
 | tier | cases |
 |---|---|
 | 1 — synthetic fixtures | 446 |
-| 2 — real applications | 137 |
+| 2 — real applications | 139 |
 | 3 — CVE reproductions | 266 |
 
 ## Difficulty
@@ -264,12 +264,12 @@ A cell in the matrix above holding one case proves only that the weakness class 
 |---|---|
 | intra-procedural | 176 |
 | inter-procedural | 5 |
-| inter-file | 393 |
+| inter-file | 395 |
 | framework-mediated | 9 |
 
 | sanitizer | cases |
 |---|---|
-| none | 293 |
-| ineffective | 43 |
-| custom-effective | 225 |
+| none | 294 |
+| ineffective | 45 |
+| custom-effective | 224 |
 | framework-implicit | 43 |

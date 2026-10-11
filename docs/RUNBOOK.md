@@ -39,7 +39,7 @@ zero in a way that looks identical to poor detection.
 Tier 1 is committed. Tiers 2 and 3 are cloned at pinned revisions:
 
 ```bash
-python3 spine/corpora/fetch.py --check    # what is present, what is missing
+python3 spine/corpora/fetch.py tier2 --check   # what is present, what is missing
 python3 spine/corpora/fetch.py tier2
 python3 spine/corpora/fetch.py tier3
 ```
@@ -78,14 +78,24 @@ over `tier1/` ran the Go toolchain, which tidied two SCA manifests and deleted
 the declared-but-never-imported dependency those cases exist to state. Nothing
 warned.
 
-If you do scan in place, assert afterwards:
+If you do scan in place, bracket the run:
 
 ```bash
-./spine/validate/corpus_unchanged.sh
+python3 spine/validate/corpus_unchanged.py --snapshot tier1 tier2 tier3
+...  run the scanner  ...
+python3 spine/validate/corpus_unchanged.py tier1 tier2 tier3
 ```
 
-Non-zero exit means ground truth may have been rewritten. Restore it before
-scoring — a scorecard from a mutated corpus is not comparable to any other.
+Tier 1 is committed, so git witnesses it and the snapshot is optional. **Tiers 2
+and 3 are gitignored** — `/tier2/*/`, `/tier3/*/` — so git can see 3 files there
+out of thousands, and the snapshot is the only thing that can tell you whether an
+extractor rewrote them. Asked to verify those without one, the guard fails rather
+than passing: "we did not check" and "we checked and it was fine" must not look
+the same.
+
+Non-zero exit means ground truth may have been rewritten. Restore it — `git
+checkout -- tier1`, or re-fetch the vendored tiers — before scoring. A scorecard
+from a mutated corpus is not comparable to any other.
 
 ## 5. Run the tool and get SARIF
 
