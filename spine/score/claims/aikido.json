@@ -1,0 +1,9 @@
+{
+  "tool": "Aikido",
+  "version": "TO BE FILLED",
+  "languages": ["java", "javascript", "typescript", "python", "csharp", "php", "go", "ruby", "kotlin", "c", "cpp"],
+  "planes": ["vuln", "sca", "secret"],
+  "tuning": "TO BE FILLED",
+  "notes": "No export has been seen yet, so neither the language list nor the output format is confirmed. Score without --claims until one has.",
+  "source": "DRAFT — unverified, no product export seen"
+}

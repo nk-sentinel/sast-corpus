@@ -179,6 +179,18 @@ never counted as false negatives.
 The same applies to planes: an engine that does not claim to do SCA should not
 be scored on the SCA plane.
 
+This was policy with nothing implementing it until 2026-10-11, so every
+unsupported language counted as a false negative. `spine/score/claims.py` and
+`score.py --claims` now implement it, and the claim — languages, planes, version,
+edition, ruleset, and the `source` the language list came from — is printed in
+every scorecard. The exclusion must never be silent: a narrowed denominator and
+a tool doing well look identical once the cases are gone, so what it was narrowed
+by has to be on the record.
+
+A claim may exclude on **capability**, never on quality. `cwes`, `tiers`,
+`severity` and `variants` are refused outright: excluding the weaknesses a tool
+is bad at is letting it mark its own homework.
+
 ## Build-required engines fail differently
 
 Fortify, Coverity and Veracode analyse compiled artifacts. If a fixture does not

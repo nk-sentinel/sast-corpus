@@ -1,0 +1,11 @@
+{
+  "tool": "SonarQube",
+  "edition": "Community",
+  "version": "TO BE FILLED FROM THE INSTANCE USED",
+  "languages": ["java", "javascript", "typescript", "python", "csharp", "php", "go", "ruby", "kotlin", "c", "cpp"],
+  "planes": ["vuln", "secret"],
+  "ruleset": "default Sonar way quality profile",
+  "tuning": "out-of-the-box",
+  "notes": "Community has no taint-analysis engine; interfile dataflow is a Developer Edition feature, so low recall on an injection-heavy corpus measures the edition rather than the product. That is a capability fact and belongs here, not in the score.",
+  "source": "DRAFT — confirm against the running instance's language list before use"
+}

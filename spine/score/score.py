@@ -16,6 +16,13 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
+# Run directly as a script, `spine/` is not on the path and the sibling module
+# is not importable; run as part of the `score` package by the tests, it is.
+# Both have to work: this file is the one thing an auditor runs by hand.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from score import claims  # noqa: E402
+
 DEFAULT_TOLERANCE = 10
 BREAKDOWNS = ("language", "tier", "plane", "primary_cwe", "flow", "sanitizer", "obfuscation", "severity")
 
@@ -204,7 +211,8 @@ def _parse_locations(cell):
         yield (path, int(start), int(end))
 
 
-def scorecard(report, tolerance=DEFAULT_TOLERANCE, include_flow_locations=False):
+def scorecard(report, tolerance=DEFAULT_TOLERANCE, include_flow_locations=False,
+              claim_summary=None, not_applicable=0):
     """Pooled metrics, per-dimension breakdowns, and the policy that produced them.
 
     The match policy travels with the numbers. A scorecard that does not state
@@ -227,7 +235,11 @@ def scorecard(report, tolerance=DEFAULT_TOLERANCE, include_flow_locations=False)
             }
             for dimension, groups in by.items()
         },
-        "narrative": narrative(report),
+        "narrative": narrative(report, not_applicable),
+        # The claim travels with the numbers. A denominator narrowed after the
+        # fact is only visible if what it was narrowed by is recorded here.
+        "capability_claim": claim_summary,
+        "not_applicable": not_applicable,
         "location_only_matches": sum(1 for o in report.outcomes if o.location_only),
         "unmatched_findings": len(report.unmatched),
         "renamed_findings": len(report.renamed),
@@ -503,7 +515,7 @@ def normalise_path(uri):
     return path.replace("\\", "/")
 
 
-def narrative(report):
+def narrative(report, not_applicable=0):
     """The counts a corpus owner actually asks for.
 
     Deliberately free of verdict: the corpus reports what happened and the
@@ -528,6 +540,10 @@ def narrative(report):
         "not_judged": len(report.unmatched),
         "right_place_other_weakness": len(report.renamed),
         "duplicate_reports": len(report.surplus),
+        # Never folded into `missed`. A case in a language the tool does not
+        # analyse is not a failure to detect, and counting it as one measures
+        # coverage while claiming to measure quality.
+        "not_applicable": not_applicable,
     }
 
 
@@ -554,6 +570,18 @@ def render_text(card, timing=None):
             n["false_alarms"], _plural(n["false_alarms"], "alarm")),
         "  {:>6}  reported outside the answer key — not judged either way".format(n["not_judged"]),
     ]
+
+    if n.get("not_applicable"):
+        claim = card.get("capability_claim") or {}
+        lines.append("  {:>6}  not applicable — outside what this tool claims to analyse".format(
+            n["not_applicable"]))
+        if claim.get("excluded_languages"):
+            lines.append("          languages excluded: {}".format(
+                ", ".join(claim["excluded_languages"])))
+        if claim.get("excluded_planes"):
+            lines.append("          planes excluded: {}".format(
+                ", ".join(claim["excluded_planes"])))
+        lines.append("          claim source: {}".format(claim.get("source", "undeclared")))
 
     if n["right_place_other_weakness"]:
         lines.append(
@@ -625,10 +653,26 @@ def main(argv=None):
                         help="treat missing results as zero findings rather than an error, so a crashed or timed-out scan scores as a failure to detect")
     parser.add_argument("--timing", type=Path, default=None,
                         help="a spine/timing/bench.py output file, to report scan time alongside")
+    parser.add_argument("--claims", type=Path, default=None,
+                        help="a spine/score/claims/<tool>.json declaring the languages and "
+                             "planes the tool analyses; cases outside it are reported n/a "
+                             "rather than scored as misses")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
 
     cases = load_answer_key(args.answer_key)
+
+    claim = None
+    if args.claims:
+        try:
+            claim = claims.load(args.claims)
+        except (OSError, claims.ClaimError) as problem:
+            # Never fall back to scoring everything: that is the defect this
+            # flag exists to fix, and it would look like a normal run.
+            print("claim not usable: {}".format(problem), file=sys.stderr)
+            return 2
+
+    cases, excluded = claims.partition(claim, cases)
     results_path = Path(args.results)
 
     if results_path.is_file():
@@ -641,7 +685,10 @@ def main(argv=None):
         return 2
 
     report = match_findings(findings, cases, tolerance=args.tolerance)
-    card = scorecard(report, tolerance=args.tolerance, include_flow_locations=args.include_flow_locations)
+    card = scorecard(report, tolerance=args.tolerance,
+                     include_flow_locations=args.include_flow_locations,
+                     claim_summary=claims.summarise(claim, excluded),
+                     not_applicable=len(excluded))
 
     timing = json.loads(args.timing.read_text()) if args.timing and args.timing.is_file() else None
     if timing:

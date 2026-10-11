@@ -51,22 +51,35 @@ scoring anything.
 
 ## 3. Decide the denominators before the run, not after
 
+A tool with no Swift support is not bad at Swift. Cases in an unsupported
+language or an unclaimed plane are reported `n/a` and excluded from that tool's
+denominators — **never** counted as false negatives. Declare it in a claim file
+before the run:
+
 ```bash
-python3 spine/report/applicability.py     # which (language, cwe) cells a tool claims
+$EDITOR spine/score/claims/<tool>.json      # see that directory's README
+python3 spine/score/score.py results.sarif answers/expectedresults-1.0.csv \
+    --claims spine/score/claims/<tool>.json
 ```
 
-A tool with no Swift support is not bad at Swift. Cases in an unsupported
-language or an unclaimed plane must be reported `n/a` and excluded from that
-tool's denominators — **never** counted as false negatives. Fixing this after
-seeing the numbers is indistinguishable from fitting the denominator to the
-result.
+Each file records `languages`, `planes`, version, edition, ruleset, tuning, and
+a `source` naming the vendor documentation the language list came from. The
+whole claim is printed in the scorecard, so a denominator narrowed after seeing
+the numbers shows up in the diff — fitting the denominator to the result is
+otherwise indistinguishable from a tool doing well.
 
-Record, per tool, before the run:
+A `cwes` key is refused. "This tool does not do SQL injection" is a statement
+about how good it is, not about what it analyses, and excluding those cases
+would be letting it mark its own homework.
 
-- version **and edition** — SonarQube Community has no taint engine at all, so a
-  community result says nothing about the commercial product
-- ruleset and tuning state — default or full; these are different measurements
-- which planes it claims (`vuln`, `secret`, `sca`)
+The four shipped claim files are **drafts**: every one needs its `source`
+confirmed and its version filled in from the instance actually used. A tool
+whose claim is not yet verified should be scored **without** `--claims`, and the
+resulting harshness stated, rather than scored against a guess.
+
+Edition matters as much as version. SonarQube Community has no taint-analysis
+engine at all, so a community result says nothing about the commercial product —
+record that in the claim's `notes` rather than letting it surface as low recall.
 
 ## 4. Scan a copy, never the working tree
 

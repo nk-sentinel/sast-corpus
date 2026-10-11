@@ -1,0 +1,11 @@
+{
+  "tool": "Semgrep",
+  "edition": "OSS",
+  "version": "TO BE FILLED FROM semgrep --version",
+  "languages": ["java", "javascript", "typescript", "python", "csharp", "php", "go", "ruby", "kotlin", "swift", "rust", "c", "cpp"],
+  "planes": ["vuln", "secret"],
+  "ruleset": "TO BE FILLED — community p/ ruleset used",
+  "tuning": "out-of-the-box",
+  "notes": "Pro rules are deliberately not used: the corpus must not be tuned to a candidate, and a Pro run is a separate measurement that must be labelled as one.",
+  "source": "DRAFT — confirm against the installed version's supported-language list before use"
+}
