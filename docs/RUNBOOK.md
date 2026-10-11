@@ -19,6 +19,7 @@ have to reproduce an environment to do it.
 
 ```bash
 python3 spine/validate/selftest.py        # key vs scorer, no scanner involved
+python3 spine/validate/tier3_ranges.py    # tier-3 ranges vs their fix commits
 python3 spine/lint/antileak.py            # no weakness names in authored fixtures
 python3 -m unittest discover -s spine/tests -t .
 SYNTAX_USE_DOCKER=1 ./build/verify.sh     # compile and parse every fixture

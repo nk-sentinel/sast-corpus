@@ -91,7 +91,14 @@ class ManifestDetectsWhatGitCannot(unittest.TestCase):
 
     def _clean(self):
         for path in sorted(self.tree.rglob("*"), reverse=True):
-            path.unlink() if path.is_file() else path.rmdir()
+            # is_file() follows symlinks, and one of these tests plants a link
+            # to /dev/null — a character device, so is_file() is False and this
+            # tried to rmdir a symlink. The leftover then broke every other
+            # test in the class.
+            if path.is_symlink() or path.is_file():
+                path.unlink()
+            else:
+                path.rmdir()
         self.tree.rmdir()
         stored = corpus_unchanged.snapshot_path(self.target)
         if stored.is_file():
@@ -129,6 +136,29 @@ class ManifestDetectsWhatGitCannot(unittest.TestCase):
 
         self.assertEqual(code, 1)
         self.assertIn("REMOVED", out)
+
+    def test_a_symlink_is_recorded_as_itself_not_its_target(self):
+        """stat() follows links; the corpus contains one pointing at /dev/null.
+
+        Helm's chart-loader test data symlinks `null` to /dev/null, whose mtime
+        moves whenever anything on the machine writes there. Following it made
+        the guard report three modified files on every run for ever. A guard
+        that cries wolf is ignored as fast as one that passes everything.
+        """
+        link = self.tree / "null"
+        if link.is_symlink() or link.exists():
+            link.unlink()
+        link.symlink_to("/dev/null")
+        run("--snapshot", self.target)
+
+        first = corpus_unchanged.manifest(self.tree)
+        with open("/dev/null", "w") as handle:    # move the target's mtime
+            handle.write("")
+        second = corpus_unchanged.manifest(self.tree)
+
+        self.assertEqual(first, second)
+        code, out = run(self.target)
+        self.assertEqual(code, 0, out)
 
     def test_the_snapshot_records_every_file(self):
         (self.tree / "second.txt").write_text("b")

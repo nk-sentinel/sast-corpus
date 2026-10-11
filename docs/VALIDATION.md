@@ -86,6 +86,74 @@ Every CodeQL finding here is in tier 1, because the database root was `tier1/`:
 | ruby | 0 | 10 | 0 | 10 | yes |
 | c, cpp, csharp, kotlin, php, rust, swift | — | 77 | — | 77 | no |
 
+### Tier 2 is where the signal is
+
+The control was extended to tier 2, which until 2026-10-11 no engine had ever
+touched. Same instrument, databases over `tier2/` for python, javascript (which
+also covers the typescript cases) and java:
+
+| | found | | traps tripped |
+|---|---|---|---|
+| tier 1 | 21 of 223 | 9.4% | 5 of 223 |
+| **tier 2** | **47 of 109** | **43.1%** | 0 of 30 |
+
+Per app: dvja 4/13, juice-shop 9/19, nodegoat 9/22, pygoat 14/34, webgoat 12/20.
+Every app produces findings. Tier 2 is roughly four times as discriminating as
+tier 1, which is what the tier design predicted and had never demonstrated.
+
+**It found three defects in hand-authored ground truth, and all three were
+scoring against the tool rather than against the corpus.** WebGoat's
+`ProfileUploadRetrieval` was labelled `safe` on a guard that tests the raw query
+string while the file path comes from the decoded parameter; NodeGoat's
+`user-dao.js` has three NoSQL sinks and only the safe one had a case, so correct
+reports on the other two — including the authentication bypass the lesson is
+built around — fell inside the trap's tolerance window. Tier-2 false alarms went
+from 2 to 0 once corrected. See the commit for the reasoning on each.
+
+That is the argument for the control being a standing step rather than a one-off:
+a mislabelled trap charges a false positive to a tool that was right, and no
+check that reads only the answer key can detect it.
+
+### Tier 3: the fix commit is a better witness than a scanner
+
+Tier 3 is the one tier whose ranges were **derived** rather than chosen by
+reading code. If the derivation were systematically off, every tool would miss
+every case and it would read as the tools' failure.
+
+A scanner answers this weakly and expensively. CodeQL's recall on real CVEs is
+low, so a hit confirms a range while a miss confirms nothing — and one database
+over all 266 checkouts put a single Python query at 62 minutes. The patch that
+fixed the CVE is the better witness, and free: if it touched the recorded lines,
+the recorded lines are where the flaw was. `spine/validate/tier3_ranges.py`:
+
+```
+patcheval: 217 case(s), 217 with the checkout present
+  ranges verified by construction — patcheval.py keeps a location only when
+  the recorded snippet matches the bytes at those lines, and drops it otherwise
+
+project-sources: 21 case(s) comparable against a fetched fix
+  21 of 21 cover lines the fix changed or removed
+  7 case(s) have no fetched twin, so this check cannot see them
+
+fixed-sources: 21 case(s) comparable against a fetched fix
+  21 of 21 cover lines the fix wrote
+```
+
+**259 of 266 tier-3 ranges are verified against patch evidence**; the remaining 7
+have no fetched counterpart to compare against.
+
+The coordinate space is the whole subtlety, and getting it wrong gives a
+confidently wrong answer. A case naming the buggy file must be compared against
+the lines the fix *changed or removed*, in the buggy file's numbering; a trap
+naming the patched file against the lines the fix *wrote*, in the patched file's
+numbering. A security fix is usually a pure insertion, and an insertion occupies
+no lines at all on the buggy side — the first version of this check collected
+everything in the buggy file's coordinates and reported 8 of 21 traps as
+misplaced when none are.
+
+What this does **not** establish is that tier-3 cases are detectable. It
+establishes that they point at the flaw, which is the prerequisite.
+
 ### What changed, and what did not
 
 The gain is attributable, not incidental. Five of the newly found cases are ones

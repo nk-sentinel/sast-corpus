@@ -78,14 +78,23 @@ def manifest(path):
     Size and mtime rather than content hashes: the tier-3 tree is 11 GB, and
     hashing it would take longer than the scan it is checking. A mutation that
     preserves both is not a failure mode any build tool has.
+
+    `lstat`, not `stat`, because `stat` follows symlinks and the corpus contains
+    links pointing outside itself. Helm's chart-loader test data includes a
+    `null` symlinked to `/dev/null`, whose mtime moves whenever anything on the
+    machine writes there — so following it made this script report three
+    modified files on every run, for ever, having nothing to do with the corpus.
+    A guard that cries wolf gets ignored exactly as fast as one that passes
+    everything. The link itself is the corpus content; what its target does is
+    not the corpus's business.
     """
     entries = {}
-    for current, directories, files in os.walk(path):
+    for current, directories, files in os.walk(path, followlinks=False):
         directories[:] = [d for d in directories if d != ".git"]
         for name in files:
             full = Path(current) / name
             try:
-                info = full.stat()
+                info = full.lstat()
             except OSError:
                 continue
             entries[str(full.relative_to(ROOT))] = [info.st_size, int(info.st_mtime)]
